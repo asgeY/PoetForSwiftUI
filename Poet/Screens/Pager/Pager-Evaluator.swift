@@ -54,7 +54,7 @@ extension Pager {
                         """,
                         type: .quote),
                     Page.Element(
-                        text:"Don't get too bogged down in these pieces. They're just types and conventions. But in the course of learning about them, you'll learn about some of the main actors in Poet:",
+                        text:"Don't get too bogged down in these pieces. They're just types and conventions, and anyone could implement them slightly differently. But in the course of learning about them, you'll learn about some of the main actors in Poet:",
                         type: .text),
                     Page.Element(
                         text:
@@ -127,7 +127,7 @@ extension Pager {
                     type: .text),
                 
                 Page.Element(
-                    text: "When the Screen makes its body, it initializes views like ObservingTextView by passing in an ObservableString, which the view holds onto as an @ObservedObject. The view notices when an @ObservedObject changes and remakes itself with its new content. ⃰ ",
+                    text: "When the Screen object makes its body, it initializes views like ObservingTextView by passing in an ObservableString, which the view holds onto as an @ObservedObject. The view notices when an @ObservedObject changes and remakes itself with its new content. ⃰ ",
                     type: .text),
                 Page.Element(
                 text: " ⃰Note that the Screen itself doesn't hold onto any @ObservedObjects. If it did, the whole Screen would be remade each time the object changes. Instead, only nested views hold onto @ObservedObjects.",
@@ -246,18 +246,62 @@ extension Pager {
             ),
             Page(title: "AlertTranslating and AlertView",
                  body: [
-                    Page.Element(text:"Alerts are made easy by protocol-oriented translating. The Evaluator can call:", type: .text),
+                    Page.Element(text:"If you tap the page number at the bottom of this screen, you'll see an alert. Alerts are made easy by protocol-oriented translating. The Evaluator can call:", type: .text),
                     Page.Element(text:"translator.showAlert(title:message:)", type: .code),
-                    Page.Element(text:"The Translator will then do the rest for free, because it conforms to AlertTranslating, which only requires the Translator to hold onto an instance of AlertTranslator. AlertTranslator is a class that holds two ObservableStrings, \'alertTitle\' and \'alertMessage\', and an ObservableBool, \'isPresented\'. All the Screen needs to do is have an AlertView in its body, to which the observable values are assigned.", type: .text),
-                    Page.Element(text:"If we find ourselves solving for similar common behavior in the future (say, Action Sheets, Bezels, Toasts), we can imagine creating a single wrapper we could apply to any Screen's body, which would provide all the additional views for free.", type: .text)
+                    Page.Element(text:"The Translator will then do the rest for free, because it conforms to AlertTranslating, which only requires the Translator to hold onto an instance of AlertTranslator. AlertTranslator is a class that holds two ObservableStrings and an ObservableBool:", type: .text),
+                    Page.Element(text:
+                        """
+                        var alertTitle = ObservableString()
+                        var alertMessage = ObservableString()
+                        var isAlertPresented = ObservableBool(false)
+                        """, type: .code),
+                    Page.Element(text:"All the Screen needs to do is have an AlertView in its body and assign it the Observables, which can be found directly on the Translator thanks to some sleight of hand by the AlertTranslating protocol:", type: .text),
+                    Page.Element(text:
+                        """
+                        AlertView(
+                            title: translator.alertTitle,
+                            message: translator.alertMessage,
+                            isPresented: translator.isAlertPresented)
+                        """, type: .code),
+                    Page.Element(text:"The AlertView takes care of the rest. Now the Evaluator can trigger any alert it wants, without additional implementation on the Translator or Screen.", type: .text),
+                    Page.Element(text:"If we find ourselves solving for similar common behavior in the future (say, Action Sheets, Bezels, Toasts), we can imagine creating a single wrapper view that we could apply to any Screen's body, which would provide all the additional views for free.", type: .text)
                 ]
             ),
-            Page(title: "Avoiding Evaluator Retain Cycles",
+            Page(title: "Actions and Evaluators\nAvoiding Retain Cycles",
                  body: [
-                    Page.Element(text:"When a Screen hands an Action to one of its nested views, it does so by referring to a weakly held Evaluator. This ensures that inner views don't retain the Evaluator within the Action's closure. Action is a typealias:", type: .text),
+                    Page.Element(text:"When a Screen hands an Action to one of its nested views, it does so by referring to a weakly held Evaluator:", type: .text),
+                    
+                    Page.Element(text:
+                        """
+                        leftAction: self.evaluator?.leftAction
+                        """, type: .code),
+                    
+                    
+                    Page.Element(text:"This ensures that nested views don't retain the Evaluator within the Action's closure. Action is just a typealias for an optional closure:", type: .text),
+                    
                     Page.Element(text:"typealias Action = (() -> Void)?", type: .code),
-                    Page.Element(text:"When a SwiftUI View like a Button requires a callable closure, it can be given ”action.evaluate”, which is implemented by soft-unwrapping the optional closure and calling it:", type: .text),
-                    Page.Element(text:"struct ButtonView: View {\n    let action: Action\n    let content: AnyView\n    var body: some View {\n        Button(action: action.evaluate) {\n            self.content\n        }\n    }\n}", type: .code)
+                    Page.Element(text:"When a SwiftUI view such as Button requires a callable closure, it can be handed ”action.evaluate,” which is implemented by soft-unwrapping the optional closure and calling it. This is what ButtonActionView does:", type: .text),
+                    Page.Element(text:"struct ButtonActionView: View {\n    let action: Action\n    let content: AnyView\n    var body: some View {\n        Button(action: action.evaluate) {\n            self.content\n        }\n    }\n}", type: .code),
+                    
+                    Page.Element(
+                        text: "The page title at the top of the screen is implemented using both a ButtonActionView and an ObservingTextView:",
+                        type: .text),
+                    
+                    Page.Element(
+                        text:
+                        """
+                        ButtonActionView(
+                            action: evaluator?.titleAction,
+                            content:
+                                AnyView(
+                                ObservingTextView(
+                                    text: translator.observable.pageTitle,
+                                    font: Font.headline.monospacedDigit(),
+                                    alignment: .center)
+                                )
+                        )
+                        """,
+                        type: .code)                    
                 ]
             ),
             Page(title: "Avoiding Translator Retain Cycles",
@@ -304,7 +348,7 @@ extension Pager.Evaluator {
     }
     
     func pageNumberAction() {
-        translator.showAlert(title: "Hello.", message: "You're on page \(pageIndex + 1) of \(pages.count)")
+        translator.showAlert(title: "Hello", message: "You're on page \(pageIndex + 1) of \(pages.count)")
     }
     
     func showCurrentPage() {

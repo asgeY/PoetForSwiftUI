@@ -27,104 +27,107 @@ extension Pager {
         @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
         
         var body: some View {
-            GeometryReader() { geometry in
+            
+            ZStack {
                 ZStack {
-                    ZStack {
-                        VStack {
-                            BackButton()
-                            Spacer()
-                        }
-                        VStack {
-                            Spacer().frame(height:10)
-                            
-                            // MARK: Screen Title
-                            Text("The Poet Pattern\nfor SwiftUI")
-                                .font(Font.subheadline.monospacedDigit().bold())
-                                .layoutPriority(4)
-                                .multilineTextAlignment(.center)
-                            Spacer().frame(height:32)
-                            
-                            // MARK: Tappable Page Title
-                            ButtonView(action: self.evaluator?.titleAction, content:
+                    VStack {
+                        BackButton()
+                        Spacer()
+                    }
+                    VStack {
+                        Spacer().frame(height:10)
+                        
+                        // MARK: Screen Title
+                        Text("The Poet Pattern\nfor SwiftUI")
+                            .font(Font.subheadline.monospacedDigit().bold())
+                            .layoutPriority(4)
+                            .multilineTextAlignment(.center)
+                        Spacer().frame(height:32)
+                        
+                        // MARK: Tappable Page Title
+                        ButtonActionView(
+                            action: evaluator?.titleAction,
+                            content:
                                 AnyView(
-                                    ObservingTextView(text: self.translator.observable.pageTitle, font: Font.headline.monospacedDigit(), alignment: .center)
-                                        .layoutPriority(3)
+                                    ObservingTextView(
+                                        text: translator.observable.pageTitle,
+                                        font: Font.headline.monospacedDigit(),
+                                        alignment: .center)
                                 )
-                            )
-                            Spacer().frame(height:16)
-                            
-                            // MARK: Page Body
-                            
+                        )
+                        Spacer().frame(height:16)
+                        
+                        // MARK: Page Body
+                        
 //                                Spacer()
 //                                    .frame(width:(geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120))
-                                PageBodyView(pageBody: self.translator.observable.pageBody)
-                                    .layoutPriority(10)
-                                    
-    //                                .frame(minWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
-    //                                       idealWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
-    //                                       maxWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
-    //                                       minHeight:geometry.size.height - 180,
-    //                                       idealHeight:geometry.size.height + 100,
-    //                                       maxHeight:.infinity)
+                            PageBodyView(pageBody: self.translator.observable.pageBody)
+                                .layoutPriority(10)
+                                
+//                                .frame(minWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
+//                                       idealWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
+//                                       maxWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
+//                                       minHeight:geometry.size.height - 180,
+//                                       idealHeight:geometry.size.height + 100,
+//                                       maxHeight:.infinity)
 //                                    .layoutPriority(3)
-    //                            .frame(height:geometry.size.height - 180)
+//                            .frame(height:geometry.size.height - 180)
 //                                Spacer()
 //                                    .frame(width:(geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120))
-                            
+                        
 //                            .frame(width: geometry.size.width, alignment: .leading)
 //                                .layoutPriority(3)
-                            
-                            Spacer()
-                                .layoutPriority(1)
-                        }
-                    }
-                    
-                    // MARK: Left and Right Buttons
-                    LeftAndRightButtonView(
-                        leftAction: self.evaluator?.leftAction,
-                        rightAction: self.evaluator?.rightAction,
-                        leftButtonIsEnabled: self.translator.observable.isLeftButtonEnabled,
-                        rightButtonIsEnabled: self.translator.observable.isRightButtonEnabled)
-                    
-                    // MARK: Character Bezel
-                    CharacterBezel(
-                        configuration: .init(character: self.translator.passable.emoji))
-                    
-                    // MARK: Page Number
-                    VStack {
+                        
                         Spacer()
-                        TappableTextCapsuleView(
-                            action: self.evaluator?.pageNumberAction,
-                            text: self.translator.observable.pageXofX)
-                        Spacer().frame(height: 10)
+                            .layoutPriority(1)
                     }
-                    
-                    // MARK: Alert View
-                    AlertView(
-                        title: self.translator.alertTranslator.alertTitle,
-                        message: self.translator.alertTranslator.alertMessage,
-                        isPresented: self.translator.alertTranslator.isPresented)
-                }
-                    
-                // MARK: ViewCycle
-                .onAppear {
-                    self.navBarHidden = true
-                    self.evaluator?.viewDidAppear()
-                    UITableView.appearance().separatorStyle = .none
-                }
-                .onDisappear {
-                    UITableView.appearance().separatorStyle = .singleLine
                 }
                 
-                // MARK: Hide Navigation Bar
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-                    self.navBarHidden = true
-                }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                    self.navBarHidden = false
+                // MARK: Left and Right Buttons
+                LeftAndRightButtonView(
+                    leftAction: self.evaluator?.leftAction,
+                    rightAction: self.evaluator?.rightAction,
+                    leftButtonIsEnabled: self.translator.observable.isLeftButtonEnabled,
+                    rightButtonIsEnabled: self.translator.observable.isRightButtonEnabled)
+                
+                // MARK: Character Bezel
+                CharacterBezel(
+                    configuration: .init(character: self.translator.passable.emoji))
+                
+                // MARK: Page Number
+                VStack {
+                    Spacer()
+                    TappableTextCapsuleView(
+                        action: evaluator?.pageNumberAction,
+                        text: translator.observable.pageXofX)
+                    Spacer().frame(height: 10)
                 }
-                .navigationBarTitle("Pager", displayMode: .inline)
-                    .navigationBarHidden(self.navBarHidden)
+                
+                // MARK: Alert View
+                AlertView(
+                    title: translator.alertTitle,
+                    message: translator.alertMessage,
+                    isPresented: translator.isAlertPresented)
             }
+                
+            // MARK: ViewCycle
+            .onAppear {
+                self.navBarHidden = true
+                self.evaluator?.viewDidAppear()
+                UITableView.appearance().separatorStyle = .none
+            }
+            .onDisappear {
+                UITableView.appearance().separatorStyle = .singleLine
+            }
+            
+            // MARK: Hide Navigation Bar
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                self.navBarHidden = true
+            }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+                self.navBarHidden = false
+            }
+            .navigationBarTitle("Pager", displayMode: .inline)
+                .navigationBarHidden(self.navBarHidden)
         }
     }
 }
@@ -140,7 +143,7 @@ struct TappableTextCapsuleView: View {
     @ObservedObject var text: ObservableString
     
     var body: some View {
-        ButtonView(
+        ButtonActionView(
             action: action.evaluate,
             content: AnyView(
                 ObservingTextView(text: text, font: Font.subheadline.monospacedDigit(), alignment: .center)
@@ -148,8 +151,13 @@ struct TappableTextCapsuleView: View {
             )
         )
         .background(
-            Capsule()
-                .fill(Color.black.opacity(0.03))
+            ZStack {
+                Capsule()
+                    .fill(Color.black.opacity(0.01))
+                BlurView()
+                .mask(
+                    Capsule())
+            }
         )
     }
 }

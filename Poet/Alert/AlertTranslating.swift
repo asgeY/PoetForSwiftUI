@@ -18,12 +18,15 @@ extension AlertTranslating {
     func showAlert(title: String, message: String) {
         alertTranslator.alertTitle.string = title
         alertTranslator.alertMessage.string = message
-        alertTranslator.isPresented.bool = true
+        alertTranslator.isAlertPresented.bool = true
     }
+    var alertTitle: ObservableString { return alertTranslator.alertTitle }
+    var alertMessage: ObservableString { return alertTranslator.alertMessage }
+    var isAlertPresented: ObservableBool { return alertTranslator.isAlertPresented }
 }
 
 struct AlertTranslator {
     var alertTitle = ObservableString()
     var alertMessage = ObservableString()
-    var isPresented = ObservableBool(false)
+    var isAlertPresented = ObservableBool(false)
 }

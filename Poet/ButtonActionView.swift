@@ -1,5 +1,5 @@
 //
-//  ButtonView.swift
+//  ButtonActionView.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/24/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ButtonView: View {
+struct ButtonActionView: View {
     let action: Action
     let content: AnyView
     
