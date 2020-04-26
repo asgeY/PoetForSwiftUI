@@ -24,7 +24,6 @@ extension Pager {
         }
         
         @State var navBarHidden: Bool = true
-        @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
         
         var body: some View {
             
@@ -58,25 +57,8 @@ extension Pager {
                         Spacer().frame(height:16)
                         
                         // MARK: Page Body
-                        
-//                                Spacer()
-//                                    .frame(width:(geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120))
-                            PageBodyView(pageBody: self.translator.observable.pageBody)
-                                .layoutPriority(10)
-                                
-//                                .frame(minWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
-//                                       idealWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
-//                                       maxWidth: geometry.size.width - (geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120),
-//                                       minHeight:geometry.size.height - 180,
-//                                       idealHeight:geometry.size.height + 100,
-//                                       maxHeight:.infinity)
-//                                    .layoutPriority(3)
-//                            .frame(height:geometry.size.height - 180)
-//                                Spacer()
-//                                    .frame(width:(geometry.size.width * 0.23).bounded(minimum: 72, maximum: 120))
-                        
-//                            .frame(width: geometry.size.width, alignment: .leading)
-//                                .layoutPriority(3)
+                        PageBodyView(pageBody: self.translator.observable.pageBody)
+                            .layoutPriority(10)
                         
                         Spacer()
                             .layoutPriority(1)
@@ -135,120 +117,5 @@ extension Pager {
 struct Pager_Screen_Previews: PreviewProvider {
     static var previews: some View {
         Pager.Screen()
-    }
-}
-
-struct TappableTextCapsuleView: View {
-    let action: Action
-    @ObservedObject var text: ObservableString
-    
-    var body: some View {
-        ButtonActionView(
-            action: action.evaluate,
-            content: AnyView(
-                ObservingTextView(text: text, font: Font.subheadline.monospacedDigit(), alignment: .center)
-                .padding(EdgeInsets(top: 10, leading: 14, bottom: 10, trailing: 14))
-            )
-        )
-        .background(
-            ZStack {
-                BlurView()
-                .mask(
-                    Capsule())
-            }
-        )
-    }
-}
-
-struct PageBodyView: View {
-    @ObservedObject var pageBody: ObservableArray<Page.Element>
-    
-    init(pageBody: ObservableArray<Page.Element>) {
-        self.pageBody = pageBody
-    }
-    
-    func view(for element: Page.Element) -> AnyView {
-        switch element {
-            case .text(let string):
-                return AnyView(
-                    Text(string)
-                        .font(Font.body.monospacedDigit())
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
-                )
-                
-            case .code(let string):
-                return AnyView(
-                    
-                        Text(string)
-                            .font(Font.system(size: 12, design: .monospaced))
-                            .padding(EdgeInsets(top: 12, leading: 36, bottom: 12, trailing: 36))
-                            .background(
-                                GeometryReader() { geometry in
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.black.opacity(0.035))
-                                    .frame(width: geometry.size.width - 44, height: geometry.size.height)
-                                })
-                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-                )
-                
-            case .quote(let string):
-                return AnyView(
-                    Text(string)
-                        .font(Font.system(size: 14, design: .monospaced))
-                        .lineSpacing(1)
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
-                )
-            
-            case .subtitle(let string):
-            return AnyView(
-                Text(string)
-                    .font(Font.body.bold())
-                    .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
-            )
-            
-            case .footnote(let string):
-                return AnyView(
-                    VStack(alignment: .leading) {
-                        Divider()
-                            .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
-                        Text(string)
-                            .font(Font.footnote.monospacedDigit())
-                            .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
-                            .multilineTextAlignment(.leading)
-                    }
-                )
-            
-        case .image(let string):
-            return AnyView(
-                VStack(alignment: .leading) {
-                    
-                    Image(string)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
-                }
-            )
-            
-            default:
-                return AnyView(EmptyView())
-        }
-    }
-    
-    var body: some View {
-        if self.pageBody.array.isEmpty {
-            return AnyView(EmptyView())
-        } else {
-            return AnyView(
-                List(pageBody.array, id: \.id) { element in
-                    VStack {
-                        self.view(for: element)
-                        if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
-                            Spacer().frame(height:40)
-                        }
-                    }
-                }
-                .id(UUID()) // <-- this forces the list not to animate
-            )
-        }
     }
 }

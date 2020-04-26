@@ -22,6 +22,7 @@ struct Page {
         case quote(String)
         case subtitle(String)
         case footnote(String)
+        case fineprint(String)
         case image(String)
         case link(name: String, url: URL)
         case button(name: String, action: Action)
@@ -38,6 +39,8 @@ struct Page {
             return "subtitle_\(string)"
             case .footnote(let string):
                 return "footnote_\(string)"
+            case .fineprint(let string):
+                return "fineprint_\(string)"
             case .image(let string):
                 return "image_\(string)"
             case .link(let name, _):
