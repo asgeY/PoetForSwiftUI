@@ -1,15 +1,15 @@
 //
-//  KatongTests.swift
-//  KatongTests
+//  PoetTests.swift
+//  PoetTests
 //
 //  Created by Stephen E Cotner on 4/18/20.
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
 import XCTest
-@testable import Katong
+@testable import Poet
 
-class KatongTests: XCTestCase {
+class PoetTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

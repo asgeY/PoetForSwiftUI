@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Katong
+//  Poet
 //
 //  Created by Stephen E Cotner on 4/18/20.
 //  Copyright © 2020 Steve Cotner. All rights reserved.
@@ -10,8 +10,6 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

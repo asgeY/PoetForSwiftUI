@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Katong.xcodeproj">
+      location = "self:/Users/stephencotner/projects/Poet for SwiftUI/Poet.xcodeproj">
    </FileRef>
 </Workspace>
