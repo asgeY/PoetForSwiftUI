@@ -62,7 +62,7 @@ struct PageBodyView: View {
                             .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                         Text(string)
                             .font(Font.footnote.monospacedDigit())
-                            .foregroundColor(Color.black.opacity(0.8))
+                            .foregroundColor(Color.black.opacity(0.88))
                             .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                             .multilineTextAlignment(.leading)
                     }

@@ -249,9 +249,24 @@ class PagerDataStore {
                     """)
             ]
         ),
+        
         Page(title: "Avoiding Translator Retain Cycles",
              body: [
-                .text("This part isn't for sure yet, but I think it's solid. The Translator holds onto its Observable and Passable values as structs. These structs then contain instances of ObservableObjects and PassableSubjects. Whenever a Translator holds onto other Translators, like AlertTranslator, these are structs too.")
+                .text("It's not clear (to me) yet whether or not it's worth fretting over retain cycles on the Translator. The Translator holds onto its Observable and Passable values as structs. These structs then contain instances of ObservableObjects and PassableSubjects. Whenever a Translator holds onto other Translators, like AlertTranslator, these are structs too. So far so good.")
+            ]
+        ),
+        
+        Page(title: "More to come soon...",
+             body: [
+                .text("I hope this has been interesting so far. Things I'll cover soon:"),
+                .quote(
+                """
+                * Testing
+                * Performers
+                * More protocol-oriented translating
+                * Composable views that are injected with an protocl-defined evaluator
+                * Complex screens where Poet's reusability and flexibility emerges
+                """)
             ]
         )
     ]
