@@ -37,7 +37,7 @@ extension Intro {
                     * Observable
                     """),
                 
-                .text("Poet was developed by Steve Cotner at a shoe company in Portland, Oregon from 2018 to 2020.  It began with some early encouragement from colleagues and has benefited from the feedback of many talented developers."),
+                .text("Poet was developed by Steve Cotner at a shoe company in Portland, Oregon from 2018 to 2020.  It began with some early encouragement from colleagues Dave Camp, Zach Heusinkveld, Ranjith Ramachandran, and Pete Salvo and has benefited from the feedback of many talented developers."),
                     
                 .quote(
                     """
