@@ -152,8 +152,6 @@ struct TappableTextCapsuleView: View {
         )
         .background(
             ZStack {
-                Capsule()
-                    .fill(Color.black.opacity(0.01))
                 BlurView()
                 .mask(
                     Capsule())
@@ -170,18 +168,18 @@ struct PageBodyView: View {
     }
     
     func view(for element: Page.Element) -> AnyView {
-        switch element.type {
-            case .text:
+        switch element {
+            case .text(let string):
                 return AnyView(
-                    Text(element.text)
+                    Text(string)
                         .font(Font.body.monospacedDigit())
                         .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                 )
                 
-            case .code:
+            case .code(let string):
                 return AnyView(
                     
-                        Text(element.text)
+                        Text(string)
                             .font(Font.system(size: 12, design: .monospaced))
                             .padding(EdgeInsets(top: 12, leading: 36, bottom: 12, trailing: 36))
                             .background(
@@ -193,24 +191,39 @@ struct PageBodyView: View {
                                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                 )
                 
-            case .quote:
+            case .quote(let string):
                 return AnyView(
-                    Text(element.text)
+                    Text(string)
                         .font(Font.system(size: 14, design: .monospaced))
                         .lineSpacing(1)
                         .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                 )
             
-            case .footnote:
+            case .footnote(let string):
+                return AnyView(
+                    VStack(alignment: .leading) {
+                        Divider()
+                            .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                        Text(string)
+                            .font(Font.footnote.monospacedDigit())
+                            .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                            .multilineTextAlignment(.leading)
+                    }
+                )
+            
+        case .image(let string):
             return AnyView(
-                VStack {
-                    Divider()
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
-                    Text(element.text)
-                        .font(Font.footnote.monospacedDigit())
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                VStack(alignment: .leading) {
+                    
+                    Image(string)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
                 }
             )
+            
+            default:
+                return AnyView(EmptyView())
         }
     }
     
@@ -230,46 +243,5 @@ struct PageBodyView: View {
                 .id(UUID()) // <-- this forces the list not to animate
             )
         }
-//                .font(element.type == .text ? Font.body.monospacedDigit() : (element.type == .code ? Font.system(size: 12, design: .monospaced) : Font.system(size: 14, design: .monospaced)))
-//            switch element.type {
-                
-                
-                        
-                                    
-//                case .text:
-//                    return AnyView(
-//
-//                            Text(element.text)
-//                                .font(Font.body.monospacedDigit())
-//                                .multilineTextAlignment(.leading)
-//
-////                                    .padding(EdgeInsets(top: 0, leading: 36, bottom: 0, trailing: 36))
-////                                    .frame(width:320)
-//                    )
-//
-//                case .code:
-//                    return AnyView(
-//                            Text(element.text)
-//                                .layoutPriority(99)
-//                                .font(.system(size: 12, design: .monospaced))
-//                                .multilineTextAlignment(.leading)
-//                                //                                      .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-//                                .background(
-//                                    RoundedRectangle(cornerRadius: 10)
-//                                        .fill(Color.black.opacity(0.03))
-//                                )
-//
-//                    )
-//
-//
-//                case .quote:
-//                    return AnyView(
-//                            Text(element.text)
-//                                .layoutPriority(98)
-//                                .font(Font.system(size: 14, design: .monospaced))
-//                                .multilineTextAlignment(.leading)
-////                                    .padding(EdgeInsets(top: 0, leading: 12, bottom: 0, trailing: 12))
-//
-//                    )
     }
 }

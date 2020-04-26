@@ -26,8 +26,8 @@ extension Intro {
 
 extension Intro.Translator {
     
-    func showPage(title: String, body: [Page.Element]) {
-        observable.pageTitle.string = title
-        observable.pageBody.array = body
+    func show(page: Page) {
+        observable.pageTitle.string = page.title
+        observable.pageBody.array = page.body
     }
 }
