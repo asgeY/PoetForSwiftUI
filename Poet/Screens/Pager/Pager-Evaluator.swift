@@ -20,6 +20,7 @@ struct Page {
         case text(String)
         case code(String)
         case quote(String)
+        case subtitle(String)
         case footnote(String)
         case image(String)
         case link(name: String, url: URL)
@@ -33,6 +34,8 @@ struct Page {
                 return "code_\(string)"
             case .quote(let string):
                 return "quote_\(string)"
+            case .subtitle(let string):
+            return "subtitle_\(string)"
             case .footnote(let string):
                 return "footnote_\(string)"
             case .image(let string):
@@ -76,12 +79,26 @@ extension Pager {
                         * Evaluators
                         * Translators
                         * Screens
-                        * Views
                         """),
                     
                     .text("Eventually, Poet's reusability and flexibility will emerge as you learn about approaches like protocol-oriented translators and evaluator-injected composable views. Tap the right arrow to read more.")
                 ]
             ),
+            
+            Page(title: "The Main Actors",
+            body: [
+                .text("Before we start, a quick high-level overview:"),
+                .image("poet-intro-small"),
+                .subtitle("Evaluator"),
+                .text("The Evaluator is the business logic decision-maker. It maintains what we might call ”business state.”"),
+                .subtitle("Translator"),
+                .text("The Translator interprets the intent of the Evaluator and turns it into observable and passable ”display state.”"),
+                .subtitle("Screen"),
+                .text("The Screen recognizes when display state has changed and remakes any nested views accordingly."),
+                .text("That's good enough for now. ⃰ Let's get into some particulars by thinking about the screen you're looking at right now. Tap the right arrow to continue."),
+                .footnote(" ⃰Later, we'll also talk about the Performer, which is just a helpful way to break asynchronous activity (like network calls) out of the Evaluator and into a separate object. By maintaining these distinct layers, our code becomes more composable and testable than it would be otherwise.")
+            ]),
+            
             Page(title: "Observables",
                  body: [
                     

@@ -24,7 +24,7 @@ extension Intro {
                     
                 .quote("Protocol-Oriented Evaluator Translator"),
                 
-                .image("poet-intro-smaller"),
+                .image("poet-intro-small"),
                     
                 .text("Poet began before SwiftUI, but there was a lot more plumbing involved. Now, it's smaller and easier to follow. The benefits of Poet emerge as screens get more and more complex. No matter what you make, Poet code will remain:"),
                     

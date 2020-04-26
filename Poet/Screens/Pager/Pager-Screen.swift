@@ -199,6 +199,13 @@ struct PageBodyView: View {
                         .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                 )
             
+            case .subtitle(let string):
+            return AnyView(
+                Text(string)
+                    .font(Font.body.bold())
+                    .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+            )
+            
             case .footnote(let string):
                 return AnyView(
                     VStack(alignment: .leading) {
@@ -236,7 +243,7 @@ struct PageBodyView: View {
                     VStack {
                         self.view(for: element)
                         if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
-                            Spacer().frame(height:36)
+                            Spacer().frame(height:40)
                         }
                     }
                 }
