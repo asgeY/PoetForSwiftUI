@@ -55,7 +55,7 @@ class PagingTutorialDataStore {
         Page(
              body: [
              .title("Observables"),
-             .text("The left and right arrows on this screen are views that have been injected with Actions, which are just methods that belong to the screen's Evaluator. The Evaluator handles an arrow's Action by updating its own state (a Step ⃰) and asking the Translator to interpret it:"),
+             .text("The left and right arrows on this screen are views that have been injected with Actions, which are just methods that belong to the screen's Evaluator. The Evaluator handles an arrow's Action by updating its own state (a Step¹) and asking the Translator to interpret it:"),
                     
              .code(
                 """
@@ -64,7 +64,7 @@ class PagingTutorialDataStore {
                 current.step = .page(configuration)
                 """),
                 
-            .text("But the Evaluator doesn't actually ask the Translator directly, as the Translator notices when Evaluator state changes. The Translator's job then is to update what you see on screen. It does this by assigning values to its Observables:"),
+            .text("In some cases, the Evaluator may directly ask the Translator to do something, like showing an alert.² But when we deal with Steps, the Evaluator doesn't actually have to ask anything, as the Translator is capable of noticing when Evaluator's Step changes on its own. The Translator's job then is to update what you see on screen. It does this by assigning values to its Observables:"),
     
             .code(
                 """
@@ -75,7 +75,11 @@ class PagingTutorialDataStore {
                 
             .text("Observables are just classes that wrap around typical value types like Strings, Bools, and Arrays."),
                 
-            .footnote(" ⃰You'll read more on passing Evaluator state as a ”Step” in the upcoming section ”PassableStep.”")
+            .footnote(
+            """
+            1. You'll read more on passing Evaluator state as a ”Step” in the upcoming section ”PassableStep.”
+            2. Alerts, and the approach of asking the Translator to do something imperatively, will be covered more in ”AlertTranslating and AlertView.”
+            """)
             ]
         ),
         
