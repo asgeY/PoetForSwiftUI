@@ -364,7 +364,39 @@ class PagingTutorialDataStore {
                 """
             ),
             
+            .text("And the Translator has only done its job if, for each step, it has assigned a new value to each of the observable properties it owns, which together constitute the entirety of what we think of as ”display state”:"),
             
+            .code(
+                """
+                // Observable state
+                var isLeftButtonEnabled = ObservableBool(true)
+                var isRightButtonEnabled = ObservableBool(true)
+                var pageBody = ObservableArray<Page.Element>([])
+                var pageXofX = ObservableString()
+                """
+            ),
+            
+            .text("We'll make good on this commitment in our two methods ”showLoading()” and ”showPage(:)”:"),
+            
+            .code(
+                """
+                func showLoading() {
+                  pageBody.array = []
+                  pageXofX.string = ""
+                  isLeftButtonEnabled.bool = false
+                  isRightButtonEnabled.bool = false
+                }
+
+                func showPage(_ configuration: Evaluator.PageConfiguration) {
+                  pageBody.array = configuration.page.body
+                  pageXofX.string = "\\(configuration.pageNumber) / \\(configuration.pageCount)"
+                  isLeftButtonEnabled.bool = configuration.pageNumber > 1
+                  isRightButtonEnabled.bool = configuration.pageNumber < configuration.pageCount
+                }
+                """
+            ),
+            
+            .text("Notice how each step accounts for all aspects of display state. Nothing is left ambiguous or unset. By setting these values, we've done all that's required to update the view layer. The Screen takes it from there.")
             
            ]
         ),
