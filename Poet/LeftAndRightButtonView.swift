@@ -22,7 +22,7 @@ struct LeftAndRightButtonView: View {
                 Image(systemName: "chevron.compact.left")
                     .resizable()
                     .frame(width: 7, height: 22, alignment: .center)
-                    .padding(EdgeInsets(top: 30, leading: 12, bottom: 30, trailing: 30))
+                    .padding(EdgeInsets(top: 30, leading: 10, bottom: 30, trailing: 30))
             }
             .offset(x: 0, y: geometry.size.height / 2)
             .disabled(!self.leftButtonIsEnabled.bool)
@@ -34,9 +34,9 @@ struct LeftAndRightButtonView: View {
                 Image(systemName: "chevron.compact.right")
                     .resizable()
                     .frame(width: 7, height: 22, alignment: .center)
-                    .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 12))
+                    .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 10))
             }
-            .offset(x: geometry.size.width - 49, y: geometry.size.height / 2)
+            .offset(x: geometry.size.width - 47, y: geometry.size.height / 2)
             .disabled(!self.rightButtonIsEnabled.bool)
             .opacity(self.rightButtonIsEnabled.bool ? 1 : 0.6)
             .edgesIgnoringSafeArea([.top, .bottom])

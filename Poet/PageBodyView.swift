@@ -30,7 +30,7 @@ struct PageBodyView: View {
                     HStack {
                         Text(string)
                             .font(Font.system(size: 11, design: .monospaced))
-                            .padding(EdgeInsets(top: 12, leading: 14, bottom: 12, trailing: 14))
+                            .padding(EdgeInsets(top: 12, leading: 13, bottom: 12, trailing: 13))
                         Spacer()
                     }
                         .background(
@@ -118,9 +118,7 @@ struct PageBodyView: View {
                     .id(UUID()) // <-- this forces the list not to animate
                     .onAppear() {
                         UITableView.appearance().showsVerticalScrollIndicator = false
-                    }
-                    .onDisappear() {
-                        UITableView.appearance().showsVerticalScrollIndicator = true
+                        UITableView.appearance().separatorStyle = .none
                     }
             )
         }
