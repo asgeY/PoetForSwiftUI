@@ -15,24 +15,31 @@ struct LeftAndRightButtonView: View {
     @ObservedObject var rightButtonIsEnabled: ObservableBool
     
     var body: some View {
-        HStack {
+        GeometryReader { geometry in
+            
             // Left Button
-            Button(action: leftAction.evaluate) {
+            Button(action: self.leftAction.evaluate) {
                 Image(systemName: "chevron.compact.left")
                     .resizable()
                     .frame(width: 7, height: 22, alignment: .center)
-                    .padding(EdgeInsets(top: 20, leading: 12, bottom: 20, trailing: 20))
-            }.disabled(!leftButtonIsEnabled.bool)
-            .opacity(leftButtonIsEnabled.bool ? 1 : 0.6)
-            Spacer()
+                    .padding(EdgeInsets(top: 30, leading: 12, bottom: 30, trailing: 30))
+            }
+            .offset(x: 0, y: geometry.size.height / 2)
+            .disabled(!self.leftButtonIsEnabled.bool)
+            .opacity(self.leftButtonIsEnabled.bool ? 1 : 0.6)
+            .edgesIgnoringSafeArea([.top, .bottom])
+            
             // Right Button
-            Button(action: rightAction.evaluate) {
+            Button(action: self.rightAction.evaluate) {
                 Image(systemName: "chevron.compact.right")
                     .resizable()
                     .frame(width: 7, height: 22, alignment: .center)
-                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 12))
-            }.disabled(!rightButtonIsEnabled.bool)
-            .opacity(rightButtonIsEnabled.bool ? 1 : 0.6)
+                    .padding(EdgeInsets(top: 30, leading: 30, bottom: 30, trailing: 12))
+            }
+            .offset(x: geometry.size.width - 49, y: geometry.size.height / 2)
+            .disabled(!self.rightButtonIsEnabled.bool)
+            .opacity(self.rightButtonIsEnabled.bool ? 1 : 0.6)
+            .edgesIgnoringSafeArea([.top, .bottom])
         }
     }
 }

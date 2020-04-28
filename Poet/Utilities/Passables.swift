@@ -33,3 +33,17 @@ class PassablePlease {
         subject.send(nil)
     }
 }
+
+class PassableStep<S: EvaluatorStep> {
+    var subject = PassthroughSubject<S, Never>()
+    
+    var step: S {
+        willSet {
+            subject.send(newValue)
+        }
+    }
+        
+    init(_ step: S) {
+        self.step = step
+    }
+}

@@ -52,7 +52,7 @@ extension Menu.Evaluator: ListEvaluator {
         case .intro:
             return AnyView(Intro.Screen())
         case .pager:
-            return AnyView(Pager.Screen())
+            return AnyView(PagingTutorial.Screen())
         }
     }
 }

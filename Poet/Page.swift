@@ -9,7 +9,6 @@
 import Foundation
 
 struct Page {
-    let title: String
     let body: [Element]
     
     enum Element: Identifiable, Equatable {
@@ -20,6 +19,7 @@ struct Page {
         case text(String)
         case code(String)
         case quote(String)
+        case title(String)
         case subtitle(String)
         case footnote(String)
         case fineprint(String)
@@ -35,8 +35,10 @@ struct Page {
                 return "code_\(string)"
             case .quote(let string):
                 return "quote_\(string)"
+            case .title(let string):
+                return "subtitle_\(string)"
             case .subtitle(let string):
-            return "subtitle_\(string)"
+                return "subtitle_\(string)"
             case .footnote(let string):
                 return "footnote_\(string)"
             case .fineprint(let string):

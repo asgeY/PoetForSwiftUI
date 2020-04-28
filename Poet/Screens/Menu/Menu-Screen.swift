@@ -38,14 +38,15 @@ extension Menu {
                     Spacer()
                         .frame(height: 20)
                     Text("The Poet Pattern\nfor SwiftUI")
-                        .font(Font.title.bold())
+                        .font(Font.system(size: 24, weight: .semibold, design: .default))
                         .multilineTextAlignment(.center)
                         .layoutPriority(2)
                     MenuItemList(items: translator.observable.items, evaluator: evaluator)
                         .layoutPriority(1)
+                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 0, trailing: 36))
                         .onAppear {
                             UITableView.appearance().tableFooterView = UIView() // <-- this hides extra separators
-                            UITableView.appearance().separatorStyle = .singleLine
+                            UITableView.appearance().separatorStyle = .none
                     }
                     Spacer()
                 }.onAppear() {
@@ -79,7 +80,6 @@ struct MenuItemList: View {
             NavigationLink(destination: self.evaluator?.destination(for: item)) {
                 Text(item.name)
                     .font(Font.headline)
-                    .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
             }
         }
     }

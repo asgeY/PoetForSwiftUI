@@ -38,20 +38,13 @@ extension Intro {
                         // MARK: Screen Title
                         Text("The Poet Pattern\nfor SwiftUI")
                             .font(Font.subheadline.monospacedDigit().bold())
-                            .layoutPriority(4)
+                            .layoutPriority(10)
                             .multilineTextAlignment(.center)
-                        Spacer().frame(height:32)
-                        
-                        // MARK: Page Title
-                        ObservingTextView(text: self.translator.observable.pageTitle, font: Font.headline.monospacedDigit(), alignment: .center)
-                            .lineLimit(nil)
-                            .layoutPriority(3)
-                        
-                        Spacer().frame(height:16)
+                        Spacer().frame(height:24)
                         
                         // MARK: Page Body
                         PageBodyView(pageBody: self.translator.observable.pageBody)
-                            .layoutPriority(5)
+                            .layoutPriority(10)
 
                         Spacer()
                             .layoutPriority(1)
@@ -69,7 +62,7 @@ extension Intro {
                 }
                     
                 // MARK: Hide Navigation Bar
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     self.navBarHidden = true
                 }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                     self.navBarHidden = false

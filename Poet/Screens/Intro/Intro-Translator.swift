@@ -15,7 +15,6 @@ extension Intro {
         
         // Observable state
         struct Observable {
-            var pageTitle = ObservableString()
             var pageBody = ObservableArray<Page.Element>([])
         }
         var observable = Observable()
@@ -27,7 +26,6 @@ extension Intro {
 extension Intro.Translator {
     
     func show(page: Page) {
-        observable.pageTitle.string = page.title
         observable.pageBody.array = page.body
     }
 }

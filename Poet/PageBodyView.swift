@@ -27,16 +27,16 @@ struct PageBodyView: View {
             case .code(let string):
                 return AnyView(
                     
+                    HStack {
                         Text(string)
-                            .font(Font.system(size: 12, design: .monospaced))
-                            .padding(EdgeInsets(top: 12, leading: 36, bottom: 12, trailing: 36))
-                            .background(
-                                GeometryReader() { geometry in
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.black.opacity(0.035))
-                                    .frame(width: geometry.size.width - 44, height: geometry.size.height)
-                                })
-                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                            .font(Font.system(size: 11, design: .monospaced))
+                            .padding(EdgeInsets(top: 12, leading: 14, bottom: 12, trailing: 14))
+                        Spacer()
+                    }
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.black.opacity(0.035)))
+                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
                 )
                 
             case .quote(let string):
@@ -47,13 +47,24 @@ struct PageBodyView: View {
                         .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                 )
             
+            case .title(let string):
+                return AnyView(
+                    HStack {
+                        Spacer()
+                        Text(string)
+                            .multilineTextAlignment(.center)
+                            .font(Font.system(size: 16, weight: .semibold, design: .default))
+                            .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                        Spacer()
+                    }
+                )
             
             case .subtitle(let string):
-            return AnyView(
-                Text(string)
-                    .font(Font.body.bold())
-                    .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
-            )
+                return AnyView(
+                    Text(string)
+                        .font(Font.system(size: 15, weight: .semibold, design: .default))
+                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 0, trailing: 36))
+                )
             
             case .footnote(let string):
                 return AnyView(
@@ -62,7 +73,7 @@ struct PageBodyView: View {
                             .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                         Text(string)
                             .font(Font.footnote.monospacedDigit())
-                            .foregroundColor(Color.black.opacity(0.88))
+                            .opacity(0.9)
                             .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                             .multilineTextAlignment(.leading)
                     }
@@ -71,7 +82,7 @@ struct PageBodyView: View {
                 return AnyView(
                     Text(string)
                         .font(Font.system(size: 10, design: .monospaced))
-                        .foregroundColor(.gray)
+                        .opacity(0.5)
                         .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                 )
             
@@ -82,7 +93,7 @@ struct PageBodyView: View {
                         Image(string)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
+                            .padding(EdgeInsets(top: 0, leading: 30, bottom: 10, trailing: 30))
                     }
                 )
             
@@ -100,11 +111,17 @@ struct PageBodyView: View {
                     VStack {
                         self.view(for: element)
                         if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
-                            Spacer().frame(height:40)
+                            Spacer().frame(height:44)
                         }
                     }
                 }
-                .id(UUID()) // <-- this forces the list not to animate
+                    .id(UUID()) // <-- this forces the list not to animate
+                    .onAppear() {
+                        UITableView.appearance().showsVerticalScrollIndicator = false
+                    }
+                    .onDisappear() {
+                        UITableView.appearance().showsVerticalScrollIndicator = true
+                    }
             )
         }
     }

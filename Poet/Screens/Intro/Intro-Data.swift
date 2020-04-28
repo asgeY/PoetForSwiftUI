@@ -12,11 +12,11 @@ class IntroDataStore {
 static let shared = IntroDataStore()
 
     let page: Page = Page(
-        title: "Intro",
         body: [
-            .text("The Poet pattern is an easy and powerful approach to making iOS apps with SwiftUI, one screen at a time. Poet is an acronym:"),
+            .title("Intro"),
+            .text("The Poet pattern is an easy approach to making iOS apps with SwiftUI, one screen at a time. Poet is an acronym:"),
                 
-            .quote("Protocol-Oriented Evaluator Translator"),
+            .subtitle("Protocol-Oriented Evaluator Translator"),
             
             .image("poet-intro-small"),
                 
@@ -33,7 +33,7 @@ static let shared = IntroDataStore()
             
             .text("Poet was developed by Steve Cotner at a shoe company in Portland, Oregon from 2018 to 2020.  It began with some early encouragement from colleagues Dave Camp, Zach Heusinkveld, Ranjith Ramachandran, and Pete Salvo and has benefited from the feedback of many talented developers."),
                 
-            .quote("© 2020 Steve Cotner."),
+            .quote("Make good stuff."),
             
             .fineprint(
                 """

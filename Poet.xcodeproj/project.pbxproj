@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8727349E2456B868009C39B5 /* PagingTutorial-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349C2456B616009C39B5 /* PagingTutorial-Screen.swift */; };
+		8727349F2456B868009C39B5 /* PagingTutorial-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349B2456B616009C39B5 /* PagingTutorial-Evaluator.swift */; };
+		872734A02456B868009C39B5 /* PagingTutorial-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349D2456B616009C39B5 /* PagingTutorial-Translator.swift */; };
+		872734A12456B868009C39B5 /* PagingTutorial-Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349A2456B616009C39B5 /* PagingTutorial-Data.swift */; };
 		875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562B3244C253200DB49C4 /* AppDelegate.swift */; };
 		875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562B5244C253200DB49C4 /* SceneDelegate.swift */; };
 		875562BA244C253500DB49C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875562B9244C253500DB49C4 /* Assets.xcassets */; };
@@ -17,9 +21,6 @@
 		875562F1244D34CE00DB49C4 /* LeftAndRightButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562F0244D34CE00DB49C4 /* LeftAndRightButtonView.swift */; };
 		875562F5244D5FDB00DB49C4 /* Passables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562F4244D5FDB00DB49C4 /* Passables.swift */; };
 		878B3A3E2452B96800ACADE4 /* ViewWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A3D2452B96800ACADE4 /* ViewWrappers.swift */; };
-		878B3A4124533F8300ACADE4 /* Pager-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A4024533F8300ACADE4 /* Pager-Screen.swift */; };
-		878B3A43245340A400ACADE4 /* Pager-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A42245340A400ACADE4 /* Pager-Evaluator.swift */; };
-		878B3A45245340CF00ACADE4 /* Pager-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A44245340CF00ACADE4 /* Pager-Translator.swift */; };
 		878B3A472453472300ACADE4 /* CharacterBezel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A462453472300ACADE4 /* CharacterBezel.swift */; };
 		878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */; };
 		878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */; };
@@ -35,7 +36,6 @@
 		87D299D8245518C1003959C3 /* Intro-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299D624551639003959C3 /* Intro-Translator.swift */; };
 		87D299D9245518C1003959C3 /* Intro-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299D524551639003959C3 /* Intro-Screen.swift */; };
 		87D299DB24561A67003959C3 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299DA24561A67003959C3 /* Page.swift */; };
-		87D299DD24561ADA003959C3 /* Pager-Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299DC24561ADA003959C3 /* Pager-Data.swift */; };
 		87D299DF24561B9B003959C3 /* Intro-Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299DE24561B9B003959C3 /* Intro-Data.swift */; };
 		87D299E124561D4E003959C3 /* PageBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299E024561D4E003959C3 /* PageBodyView.swift */; };
 		87D299E324561D69003959C3 /* TappableTextCapsuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299E224561D69003959C3 /* TappableTextCapsuleView.swift */; };
@@ -52,6 +52,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8727349A2456B616009C39B5 /* PagingTutorial-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PagingTutorial-Data.swift"; sourceTree = "<group>"; };
+		8727349B2456B616009C39B5 /* PagingTutorial-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PagingTutorial-Evaluator.swift"; sourceTree = "<group>"; };
+		8727349C2456B616009C39B5 /* PagingTutorial-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PagingTutorial-Screen.swift"; sourceTree = "<group>"; };
+		8727349D2456B616009C39B5 /* PagingTutorial-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PagingTutorial-Translator.swift"; sourceTree = "<group>"; };
 		875562B0244C253200DB49C4 /* Poet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875562B3244C253200DB49C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		875562B5244C253200DB49C4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,9 +70,6 @@
 		875562F0244D34CE00DB49C4 /* LeftAndRightButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAndRightButtonView.swift; sourceTree = "<group>"; };
 		875562F4244D5FDB00DB49C4 /* Passables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passables.swift; sourceTree = "<group>"; };
 		878B3A3D2452B96800ACADE4 /* ViewWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWrappers.swift; sourceTree = "<group>"; };
-		878B3A4024533F8300ACADE4 /* Pager-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pager-Screen.swift"; sourceTree = "<group>"; };
-		878B3A42245340A400ACADE4 /* Pager-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pager-Evaluator.swift"; sourceTree = "<group>"; };
-		878B3A44245340CF00ACADE4 /* Pager-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pager-Translator.swift"; sourceTree = "<group>"; };
 		878B3A462453472300ACADE4 /* CharacterBezel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezel.swift; sourceTree = "<group>"; };
 		878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCycleEvaluating.swift; sourceTree = "<group>"; };
 		878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservingTextView.swift; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		87D299D524551639003959C3 /* Intro-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Intro-Screen.swift"; sourceTree = "<group>"; };
 		87D299D624551639003959C3 /* Intro-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Intro-Translator.swift"; sourceTree = "<group>"; };
 		87D299DA24561A67003959C3 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
-		87D299DC24561ADA003959C3 /* Pager-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pager-Data.swift"; sourceTree = "<group>"; };
 		87D299DE24561B9B003959C3 /* Intro-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Intro-Data.swift"; sourceTree = "<group>"; };
 		87D299E024561D4E003959C3 /* PageBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageBodyView.swift; sourceTree = "<group>"; };
 		87D299E224561D69003959C3 /* TappableTextCapsuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappableTextCapsuleView.swift; sourceTree = "<group>"; };
@@ -108,6 +108,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		872734992456B5F9009C39B5 /* Paging Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				8727349C2456B616009C39B5 /* PagingTutorial-Screen.swift */,
+				8727349B2456B616009C39B5 /* PagingTutorial-Evaluator.swift */,
+				8727349D2456B616009C39B5 /* PagingTutorial-Translator.swift */,
+				8727349A2456B616009C39B5 /* PagingTutorial-Data.swift */,
+			);
+			path = "Paging Tutorial";
+			sourceTree = "<group>";
+		};
 		875562A7244C253200DB49C4 = {
 			isa = PBXGroup;
 			children = (
@@ -172,7 +183,7 @@
 			children = (
 				87AC82752453B94C0090E443 /* Menu */,
 				87D299D32455162A003959C3 /* Intro */,
-				878B3A3F24533F6000ACADE4 /* Pager */,
+				872734992456B5F9009C39B5 /* Paging Tutorial */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -187,17 +198,6 @@
 				875562F4244D5FDB00DB49C4 /* Passables.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		878B3A3F24533F6000ACADE4 /* Pager */ = {
-			isa = PBXGroup;
-			children = (
-				878B3A4024533F8300ACADE4 /* Pager-Screen.swift */,
-				878B3A42245340A400ACADE4 /* Pager-Evaluator.swift */,
-				878B3A44245340CF00ACADE4 /* Pager-Translator.swift */,
-				87D299DC24561ADA003959C3 /* Pager-Data.swift */,
-			);
-			path = Pager;
 			sourceTree = "<group>";
 		};
 		878B3A4D245378C400ACADE4 /* Alert */ = {
@@ -331,7 +331,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				878B3A45245340CF00ACADE4 /* Pager-Translator.swift in Sources */,
 				87D299D9245518C1003959C3 /* Intro-Screen.swift in Sources */,
 				87D299DB24561A67003959C3 /* Page.swift in Sources */,
 				875562ED244D144600DB49C4 /* Observables.swift in Sources */,
@@ -340,23 +339,24 @@
 				87AC827A2453BB3C0090E443 /* Menu-Evaluator.swift in Sources */,
 				875562F5244D5FDB00DB49C4 /* Passables.swift in Sources */,
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
+				8727349F2456B868009C39B5 /* PagingTutorial-Evaluator.swift in Sources */,
 				878B3A51245378E300ACADE4 /* AlertView.swift in Sources */,
 				875562F1244D34CE00DB49C4 /* LeftAndRightButtonView.swift in Sources */,
 				875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */,
 				87AC82792453BB3A0090E443 /* Menu-Screen.swift in Sources */,
+				872734A02456B868009C39B5 /* PagingTutorial-Translator.swift in Sources */,
 				87AC827F2454CDE90090E443 /* Typealiases.swift in Sources */,
 				878B3A3E2452B96800ACADE4 /* ViewWrappers.swift in Sources */,
-				878B3A43245340A400ACADE4 /* Pager-Evaluator.swift in Sources */,
 				87D299DF24561B9B003959C3 /* Intro-Data.swift in Sources */,
-				878B3A4124533F8300ACADE4 /* Pager-Screen.swift in Sources */,
+				8727349E2456B868009C39B5 /* PagingTutorial-Screen.swift in Sources */,
 				87D299E324561D69003959C3 /* TappableTextCapsuleView.swift in Sources */,
-				87D299DD24561ADA003959C3 /* Pager-Data.swift in Sources */,
 				87D299E124561D4E003959C3 /* PageBodyView.swift in Sources */,
 				878B3A472453472300ACADE4 /* CharacterBezel.swift in Sources */,
 				878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */,
 				87D299D7245518C1003959C3 /* Intro-Evaluator.swift in Sources */,
 				878B3A4F245378CF00ACADE4 /* AlertTranslating.swift in Sources */,
 				87AC827B2453BB400090E443 /* Menu-Translator.swift in Sources */,
+				872734A12456B868009C39B5 /* PagingTutorial-Data.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
 				878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */,
 			);

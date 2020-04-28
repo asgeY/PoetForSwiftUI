@@ -58,3 +58,11 @@ class ObservableArray<T>: ObservableObject {
         self.array = array
     }
 }
+
+class ObservableAlertAction: ObservableObject {
+    @Published var alertAction: AlertAction?
+    
+    init(_ alertAction: AlertAction? = nil) {
+        self.alertAction = alertAction
+    }
+}
