@@ -16,7 +16,7 @@ struct CharacterBezel: View {
     class Configuration {
         var character = ObservableString()
         var opacity = ObservableDouble(0.0)
-        private var behavior: AnyCancellable?
+        private var behavior: Behavior?
         
         enum Layout {
             static var fullOpacity = 1.0

@@ -48,8 +48,8 @@ extension PagingTutorial.Translator {
         switch step {
         case .loading:
             showLoading()
-        case .page(let pageConfiguration):
-            showPage(pageConfiguration)
+        case .page(let configuration):
+            showPage(configuration)
         }
     }
     

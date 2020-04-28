@@ -50,7 +50,7 @@ class PagingTutorialDataStore {
             .subtitle("Screen"),
             .text("The Screen recognizes when display state has changed and remakes any nested views accordingly."),
             .text("That's good enough for now. ⃰ Next up, we'll get into some particulars by thinking about the screen you're looking at right now."),
-            .footnote(" ⃰Later, we'll also talk about the Performer, which is just a helpful way to break asynchronous activity (like network calls) out of the Evaluator and into a separate object. By maintaining these distinct layers, our code becomes more composable, testable, and easier to reason about than it would be otherwise.")
+            .footnote(" ⃰ Later, we'll also talk about the Performer, which is just a helpful way to break asynchronous activity (like network calls) out of the Evaluator and into a separate object. By maintaining these distinct layers, our code becomes more composable, testable, and easier to reason about than it would be otherwise.")
         ]),
         
         Page(
@@ -106,7 +106,7 @@ class PagingTutorialDataStore {
             
             .text("When the Screen object makes its view body, it initializes views like ObservingTextView by passing in an ObservableString, which the view holds onto as an @ObservedObject. The view notices when an @ObservedObject changes and remakes itself with its new content. ⃰ "),
                 
-            .footnote(" ⃰Note that the Screen itself doesn't hold onto any @ObservedObjects. We don't want the whole Screen to be remade each time an object changes."),
+            .footnote(" ⃰ Note that the Screen itself doesn't hold onto any @ObservedObjects. We don't want the whole Screen to be remade each time an object changes."),
             
             ]
         ),
@@ -183,14 +183,14 @@ class PagingTutorialDataStore {
                 
                 .text("Maybe that will come in handy?"),
                 
-                .footnote(" ⃰Composable translators will be explained more an upcoming section, ”AlertTranslating and AlertView.”")
+                .footnote(" ⃰ Composable translators will be explained more an upcoming section, ”AlertTranslating and AlertView.”")
             ]
         ),
         
         Page(
              body: [
                 .title("PassableString"),
-                .text("A Screen can respond to a change in a PassableString if a view is ready for it. In our case, the Screen's body contains a CharacterBezel view which requires a Configuration to be initialized with the PassableString. During its initialization, the Configuration then creates a Behavior (just a typealiased AnyCancellable) in which it modifies observed values that reside on the Configuration. CharacterBezel wants a configuration object because, as an immutable struct, it should not modify its own values. Instead, it holds onto the configuration, which can modify its values as needed:"),
+                .text("A Screen can respond to a change in a PassableString if a view is ready for it. In our case, the Screen's body contains a CharacterBezel view, which requires a Configuration to be initialized with the PassableString. During its initialization, the Configuration then creates a Behavior ⃰ (just a typealiased AnyCancellable) in which it modifies observed values that reside on itself. CharacterBezel wants a configuration object because, as an immutable struct, it should not modify its own values. Instead, it holds onto the configuration, which can modify its values as needed:"),
                 
                 .code(
                     """
@@ -202,12 +202,13 @@ class PagingTutorialDataStore {
 
                         var character = ObservableString()
                         var opacity = ObservableDouble(0.0)
-                        private var behavior: AnyCancellable?
+                        private var behavior: Behavior?
 
                         init(character: PassableString) {
+
                           self.behavior = character.subject.sink { value in
                             self.character.string = value ?? ""
-                                // etc.
+                            // etc.
                           }
                         }
                       }
@@ -244,17 +245,27 @@ class PagingTutorialDataStore {
                 ),
                 
                 .text("Depending on your experience with other approaches, that may seem like a lot or a little bit of code to think about. But once it's written, it's reusable and asks very little of the programmer. As long as a Translator conforms to BezelTranslating and a Screen contains a CharacterBezel view, an Evaluator can show the bezel with a single line of code:"),
+                
                 .code("translator.showBezel(\"🐣\")"),
-                .text("This can happen because of a composable, protocol-oriented approach to Translating, and we'll see how that works next.")
+                
+                .text("This can happen because of a composable, protocol-oriented approach to Translating, and we'll see how that works next."),
+                
+                .footnote(" ⃰ Why typealias AnyCancellable? It's not very important, but it might help our discussion to be able to refer to a Behavior as a proper type, given its specific role in the Passable pattern.")
             ]
         ),
         
         Page(
              body: [
                 .title("AlertTranslating and AlertView"),
+                
                 .text("If you tap the page number at the bottom of this screen, you'll see an alert. Alerts are made easy by protocol-oriented translating. The Evaluator can call:"),
+                
                 .code("translator.showAlert(title:message:)"),
-                .text("The Translator will then do the rest for free, because it conforms to AlertTranslating, which only requires the Translator to hold onto an instance of AlertTranslator. AlertTranslator is a class that holds two ObservableStrings, two ObservableAlertActions, and an ObservableBool:"),
+                
+                .text("The Translator will then do the rest for free, because it conforms to AlertTranslating, which only requires the Translator to hold onto an instance of AlertTranslator."),
+                
+                .text("AlertTranslator is a class that holds two ObservableStrings, two ObservableAlertActions, and an ObservableBool:"),
+                
                 .code(
                     """
                     var alertTitle = ObservableString()
@@ -267,7 +278,9 @@ class PagingTutorialDataStore {
 
                     var isAlertPresented = ObservableBool(false)
                     """),
+                
                 .text("All the Screen needs to do is have an AlertView in its body and assign it the Observables, which can be found on the Translator's instance of the AlertTranslator:"),
+                
                 .code(
                     """
                     AlertView(
@@ -275,7 +288,9 @@ class PagingTutorialDataStore {
                       message: translator.alertTranslator.alertMessage,
                       isPresented: translator.alertTranslator.isAlertPresented)
                     """),
+                
                 .text("The AlertView takes care of the rest. Now the Evaluator can trigger any alert it wants, without additional implementation on the Translator or Screen."),
+                
                 .text("If we find ourselves solving for similar common behavior in the future (say, Action Sheets, Toasts), we can imagine creating a single wrapper view that we could apply to any Screen's body, which would provide all the additional views for free.")
             ]
         ),
@@ -288,7 +303,7 @@ class PagingTutorialDataStore {
             
             .code("current.step = .page(configuration)"),
             
-            .text("Whenever the Evaluator needs to make changes to its current state, it saves a new configuration for a ”Step.” A step is a collection of state that represents all the choices necessary to render the screen correctly. A step is deterministic and should always be interpreted the same way by the Translator, based on data in the step's configuration. ”Step” is a slightly less nebulous term than ”state,” as it entails that a screen can only occupy one step — one collection of state — at a time. On some screens, steps also represent the progressive disclosure of interface options, so they are a useful concept that holds up well. All of this screen's state is captured in this code:"),
+            .text("Whenever the Evaluator needs to make changes to its current state, it saves a new configuration for a ”Step.” A step is a collection of state that represents all the choices necessary to render the screen correctly. A step is deterministic and should always be interpreted the same way by the Translator, based on data in the step's configuration. ”Step” is a slightly less nebulous term than ”state,” as it entails that a screen can only occupy one step — one collection of state — at a time. On some screens, steps also represent the progressive disclosure of interface options (step 1, step 2...), so they are a useful concept that holds up well. For the screen you're looking at, all of its state is captured in this code:"),
             
             .code(
                 """
@@ -309,8 +324,49 @@ class PagingTutorialDataStore {
             
             .code("var current = PassableStep(Step.loading)"),
             
-            .text("The Translator will know when the Evaluator's state has changed because, like some strings we've seen, it's passable, too. Whenever the ”current” property is assigned a new configuration, the Translator notices and remakes its own state according to the behavior it has defined for itself.")
+            .text("or"),
+            
+            .code("var current = PassableStep(Step.page(pageConfiguration)"),
+            
+            .text("The Translator will know when the Evaluator's state has changed because, like some other types we've seen, a Step can be passable. Whenever the ”current” property is assigned a new configuration, the Translator notices and remakes its own state according to the behavior it has defined for itself.")
             ]
+        ),
+        
+        Page(
+        body: [
+           .title("Translating Steps"),
+           
+           .text("By now we've seen the Passable/Behavior pattern. Here's what it looks like on the Translator:"),
+            
+            .code(
+                """
+                var behavior: Behavior?
+
+                init(_ step: PassableStep<Evaluator.Step>) {
+                  behavior = step.subject.sink { value in
+                    self.translate(step: value)
+                  }
+                }
+                """),
+            
+            .text("The behavior just calls a method ”translate(step:)”, in which the Translator promises to interpret the Evaluator's intent based on its current Step configuration:"),
+            
+            .code(
+                """
+                func translate(step: Evaluator.Step) {
+                  switch step {
+                  case .loading:
+                    showLoading()
+                  case .page(let configuration):
+                    showPage(configuration)
+                  }
+                }
+                """
+            ),
+            
+            
+            
+           ]
         ),
         
         Page(
