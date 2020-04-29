@@ -39,6 +39,7 @@
 		87D299DF24561B9B003959C3 /* Intro-Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299DE24561B9B003959C3 /* Intro-Data.swift */; };
 		87D299E124561D4E003959C3 /* PageBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299E024561D4E003959C3 /* PageBodyView.swift */; };
 		87D299E324561D69003959C3 /* TappableTextCapsuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299E224561D69003959C3 /* TappableTextCapsuleView.swift */; };
+		87E7E436245905B000047253 /* PagingTutorialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7E435245905B000047253 /* PagingTutorialTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		87D299DE24561B9B003959C3 /* Intro-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Intro-Data.swift"; sourceTree = "<group>"; };
 		87D299E024561D4E003959C3 /* PageBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageBodyView.swift; sourceTree = "<group>"; };
 		87D299E224561D69003959C3 /* TappableTextCapsuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappableTextCapsuleView.swift; sourceTree = "<group>"; };
+		87E7E435245905B000047253 /* PagingTutorialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingTutorialTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				875562CA244C253500DB49C4 /* PoetTests.swift */,
+				87E7E435245905B000047253 /* PagingTutorialTests.swift */,
 				875562CC244C253500DB49C4 /* Info.plist */,
 			);
 			path = PoetTests;
@@ -367,6 +370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				875562CB244C253500DB49C4 /* PoetTests.swift in Sources */,
+				87E7E436245905B000047253 /* PagingTutorialTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -437,11 +437,106 @@ class PagingTutorialDataStore {
         ),
         
         Page(
+            body: [
+                .title("Composable Views with Injectable Evaluators"),
+            ]
+        ),
+        
+        Page(
+            body: [
+                .title("Testing"),
+                
+                .text("In the Poet pattern's past life, state wasn't Observable or Passable. Instead, the unidirectional flow from Evaluator to Translator was accomplished by passing an Update enum. This was a little cumbersome, but also very easy to test. A MockTranslator could collect an Update history in an array, which the tests could then check to verify that the Evaluator had asked for one thing or another. In fact, any other layer could be mocked, too — evaluators, view controllers, performers — and the tests could check the communication at their boundaries."),
+                
+                .text("Now that we rely on Observable and Passable state, we're less likely to want to check the boundary between Evaluator and Translator. Instead, we can cut to the chase and check the Translator's ”display state” once it's finished its work. With this approach, our tests can focus on verifying that, for any given flow, business state is correctly translated into display state."),
+                
+                .text("If it seems worth it, other tests could focus on the journey from display state to actual view rendering. But let's leave that notion alone for now. Here is a simple test for our current screen:"),
+                
+                .code(
+                    """
+                    func testThatPagesShowAfterViewAppears() {
+                        
+                        // GIVEN we have a freshly created screen, evaluator, and translator.
+
+                        let pagesHaveNotShown = translator.pageBody.array.isEmpty
+                        
+                        // AND pages have not been shown
+
+                        XCTAssert(pagesHaveNotLoaded,
+                          /"/"/"
+                          There should be no pages yet.
+                          Actual: \\(translator.pageBody.array)
+                          /"/"/"
+                        )
+
+                        // WHEN the page appears
+                        
+                        evaluator.viewDidAppear()
+                        
+                        let pagesHaveShown = translator.pageBody.array.isEmpty == false
+
+                        // THEN the pages should load
+                        
+                        XCTAssert(pagesHaveLoaded,
+                          /"/"/"
+                          There should be pages now.
+                          Actual: \\(translator.pageBody.array)
+                          /"/"/"
+                        )
+                    }
+                    """),
+                
+                .text("This test arguably goes as far as we'll ever want to go: if we're reasonably confident that our views observe display state properly, then this test demonstrates a full loop of unidirectional flow. It starts by simulating what the view layer would say to the evaluator:"),
+                
+                .code("evaluator.viewDidAppear()"),
+                      
+                .text("From there, it allows the evaluator to remake its own state, which the evaluator does by calling the method ”showFirstPage().”"),
+                
+                .code(
+                    """
+                    func showFirstPage() {
+                      let configuration = PageConfiguration(
+                        page: pages[0],
+                        pageIndex: 0,
+                        pageCount: pages.count
+                      )
+                      current.step = .page(configuration)
+                    }
+                    """),
+                        
+                .text("After the evaluator sets its new Step, we see that the Translator will eventually arrive at the ”showPage(:)” method:"),
+                
+                .code(
+                    """
+                    func showPage(_ configuration: Evaluator.PageConfiguration) {
+                      pageBody.array = configuration.page.body
+                      pageXofX.string = "\\(configuration.pageNumber) / \\(configuration.pageCount)"
+                      isLeftButtonEnabled.bool = configuration.pageNumber > 1
+                      isRightButtonEnabled.bool = configuration.pageNumber < configuration.pageCount
+                    }
+                    """),
+                
+                .text("Those assignments set the display state and constitute the last bit of work for the Translator. From there, the view layer remakes itself declaratively. So we test this stopping point and verify that the ObservableArray ”pageBody” now contains elements within its array, where it used to be empty. With that, we can be assured reasonably well that the pages have in fact appeared on screen"),
+                
+                .text("Most screens will have a relatively complicated journey from the moment an Evaluator is nudged awake — when ”viewDidAppear” is called, in this example — to the moment when display state is set on the Translator. By contrast, the journey from display state to rendered views will be relatively straightforward and will rely on reusable, composable views that behave predictably and reliably."),
+                
+                .quote("Unit, Component, Integration"),
+                
+                .text("The above test covers so much of the flow of decision-making that, in previous patterns we'd be likely to call it an integration test or a component test. In SwiftUI and Combine, it seems comparably slight. But we can also focus our tests on smaller units of behavior, within a single layer. Any Evaluator that sorts or manipulates data, for instance, would benefit from unit testing its methods. Business logic can be complicated enough on its own that it's worth verifying independent of any view-facing code."),
+                
+                .text(""),
+            ]
+        ),
+        
+        
+        /*
+        Page(
              body: [
                 .title("Avoiding Translator Retain Cycles"),
                 .text("It's not clear (to me) yet whether or not it's worth fretting over retain cycles on the Translator. The Translator holds onto its Observable and Passable values as structs. These structs then contain instances of ObservableObjects and PassableSubjects. Whenever a Translator holds onto other Translators, like AlertTranslator, these are structs too. So far so good.")
             ]
         ),
+         */
         
         Page(
              body: [
