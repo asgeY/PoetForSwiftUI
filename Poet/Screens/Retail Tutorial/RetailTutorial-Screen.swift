@@ -33,9 +33,8 @@ extension RetailTutorial {
                     
                     // MARK: Title
                     
-                    Text("Retail Example")
+                    Text("Retail")
                         .font(Font.subheadline.monospacedDigit().bold())
-                        .layoutPriority(10)
                         .multilineTextAlignment(.center)
                         .layoutPriority(10)
                     
@@ -108,7 +107,7 @@ struct BottomButton: View {
                         .font(Font.headline)
                         .foregroundColor(.white)
                         .frame(width: geometry.size.width - 100)
-                        .padding(EdgeInsets(top: 14, leading: 18, bottom: 14, trailing: 18))
+                        .padding(EdgeInsets(top: 16, leading: 18, bottom: 16, trailing: 18))
                         .background(
                             ZStack {
                                 BlurView()

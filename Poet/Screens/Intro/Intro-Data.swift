@@ -13,8 +13,8 @@ static let shared = IntroDataStore()
 
     let page: Page = Page(
         body: [
-            .title("Intro"),
-            .text("The Poet pattern is an easy approach to making iOS apps with SwiftUI, one screen at a time. Poet is an acronym:"),
+            .title("What is Poet?"),
+            .text("The Poet pattern is a complete approach to making iOS apps with SwiftUI, one screen at a time. Poet is an acronym:"),
                 
             .subtitle("Protocol-Oriented Evaluator Translator"),
             
@@ -31,9 +31,15 @@ static let shared = IntroDataStore()
                 * Observable
                 """),
             
-            .text("Poet was developed by Steve Cotner at a shoe company in Portland, Oregon from 2018 to 2020.  It began with some early encouragement from colleagues Dave Camp, Zach Heusinkveld, Ranjith Ramachandran, and Pete Salvo and has benefited from the feedback of many talented developers."),
+            .text("Poet was developed by Steve Cotner at a shoe company in Portland, Oregon from 2018 to 2020.  It began with some early encouragement from colleagues Dave Camp, Zach Heusinkveld, Ranjith Ramachandran, and Pete Salvo and has benefited from the feedback of many talented developers, including Steve Milano, Kevin Thornton, Josh Kneedler, Sam Lobue, Tanya Ganley, Eric Sheppard, and Jason Furgison. The writing and development of this tutorial began April 26, 2020."),
+            
+            .text("Thanks for reading."),
                 
-            .quote("Make good stuff."),
+            .signature(
+                """
+                Steve Cotner
+                Portland, Oregon
+                """),
             
             .fineprint(
                 """

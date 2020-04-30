@@ -23,9 +23,10 @@ struct Page {
         case subtitle(String)
         case footnote(String)
         case fineprint(String)
+        case signature(String)
         case image(String)
-        case link(name: String, url: URL)
-        case button(name: String, action: Action)
+        case link(name: String, url: URL) // not implemented yet
+        case button(name: String, action: Action) // not implemented yet
         
         var id: String {
             switch self {
@@ -43,6 +44,8 @@ struct Page {
                 return "footnote_\(string)"
             case .fineprint(let string):
                 return "fineprint_\(string)"
+            case .signature(let string):
+            return "signature_\(string)"
             case .image(let string):
                 return "image_\(string)"
             case .link(let name, _):

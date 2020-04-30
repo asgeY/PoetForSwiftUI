@@ -35,17 +35,18 @@ extension PagingTutorial {
                     }
                     
                     VStack {
-                        Spacer().frame(height:10)
+                        Spacer().frame(height:12)
                         
                         // MARK: Tappable Screen Title
                         ButtonActionView(
                             action: evaluator?.titleAction,
                             content:
                                 AnyView(
-                                Text("The Poet Pattern\nfor SwiftUI")
-                                    .font(Font.caption.monospacedDigit().bold())
-                                    .layoutPriority(10)
+                                Text("The Poet Pattern")
+                                    .font(Font.subheadline.monospacedDigit().bold())
                                     .multilineTextAlignment(.center)
+                                    .layoutPriority(10)
+                                    .foregroundColor(Color.black)
                                 )
                         )
                         .layoutPriority(10)
@@ -65,9 +66,9 @@ extension PagingTutorial {
                     .onChanged { value in
                     }
                     .onEnded { value in
-                        if value.translation.width < -25 {
+                        if value.translation.width < -50 {
                             self.evaluator?.rightAction()
-                        } else if value.translation.width > 25 {
+                        } else if value.translation.width > 50 {
                             self.evaluator?.leftAction()
                         }
                     }
@@ -92,6 +93,7 @@ extension PagingTutorial {
                     TappableTextCapsuleView(
                         action: evaluator?.pageNumberAction,
                         text: translator.pageXofX)
+                        .foregroundColor(Color.black)
                     Spacer().frame(height: 10)
                         .allowsHitTesting(false)
                 }

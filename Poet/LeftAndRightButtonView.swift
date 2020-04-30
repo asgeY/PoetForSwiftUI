@@ -26,7 +26,7 @@ struct LeftAndRightButtonView: View {
             }
             .offset(x: 0, y: geometry.size.height / 2)
             .disabled(!self.leftButtonIsEnabled.bool)
-            .opacity(self.leftButtonIsEnabled.bool ? 1 : 0.6)
+            .opacity(self.leftButtonIsEnabled.bool ? 1 : 0.25)
             .edgesIgnoringSafeArea([.top, .bottom])
             
             // Right Button
@@ -38,9 +38,10 @@ struct LeftAndRightButtonView: View {
             }
             .offset(x: geometry.size.width - 47, y: geometry.size.height / 2)
             .disabled(!self.rightButtonIsEnabled.bool)
-            .opacity(self.rightButtonIsEnabled.bool ? 1 : 0.6)
+            .opacity(self.rightButtonIsEnabled.bool ? 1 : 0.25)
             .edgesIgnoringSafeArea([.top, .bottom])
         }
+        .foregroundColor(Color.black)
     }
 }
 

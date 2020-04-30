@@ -33,13 +33,13 @@ extension Intro {
                         Spacer()
                     }
                     VStack {
-                        Spacer().frame(height:10)
+                        Spacer().frame(height:12)
                         
                         // MARK: Screen Title
-                        Text("The Poet Pattern\nfor SwiftUI")
+                        Text("Intro")
                             .font(Font.subheadline.monospacedDigit().bold())
-                            .layoutPriority(10)
                             .multilineTextAlignment(.center)
+                            .layoutPriority(10)
                         
                         Spacer().frame(height:18)
                         
@@ -90,7 +90,8 @@ struct BackButton: View {
                 action: { self.presentationMode.wrappedValue.dismiss() })
             {
                 Image(systemName: "chevron.left")
-            }.padding(EdgeInsets.init(top: 18, leading: 24, bottom: 16, trailing: 22))
+                    .foregroundColor(Color.black)
+            }.padding(EdgeInsets.init(top: 16, leading: 24, bottom: 16, trailing: 22))
             Spacer()
         }
     }

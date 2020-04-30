@@ -34,7 +34,7 @@ class PagingTutorialDataStore {
                 * Screens
                 """),
             
-            .text("Eventually, Poet's reusability and flexibility will emerge as you learn about approaches like protocol-oriented translators and evaluator-injected composable views. Tap the right arrow to read more.")
+            .text("Eventually, Poet's reusability and flexibility will emerge as you learn about approaches like protocol-oriented translators and evaluator-injected composable views. Most importantly, Poet is a maintainable pattern that scales to handle screens with complex, multi-step interfaces with mutually incompatible business logic.  Tap the right arrow to read more.")
             ]
         ),
         
@@ -46,7 +46,7 @@ class PagingTutorialDataStore {
             .text("The Evaluator is the business logic decision-maker. It maintains what we might call ”business state.”"),
             .subtitle("Translator"),
             .text("The Translator interprets the intent of the Evaluator and turns it into observable and passable ”display state.”"),
-            .text("Many patterns mingle business state and display state in a single, flat object — from there, it's straight to the view layer. The Evaluator/Translator pattern differs by offering a helpful distinction between the business and display phases of reasoning, so they may take place sequentially on two separate layers."),
+            .text("Many patterns mingle business state and display state in a single, flat object — from there, it's straight to the view layer. The Evaluator/Translator pattern differs by offering a distinction between the business and display phases of reasoning, so they may be worked on independently and with real certainty."),
             .subtitle("Screen"),
             .text("The Screen recognizes when display state has changed and remakes any nested views accordingly."),
             .text("That's good enough for now. ⃰ Next up, we'll get into some particulars by thinking about the screen you're looking at right now."),
@@ -74,7 +74,9 @@ class PagingTutorialDataStore {
                 pageXofX.string = "\\(configuration.pageNumber) / \\(configuration.pageCount)"
                 """),
                 
-            .text("Observables are just classes that wrap around typical value types like Strings, Bools, and Arrays."),
+            .text("Observables are just classes that wrap around typical value types like Strings, Bools, and Arrays and keep them as a @Published instance."),
+            
+            .text("@Published is an integral concept for SwiftUI, but wrapping it in our Observable types may make certain uses easier to discuss."),
                 
             .footnote(
             """
@@ -130,6 +132,8 @@ class PagingTutorialDataStore {
                     """),
                     
                 .text("ObservableBools inform whether the arrows you see are enabled or disabled."),
+                
+                .text("That's enough about Observables. On to Passables."),
 
             ]
         ),
@@ -137,7 +141,7 @@ class PagingTutorialDataStore {
         Page(
              body: [
                 .title("Passables"),
-                .text("If you tap the blue title up above the text you're reading, the Evaluator asks the Translator to show a random emoji. The Screen then shows it inside a bezel. The Translator accomplishes this by updating an instance of PassableString, which is a class that wraps a PassthroughSubject:"),
+                .text("If you tap the title ”The Poet Pattern” up above the text you're reading, the Evaluator asks the Translator to show a random emoji. The Screen then shows it inside a bezel. The Translator accomplishes this by updating an instance of PassableString, which is a class that wraps a PassthroughSubject:"),
                     
                 .code(
                     """
@@ -303,7 +307,9 @@ class PagingTutorialDataStore {
             
             .code("current.step = .page(configuration)"),
             
-            .text("Whenever the Evaluator needs to make changes to its current state, it saves a new configuration for a ”Step.” A step is a collection of state that represents all the choices necessary to render the screen correctly. The Evaluator holds onto distinct steps to ensure that it can never produce an ambiguous, partial, or conflicting state. A step is deterministic and should always be interpreted the same way by the Translator, based on data in the step's configuration. ”Step” is a slightly less nebulous term than ”state,” as it entails that a screen can only occupy one step — one collection of state — at a time. On some screens, steps also represent the progressive disclosure of interface options (step 1, step 2...), so they are a useful concept that holds up well. For the screen you're looking at, all of its state is captured in this code:"),
+            .text("Whenever the Evaluator needs to make changes to its current state, it saves a new configuration for a ”Step.” A step is a collection of state that represents all the choices necessary to render the screen correctly. The Evaluator holds onto distinct steps to ensure that it can never produce an ambiguous, partial, or conflicting state. A step is deterministic and should always be interpreted the same way by the Translator, based on data in the step's configuration."),
+            
+            .text("”Step” is a slightly less nebulous term than ”state,” as it entails that a screen can only occupy one step — one collection of state — at a time. On some screens, steps also represent the progressive disclosure of interface options (step 1, step 2...), so they are a useful concept that holds up well. For the screen you're looking at, all of its state is captured in this code:"),
             
             .code(
                 """
@@ -322,11 +328,11 @@ class PagingTutorialDataStore {
             
             .text("And that is saved to a single passable property:"),
             
-            .code("var current = PassableStep(Step.loading)"),
+            .code("current.step = Step.loading"),
             
             .text("or"),
             
-            .code("var current = PassableStep(Step.page(pageConfiguration)"),
+            .code("current.step = Step.page(configuration)"),
             
             .text("The Translator will know when the Evaluator's state has changed because, like some other types we've seen, a Step can be passable. Whenever the ”current” property is assigned a new configuration, the Translator notices and remakes its own state according to the behavior it has defined for itself.")
             ]

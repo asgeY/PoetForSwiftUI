@@ -130,13 +130,13 @@ struct InstructionView: View {
     var instruction: String
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             Image(systemName: (instructionNumber <= 50) ? "\(instructionNumber).circle.fill" : ".circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.black)
-                .frame(width: 20, height: 20)
-                .padding(.trailing, 10)
+                .frame(width: 21, height: 21)
+                .padding(.trailing, 17)
             Text(instruction)
                 .font(.system(.headline))
                 .multilineTextAlignment(.leading)
@@ -242,7 +242,7 @@ struct SelectableCapsuleButton: View {
                     width: self.isSelected ? 12 : 0,
                     height: self.isSelected ? 12 : 0)
                 .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
-                .animation( self.isSelected ? (.spring(response: 0.4, dampingFraction: 0.4, blendDuration: 0.825)) : .linear(duration: 0.2), value: self.isSelected)
+                .animation( self.isSelected ? (.spring(response: 0.37, dampingFraction: 0.4, blendDuration: 0.825)) : .linear(duration: 0.2), value: self.isSelected)
                 .layoutPriority(30)
             Text(title)
                 .font(Font.system(.headline))
@@ -285,14 +285,14 @@ struct DeliveryOptionView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.black)
-                .frame(width: isSelected ? 20.5 : 19.5, height: isSelected ? 20.5 : 19.5)
-                .animation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0), value: isSelected)
-                .offset(x: isSelected ? 19.5 : 20, y: isSelected ? -0.5 : 0)
+                .frame(width: isSelected ? 21.5 : 20, height: isSelected ? 21.5 : 20)
+                .animation(.spring(response: 0.275, dampingFraction: 0.275, blendDuration: 0), value: isSelected)
+                .offset(x: isSelected ? 19.25 : 20, y: isSelected ? -0.5 : 0)
             
             Text(self.option)
                 .font(Font.headline)
                 .layoutPriority(20)
-                .offset(x: 50, y: 0)
+                .offset(x: 58, y: 0)
         }
         .onTapGesture {
             self.evaluator?.toggleOption(self.option)

@@ -53,7 +53,7 @@ struct PageBodyView: View {
                         Spacer()
                         Text(string)
                             .multilineTextAlignment(.center)
-                            .font(Font.system(size: 16, weight: .semibold, design: .default))
+                            .font(Font.system(size: 17, weight: .semibold, design: .default))
                             .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                         Spacer()
                     }
@@ -83,6 +83,14 @@ struct PageBodyView: View {
                     Text(string)
                         .font(Font.system(size: 10, design: .monospaced))
                         .opacity(0.5)
+                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                )
+            
+            case .signature(let string):
+                return AnyView(
+                    Text(string)
+                        .font(Font.system(size: 17, weight: .medium, design: .serif).italic())
+                        .lineSpacing(2)
                         .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
                 )
             

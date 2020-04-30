@@ -242,7 +242,7 @@ extension RetailTutorial.Evaluator: BottomButtonEvaluator {
                 }
             },
             numberOfProductsRequested: configuration.findableProducts.count,
-            deliveryLocationChoices: ["Register", "Front Door"],
+            deliveryLocationChoices: ["Cash Register", "Front Door"],
             deliveryLocationPreference: nil,
             startTime: configuration.startTime,
             nextAction: nil)
