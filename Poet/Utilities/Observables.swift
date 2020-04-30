@@ -41,6 +41,18 @@ class ObservableDouble: ObservableObject {
     }
 }
 
+class ObservableInt: ObservableObject {
+    @Published var int: Int
+    
+    init() {
+        int = 0
+    }
+    
+    init(_ int: Int) {
+        self.int = int
+    }
+}
+
 class ObservableURL: ObservableObject {
     @Published var url: URL?
     
@@ -64,5 +76,29 @@ class ObservableAlertAction: ObservableObject {
     
     init(_ alertAction: AlertAction? = nil) {
         self.alertAction = alertAction
+    }
+}
+
+class ObservableNamedAction: ObservableObject {
+    @Published var action: NamedAction?
+    
+    init(_ action: NamedAction? = nil) {
+        self.action = action
+    }
+}
+
+class ObservableNamedEvaluatorAction: ObservableObject {
+    @Published var action: NamedEvaluatorAction?
+    
+    init(_ action: NamedEvaluatorAction? = nil) {
+        self.action = action
+    }
+}
+
+class Observable<T>: ObservableObject {
+    @Published var object: T
+    
+    init(_ object: T) {
+        self.object = object
     }
 }

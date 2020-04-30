@@ -100,5 +100,69 @@
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B577037D-0542-4820-B653-EE0BA74ACDA4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Poet/Screens/Retail Tutorial/RetailPageView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "B577037D-0542-4820-B653-EE0BA74ACDA4 - 696ceeacb3420e27"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Poet.DeliveryOptionView.body.getter : some"
+                  moduleName = "Poet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stephencotner/projects/Poet%20for%20SwiftUI/Poet/Screens/Retail%20Tutorial/RetailPageView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "832">
+               </Location>
+               <Location
+                  uuid = "B577037D-0542-4820-B653-EE0BA74ACDA4 - e24959175bd8c95f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of (extension in SwiftUI):SwiftUI.View.animation&lt;A where A1: Swift.Equatable&gt;(_: Swift.Optional&lt;SwiftUI.Animation&gt;, value: A1) -&gt; some&gt;&gt;.0, SwiftUI.Text)&gt; in Poet.DeliveryOptionView.body.getter : some"
+                  moduleName = "Poet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/stephencotner/projects/Poet%20for%20SwiftUI/Poet/Screens/Retail%20Tutorial/RetailPageView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "245"
+                  endingLineNumber = "245"
+                  offsetFromSymbolStart = "93">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D32CE1B2-5B6B-4D90-95F5-7909C80AE3E3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Poet/Screens/Retail Tutorial/RetailTutorial-Evaluator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "bottomButtonTapped(action:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

@@ -17,3 +17,13 @@ extension Action {
         self?()
     }
 }
+
+struct NamedAction {
+    let name: String
+    let action: Action
+}
+
+struct NamedEvaluatorAction {
+    let name: String
+    let action: EvaluatorAction
+}

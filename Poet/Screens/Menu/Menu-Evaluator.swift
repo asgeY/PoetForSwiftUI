@@ -20,6 +20,7 @@ extension Menu {
         enum Item: String, CaseIterable, Identifiable, ListEvaluatorItem{
             case intro = "Intro"
             case pager = "Paging Tutorial"
+            case retail = "Retail Tutorial"
             
             var id: String {
                 return self.name
@@ -53,6 +54,8 @@ extension Menu.Evaluator: ListEvaluator {
             return AnyView(Intro.Screen())
         case .pager:
             return AnyView(PagingTutorial.Screen())
+        case .retail:
+            return AnyView(RetailTutorial.Screen())
         }
     }
 }

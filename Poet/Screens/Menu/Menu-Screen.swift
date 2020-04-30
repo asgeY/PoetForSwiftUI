@@ -43,7 +43,7 @@ extension Menu {
                         .layoutPriority(2)
                     MenuItemList(items: translator.observable.items, evaluator: evaluator)
                         .layoutPriority(1)
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 0, trailing: 36))
+                        .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
                         .onAppear {
                             UITableView.appearance().tableFooterView = UIView() // <-- this hides extra separators
                             UITableView.appearance().separatorStyle = .none

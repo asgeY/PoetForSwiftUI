@@ -27,6 +27,15 @@ class PassableDouble {
     }
 }
 
+class PassableArray<T>: ObservableObject {
+    var subject = PassthroughSubject<[T]?, Never>()
+    var array: [T]? {
+        willSet {
+            subject.send(array)
+        }
+    }
+}
+
 class PassablePlease {
     var subject = PassthroughSubject<Any?, Never>()
     func please() {

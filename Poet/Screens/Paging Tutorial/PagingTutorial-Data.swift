@@ -46,7 +46,7 @@ class PagingTutorialDataStore {
             .text("The Evaluator is the business logic decision-maker. It maintains what we might call ”business state.”"),
             .subtitle("Translator"),
             .text("The Translator interprets the intent of the Evaluator and turns it into observable and passable ”display state.”"),
-            .text("Many patterns mingle business state and display state in a single object — from there, it's straight to the view layer. The Evaluator/Translator pattern is different: it offers a helpful distinction between the business and display phases of reasoning, so they may take place sequentially on two separate layers."),
+            .text("Many patterns mingle business state and display state in a single, flat object — from there, it's straight to the view layer. The Evaluator/Translator pattern is different: it offers a helpful distinction between the business and display phases of reasoning, so they may take place sequentially on two separate layers."),
             .subtitle("Screen"),
             .text("The Screen recognizes when display state has changed and remakes any nested views accordingly."),
             .text("That's good enough for now. ⃰ Next up, we'll get into some particulars by thinking about the screen you're looking at right now."),
@@ -303,7 +303,7 @@ class PagingTutorialDataStore {
             
             .code("current.step = .page(configuration)"),
             
-            .text("Whenever the Evaluator needs to make changes to its current state, it saves a new configuration for a ”Step.” A step is a collection of state that represents all the choices necessary to render the screen correctly. A step is deterministic and should always be interpreted the same way by the Translator, based on data in the step's configuration. ”Step” is a slightly less nebulous term than ”state,” as it entails that a screen can only occupy one step — one collection of state — at a time. On some screens, steps also represent the progressive disclosure of interface options (step 1, step 2...), so they are a useful concept that holds up well. For the screen you're looking at, all of its state is captured in this code:"),
+            .text("Whenever the Evaluator needs to make changes to its current state, it saves a new configuration for a ”Step.” A step is a collection of state that represents all the choices necessary to render the screen correctly. The Evaluator holds onto distinct steps to ensure that it can never produce an ambiguous, partial, or conflicting state. A step is deterministic and should always be interpreted the same way by the Translator, based on data in the step's configuration. ”Step” is a slightly less nebulous term than ”state,” as it entails that a screen can only occupy one step — one collection of state — at a time. On some screens, steps also represent the progressive disclosure of interface options (step 1, step 2...), so they are a useful concept that holds up well. For the screen you're looking at, all of its state is captured in this code:"),
             
             .code(
                 """
@@ -433,12 +433,6 @@ class PagingTutorialDataStore {
                         )
                     )
                     """)
-            ]
-        ),
-        
-        Page(
-            body: [
-                .title("Composable Views with Injectable Evaluators"),
             ]
         ),
         

@@ -40,10 +40,11 @@ extension Intro {
                             .font(Font.subheadline.monospacedDigit().bold())
                             .layoutPriority(10)
                             .multilineTextAlignment(.center)
-                        Spacer().frame(height:24)
+                        
+                        Spacer().frame(height:18)
                         
                         // MARK: Page Body
-                        PageBodyView(pageBody: self.translator.observable.pageBody)
+                        PageBodyView(pageBody: self.translator.pageBody)
                             .layoutPriority(10)
 
                         Spacer()
@@ -89,7 +90,7 @@ struct BackButton: View {
                 action: { self.presentationMode.wrappedValue.dismiss() })
             {
                 Image(systemName: "chevron.left")
-            }.padding(EdgeInsets.init(top: 22, leading: 24, bottom: 16, trailing: 22))
+            }.padding(EdgeInsets.init(top: 18, leading: 24, bottom: 16, trailing: 22))
             Spacer()
         }
     }

@@ -14,10 +14,7 @@ extension Intro {
         typealias Evaluator = Intro.Evaluator
         
         // Observable state
-        struct Observable {
-            var pageBody = ObservableArray<Page.Element>([])
-        }
-        var observable = Observable()
+        var pageBody = ObservableArray<Page.Element>([])
     }
 }
 
@@ -26,6 +23,6 @@ extension Intro {
 extension Intro.Translator {
     
     func show(page: Page) {
-        observable.pageBody.array = page.body
+        pageBody.array = page.body
     }
 }

@@ -50,30 +50,28 @@ extension PagingTutorial {
                         )
                         .layoutPriority(10)
                         
-                        Spacer().frame(height:20)
-                        
-//                        // MARK: Tappable Page Title
-//                        ButtonActionView(
-//                            action: evaluator?.titleAction,
-//                            content:
-//                                AnyView(
-//                                    ObservingTextView(
-//                                        text: translator.pageTitle,
-//                                        font: Font.headline.monospacedDigit(),
-//                                        alignment: .center)
-//                                        .layoutPriority(10)
-//                                )
-//                        )
-//                        Spacer().frame(height:16)
+                        Spacer().frame(height:18)
                         
                         // MARK: Page Body
-                        PageBodyView(pageBody: self.translator.pageBody)
-                            .layoutPriority(10)
+                        withAnimation(.none) {
+                            PageBodyView(pageBody: self.translator.pageBody)
+                                .layoutPriority(10)
+                        }
                         
                         Spacer()
                             .layoutPriority(1)
                     }
-                }
+                }.gesture(DragGesture()
+                    .onChanged { value in
+                    }
+                    .onEnded { value in
+                        if value.translation.width < -25 {
+                            self.evaluator?.rightAction()
+                        } else if value.translation.width > 25 {
+                            self.evaluator?.leftAction()
+                        }
+                    }
+                )
                 
                 // MARK: Left and Right Buttons
                 LeftAndRightButtonView(
@@ -118,7 +116,7 @@ extension PagingTutorial {
             }
             
             // MARK: Hide Navigation Bar
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 self.navBarHidden = true
             }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                 self.navBarHidden = false
