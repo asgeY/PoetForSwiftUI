@@ -198,7 +198,6 @@ struct FoundNotFoundButtons: View {
         return GeometryReader() { geometry in
             ZStack {
                 HStack {
-                    Spacer()
                     SelectableCapsuleButton(
                         title: "Found",
                         isSelected: isFound,
@@ -206,13 +205,11 @@ struct FoundNotFoundButtons: View {
                         action: { self.evaluator?.toggleProductFound(self.findableProduct) }
                     )
                     .layoutPriority(30)
-                    Spacer()
                 }
                 .frame(width: geometry.size.width / 2.0)
                 .offset(x: -geometry.size.width / 4.0, y: 0)
                 
                 HStack {
-                    Spacer()
                     SelectableCapsuleButton(
                         title: "Not Found",
                         isSelected: isNotFound,
@@ -220,7 +217,6 @@ struct FoundNotFoundButtons: View {
                         action: { self.evaluator?.toggleProductNotFound(self.findableProduct) }
                     )
                     .layoutPriority(30)
-                    Spacer()
                 }
                 .frame(width: geometry.size.width / 2.0)
                 .offset(x: geometry.size.width / 4.0, y: 0)
@@ -251,10 +247,13 @@ struct SelectableCapsuleButton: View {
             Text(title)
                 .font(Font.system(.headline))
                 .foregroundColor( self.isSelected ? .white : .black)
-                .padding(EdgeInsets(top: 10, leading: (isSelected ? 8 : 4), bottom: 10, trailing: 20))
-                .layoutPriority(31)
+                .lineLimit(1)
+                .fixedSize(horizontal: true, vertical: false)
+                .padding(EdgeInsets(top: 10, leading: (isSelected ? 8 : 4), bottom: 10, trailing: 0))
+                .layoutPriority(51)
         }
-        .layoutPriority(30)
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 22))
+        .layoutPriority(31)
         .background(
             ZStack {
                 BlurView()
