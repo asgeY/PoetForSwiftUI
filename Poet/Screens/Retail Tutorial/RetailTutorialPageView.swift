@@ -202,6 +202,7 @@ struct FoundNotFoundButtons: View {
                     SelectableCapsuleButton(
                         title: "Found",
                         isSelected: isFound,
+                        imageName: "checkmark",
                         action: { self.evaluator?.toggleProductFound(self.findableProduct) }
                     )
                     .layoutPriority(30)
@@ -215,6 +216,7 @@ struct FoundNotFoundButtons: View {
                     SelectableCapsuleButton(
                         title: "Not Found",
                         isSelected: isNotFound,
+                        imageName: "xmark",
                         action: { self.evaluator?.toggleProductNotFound(self.findableProduct) }
                     )
                     .layoutPriority(30)
@@ -230,25 +232,26 @@ struct FoundNotFoundButtons: View {
 struct SelectableCapsuleButton: View {
     let title: String
     let isSelected: Bool
+    let imageName: String
     let action: Action
     
     var body: some View {
         debugPrint("SelectableCapsuleButton body")
         return HStack(spacing: 0) {
-            Image(systemName: "checkmark")
+            Image(systemName: imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.white)
                 .frame(
                     width: self.isSelected ? 12 : 0,
                     height: self.isSelected ? 12 : 0)
-                .padding(EdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 0))
+                .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 0))
                 .animation( self.isSelected ? (.spring(response: 0.4, dampingFraction: 0.4, blendDuration: 0.825)) : .linear(duration: 0.2), value: self.isSelected)
                 .layoutPriority(30)
             Text(title)
                 .font(Font.system(.headline))
                 .foregroundColor( self.isSelected ? .white : .black)
-                .padding(EdgeInsets(top: 8, leading: (isSelected ? 8 : 4), bottom: 8, trailing: 18))
+                .padding(EdgeInsets(top: 10, leading: (isSelected ? 8 : 4), bottom: 10, trailing: 20))
                 .layoutPriority(31)
         }
         .layoutPriority(30)
@@ -277,17 +280,21 @@ struct DeliveryOptionView: View {
     
     var body: some View {
         debugPrint("make delivery option view. option: \(option). preference: \(preference)")
-        return HStack(alignment: .center, spacing: 10) {
-            Image(systemName: self.option == self.preference ? "checkmark.circle.fill" : "circle")
+        let isSelected = self.option == self.preference
+        return ZStack(alignment: .topLeading) {
+            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.black)
-                .frame(width: 18, height: 18)
-                .animation(.linear(duration: 0.2), value: self.preference)
+                .frame(width: isSelected ? 20.5 : 19.5, height: isSelected ? 20.5 : 19.5)
+                .animation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0), value: isSelected)
+                .offset(x: isSelected ? 19.5 : 20, y: isSelected ? -0.5 : 0)
+            
             Text(self.option)
                 .font(Font.headline)
+                .layoutPriority(20)
+                .offset(x: 50, y: 0)
         }
-        .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 0))
         .onTapGesture {
             self.evaluator?.toggleOption(self.option)
         }

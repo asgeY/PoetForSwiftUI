@@ -107,7 +107,7 @@ extension RetailTutorial.Translator {
         
         // Assign values to our observable page data
         pageData.title.string = "Order for \(configuration.customer)"
-        pageData.details.string = "\(configuration.findableProducts.count) \(pluralizedProduct(configuration.findableProducts.count)) requested"
+        pageData.details.string = "\(configuration.findableProducts.filter {$0.status == .found}.count) marked as found"
         pageData.instruction.string = "Find products for this order"
         pageData.instructionNumber.int = 2
         pageData.findableProducts.array = configuration.findableProducts
@@ -117,7 +117,10 @@ extension RetailTutorial.Translator {
         
         // Bottom button
         if let nextAction = configuration.nextAction {
-            bottomButtonAction.action = NamedEvaluatorAction(name: "Next", action: nextAction)
+            let name = {
+                nextAction == .advanceToCanceledStep ? "Cancel Order" : "Next"
+            }()
+            bottomButtonAction.action = NamedEvaluatorAction(name: name, action: nextAction)
         } else {
             bottomButtonAction.action = nil
         }
@@ -137,7 +140,7 @@ extension RetailTutorial.Translator {
         pageData.products.array = configuration.products
         
         // Say that only these things should appear in the body
-        displaySections([.title, .instruction, .details, .deliveryOptions, .products])
+        displaySections([.title, .instruction, .deliveryOptions, .details, .products])
         
         // Bottom button
         if let nextAction = configuration.nextAction {
@@ -153,7 +156,7 @@ extension RetailTutorial.Translator {
         
         // Assign values to our observable page data
         pageData.title.string = "Completed order for \(configuration.customer)"
-        pageData.instruction.string = "Customer will be waiting at: \(configuration.deliveryLocation)"
+        pageData.instruction.string = "Customer will be waiting at: \n\(configuration.deliveryLocation)"
         pageData.instructionNumber.int = 4
         pageData.products.array = configuration.products
         
@@ -174,7 +177,22 @@ extension RetailTutorial.Translator {
     // MARK: Canceled Step
     
     func showCanceled(_ configuration: Evaluator.CanceledConfiguration) {
+        // Assign values to our observable page data
+        pageData.title.string = "Canceled order for \(configuration.customer)"
+        pageData.instruction.string = "You're all set"
+        pageData.instructionNumber.int = 3
+        pageData.completedSummary.string =
+        """
+        Order canceled at \(configuration.timeCompleted).
+        0 products found.
+        Time to complete: \(configuration.elapsedTime) seconds.
+        """
         
+        // Say that only these things should appear in the body
+        displaySections([.title, .instruction, .completedSummary])
+        
+        // Bottom button
+        bottomButtonAction.action = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
     }
     
     func pluralizedProduct(_ count: Int) -> String {

@@ -33,7 +33,7 @@ extension RetailTutorial {
                     
                     // MARK: Title
                     
-                    Text("Retail Tutorial")
+                    Text("Retail Example")
                         .font(Font.subheadline.monospacedDigit().bold())
                         .layoutPriority(10)
                         .multilineTextAlignment(.center)
@@ -95,12 +95,39 @@ struct BottomButton: View {
     weak var evaluator: BottomButtonEvaluator?
     
     var body: some View {
-        Button(action: {
-            self.evaluator?.bottomButtonTapped(action: self.bottomButtonAction.action?.action)
-        }) {
-            Text(bottomButtonAction.action?.name ?? "")
-        }.opacity(
-            bottomButtonAction.action?.action != nil ? 1 : 0
-        )
+        GeometryReader() { geometry in
+            VStack {
+                Spacer()
+                Button(action: {
+                    self.evaluator?.bottomButtonTapped(action: self.bottomButtonAction.action?.action)
+                }) {
+                        
+                    Text(
+                        self.bottomButtonAction.action?.name ?? "")
+                        .animation(.none)
+                        .font(Font.headline)
+                        .foregroundColor(.white)
+                        .frame(width: geometry.size.width - 100)
+                        .padding(EdgeInsets(top: 14, leading: 18, bottom: 14, trailing: 18))
+                        .background(
+                            ZStack {
+                                BlurView()
+                                Rectangle()
+                                    .fill(Color.black.opacity(0.95))
+                            }
+                            .mask(
+                                Capsule()
+                            )
+                    )
+                    
+                }
+            }
+            
+            .opacity(
+                self.bottomButtonAction.action?.action == nil ? 0 : 1
+            )
+            .offset(x: 0, y: self.bottomButtonAction.action?.action == nil ? 150 : 0)
+                .animation(.spring(response: 0.35, dampingFraction: 0.7, blendDuration: 0), value: self.bottomButtonAction.action?.action == nil)
+        }
     }
 }

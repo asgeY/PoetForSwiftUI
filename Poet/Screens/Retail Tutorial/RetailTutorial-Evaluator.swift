@@ -26,6 +26,7 @@ extension RetailTutorial {
             case startOrder
             case advanceToDeliveryStep
             case advanceToCompletedStep
+            case advanceToCanceledStep
             case done
         }
         
@@ -34,13 +35,13 @@ extension RetailTutorial {
             id: "6398327",
             products: [
             Product(
-                title: "MacBook Pro 13” 2TB 8GB RAM",
+                title: "MacBook Pro 13” 1TB",
                 upc: "885909918161",
                 image: "macbookpro13",
                 location: "Bin 1A"),
             
             Product(
-                title: "MacBook Pro 13” 1TB",
+                title: "MacBook Pro 13” 2TB",
                 upc: "885909918162",
                 image: "macbookpro13",
                 location: "Bin 1B"),
@@ -149,7 +150,10 @@ extension RetailTutorial.Evaluator {
     
     struct CanceledConfiguration {
         var customer: String
-        var products: [Product]
+        var orderID: String
+        var timeCompleted: Date
+        var elapsedTime: TimeInterval
+        var doneAction: BottomButtonAction
     }
 }
 
@@ -191,6 +195,9 @@ extension RetailTutorial.Evaluator: BottomButtonEvaluator {
             
         case .advanceToCompletedStep:
             advanceToCompletedStep()
+            
+        case .advanceToCanceledStep:
+            advanceToCanceledStep()
             
         case .done:
             debugPrint("done")
@@ -258,6 +265,20 @@ extension RetailTutorial.Evaluator: BottomButtonEvaluator {
         
         current.step = .completed(newConfiguration)
     }
+    
+    func advanceToCanceledStep() {
+        guard case let .findProducts(configuration) = current.step else { return }
+        
+        let newConfiguration = CanceledConfiguration(
+            customer: configuration.customer,
+            orderID: configuration.orderID,
+            timeCompleted: Date(),
+            elapsedTime: abs(configuration.startTime.timeIntervalSinceNow),
+            doneAction: .done
+            )
+        
+        current.step = .canceled(newConfiguration)
+    }
 }
 
 // MARK: Finding Products Evaluator
@@ -323,7 +344,14 @@ extension RetailTutorial.Evaluator: FindingProductsEvaluator {
         }
         
         if ready {
-            configuration.nextAction = .advanceToDeliveryStep
+            let noneFound = configuration.findableProducts.allSatisfy { (findableProduct) -> Bool in
+                findableProduct.status == .notFound
+            }
+            if noneFound {
+                configuration.nextAction = .advanceToCanceledStep
+            } else {
+                configuration.nextAction = .advanceToDeliveryStep
+            }
         } else {
             configuration.nextAction = nil
         }

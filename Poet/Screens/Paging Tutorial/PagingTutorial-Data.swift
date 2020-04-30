@@ -46,7 +46,7 @@ class PagingTutorialDataStore {
             .text("The Evaluator is the business logic decision-maker. It maintains what we might call ”business state.”"),
             .subtitle("Translator"),
             .text("The Translator interprets the intent of the Evaluator and turns it into observable and passable ”display state.”"),
-            .text("Many patterns mingle business state and display state in a single, flat object — from there, it's straight to the view layer. The Evaluator/Translator pattern is different: it offers a helpful distinction between the business and display phases of reasoning, so they may take place sequentially on two separate layers."),
+            .text("Many patterns mingle business state and display state in a single, flat object — from there, it's straight to the view layer. The Evaluator/Translator pattern differs by offering a helpful distinction between the business and display phases of reasoning, so they may take place sequentially on two separate layers."),
             .subtitle("Screen"),
             .text("The Screen recognizes when display state has changed and remakes any nested views accordingly."),
             .text("That's good enough for now. ⃰ Next up, we'll get into some particulars by thinking about the screen you're looking at right now."),

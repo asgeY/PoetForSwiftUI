@@ -20,7 +20,7 @@ extension Menu {
         enum Item: String, CaseIterable, Identifiable, ListEvaluatorItem{
             case intro = "Intro"
             case pager = "Paging Tutorial"
-            case retail = "Retail Tutorial"
+            case retail = "Retail Example"
             
             var id: String {
                 return self.name
