@@ -14,10 +14,10 @@ extension Menu {
         
         // Translator
         
-        let translator: Translator = Translator()
+        lazy var translator: Translator = Translator(items)
         
         // Data
-        enum Item: String, CaseIterable, Identifiable, ListEvaluatorItem{
+        enum Item: String, CaseIterable, Identifiable, ListEvaluatorItem {
             case intro = "Intro"
             case pager = "Paging Tutorial"
             case retail = "Retail Example"
@@ -29,21 +29,28 @@ extension Menu {
             var name: String {
                 return self.rawValue
             }
-            
         }
+        
+        var items = PassableArray<ListEvaluatorItem>()
     }
 }
 
-// MARK: Private methods for manipulating state
+// MARK: View Cycle
 
+extension Menu.Evaluator: ViewCycleEvaluator {
+    func viewDidAppear() {
+        items.array = Item.allCases
+    }
+}
 
-
-// MARK: Evaluating Methods
+// MARK: Navigation
 
 extension Menu.Evaluator: ListEvaluator {
     
     // MARK: Note: NavigationLink currently calls this method for each screen as soon as Menu.Screen is loaded.
     // I will wait until SwiftUI 2.0 in June before I decide to optimize this behavior.
+    // It doesn't load the bodies of those nested views, so it's harmless, at least in this case.
+    
     func destination(for item: ListEvaluatorItem) -> AnyView? {
         guard let item = item as? Item else {
             return nil
@@ -57,11 +64,5 @@ extension Menu.Evaluator: ListEvaluator {
         case .retail:
             return AnyView(RetailTutorial.Screen())
         }
-    }
-}
-
-extension Menu.Evaluator: ViewCycleEvaluator {
-    func viewDidAppear() {
-        translator.show(items: Item.allCases)
     }
 }

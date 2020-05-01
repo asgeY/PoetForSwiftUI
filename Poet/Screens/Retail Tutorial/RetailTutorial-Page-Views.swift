@@ -1,143 +1,27 @@
 //
-//  RetailTutorialPageView.swift
+//  RetailTutorial-Page-Views.swift
 //  Poet
 //
-//  Created by Stephen E Cotner on 4/29/20.
+//  Created by Steve Cotner on 5/1/20.
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
-import SwiftUI
 import Combine
-
-protocol FindingProductsEvaluator: class {
-    func toggleProductFound(_ product: FindableProduct)
-    func toggleProductNotFound(_ product: FindableProduct)
-}
-
-protocol OptionsEvaluator: class {
-    func toggleOption(_ option: String)
-}
-
-struct RetailTutorialPageView: View {
-    @ObservedObject var pageSections: ObservableArray<RetailTutorial.Page.Section>
-    @ObservedObject var title: ObservableString
-    @ObservedObject var details: ObservableString
-    @ObservedObject var instruction: ObservableString
-    @ObservedObject var instructionNumber: ObservableInt
-    @ObservedObject var products: ObservableArray<Product>
-    @ObservedObject var findableProducts: ObservableArray<FindableProduct>
-    @ObservedObject var deliveryOptions: ObservableArray<String>
-    @ObservedObject var deliveryPreference: ObservableString
-    @ObservedObject var completedSummary: ObservableString
-    
-    weak var findingProductsEvaluator: FindingProductsEvaluator?
-    weak var optionsEvaluator: OptionsEvaluator?
-    
-    func view(for element: RetailTutorial.Page.Section) -> AnyView {
-        switch element {
-            
-        case .title:
-            return AnyView(
-                Text(title.string)
-                    .font(Font.system(size: 28, weight: .bold))
-                    .multilineTextAlignment(.leading)
-                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 30, trailing: 80))
-            )
-            
-        case .details:
-            return AnyView(
-                Text(details.string)
-                    .font(Font.system(.headline))
-                    .opacity(0.33)
-                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 18, trailing: 20))
-            )
-            
-        case .instruction:
-            return AnyView(
-                InstructionView(instructionNumber: instructionNumber.int, instruction: instruction.string)
-                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 18, trailing: 20))
-            )
-         
-        case .products:
-            return AnyView(
-                VStack(alignment: .leading, spacing: 40) {
-                    ForEach(products.array, id: \.upc) { product in
-                        ProductView(product: product)
-                    }
-                }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
-            )
-            
-        case .findableProducts:
-            return AnyView(
-                VStack(alignment: .leading, spacing: 40) {
-                    ForEach(findableProducts.array, id: \.product.upc) { product in
-                        FindableProductView(findableProduct: product, evaluator: self.findingProductsEvaluator)
-                    }
-                }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
-            )
-            
-        case .deliveryOptions:
-            return AnyView(
-                VStack(alignment: .leading, spacing: 16) {
-                    ForEach(deliveryOptions.array, id: \.self) { option in
-                        DeliveryOptionView(option: option, preference: self.deliveryPreference.string, evaluator: self.optionsEvaluator)
-                    }
-                }
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
-            )
-            
-        case .completedSummary:
-            return AnyView(
-                Text(completedSummary.string)
-                .font(Font.system(.headline))
-                .multilineTextAlignment(.leading)
-                .opacity(0.33)
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-            )
-        }
-    }
-    
-    var body: some View {
-        debugPrint("make Retail Tutorial Page View")
-        if self.pageSections.array.isEmpty {
-            return AnyView(EmptyView())
-        } else {
-            return AnyView(
-                VStack() {
-                    List(pageSections.array, id: \.id) { element in
-                        VStack {
-                            self.view(for: element)
-                            if self.pageSections.array.firstIndex(of: element) == self.pageSections.array.count - 1 {
-                                Spacer().frame(height:44)
-                            }
-                        }
-                    }
-                        .onAppear() {
-                            UITableView.appearance().showsVerticalScrollIndicator = false
-                            UITableView.appearance().separatorStyle = .none
-                        }
-                    Spacer()
-                }
-            )
-        }
-    }
-}
+import SwiftUI
 
 struct InstructionView: View {
-    var instructionNumber: Int
-    var instruction: String
+    @ObservedObject var instructionNumber: ObservableInt
+    @ObservedObject var instruction: ObservableString
     
     var body: some View {
         HStack(spacing: 0) {
-            Image(systemName: (instructionNumber <= 50) ? "\(instructionNumber).circle.fill" : ".circle.fill")
+            Image(systemName: (instructionNumber.int <= 50) ? "\(instructionNumber.int).circle.fill" : ".circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.black)
                 .frame(width: 21, height: 21)
                 .padding(.trailing, 17)
-            Text(instruction)
+            Text(instruction.string)
                 .font(.system(.headline))
                 .multilineTextAlignment(.leading)
         }
@@ -173,16 +57,30 @@ struct ProductView: View {
     }
 }
 
-struct FindableProductView: View {
-    let findableProduct: FindableProduct
+struct ProductsView: View {
+    @ObservedObject var products: ObservableArray<Product>
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 40) {
+            ForEach(products.array, id: \.upc) { product in
+                ProductView(product: product)
+            }
+        }
+    }
+}
+
+struct FindableProductsView: View {
+    @ObservedObject var findableProducts: ObservableArray<FindableProduct>
     weak var evaluator: FindingProductsEvaluator?
     
     var body: some View {
-        debugPrint("make findable product view")
-        
-        return VStack(alignment: .leading, spacing: 10) {
-            ProductView(product: findableProduct.product)
-            FoundNotFoundButtons(findableProduct: findableProduct, evaluator: evaluator)
+        return VStack(alignment: .leading, spacing: 40) {
+            ForEach(findableProducts.array, id: \.product.upc) { findableProduct in
+                return VStack(alignment: .leading, spacing: 10) {
+                    ProductView(product: findableProduct.product)
+                    FoundNotFoundButtons(findableProduct: findableProduct, evaluator: self.evaluator)
+                }
+            }
         }
     }
 }
@@ -272,7 +170,21 @@ struct SelectableCapsuleButton: View {
     }
 }
 
-struct DeliveryOptionView: View {
+struct OptionsView: View {
+    @ObservedObject var options: ObservableArray<String>
+    @ObservedObject var preference: ObservableString
+    weak var evaluator: OptionsEvaluator?
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            ForEach(options.array, id: \.self) { option in
+                OptionView(option: option, preference: self.preference.string, evaluator: self.evaluator)
+            }
+        }
+    }
+}
+
+struct OptionView: View {
     let option: String
     let preference: String
     weak var evaluator: OptionsEvaluator?

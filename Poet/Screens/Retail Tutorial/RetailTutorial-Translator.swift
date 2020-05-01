@@ -14,12 +14,24 @@ extension RetailTutorial {
         
         typealias Evaluator = RetailTutorial.Evaluator
         
-        // Observable state
-        var pageSections = ObservableArray<Page.Section>([])
-        var pageData = PageData()
+        // OBSERVABLE STATE
+        
+        // Page
+        var sections = ObservableArray<ObservingPageSection>([])
+        var title = ObservableString()
+        var details = ObservableString()
+        var instruction = ObservableString()
+        var instructionNumber = ObservableInt()
+        var deliveryOptions = ObservableArray<String>([])
+        var deliveryPreference = ObservableString()
+        var products: ObservableArray<Product> = ObservableArray<Product>([])
+        var findableProducts: ObservableArray<FindableProduct> = ObservableArray<FindableProduct>([])
+        var completedSummary = ObservableString()
+        
+        // Bottom Button
         var bottomButtonAction: ObservableNamedEvaluatorAction = ObservableNamedEvaluatorAction()
         
-        // Translating protocols
+        // Composed Translating
         var alertTranslator = AlertTranslator()
         var bezelTranslator = BezelTranslator()
         
@@ -31,21 +43,6 @@ extension RetailTutorial {
                 self.translate(step: value)
             }
         }
-    }
-}
-
-// Display State Data Types {
-extension RetailTutorial.Translator {
-    class PageData {
-        var title = ObservableString()
-        var details = ObservableString()
-        var instruction = ObservableString()
-        var instructionNumber = ObservableInt()
-        var deliveryOptions = ObservableArray<String>([])
-        var deliveryPreference = ObservableString()
-        var products: ObservableArray<Product> = ObservableArray<Product>([])
-        var findableProducts: ObservableArray<FindableProduct> = ObservableArray<FindableProduct>([])
-        var completedSummary = ObservableString()
     }
 }
 
@@ -77,7 +74,7 @@ extension RetailTutorial.Translator {
     // MARK: Loading Step
     
     func showLoading() {
-        pageSections.array = []
+        sections.array = []
     }
     
     // MARK: Not Started Step
@@ -87,12 +84,11 @@ extension RetailTutorial.Translator {
         let pluralizedProduct = configuration.products.count == 1 ? "product" : "products"
         
         // Assign values to our observable page data
-        pageData.title.string = "Order for \(configuration.customer)"
-        pageData.details.string = "\(configuration.products.count) \(pluralizedProduct) requested"
-        pageData.instruction.string = "Tap start to claim this order"
-        pageData.instructionNumber.int = 1
-        pageData.products.array.removeAll()
-        pageData.products.array.append(contentsOf: configuration.products)
+        title.string = "Order for \(configuration.customer)"
+        details.string = "\(configuration.products.count) \(pluralizedProduct) requested"
+        instruction.string = "Tap start to claim this order"
+        instructionNumber.int = 1
+        products.array = configuration.products
         
         // Say that only these things should appear in the body
         displaySections([.title, .instruction, .details, .products])
@@ -106,11 +102,11 @@ extension RetailTutorial.Translator {
     func showFindingProducts(_ configuration: Evaluator.FindProductsConfiguration) {
         
         // Assign values to our observable page data
-        pageData.title.string = "Order for \(configuration.customer)"
-        pageData.details.string = "\(configuration.findableProducts.filter {$0.status == .found}.count) marked as found"
-        pageData.instruction.string = "Find products for this order"
-        pageData.instructionNumber.int = 2
-        pageData.findableProducts.array = configuration.findableProducts
+        title.string = "Order for \(configuration.customer)"
+        details.string = "\(configuration.findableProducts.filter {$0.status == .found}.count) marked as found"
+        instruction.string = "Find products for this order"
+        instructionNumber.int = 2
+        findableProducts.array = configuration.findableProducts
         
         // Say that only these things should appear in the body
         displaySections([.title, .instruction, .details, .findableProducts])
@@ -131,13 +127,13 @@ extension RetailTutorial.Translator {
     func showDeliveryOptions(_ configuration: Evaluator.ChooseDeliveryLocationConfiguration) {
         
         // Assign values to our observable page data
-        pageData.title.string = "Order for \(configuration.customer)"
-        pageData.details.string = "\(configuration.products.count) of \(configuration.numberOfProductsRequested) \(pluralizedProduct(configuration.numberOfProductsRequested)) found"
-        pageData.instruction.string = "Choose a Delivery Location"
-        pageData.instructionNumber.int = 3
-        pageData.deliveryOptions.array = configuration.deliveryLocationChoices
-        pageData.deliveryPreference.string = configuration.deliveryLocationPreference ?? ""
-        pageData.products.array = configuration.products
+        title.string = "Order for \(configuration.customer)"
+        details.string = "\(configuration.products.count) of \(configuration.numberOfProductsRequested) \(pluralizedProduct(configuration.numberOfProductsRequested)) found"
+        instruction.string = "Choose a Delivery Location"
+        instructionNumber.int = 3
+        deliveryOptions.array = configuration.deliveryLocationChoices
+        deliveryPreference.string = configuration.deliveryLocationPreference ?? ""
+        products.array = configuration.products
         
         // Say that only these things should appear in the body
         displaySections([.title, .instruction, .deliveryOptions, .details, .products])
@@ -155,12 +151,12 @@ extension RetailTutorial.Translator {
     func showCompleted(_ configuration: Evaluator.CompletedConfiguration) {
         
         // Assign values to our observable page data
-        pageData.title.string = "Completed order for \(configuration.customer)"
-        pageData.instruction.string = "Customer will be waiting at: \n\(configuration.deliveryLocation)"
-        pageData.instructionNumber.int = 4
-        pageData.products.array = configuration.products
+        title.string = "Completed order for \(configuration.customer)"
+        instruction.string = "Customer will be waiting at: \n\(configuration.deliveryLocation)"
+        instructionNumber.int = 4
+        products.array = configuration.products
         
-        pageData.completedSummary.string =
+        completedSummary.string =
         """
         Order completed at \(configuration.timeCompleted).
         \(configuration.products.count) \(pluralizedProduct(configuration.products.count)) found.
@@ -178,10 +174,10 @@ extension RetailTutorial.Translator {
     
     func showCanceled(_ configuration: Evaluator.CanceledConfiguration) {
         // Assign values to our observable page data
-        pageData.title.string = "Canceled order for \(configuration.customer)"
-        pageData.instruction.string = "You're all set"
-        pageData.instructionNumber.int = 3
-        pageData.completedSummary.string =
+        title.string = "Canceled order for \(configuration.customer)"
+        instruction.string = "You're all set"
+        instructionNumber.int = 3
+        completedSummary.string =
         """
         Order canceled at \(configuration.timeCompleted).
         0 products found.
@@ -200,9 +196,11 @@ extension RetailTutorial.Translator {
     }
     
     // MARK: Sections
-    func displaySections(_ sections: [RetailTutorial.Page.Section]) {
-        if pageSections.array != sections {
-            self.pageSections.array = sections
+    func displaySections(_ newSections: [RetailTutorial.Page.Section]) {
+        if let existingSections = self.sections.array as? [RetailTutorial.Page.Section] {
+            if existingSections != newSections {
+                self.sections.array = newSections
+            }
         }
     }
     

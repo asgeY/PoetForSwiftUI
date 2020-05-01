@@ -42,19 +42,21 @@ extension RetailTutorial {
                     
                     // MARK: Page View
                     
-                    RetailTutorialPageView(
-                        pageSections: self.translator.pageSections,
-                        title: self.translator.pageData.title,
-                        details: self.translator.pageData.details,
-                        instruction: self.translator.pageData.instruction,
-                        instructionNumber: self.translator.pageData.instructionNumber,
-                        products: self.translator.pageData.products,
-                        findableProducts: self.translator.pageData.findableProducts,
-                        deliveryOptions: self.translator.pageData.deliveryOptions,
-                        deliveryPreference: self.translator.pageData.deliveryPreference,
-                        completedSummary: self.translator.pageData.completedSummary,
-                        findingProductsEvaluator: evaluator,
-                        optionsEvaluator: evaluator)
+                    ObservingPageView(
+                        sections: self.translator.sections,
+                        viewMaker: PageViewMaker(
+                            title: translator.title,
+                            details: translator.details,
+                            instruction: translator.instruction,
+                            instructionNumber: translator.instructionNumber,
+                            products: translator.products,
+                            findableProducts: translator.findableProducts,
+                            deliveryOptions: translator.deliveryOptions,
+                            deliveryPreference: translator.deliveryPreference,
+                            completedSummary: translator.completedSummary,
+                            findingProductsEvaluator: evaluator,
+                            optionsEvaluator: evaluator)
+                    )
                         .layoutPriority(10)
                     
                 }

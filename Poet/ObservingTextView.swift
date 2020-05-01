@@ -15,10 +15,10 @@ struct ObservingTextView: View {
     let alignment: TextAlignment
     
     var body: some View {
-        Text(self.text.string)
-        .lineLimit(nil)
-        .font(font)
-        .multilineTextAlignment(alignment)
+        return Text(self.text.string)
+            .lineLimit(nil)
+            .font(font)
+            .multilineTextAlignment(alignment)
     }
 }
 

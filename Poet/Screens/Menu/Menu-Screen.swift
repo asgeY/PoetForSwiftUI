@@ -11,9 +11,18 @@ import SwiftUI
 struct Menu {}
 
 extension Menu {
+
     struct Screen: View {
-        let evaluator: Menu.Evaluator
-        let translator: Menu.Translator
+        
+        private let _evaluator: Evaluator
+        weak var evaluator: Evaluator?
+        let translator: Translator
+        
+        init() {
+            _evaluator = Evaluator()
+            evaluator = _evaluator
+            translator = _evaluator.translator
+        }
         
         /*
          Why no @ObservedObjects here?
@@ -25,23 +34,26 @@ extension Menu {
          Once I'm better at SwiftUI, I'll wrap a Text view better, so all of its view modifiers can be called on the wrapper.
          */
         
-        init() {
-            self.evaluator = Evaluator()
-            self.translator = evaluator.translator
-        }
-        
         @State var isNavigationBarHidden: Bool = true
         
         var body: some View {
             NavigationView {
-                VStack {
+                VStack(alignment: .leading) {
                     Spacer()
-                        .frame(height: 20)
+                        .frame(height: 30)
+                    
+                    // Title
+                    
                     Text("The Poet Pattern\nfor SwiftUI")
-                        .font(Font.system(size: 24, weight: .semibold, design: .default))
-                        .multilineTextAlignment(.center)
-                        .layoutPriority(2)
-                    MenuItemList(items: translator.observable.items, evaluator: evaluator)
+                        .font(Font.system(size: 32, weight: .bold, design: .default))
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(nil)
+                        .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+                        .layoutPriority(20)
+                    
+                    // List
+                    
+                    MenuItemList(items: translator.items, evaluator: evaluator)
                         .layoutPriority(1)
                         .padding(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
                         .onAppear {
@@ -50,7 +62,7 @@ extension Menu {
                     }
                     Spacer()
                 }.onAppear() {
-                    self.evaluator.viewDidAppear()
+                    self.evaluator?.viewDidAppear()
                     self.isNavigationBarHidden = true
                 }
                 .navigationBarTitle("", displayMode: .inline)
@@ -70,17 +82,20 @@ struct MenuItemList: View {
     @ObservedObject var items: ObservableArray<ListEvaluatorItem>
     weak var evaluator: ListEvaluator?
     
-    init(items: ObservableArray<ListEvaluatorItem>, evaluator: ListEvaluator?) {
-        self.items = items
-        self.evaluator = evaluator
-    }
-    
     var body: some View {
-        List(items.array, id: \.id) { item in
-            NavigationLink(destination: self.evaluator?.destination(for: item)) {
-                Text(item.name)
-                    .font(Font.headline)
-            }
+        if self.items.array.isEmpty {
+            return AnyView(EmptyView())
+        } else {
+            return AnyView(
+                VStack {
+                    List(self.items.array, id: \.id) { item in
+                        NavigationLink(destination: self.evaluator?.destination(for: item)) {
+                            Text(item.name)
+                                .font(Font.headline)
+                        }
+                    }
+                }
+            )
         }
     }
 }

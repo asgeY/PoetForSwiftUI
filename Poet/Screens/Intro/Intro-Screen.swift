@@ -12,12 +12,11 @@ struct Intro {}
 
 extension Intro {
     struct Screen: View {
-        let _evaluator: Intro.Evaluator
+        private let _evaluator: Intro.Evaluator
         weak var evaluator: Intro.Evaluator?
         let translator: Intro.Translator
         
         init() {
-            debugPrint("init Intro Screen")
             _evaluator = Evaluator()
             evaluator = _evaluator
             translator = _evaluator.translator
@@ -26,7 +25,8 @@ extension Intro {
         @State var navBarHidden: Bool = true
         
         var body: some View {
-            GeometryReader() { geometry in
+            debugPrint("Intro body")
+            return GeometryReader() { geometry in
                 ZStack {
                     VStack {
                         BackButton()

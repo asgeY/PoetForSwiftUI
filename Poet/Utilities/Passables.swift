@@ -31,7 +31,7 @@ class PassableArray<T>: ObservableObject {
     var subject = PassthroughSubject<[T]?, Never>()
     var array: [T]? {
         willSet {
-            subject.send(array)
+            subject.send(newValue)
         }
     }
 }

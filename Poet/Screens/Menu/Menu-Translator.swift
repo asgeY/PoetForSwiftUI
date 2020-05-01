@@ -14,23 +14,17 @@ extension Menu {
         typealias Evaluator = Menu.Evaluator
         
         // Observable state
-        struct Observable {
-            var items = ObservableArray<ListEvaluatorItem>(Evaluator.Item.allCases)
+        var items = ObservableArray<ListEvaluatorItem>([])
+        
+        // Behavior
+        var behavior: Behavior?
+        
+        init(_ items: PassableArray<ListEvaluatorItem>) {
+            self.behavior = items.subject.sink(receiveValue: { (value) in
+                if let value = value {
+                    self.items.array = value
+                }
+            })
         }
-        var observable = Observable()
-    }
-}
-
-// MARK: Translating Methods
-
-/*
- Here we translate the expressed intent of the evaluator
- into state that our views can listen to: observables and passables
- */
-
-extension Menu.Translator {
-    
-    func show(items: [Evaluator.Item]) {
-        observable.items.array = items
     }
 }
