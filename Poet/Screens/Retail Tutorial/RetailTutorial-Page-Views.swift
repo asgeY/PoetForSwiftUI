@@ -14,16 +14,18 @@ struct InstructionView: View {
     @ObservedObject var instruction: ObservableString
     
     var body: some View {
-        HStack(spacing: 0) {
+        ZStack(alignment: .topLeading) {
             Image(systemName: (instructionNumber.int <= 50) ? "\(instructionNumber.int).circle.fill" : ".circle.fill")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.black)
-                .frame(width: 21, height: 21)
-                .padding(.trailing, 17)
+                .frame(width: 24, height: 24)
+                .offset(x: 19.5, y: -1.5)
             Text(instruction.string)
-                .font(.system(.headline))
+                .font(Font.system(size: 18, weight: .bold).monospacedDigit())
                 .multilineTextAlignment(.leading)
+                .padding(.trailing, 80)
+                .offset(x: 60, y: 0)
         }
     }
 }
@@ -197,14 +199,15 @@ struct OptionView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.black)
-                .frame(width: isSelected ? 21.5 : 20, height: isSelected ? 21.5 : 20)
-                .animation(.spring(response: 0.275, dampingFraction: 0.275, blendDuration: 0), value: isSelected)
-                .offset(x: isSelected ? 19.25 : 20, y: isSelected ? -0.5 : 0)
+                .frame(width: isSelected ? 25 : 23, height: isSelected ? 25 : 23)
+                .animation(.spring(response: 0.25, dampingFraction: 0.25, blendDuration: 0), value: isSelected)
+                .offset(x: isSelected ? 19 : 20, y: isSelected ? -2 : -1)
             
             Text(self.option)
                 .font(Font.headline)
                 .layoutPriority(20)
-                .offset(x: 58, y: 0)
+                .padding(.trailing, 80)
+                .offset(x: 60, y: 0)
         }
         .onTapGesture {
             self.evaluator?.toggleOption(self.option)

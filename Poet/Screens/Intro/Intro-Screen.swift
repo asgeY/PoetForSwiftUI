@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct Intro {}
 
@@ -56,10 +57,7 @@ extension Intro {
                 .onAppear {
                     self.navBarHidden = true
                     self.evaluator?.viewDidAppear()
-                    UITableView.appearance().separatorStyle = .none
-                }
-                .onDisappear {
-                    UITableView.appearance().separatorStyle = .singleLine
+                    UITableView.appearance().separatorColor = .clear
                 }
                     
                 // MARK: Hide Navigation Bar
@@ -93,6 +91,18 @@ struct BackButton: View {
                     .foregroundColor(Color.black)
             }.padding(EdgeInsets.init(top: 16, leading: 24, bottom: 16, trailing: 22))
             Spacer()
+        }
+    }
+}
+
+struct DismissReceiver: View {
+    var translator: DismissTranslator
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    var body: some View {
+        Spacer().frame(width: 0.5, height: 0.5)
+            .onReceive(translator.dismiss.subject) { _ in
+                self.presentationMode.wrappedValue.dismiss()
         }
     }
 }

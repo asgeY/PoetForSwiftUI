@@ -80,3 +80,18 @@ extension BezelTranslating {
 struct BezelTranslator {
     var character = PassableString()
 }
+
+protocol DismissTranslating {
+    var dismissTranslator: DismissTranslator { get }
+    func dismiss()
+}
+
+extension DismissTranslating {
+    func dismiss() {
+        dismissTranslator.dismiss.please()
+    }
+}
+
+struct DismissTranslator {
+    var dismiss = PassablePlease()
+}

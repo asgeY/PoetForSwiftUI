@@ -126,7 +126,7 @@ struct PageBodyView: View {
                     .id(UUID()) // <-- this forces the list not to animate
                     .onAppear() {
                         UITableView.appearance().showsVerticalScrollIndicator = false
-                        UITableView.appearance().separatorStyle = .none
+                        UITableView.appearance().separatorColor = .clear
                     }
             )
         }

@@ -11,20 +11,22 @@ import SwiftUI
 
 struct ObservingTextView: View {
     @ObservedObject var text: ObservableString
-    let font: Font
-    let alignment: TextAlignment
+    var alignment: TextAlignment
+    
+    init(_ text: ObservableString, alignment: TextAlignment = .leading) {
+        self.text = text
+        self.alignment = alignment
+    }
     
     var body: some View {
         return Text(self.text.string)
-            .lineLimit(nil)
-            .font(font)
             .multilineTextAlignment(alignment)
     }
 }
 
 struct ObservingTextView_Previews: PreviewProvider {
     static var previews: some View {
-        ObservingTextView(text: ObservableString("Hello"), font: Font.body, alignment: .leading)
+        ObservingTextView(ObservableString("Hello"), alignment: .leading)
     }
 }
 

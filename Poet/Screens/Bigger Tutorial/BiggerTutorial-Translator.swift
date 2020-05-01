@@ -1,5 +1,5 @@
 //
-//  PagingTutorial-Translator.swift
+//  BiggerTutorial-Translator.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/24/20.
@@ -9,11 +9,11 @@
 import Combine
 import Foundation
 
-extension PagingTutorial {
+extension BiggerTutorial {
     
     class Translator: AlertTranslating, BezelTranslating {
         
-        typealias Evaluator = PagingTutorial.Evaluator
+        typealias Evaluator = BiggerTutorial.Evaluator
         
         // Observable state
         var isLeftButtonEnabled = ObservableBool(true)
@@ -42,7 +42,7 @@ extension PagingTutorial {
  into state that our views can listen to: observables and passables
  */
 
-extension PagingTutorial.Translator {
+extension BiggerTutorial.Translator {
     
     func translate(step: Evaluator.Step) {
         switch step {

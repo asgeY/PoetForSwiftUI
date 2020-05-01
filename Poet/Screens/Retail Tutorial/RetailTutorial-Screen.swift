@@ -65,6 +65,7 @@ extension RetailTutorial {
                     // MARK: Back Button
                     
                     BackButton()
+                    DismissReceiver(translator: translator.dismissTranslator)
                     Spacer()
                 }
                 VStack {
@@ -75,9 +76,10 @@ extension RetailTutorial {
                     BottomButton(bottomButtonAction: self.translator.bottomButtonAction, evaluator: evaluator)
                 }
             }.onAppear() {
-                self.evaluator?.viewDidAppear()
                 self.navBarHidden = false
                 self.navBarHidden = true
+                UITableView.appearance().separatorColor = .clear
+                self.evaluator?.viewDidAppear()
             }.onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 self.navBarHidden = false
                 self.navBarHidden = true

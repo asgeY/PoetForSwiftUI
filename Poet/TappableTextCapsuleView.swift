@@ -17,7 +17,8 @@ struct TappableTextCapsuleView: View {
         ButtonActionView(
             action: action.evaluate,
             content: AnyView(
-                ObservingTextView(text: text, font: Font.subheadline.monospacedDigit(), alignment: .center)
+                ObservingTextView(text, alignment: .center)
+                .font(Font.subheadline.monospacedDigit())
                 .padding(EdgeInsets(top: 10, leading: 14, bottom: 10, trailing: 14))
             )
         )

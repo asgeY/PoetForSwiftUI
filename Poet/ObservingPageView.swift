@@ -40,7 +40,7 @@ struct ObservingPageView: View {
                     }
                         .onAppear() {
                             UITableView.appearance().showsVerticalScrollIndicator = false
-                            UITableView.appearance().separatorStyle = .none
+                            UITableView.appearance().separatorColor = .clear
                         }
                     Spacer()
                 }

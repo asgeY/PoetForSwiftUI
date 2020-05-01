@@ -17,52 +17,49 @@ extension Menu {
         lazy var translator: Translator = Translator(items)
         
         // Data
-        enum Item: String, CaseIterable, Identifiable, ListEvaluatorItem {
-            case intro = "Intro"
-            case pager = "Paging Tutorial"
-            case retail = "Retail Example"
-            
-            var id: String {
-                return self.name
-            }
-            
-            var name: String {
-                return self.rawValue
-            }
-        }
         
-        var items = PassableArray<ListEvaluatorItem>()
+        var items = PassableArray<MenuListItem>()
     }
 }
 
 // MARK: View Cycle
 
 extension Menu.Evaluator: ViewCycleEvaluator {
+    
     func viewDidAppear() {
-        items.array = Item.allCases
-    }
-}
-
-// MARK: Navigation
-
-extension Menu.Evaluator: ListEvaluator {
-    
-    // MARK: Note: NavigationLink currently calls this method for each screen as soon as Menu.Screen is loaded.
-    // I will wait until SwiftUI 2.0 in June before I decide to optimize this behavior.
-    // It doesn't load the bodies of those nested views, so it's harmless, at least in this case.
-    
-    func destination(for item: ListEvaluatorItem) -> AnyView? {
-        guard let item = item as? Item else {
-            return nil
-        }
+        typealias Link = Menu.Link
+        typealias Title = Menu.Title
         
-        switch item {
-        case .intro:
-            return AnyView(Intro.Screen())
-        case .pager:
-            return AnyView(PagingTutorial.Screen())
-        case .retail:
-            return AnyView(RetailTutorial.Screen())
-        }
+        items.array = [
+            Link("Introduction",
+                 destination: { AnyView(Intro.Screen()) }),
+            
+            Link("The Smallest Tutorial",
+                 destination: { AnyView(Text("Coming soon...")) }),
+            
+            Link("A Bigger Tutorial",
+                 destination: { AnyView(BiggerTutorial.Screen()) }),
+            
+            Title("Retail Example"),
+            
+            Link("Retail Demo",
+                 destination: { AnyView(RetailTutorial.Screen()) }),
+            
+            Link("Observable Page View Tutorial",
+                 destination: { AnyView(Text("Coming soon...")) }),
+            
+            Title("Checklist Example"),
+            
+            Link("Checklist Demo",
+                 destination: { AnyView(Text("Coming soon...")) }),
+            
+            Link("Checklist Tutorial",
+                 destination: { AnyView(Text("Coming soon...")) }),
+            
+            Title("Little Helpers"),
+            
+            Link("Dismiss Receiver",
+                 destination: { AnyView(DismissReceiverExample.Screen()) })
+        ]
     }
 }

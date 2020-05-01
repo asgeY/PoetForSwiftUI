@@ -1,5 +1,5 @@
 //
-//  PagingTutorial-Evaluator.swift
+//  BiggerTutorial-Evaluator.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/24/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension PagingTutorial {
+extension BiggerTutorial {
     class Evaluator {
         
         // Translator
@@ -17,7 +17,7 @@ extension PagingTutorial {
         
         // Data
         
-        private var pages = PagingTutorialDataStore.shared.pages
+        private var pages = BiggerTutorialDataStore.shared.pages
         
         // Step
         
@@ -27,7 +27,7 @@ extension PagingTutorial {
 
 // MARK: Model
 
-extension PagingTutorial.Evaluator {
+extension BiggerTutorial.Evaluator {
     
     enum Step: EvaluatorStep {
         case loading
@@ -45,7 +45,7 @@ extension PagingTutorial.Evaluator {
 
 // MARK: Private methods for manipulating state
 
-extension PagingTutorial.Evaluator {
+extension BiggerTutorial.Evaluator {
     func showFirstPage() {
         let configuration = PageConfiguration(
             page: pages[0],
@@ -80,7 +80,7 @@ protocol EvaluatorStep {}
 
 // MARK: Button Handling
 
-extension PagingTutorial.Evaluator {
+extension BiggerTutorial.Evaluator {
     func leftAction() {
         decrementPage()
     }
@@ -127,7 +127,7 @@ extension PagingTutorial.Evaluator {
 
 // MARK: View Cycle
 
-extension PagingTutorial.Evaluator: ViewCycleEvaluator {
+extension BiggerTutorial.Evaluator: ViewCycleEvaluator {
     func viewDidAppear() {
         showFirstPage()
     }

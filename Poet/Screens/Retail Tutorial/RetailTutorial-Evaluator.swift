@@ -71,6 +71,8 @@ extension RetailTutorial {
                 location: "Bin 3B"),
             ]
         )
+        
+        @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     }
 }
 
@@ -200,7 +202,7 @@ extension RetailTutorial.Evaluator: BottomButtonEvaluator {
             advanceToCanceledStep()
             
         case .done:
-            debugPrint("done")
+            translator.dismissTranslator.dismiss.please()
         }
     }
     

@@ -14,12 +14,12 @@ extension Menu {
         typealias Evaluator = Menu.Evaluator
         
         // Observable state
-        var items = ObservableArray<ListEvaluatorItem>([])
+        var items = ObservableArray<MenuListItem>([])
         
         // Behavior
         var behavior: Behavior?
         
-        init(_ items: PassableArray<ListEvaluatorItem>) {
+        init(_ items: PassableArray<MenuListItem>) {
             self.behavior = items.subject.sink(receiveValue: { (value) in
                 if let value = value {
                     self.items.array = value

@@ -1,5 +1,5 @@
 //
-//  PagingTutorial-Screen.swift
+//  BiggerTutorial-Screen.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/24/20.
@@ -8,16 +8,16 @@
 
 import SwiftUI
 
-struct PagingTutorial {}
+struct BiggerTutorial {}
 
-extension PagingTutorial {
+extension BiggerTutorial {
     struct Screen: View {
-        let _evaluator: PagingTutorial.Evaluator
-        weak var evaluator: PagingTutorial.Evaluator?
-        let translator: PagingTutorial.Translator
+        let _evaluator: BiggerTutorial.Evaluator
+        weak var evaluator: BiggerTutorial.Evaluator?
+        let translator: BiggerTutorial.Translator
         
         init() {
-            debugPrint("init PagingTutorial Screen")
+            debugPrint("init BiggerTutorial Screen")
             _evaluator = Evaluator()
             evaluator = _evaluator
             translator = _evaluator.translator
@@ -42,7 +42,7 @@ extension PagingTutorial {
                             action: evaluator?.titleAction,
                             content:
                                 AnyView(
-                                Text("The Poet Pattern")
+                                Text("A Bigger Tutorial")
                                     .font(Font.subheadline.monospacedDigit().bold())
                                     .multilineTextAlignment(.center)
                                     .layoutPriority(10)
@@ -83,7 +83,7 @@ extension PagingTutorial {
                 
                 // MARK: Character Bezel
                 CharacterBezel(
-                    configuration: .init(character: self.translator.bezelTranslator.character))
+                    passableCharacter: translator.bezelTranslator.character)
                     .allowsHitTesting(false)
                 
                 // MARK: Page Number
@@ -111,10 +111,7 @@ extension PagingTutorial {
             .onAppear {
                 self.navBarHidden = true
                 self.evaluator?.viewDidAppear()
-                UITableView.appearance().separatorStyle = .none
-            }
-            .onDisappear {
-                UITableView.appearance().separatorStyle = .singleLine
+                UITableView.appearance().separatorColor = .clear
             }
             
             // MARK: Hide Navigation Bar
@@ -123,14 +120,14 @@ extension PagingTutorial {
             }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
                 self.navBarHidden = false
             }
-            .navigationBarTitle("PagingTutorial", displayMode: .inline)
+            .navigationBarTitle("BiggerTutorial", displayMode: .inline)
                 .navigationBarHidden(self.navBarHidden)
         }
     }
 }
 
-struct PagingTutorial_Screen_Previews: PreviewProvider {
+struct BiggerTutorial_Screen_Previews: PreviewProvider {
     static var previews: some View {
-        PagingTutorial.Screen()
+        BiggerTutorial.Screen()
     }
 }

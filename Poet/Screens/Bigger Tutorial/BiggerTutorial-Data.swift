@@ -1,5 +1,5 @@
 //
-//  PagingTutorial-Data.swift
+//  BiggerTutorial-Data.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/26/20.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-class PagingTutorialDataStore {
-    static let shared = PagingTutorialDataStore()
+class BiggerTutorialDataStore {
+    static let shared = BiggerTutorialDataStore()
     
     let pages: [Page] = [
         Page(body: [
-            .title("Paging Tutorial"),
+            .title("Paging"),
                 
             .text("You're looking at a simple screen that pages left and right. In learning how it's made, you'll be introduced to several building blocks of the Poet pattern, including:"),
             

@@ -40,7 +40,7 @@ extension Menu {
             NavigationView {
                 VStack(alignment: .leading) {
                     Spacer()
-                        .frame(height: 30)
+                        .frame(height: 32)
                     
                     // Title
                     
@@ -48,20 +48,22 @@ extension Menu {
                         .font(Font.system(size: 32, weight: .bold, design: .default))
                         .multilineTextAlignment(.leading)
                         .lineLimit(nil)
-                        .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+                        .padding(EdgeInsets(top: 0, leading: 40, bottom: 6, trailing: 40))
                         .layoutPriority(20)
                     
                     // List
                     
-                    MenuItemList(items: translator.items, evaluator: evaluator)
+                    MenuItemList(items: translator.items)
                         .layoutPriority(1)
-                        .padding(EdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24))
+                        .padding(EdgeInsets(top: 0, leading: 22, bottom: 0, trailing: 20))
                         .onAppear {
-                            UITableView.appearance().tableFooterView = UIView() // <-- this hides extra separators
-                            UITableView.appearance().separatorStyle = .none
+                            debugPrint("menu list did appear")
                     }
                     Spacer()
                 }.onAppear() {
+                    debugPrint("menu did appear")
+                    UITableView.appearance().tableFooterView = UIView() // <-- this hides extra separators
+                    UITableView.appearance().separatorColor = .clear
                     self.evaluator?.viewDidAppear()
                     self.isNavigationBarHidden = true
                 }
@@ -79,8 +81,7 @@ struct Menu_Screen_Previews: PreviewProvider {
 }
 
 struct MenuItemList: View {
-    @ObservedObject var items: ObservableArray<ListEvaluatorItem>
-    weak var evaluator: ListEvaluator?
+    @ObservedObject var items: ObservableArray<MenuListItem>
     
     var body: some View {
         if self.items.array.isEmpty {
@@ -89,22 +90,30 @@ struct MenuItemList: View {
             return AnyView(
                 VStack {
                     List(self.items.array, id: \.id) { item in
-                        NavigationLink(destination: self.evaluator?.destination(for: item)) {
-                            Text(item.name)
-                                .font(Font.headline)
-                        }
+                        return self.view(for: item)
                     }
                 }
             )
         }
     }
-}
-
-protocol ListEvaluatorItem {
-    var id: String { get }
-    var name: String { get }
-}
     
-protocol ListEvaluator: class {
-    func destination(for item: ListEvaluatorItem) -> AnyView?
+    func view(for item: MenuListItem) -> AnyView {
+        switch item.type {
+        case .title:
+            return AnyView(
+                Text(item.name)
+                    .font(Font.headline.bold())
+                    .opacity(0.33)
+                    .padding(EdgeInsets(top: 26, leading: 0, bottom: 6, trailing: 0))
+            )
+        
+        case .link:
+            return AnyView(
+                NavigationLink(destination: item.destination()) {
+                    Text(item.name)
+                        .font(Font.headline)
+                }
+            )
+        }
+    }
 }

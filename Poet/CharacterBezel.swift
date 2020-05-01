@@ -11,49 +11,22 @@ import SwiftUI
 
 struct CharacterBezel: View {
     
-    let configuration: Configuration
+    @State private var character: String = ""
+    @State private var opacity: Double = 0
     
-    class Configuration {
-        var character = ObservableString()
-        var opacity = ObservableDouble(0.0)
-        private var behavior: Behavior?
-        
-        enum Layout {
-            static var fullOpacity = 1.0
-            static var zeroOpacity = 0.0
-            static var fadeInDuration = 0.125
-            static var fadeOutWaitInMilliseconds = Int(fadeInDuration * 1000.0) + 500
-            static var fadeOutDuration = 0.7
-        }
-        
-        init(character: PassableString) {
-            self.behavior = character.subject.sink { value in
-                self.character.string = value ?? ""
-                withAnimation(.linear(duration: Layout.fadeInDuration)) {
-                    self.opacity.double = Layout.fullOpacity
-                }
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(Layout.fadeOutWaitInMilliseconds))) {
-                    withAnimation(.linear(duration: Layout.fadeOutDuration)) {
-                        self.opacity.double = Layout.zeroOpacity
-                    }
-                }
-            }
-        }
-    }
+    var passableCharacter: PassableString
     
-    var body: some View {
-        CharacterBezelWrapped(
-            character: configuration.character,
-            opacity: configuration.opacity)
-            .allowsHitTesting(false)
+    init(passableCharacter: PassableString) {
+        self.passableCharacter = passableCharacter
     }
-}
-
-struct CharacterBezelWrapped: View {
-    @ObservedObject var character: ObservableString
-    @ObservedObject var opacity: ObservableDouble
     
     enum Layout {
+        static var fullOpacity = 1.0
+        static var zeroOpacity = 0.0
+        static var fadeInDuration = 0.125
+        static var fadeOutWaitInMilliseconds = Int(fadeInDuration * 1000.0) + 500
+        static var fadeOutDuration = 0.7
+        
         static var verticalPadding: CGFloat = 30
         static var horizontalPadding: CGFloat = 38
         static var characterFontSize: CGFloat = 128
@@ -64,7 +37,7 @@ struct CharacterBezelWrapped: View {
     var body: some View {
         VStack {
             VStack {
-                Text(character.string)
+                Text(character)
                     .font(Font.system(size: Layout.characterFontSize))
                     .padding(EdgeInsets(
                         top: Layout.verticalPadding,
@@ -73,7 +46,6 @@ struct CharacterBezelWrapped: View {
                         trailing: Layout.horizontalPadding))
             }
             .background(
-                
                 ZStack {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(Color.white.opacity(0.9))
@@ -89,8 +61,20 @@ struct CharacterBezelWrapped: View {
                 }
                 
             )
-            
-            .opacity(opacity.double)
+        }
+        .opacity(opacity)
+            .onReceive(passableCharacter.subject) { (newValue) in
+                if let newValue = newValue {
+                    self.character = newValue
+                    withAnimation(.linear(duration: Layout.fadeInDuration)) {
+                        self.opacity = Layout.fullOpacity
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(Layout.fadeOutWaitInMilliseconds))) {
+                        withAnimation(.linear(duration: Layout.fadeOutDuration)) {
+                            self.opacity = Layout.zeroOpacity
+                        }
+                    }
+                }
         }
         .allowsHitTesting(false)
     }
@@ -98,7 +82,7 @@ struct CharacterBezelWrapped: View {
 
 struct CharacterBezel_Previews: PreviewProvider {
     static var previews: some View {
-        CharacterBezel(configuration: CharacterBezel.Configuration(character: PassableString()))
+        CharacterBezel(passableCharacter: PassableString())
     }
 }
 
