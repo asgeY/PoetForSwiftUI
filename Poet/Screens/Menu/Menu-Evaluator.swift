@@ -34,29 +34,29 @@ extension Menu.Evaluator: ViewCycleEvaluator {
             Link("Introduction",
                  destination: { AnyView(Intro.Screen()) }),
             
-            Link("The Smallest Tutorial",
-                 destination: { AnyView(Text("Coming soon...")) }),
+            Link("How does it work? — A Tutorial",
+                 destination: { AnyView(Simplest.Screen()) }),
             
-            Link("A Bigger Tutorial",
+            Link("Paging Demo and Tutorial",
                  destination: { AnyView(BiggerTutorial.Screen()) }),
             
-            Title("Retail Example"),
+//            Title("Retail Example"),
             
             Link("Retail Demo",
                  destination: { AnyView(RetailTutorial.Screen()) }),
             
-            Link("Observable Page View Tutorial",
-                 destination: { AnyView(Text("Coming soon...")) }),
+//            Link("Observable Page View Tutorial",
+//                 destination: { AnyView(Text("Coming soon...")) }),
             
-            Title("Checklist Example"),
+//            Title("Checklist Example"),
             
-            Link("Checklist Demo",
-                 destination: { AnyView(Text("Coming soon...")) }),
+//            Link("Checklist Demo",
+//                 destination: { AnyView(Text("Coming soon...")) }),
             
-            Link("Checklist Tutorial",
-                 destination: { AnyView(Text("Coming soon...")) }),
+//            Link("Checklist Tutorial",
+//                 destination: { AnyView(Text("Coming soon...")) }),
             
-            Title("Little Helpers"),
+//            Title("Little Helpers"),
             
             Link("Dismiss Receiver",
                  destination: { AnyView(DismissReceiverExample.Screen()) })

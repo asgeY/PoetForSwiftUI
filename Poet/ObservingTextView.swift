@@ -6,20 +6,22 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
-import Foundation
 import SwiftUI
 
 struct ObservingTextView: View {
     @ObservedObject var text: ObservableString
     var alignment: TextAlignment
+    var kerning: CGFloat
     
-    init(_ text: ObservableString, alignment: TextAlignment = .leading) {
+    init(_ text: ObservableString, alignment: TextAlignment = .leading, kerning: CGFloat = 0) {
         self.text = text
         self.alignment = alignment
+        self.kerning = kerning
     }
     
     var body: some View {
         return Text(self.text.string)
+            .kerning(kerning)
             .multilineTextAlignment(alignment)
     }
 }
@@ -29,4 +31,3 @@ struct ObservingTextView_Previews: PreviewProvider {
         ObservingTextView(ObservableString("Hello"), alignment: .leading)
     }
 }
-

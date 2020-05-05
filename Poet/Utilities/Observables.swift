@@ -19,14 +19,19 @@ class ObservableString: ObservableObject {
     }
 }
 
-class ObservableBool: ObservableObject {
+class ObservableBool: ObservableObject, Equatable {
     @Published var bool: Bool = false
+    
+    static func == (lhs: ObservableBool, rhs: ObservableBool) -> Bool {
+        return lhs.bool == rhs.bool
+    }
     
     init() {}
     
     init(_ bool: Bool) {
         self.bool = bool
     }
+    
 }
 
 class ObservableDouble: ObservableObject {

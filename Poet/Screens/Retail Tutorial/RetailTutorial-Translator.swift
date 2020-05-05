@@ -36,7 +36,7 @@ extension RetailTutorial {
         var bezelTranslator = BezelTranslator()
         var dismissTranslator = DismissTranslator()
         
-        // Behavior
+        // Passthrough Behavior
         var behavior: Behavior?
         
         init(_ step: PassableStep<Evaluator.Step>) {

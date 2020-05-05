@@ -51,6 +51,13 @@
 		87E7E43D245961B400047253 /* RetailTutorial-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7E43C245961B400047253 /* RetailTutorial-Evaluator.swift */; };
 		87E7E43F2459637900047253 /* RetailTutorial-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7E43E2459637900047253 /* RetailTutorial-Translator.swift */; };
 		87E7E441245964A100047253 /* RetailTutorial-Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7E440245964A100047253 /* RetailTutorial-Page.swift */; };
+		DC4C1114245DEE21009BC14D /* Template-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1113245DEE21009BC14D /* Template-Screen.swift */; };
+		DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */; };
+		DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1117245DEF9A009BC14D /* Template-Translator.swift */; };
+		DC4C111A245DF73B009BC14D /* ObservingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1119245DF73B009BC14D /* ObservingImageView.swift */; };
+		DC4C111E245DFF21009BC14D /* Simplest-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111D245DF9AA009BC14D /* Simplest-Screen.swift */; };
+		DC4C111F245DFF21009BC14D /* Simplest-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111B245DF9AA009BC14D /* Simplest-Evaluator.swift */; };
+		DC4C1120245DFF21009BC14D /* Simplest-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111C245DF9AA009BC14D /* Simplest-Translator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +119,13 @@
 		87E7E43C245961B400047253 /* RetailTutorial-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTutorial-Evaluator.swift"; sourceTree = "<group>"; };
 		87E7E43E2459637900047253 /* RetailTutorial-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTutorial-Translator.swift"; sourceTree = "<group>"; };
 		87E7E440245964A100047253 /* RetailTutorial-Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTutorial-Page.swift"; sourceTree = "<group>"; };
+		DC4C1113245DEE21009BC14D /* Template-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Screen.swift"; sourceTree = "<group>"; };
+		DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Evaluator.swift"; sourceTree = "<group>"; };
+		DC4C1117245DEF9A009BC14D /* Template-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Translator.swift"; sourceTree = "<group>"; };
+		DC4C1119245DF73B009BC14D /* ObservingImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservingImageView.swift; sourceTree = "<group>"; };
+		DC4C111B245DF9AA009BC14D /* Simplest-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Simplest-Evaluator.swift"; sourceTree = "<group>"; };
+		DC4C111C245DF9AA009BC14D /* Simplest-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Simplest-Translator.swift"; sourceTree = "<group>"; };
+		DC4C111D245DF9AA009BC14D /* Simplest-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Simplest-Screen.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +181,7 @@
 				875562B3244C253200DB49C4 /* AppDelegate.swift */,
 				875562B5244C253200DB49C4 /* SceneDelegate.swift */,
 				875562EA244D13F700DB49C4 /* Screens */,
+				DC4C1112245DEDF8009BC14D /* Poet Screen Template */,
 				8794A5FD245CB87700D41E4F /* Helpers */,
 				87E7E43A24595FF100047253 /* ObservingPageView.swift */,
 				875562F0244D34CE00DB49C4 /* LeftAndRightButtonView.swift */,
@@ -176,6 +191,7 @@
 				878B3A462453472300ACADE4 /* CharacterBezel.swift */,
 				878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */,
 				878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */,
+				DC4C1119245DF73B009BC14D /* ObservingImageView.swift */,
 				878B3A522453806700ACADE4 /* ButtonActionView.swift */,
 				878B3A4D245378C400ACADE4 /* Alert */,
 				875562EB244D142E00DB49C4 /* Utilities */,
@@ -210,6 +226,7 @@
 			children = (
 				87AC82752453B94C0090E443 /* Menu */,
 				87D299D32455162A003959C3 /* Intro */,
+				DC4C1111245DEDE5009BC14D /* Simplest Screen */,
 				872734992456B5F9009C39B5 /* Bigger Tutorial */,
 				87E7E43724595C6300047253 /* Retail Tutorial */,
 			);
@@ -288,6 +305,26 @@
 				3B6ACFE1245C29E700905DDB /* RetailTutorial-Page-Views.swift */,
 			);
 			path = "Retail Tutorial";
+			sourceTree = "<group>";
+		};
+		DC4C1111245DEDE5009BC14D /* Simplest Screen */ = {
+			isa = PBXGroup;
+			children = (
+				DC4C111D245DF9AA009BC14D /* Simplest-Screen.swift */,
+				DC4C111B245DF9AA009BC14D /* Simplest-Evaluator.swift */,
+				DC4C111C245DF9AA009BC14D /* Simplest-Translator.swift */,
+			);
+			path = "Simplest Screen";
+			sourceTree = "<group>";
+		};
+		DC4C1112245DEDF8009BC14D /* Poet Screen Template */ = {
+			isa = PBXGroup;
+			children = (
+				DC4C1113245DEE21009BC14D /* Template-Screen.swift */,
+				DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */,
+				DC4C1117245DEF9A009BC14D /* Template-Translator.swift */,
+			);
+			path = "Poet Screen Template";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -400,15 +437,19 @@
 				8794A606245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift in Sources */,
 				87E7E43F2459637900047253 /* RetailTutorial-Translator.swift in Sources */,
 				87AC827A2453BB3C0090E443 /* Menu-Evaluator.swift in Sources */,
+				DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */,
 				875562F5244D5FDB00DB49C4 /* Passables.swift in Sources */,
+				DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */,
 				8794A5FA245C343400D41E4F /* RetailTutorial-PageViewMaker.swift in Sources */,
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
+				DC4C111F245DFF21009BC14D /* Simplest-Evaluator.swift in Sources */,
 				8727349F2456B868009C39B5 /* BiggerTutorial-Evaluator.swift in Sources */,
 				878B3A51245378E300ACADE4 /* AlertView.swift in Sources */,
 				875562F1244D34CE00DB49C4 /* LeftAndRightButtonView.swift in Sources */,
 				8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */,
 				8794A5FC245C9FF200D41E4F /* Menu-Data.swift in Sources */,
 				875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */,
+				DC4C111A245DF73B009BC14D /* ObservingImageView.swift in Sources */,
 				87AC82792453BB3A0090E443 /* Menu-Screen.swift in Sources */,
 				872734A02456B868009C39B5 /* BiggerTutorial-Translator.swift in Sources */,
 				87AC827F2454CDE90090E443 /* Actions.swift in Sources */,
@@ -416,8 +457,10 @@
 				87D299DF24561B9B003959C3 /* Intro-Data.swift in Sources */,
 				8727349E2456B868009C39B5 /* BiggerTutorial-Screen.swift in Sources */,
 				87D299E324561D69003959C3 /* TappableTextCapsuleView.swift in Sources */,
+				DC4C1114245DEE21009BC14D /* Template-Screen.swift in Sources */,
 				87E7E43D245961B400047253 /* RetailTutorial-Evaluator.swift in Sources */,
 				87D299E124561D4E003959C3 /* PageBodyView.swift in Sources */,
+				DC4C1120245DFF21009BC14D /* Simplest-Translator.swift in Sources */,
 				878B3A472453472300ACADE4 /* CharacterBezel.swift in Sources */,
 				878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */,
 				8794A604245CB98600D41E4F /* DismissReceiverExample-Translator.swift in Sources */,
@@ -429,6 +472,7 @@
 				3B6ACFE2245C29E700905DDB /* RetailTutorial-Page-Views.swift in Sources */,
 				87E7E441245964A100047253 /* RetailTutorial-Page.swift in Sources */,
 				87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */,
+				DC4C111E245DFF21009BC14D /* Simplest-Screen.swift in Sources */,
 				878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
