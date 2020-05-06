@@ -24,7 +24,11 @@ extension Template {
         }
         
         var body: some View {
-            EmptyView()
+            VStack {
+                ObservingTextView(translator.greeting)
+            }.onAppear {
+                self.evaluator?.viewDidAppear()
+            }
         }
     }
 }

@@ -15,10 +15,10 @@ extension Template {
         typealias Evaluator = Template.Evaluator
         
         // Observable Display State
-        // ...
+        var greeting = ObservableString()
         
         // Passthrough Behavior
-        var behavior: Behavior?
+        private var behavior: Behavior?
         
         init(_ step: PassableStep<Evaluator.Step>) {
             behavior = step.subject.sink { value in
@@ -35,18 +35,17 @@ extension Template.Translator {
         case .loading:
             showLoadingStep()
             
-        case .stepA(let configuration):
-            showStepA(configuration)
+        case .greeting(let configuration):
+            showGreeting(configuration)
         }
     }
     
     func showLoadingStep() {
-        // Set observable display state
-        // ...
+        // nothing to see here
     }
     
-    func showStepA(_ configuration: Evaluator.StepAConfiguration) {
+    func showGreeting(_ configuration: Evaluator.GreetingStepConfiguration) {
         // Set observable display state
-        // ...
+        greeting.string = configuration.text
     }
 }

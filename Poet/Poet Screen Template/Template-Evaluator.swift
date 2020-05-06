@@ -14,7 +14,7 @@ extension Template {
         // Translator
         lazy var translator: Translator = Translator(current)
         
-        // Step       
+        // Current Step
         var current = PassableStep(Step.loading)
         
     }
@@ -23,15 +23,15 @@ extension Template {
 // Steps and Step Configurations
 extension Template.Evaluator {
     
+    // Steps
     enum Step: EvaluatorStep {
         case loading
-        case stepA(StepAConfiguration)
+        case greeting(GreetingStepConfiguration)
     }
     
     // Configurations
-    
-    struct StepAConfiguration {
-        //
+    struct GreetingStepConfiguration {
+        var text: String
     }
 }
 
@@ -39,16 +39,16 @@ extension Template.Evaluator {
 extension Template.Evaluator: ViewCycleEvaluator {
     
     func viewDidAppear() {
-        showStepA()
+        showGreetingStep()
     }
 }
 
 // Advancing Between Steps
 extension Template.Evaluator {
-    func showStepA() {
-        let configuration = StepAConfiguration(
-            //
+    func showGreetingStep() {
+        let configuration = GreetingStepConfiguration(
+            text: "Hello"
         )
-        current.step = Step.stepA(configuration)
+        current.step = Step.greeting(configuration)
     }
 }

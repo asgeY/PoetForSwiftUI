@@ -59,7 +59,10 @@ extension Menu.Evaluator: ViewCycleEvaluator {
 //            Title("Little Helpers"),
             
             Link("Dismiss Receiver",
-                 destination: { AnyView(DismissReceiverExample.Screen()) })
+                 destination: { AnyView(DismissReceiverExample.Screen()) }),
+            
+            Link("Template",
+                destination: { AnyView(Template.Screen()) })
         ]
     }
 }
