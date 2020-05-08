@@ -33,146 +33,188 @@ extension Simplest {
         var body: some View {
             debugPrint("simplest body")
             return ZStack {
-                Hideable(isShowing: self.translator.shouldShowAnything, transition: .opacity) {
                   
-                    VStack {
-                        Spacer()
-                        ZStack(alignment: .center) {
-                            VStack {
-                                    
-                                // Title
-                                Hideable(isShowing: self.translator.shouldShowTitle, transition: .opacity) // <-- observed
-                                {
-                                    HStack {
-                                        Spacer()
-                                        ChapterTitle(text: self.translator.title, number: self.translator.chapterNumber, shouldShowNumber: self.translator.shouldShowChapterNumber, isFocused: self.translator.shouldFocusOnTitle)
-                                        Spacer()
-                                    }
+                VStack {
+                    Spacer()
+                    ZStack(alignment: .center) {
+                        VStack {
+                                
+                            // MARK: Main Title
+                            
+                            Hideable(isShowing: self.translator.shouldShowMainTitle, transition: .opacity) // <-- observed
+                            {
+                                HStack {
+                                    Spacer()
+                                    MainTitle(text: self.translator.mainTitle)
                                     Spacer()
                                 }
+                                Spacer()
                             }
+                        }
+                        
+                        VStack {
+                                
+                            // MARK: Chapter Title
                             
-                            
-                            Hideable(isShowing: self.translator.shouldShowText, transition: .opacity) // <-- observed
+                            Hideable(isShowing: self.translator.shouldShowChapterTitle, transition: .opacity) // <-- observed
                             {
-                                // Page Count
-                                ZStack(alignment: .topLeading) {
+                                HStack {
+                                    Spacer()
+                                    ChapterTitle(text: self.translator.chapterTitle, number: self.translator.chapterNumber, shouldShowNumber: self.translator.shouldShowChapterNumber, isFocused: self.translator.shouldFocusOnChapterTitle)
+                                    Spacer()
+                                }
+                                Spacer()
+                            }
+                        }
+                        
+                        
+                        Hideable(isShowing: self.translator.shouldShowText, transition: .opacity) // <-- observed
+                        {
+                            // MARK: Page Count
+                            
+                            ZStack(alignment: .topLeading) {
+                                HStack {
+                                    Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
+                                        Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.rewindPage) }) {
+                                            Image(systemName: "chevron.compact.left")
+                                                .resizable()
+                                                .frame(width: 3.5, height: 9, alignment: .center)
+                                                .padding(EdgeInsets(top: 30, leading: 16, bottom: 30, trailing: 0))
+                                                .font(Font.system(size: 16, weight: .ultraLight))
+                                                .opacity(0.7)
+                                        }
+                                    }
+                                    Spacer().frame(width: 14)
                                     ObservingTextView(self.translator.pageXofX) // <-- observed
                                         .font(Font.caption.monospacedDigit())
                                         .opacity(0.85)
-                                        .offset(x: 0, y: -(Layout.boxSize / 2.0 + 24))
-                                }
-                                .fixedSize(horizontal: true, vertical: true)
-                                .frame(width: 100, height: 100)
-                            }
-                                    
-                            Hideable(isShowing: self.translator.shouldShowText, transition: .opacity) // <-- observed
-                            {
-                                ZStack(alignment: .topLeading) {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(
-                                            self.touchingDownOnBox ? Color.black.opacity(0.035) : Color.black.opacity(0.03)
-                                    )
-                                    VStack {
-                                        
-                                        // Page Text
-                                        
-    //                                    SwappableText(self.translator.text, kerning: -0.05, transition: .opacity)
-                                        ObservingTextView(self.translator.text, kerning: -0.05) // <-- observed
-    //                                        .font(Font.system(size: 16, weight: .medium))
-                                            .font(.headline)
-                                            .lineSpacing(4)
-                                            .padding(EdgeInsets(top: 20, leading: 20, bottom: 10, trailing: 20))
-                                            .blur(radius: self.touchingDownOnBox ? 0.25 : 0)
-                                            .opacity(self.touchingDownOnBox ? 0.33 : 1)
-                                        Spacer()
-                                    }
-                                }
-                                .frame(
-                                    width: Layout.boxSize,
-                                    height: Layout.boxSize)
-                                    
-                                    .fixedSize(horizontal: true, vertical: true)
-                                    .onTouchDownGesture {
-                                        debugPrint("touch")
-                                        withAnimation(.linear(duration: 0.15)) {
-                                            self.touchingDownOnBox = true
+                                    Spacer().frame(width: 14)
+                                    Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
+                                        Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.advancePage) }) {
+                                            Image(systemName: "chevron.compact.right")
+                                                .resizable()
+                                                .frame(width: 3.5, height: 9, alignment: .center)
+                                                .padding(EdgeInsets(top: 30, leading: 0, bottom: 30, trailing: 16))
+                                                .font(Font.system(size: 16, weight: .ultraLight))
+                                                .opacity(0.7)
                                         }
-                                }
-                                .onTouchUpGesture(width: Layout.boxSize, height: Layout.boxSize, cancelCallback: {
-                                    withAnimation(.linear(duration: 0.15)) {
-                                        self.touchingDownOnBox = false
                                     }
-                                }) {
-                                    debugPrint("touch up")
-                                    withAnimation(.linear(duration: 0.15)) {
-                                        self.touchingDownOnBox = false
-                                    }
-                                    self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.advancePage)
+                                }.offset(x: 0, y: -(Layout.boxSize / 2.0 + 24))
+                            }
+                            .fixedSize(horizontal: true, vertical: true)
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(Color.primary)
+                        }
+                                
+                        Hideable(isShowing: self.translator.shouldShowText, transition: .opacity) // <-- observed
+                        {
+                            ZStack(alignment: .topLeading) {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(
+                                        self.touchingDownOnBox ? Color.black.opacity(0.035) : Color.black.opacity(0.03)
+                                )
+                                VStack {
+                                    
+                                    // MARK: Page Text
+                                    
+//                                    SwappableText(self.translator.text, kerning: -0.05, transition: .opacity)
+                                    ObservingTextView(self.translator.text, kerning: -0.05) // <-- observed
+//                                        .font(Font.system(size: 16, weight: .medium))
+                                        .font(.headline)
+                                        .lineSpacing(4)
+                                        .padding(EdgeInsets(top: 20, leading: 20, bottom: 10, trailing: 20))
+                                        .blur(radius: self.touchingDownOnBox ? 0.25 : 0)
+                                        .opacity(self.touchingDownOnBox ? 0.33 : 1)
+                                    Spacer()
                                 }
                             }
-                            
-                            // Image
-                            Hideable(isShowing: self.translator.shouldShowImage, transition: .opacity) // <-- observed
-                            {
-                                ZStack(alignment: .center) {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.black.opacity(0.03))
-                                    
-                                    ObservingImageView(self.translator.imageName) // <-- observed
-                                        .font(Font.headline)
-                                        .frame(width: 130, height: 130)
-                                }
-                                .frame(width: Layout.boxSize, height: Layout.boxSize)
-                                    
+                            .frame(
+                                width: Layout.boxSize,
+                                height: Layout.boxSize)
+                                
+                                .fixedSize(horizontal: true, vertical: true)
+                                .onTouchDownGesture {
+                                    debugPrint("touch")
+                                    withAnimation(.linear(duration: 0.15)) {
+                                        self.touchingDownOnBox = true
+                                    }
                             }
-                            .onTapGesture {
-                                debugPrint("tap image")
-                                self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.advanceWorldImage)
+                            .onTouchUpGesture(width: Layout.boxSize, height: Layout.boxSize, cancelCallback: {
+                                withAnimation(.linear(duration: 0.15)) {
+                                    self.touchingDownOnBox = false
+                                }
+                            }) {
+                                debugPrint("touch up")
+                                withAnimation(.linear(duration: 0.15)) {
+                                    self.touchingDownOnBox = false
+                                }
+                                self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.advancePage)
                             }
                         }
-                        .frame(height: Layout.boxSize)
                         
-                        Spacer()
-                    }
-                    
-                    // Tap me
-                    
-                    HStack {
-                        Spacer()
-                        Hideable(isShowing: self.translator.shouldShowTapMe, transition: .asymmetric(insertion: AnyTransition.move(edge: .bottom), removal: .opacity))
+                        // MARK: Image
+                        
+                        Hideable(isShowing: self.translator.shouldShowImage, transition: .opacity) // <-- observed
                         {
-                            VStack {
-                                Image(systemName: "arrow.up")
-                                Text("Tap me")
+                            ZStack(alignment: .center) {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color.black.opacity(0.03))
+                                
+                                ObservingImageView(self.translator.imageName) // <-- observed
+                                    .font(Font.headline)
+                                    .frame(width: 130, height: 130)
                             }
-                            .font(Font.caption)
-                            .opacity(0.85)
-                            .padding(.top, 10)
+                            .frame(width: Layout.boxSize, height: Layout.boxSize)
+                                
                         }
-                        Spacer()
+                        .onTapGesture {
+                            debugPrint("tap image")
+                            self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.advanceWorldImage)
+                        }
                     }
-                    .offset(x: 0, y: Layout.boxSize / 2.0 + 30)
+                    .frame(height: Layout.boxSize)
                     
-                    // Button
-                    VStack {
-                        Spacer()
-                        Hideable(isShowing: self.translator.shouldShowButton, transition: .opacity)
-                        {
-                            ObservingButton(
-                                action: self.translator.buttonAction,
-                                evaluator: self.evaluator,
-                                label: {
-                                    ObservingTextView(self.translator.buttonName)
-                                        .font(Font.headline)
-                                        .foregroundColor(.white)
-                                        .padding(EdgeInsets(top: 12, leading: 18, bottom: 12, trailing: 18))
-                                        .background(Capsule().fill(Color.black.opacity(0.95)))
-                            })
-                        }
-                        .padding(.bottom, 36)
-                    }
+                    Spacer()
                 }
+                
+                // MARK: Tap me
+                
+                HStack {
+                    Spacer()
+                    Hideable(isShowing: self.translator.shouldShowTapMe, transition: .asymmetric(insertion: AnyTransition.move(edge: .bottom).combined(with: .opacity), removal: .opacity))
+                    {
+                        VStack {
+                            Image(systemName: "arrow.up")
+                            Text("Tap me")
+                        }
+                        .font(Font.caption)
+                        .opacity(0.85)
+                        .padding(.top, 10)
+                    }
+                    Spacer()
+                }
+                .offset(x: 0, y: Layout.boxSize / 2.0 + 30)
+                
+                // MARK: Button
+                
+                VStack {
+                    Spacer()
+                    Hideable(isShowing: self.translator.shouldShowButton, transition: .opacity)
+                    {
+                        ObservingButton(
+                            action: self.translator.buttonAction,
+                            evaluator: self.evaluator,
+                            label: {
+                                ObservingTextView(self.translator.buttonName)
+                                    .font(Font.headline)
+                                    .foregroundColor(.white)
+                                    .padding(EdgeInsets(top: 12, leading: 18, bottom: 12, trailing: 18))
+                                    .background(Capsule().fill(Color.black.opacity(0.95)))
+                        })
+                    }
+                    .padding(.bottom, 36)
+                }
+                
                 VStack {
                     
                     // MARK: Back Button
@@ -180,6 +222,28 @@ extension Simplest {
                     BackButton()
                     Spacer()
                 }
+                
+                VStack {
+                    
+                    HStack {
+                        Spacer()
+                        
+                        // MARK: Table of Contents Button
+                        
+                        Hideable(isShowing: self.translator.shouldShowTableOfContentsButton, transition: .opacity) {
+                            ObservingButton(action: self.translator.tableOfContentsAction, evaluator: self.evaluator) {
+                                Image(systemName: "list.bullet")
+                            }
+                            .foregroundColor(Color.primary)
+                            .padding(EdgeInsets.init(top: 16, leading: 22, bottom: 16, trailing: 24))
+                        }
+                    }
+                    Spacer()
+                }
+                
+                Hideable(isShowing: self.translator.shouldShowTableOfContents, transition: .move(edge: .bottom)) {
+                    TableOfContents(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
+                }.zIndex(2)
             }
             .onAppear {
                 self.evaluator?.viewDidAppear()
@@ -190,11 +254,29 @@ extension Simplest {
             // MARK: Hide Navigation Bar
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 self.navBarHidden = true
-            }.onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
-                self.navBarHidden = false
             }
-            .navigationBarTitle("BiggerTutorial", displayMode: .inline)
-                .navigationBarHidden(self.navBarHidden)
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarHidden(self.navBarHidden)
+        }
+    }
+}
+
+struct TableOfContents: View {
+    @ObservedObject var selectableChapterTitles: ObservableArray<NamedEvaluatorAction>
+    weak var evaluator: ButtonEvaluator?
+    
+    var body: some View {
+        VStack {
+            Spacer().frame(height:44)
+            Text("Table of Contents")
+                .font(Font.headline)
+            List(self.selectableChapterTitles.array, id: \.id) { item in
+                Text(item.name)
+                    .font(Font.subheadline.monospacedDigit())
+                    .onTapGesture {
+                        self.evaluator?.buttonTapped(action: item.action)
+                }
+            }.padding(.leading, 20)
         }
     }
 }
@@ -230,6 +312,21 @@ struct Hideable<Content>: View where Content : View {
                         content()
                     }
                 }
+            }
+        }
+    }
+}
+
+struct MainTitle: View {
+    @ObservedObject var text: ObservableString
+    
+    var body: some View {
+        GeometryReader() { geometry in
+            VStack {
+                ObservingTextView(self.text, alignment: .center, kerning: -0.05)
+                    .font(Font.system(size: 32, weight: .semibold).monospacedDigit())
+                    .opacity(0.85)
+                    .padding(.top, 5)
             }
         }
     }

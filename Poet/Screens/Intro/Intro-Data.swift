@@ -13,7 +13,8 @@ static let shared = IntroDataStore()
 
     let page: Page = Page(
         body: [
-            .title("What is Poet?"),
+            .space(20),
+            .largeTitle("What is Poet?"),
             .text("The Poet pattern is a complete approach to making iOS apps with SwiftUI, one screen at a time. Poet is an acronym:"),
                 
             .subtitle("Protocol-Oriented Evaluator Translator"),
@@ -35,11 +36,13 @@ static let shared = IntroDataStore()
             
             .text("Thanks for reading."),
                 
-            .signature(
+            .text(
                 """
                 Steve Cotner
                 Portland, Oregon
                 """),
+            
+            .text(""),
             
             .fineprint(
                 """

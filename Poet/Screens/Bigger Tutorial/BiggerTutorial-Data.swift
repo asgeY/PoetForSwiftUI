@@ -13,7 +13,7 @@ class BiggerTutorialDataStore {
     
     let pages: [Page] = [
         Page(body: [
-            .title("Paging"),
+            .largeTitle("Paging"),
                 
             .text("You're looking at a simple screen that pages left and right. In learning how it's made, you'll be introduced to several building blocks of the Poet pattern, including:"),
             
@@ -39,7 +39,7 @@ class BiggerTutorialDataStore {
         ),
         
         Page(body: [
-            .title("The Main Actors"),
+            .largeTitle("The Main Actors"),
             .text("Before we dive into particulars, here's a look at Poet's unidirectional flow:"),
             .image("poet-intro-small"),
             .subtitle("Evaluator"),
@@ -55,7 +55,7 @@ class BiggerTutorialDataStore {
         
         Page(
              body: [
-             .title("Observables"),
+             .largeTitle("Observables"),
              .text("The left and right arrows on this screen are views that have been injected with Actions, which are just methods that belong to the screen's Evaluator. The Evaluator implements an arrow's Action by updating its own state (a Step¹) and asking the Translator to interpret it:"),
                     
              .code(
@@ -88,7 +88,7 @@ class BiggerTutorialDataStore {
         
         Page(
              body: [
-            .title("ObservableString"),
+            .largeTitle("ObservableString"),
             .text("An ObservableString, for instance, is an ObservableObject that wraps a @Published String:"),
                 
             .code(
@@ -115,7 +115,7 @@ class BiggerTutorialDataStore {
         
         Page(
              body: [
-                .title("ObservableBool"),
+                .largeTitle("ObservableBool"),
                 .text("Likewise, ObservableBool wraps a @Published bool:"),
                     
                 .code(
@@ -140,7 +140,7 @@ class BiggerTutorialDataStore {
         
         Page(
              body: [
-                .title("Passables"),
+                .largeTitle("Passables"),
                 .text("If you tap the title ”The Poet Pattern” up above the text you're reading, the Evaluator asks the Translator to show a random emoji. The Screen then shows it inside a bezel. The Translator accomplishes this by updating an instance of PassableString, which is a class that wraps a PassthroughSubject:"),
                     
                 .code(
@@ -193,7 +193,7 @@ class BiggerTutorialDataStore {
         
         Page(
              body: [
-                .title("PassableString"),
+                .largeTitle("PassableString"),
                 .text("A Screen can respond to a change in a PassableString if a view is ready for it. In our case, the Screen's body contains a CharacterBezel view, which requires a Configuration to be initialized with the PassableString. During its initialization, the Configuration then creates a Behavior ⃰ (just a typealiased AnyCancellable) in which it modifies observed values that reside on itself. CharacterBezel wants a configuration object because, as an immutable struct, it should not modify its own values. Instead, it holds onto the configuration, which can modify its values as needed:"),
                 
                 .code(
@@ -260,7 +260,7 @@ class BiggerTutorialDataStore {
         
         Page(
              body: [
-                .title("AlertTranslating and AlertView"),
+                .largeTitle("AlertTranslating and AlertView"),
                 
                 .text("If you tap the page number at the bottom of this screen, you'll see an alert. Alerts are made easy by protocol-oriented translating. The Evaluator can call:"),
                 
@@ -301,7 +301,7 @@ class BiggerTutorialDataStore {
         
         Page(
             body: [
-            .title("Steps"),
+            .largeTitle("Steps"),
             
             .text("We've seen that things like Alerts and Bezels can be triggered imperatively, but we'll want to handle most updates in a completely declarative manner. We do that by setting state on the Evaluator. But more specifically, we do it by setting a ”Step”:"),
             
@@ -340,7 +340,7 @@ class BiggerTutorialDataStore {
         
         Page(
         body: [
-           .title("Translating Steps"),
+           .largeTitle("Translating Steps"),
            
            .text("By now we've seen the Passable/Behavior pattern. Here's what it looks like on the Translator:"),
             
@@ -409,7 +409,7 @@ class BiggerTutorialDataStore {
         
         Page(
              body: [
-                .title("Actions and Evaluators"),
+                .largeTitle("Actions and Evaluators"),
                 .text("When a Screen hands an Action to one of its nested views, it does so by referring to a weakly held Evaluator:"),
                 
                 .code(
@@ -444,7 +444,7 @@ class BiggerTutorialDataStore {
         
         Page(
             body: [
-                .title("Testing"),
+                .largeTitle("Testing"),
                 
                 .text("In the Poet pattern's past life, state wasn't Observable or Passable. Instead, the unidirectional flow from Evaluator to Translator was accomplished by passing an Update enum. This was a little cumbersome, but also very easy to test. A MockTranslator could collect an Update history in an array, which the tests could then check to verify that the Evaluator had asked for one thing or another. In fact, any other layer could be mocked, too — evaluators, view controllers, performers — and the tests could check the communication at their boundaries."),
                 
@@ -540,7 +540,7 @@ class BiggerTutorialDataStore {
         
         Page(
              body: [
-                .title("More to come soon..."),
+                .largeTitle("More to come soon..."),
                 .text("I hope this has been interesting so far. Things I'll cover soon:"),
                 .quote(
                 """

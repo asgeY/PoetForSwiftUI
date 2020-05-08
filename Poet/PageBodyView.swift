@@ -21,7 +21,9 @@ struct PageBodyView: View {
                 return AnyView(
                     Text(string)
                         .font(Font.body.monospacedDigit())
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                        .lineSpacing(4)
+                        .padding(.bottom, 20)
+                        .fixedSize(horizontal: false, vertical: true)
                 )
                 
             case .code(let string):
@@ -29,22 +31,39 @@ struct PageBodyView: View {
                     
                     HStack {
                         Text(string)
-                            .font(Font.system(size: 11, design: .monospaced))
-                            .padding(EdgeInsets(top: 12, leading: 13, bottom: 12, trailing: 13))
+                            .font(Font.system(size: 12, design: .monospaced))
+                            .lineSpacing(4)
+                            .padding(EdgeInsets(top: 12, leading: 14, bottom: 12, trailing: 14))
+                            .fixedSize(horizontal: false, vertical: true)
                         Spacer()
                     }
                         .background(
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.black.opacity(0.035)))
-                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20))
+//                        .padding(.bottom, 20)
+                        .padding(EdgeInsets(top: 0, leading: -14, bottom: 20, trailing: -14))
                 )
                 
             case .quote(let string):
                 return AnyView(
                     Text(string)
                         .font(Font.system(size: 14, design: .monospaced))
-                        .lineSpacing(1)
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                        .lineSpacing(3)
+                        .padding(.bottom, 20)
+                        .fixedSize(horizontal: false, vertical: true)
+                )
+            
+            case .largeTitle(let string):
+                return AnyView(
+                    HStack {
+                        Spacer()
+                        Text(string)
+                            .multilineTextAlignment(.center)
+                            .font(Font.system(size: 19, weight: .semibold, design: .default))
+                            .padding(EdgeInsets(top: 6, leading: 0, bottom: 24, trailing: 0))
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                    }
                 )
             
             case .title(let string):
@@ -54,7 +73,8 @@ struct PageBodyView: View {
                         Text(string)
                             .multilineTextAlignment(.center)
                             .font(Font.system(size: 17, weight: .semibold, design: .default))
-                            .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                            .padding(.bottom, 20)
+                            .fixedSize(horizontal: false, vertical: true)
                         Spacer()
                     }
                 )
@@ -62,20 +82,22 @@ struct PageBodyView: View {
             case .subtitle(let string):
                 return AnyView(
                     Text(string)
-                        .font(Font.system(size: 15, weight: .semibold, design: .default))
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 0, trailing: 36))
+                        .font(Font.system(size: 16, weight: .semibold, design: .default))
+                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 20, trailing: 0))
+                        .fixedSize(horizontal: false, vertical: true)
                 )
             
             case .footnote(let string):
                 return AnyView(
                     VStack(alignment: .leading) {
                         Divider()
-                            .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                            .padding(.bottom, 20)
                         Text(string)
                             .font(Font.footnote.monospacedDigit())
                             .opacity(0.9)
-                            .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                            .padding(.bottom, 20)
                             .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 )
             case .fineprint(let string):
@@ -83,7 +105,8 @@ struct PageBodyView: View {
                     Text(string)
                         .font(Font.system(size: 10, design: .monospaced))
                         .opacity(0.5)
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                        .padding(.bottom, 20)
+                        .fixedSize(horizontal: false, vertical: true)
                 )
             
             case .signature(let string):
@@ -91,7 +114,8 @@ struct PageBodyView: View {
                     Text(string)
                         .font(Font.system(size: 17, weight: .medium, design: .serif).italic())
                         .lineSpacing(2)
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 10, trailing: 36))
+                        .padding(.bottom, 20)
+                        .fixedSize(horizontal: false, vertical: true)
                 )
             
             case .image(let string):
@@ -101,8 +125,13 @@ struct PageBodyView: View {
                         Image(string)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .padding(EdgeInsets(top: 0, leading: 30, bottom: 10, trailing: 30))
+                            .padding(.bottom, 20)
                     }
+                )
+            
+            case .space(let height):
+                return AnyView(
+                    Spacer().frame(height: CGFloat(height))
                 )
             
             default:
@@ -115,19 +144,32 @@ struct PageBodyView: View {
             return AnyView(EmptyView())
         } else {
             return AnyView(
-                List(pageBody.array, id: \.id) { element in
-                    VStack {
-                        self.view(for: element)
-                        if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
-                            Spacer().frame(height:44)
-                        }
+                ScrollView {
+                    ForEach(pageBody.array, id: \.id) { element in
+                        VStack(alignment: .leading, spacing: 0) {
+                            HStack {
+                                self.view(for: element)
+                                Spacer()
+                            }
+                            if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
+                                Spacer().frame(height:44)
+                            }
+                        }.padding(EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 50))
                     }
                 }
-                    .id(UUID()) // <-- this forces the list not to animate
-                    .onAppear() {
-                        UITableView.appearance().showsVerticalScrollIndicator = false
-                        UITableView.appearance().separatorColor = .clear
-                    }
+//                List(pageBody.array, id: \.id) { element in
+//                    VStack {
+//                        self.view(for: element)
+//                        if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
+//                            Spacer().frame(height:44)
+//                        }
+//                    }
+//                }
+//                    .id(UUID()) // <-- this forces the list not to animate
+//                    .onAppear() {
+//                        UITableView.appearance().showsVerticalScrollIndicator = false
+//                        UITableView.appearance().separatorColor = .clear
+//                    }
             )
         }
     }

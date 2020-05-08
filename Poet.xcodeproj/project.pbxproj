@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E8D392462A9CD005D033C /* AfterWait.swift */; };
 		3B6ACFE2245C29E700905DDB /* RetailTutorial-Page-Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6ACFE1245C29E700905DDB /* RetailTutorial-Page-Views.swift */; };
 		8727349E2456B868009C39B5 /* BiggerTutorial-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349C2456B616009C39B5 /* BiggerTutorial-Screen.swift */; };
 		8727349F2456B868009C39B5 /* BiggerTutorial-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349B2456B616009C39B5 /* BiggerTutorial-Evaluator.swift */; };
@@ -71,6 +72,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3B1E8D392462A9CD005D033C /* AfterWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterWait.swift; sourceTree = "<group>"; };
 		3B6ACFE1245C29E700905DDB /* RetailTutorial-Page-Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTutorial-Page-Views.swift"; sourceTree = "<group>"; };
 		8727349A2456B616009C39B5 /* BiggerTutorial-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BiggerTutorial-Data.swift"; sourceTree = "<group>"; };
 		8727349B2456B616009C39B5 /* BiggerTutorial-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BiggerTutorial-Evaluator.swift"; sourceTree = "<group>"; };
@@ -236,11 +238,12 @@
 		875562EB244D142E00DB49C4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				875562EC244D144600DB49C4 /* Observables.swift */,
+				3B1E8D392462A9CD005D033C /* AfterWait.swift */,
 				87AC827E2454CDE90090E443 /* Actions.swift */,
 				87AC827C2454C3EA0090E443 /* Numbers.swift */,
-				878B3A3D2452B96800ACADE4 /* ViewWrappers.swift */,
+				875562EC244D144600DB49C4 /* Observables.swift */,
 				875562F4244D5FDB00DB49C4 /* Passables.swift */,
+				878B3A3D2452B96800ACADE4 /* ViewWrappers.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */,
 				875562F5244D5FDB00DB49C4 /* Passables.swift in Sources */,
 				DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */,
+				3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */,
 				8794A5FA245C343400D41E4F /* RetailTutorial-PageViewMaker.swift in Sources */,
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
 				DC4C111F245DFF21009BC14D /* Simplest-Evaluator.swift in Sources */,

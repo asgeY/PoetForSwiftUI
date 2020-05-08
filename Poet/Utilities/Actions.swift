@@ -26,4 +26,5 @@ struct NamedAction {
 struct NamedEvaluatorAction {
     let name: String
     let action: EvaluatorAction
+    var id: UUID = UUID()
 }

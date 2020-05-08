@@ -19,12 +19,14 @@ struct Page {
         case text(String)
         case code(String)
         case quote(String)
+        case largeTitle(String)
         case title(String)
         case subtitle(String)
         case footnote(String)
         case fineprint(String)
         case signature(String)
         case image(String)
+        case space(Int)
         case link(name: String, url: URL) // not implemented yet
         case button(name: String, action: Action) // not implemented yet
         
@@ -36,8 +38,10 @@ struct Page {
                 return "code_\(string)"
             case .quote(let string):
                 return "quote_\(string)"
+            case .largeTitle(let string):
+                return "largeTitle_\(string)"
             case .title(let string):
-                return "subtitle_\(string)"
+                return "title_\(string)"
             case .subtitle(let string):
                 return "subtitle_\(string)"
             case .footnote(let string):
@@ -52,6 +56,8 @@ struct Page {
                 return "link_\(name)"
             case .button(let name, _):
                 return "button_\(name)"
+            case .space(let height):
+                return "space_\(height)"
             }
         }
     }

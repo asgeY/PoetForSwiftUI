@@ -42,7 +42,7 @@ extension BiggerTutorial {
                             action: evaluator?.titleAction,
                             content:
                                 AnyView(
-                                Text("A Bigger Tutorial")
+                                Text("A Paging Tutorial")
                                     .font(Font.subheadline.monospacedDigit().bold())
                                     .multilineTextAlignment(.center)
                                     .layoutPriority(10)

@@ -32,17 +32,17 @@ extension Intro {
                     VStack {
                         BackButton()
                         Spacer()
-                    }
+                    }.zIndex(2)
                     VStack {
-                        Spacer().frame(height:12)
+//                        Spacer().frame(height:12)
                         
                         // MARK: Screen Title
-                        Text("Intro")
-                            .font(Font.subheadline.monospacedDigit().bold())
-                            .multilineTextAlignment(.center)
-                            .layoutPriority(10)
+//                        Text("About")
+//                            .font(Font.subheadline.monospacedDigit().bold())
+//                            .multilineTextAlignment(.center)
+//                            .layoutPriority(10)
                         
-                        Spacer().frame(height:18)
+                        Spacer().frame(height:1)
                         
                         // MARK: Page Body
                         PageBodyView(pageBody: self.translator.pageBody)

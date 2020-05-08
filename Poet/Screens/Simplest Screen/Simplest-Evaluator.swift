@@ -20,9 +20,13 @@ extension Simplest {
         // Button Actions
         enum ButtonAction: EvaluatorAction {
             case advancePage
+            case rewindPage
             case advanceWorldImage
             case helloWorld
             case returnToTutorial(chapterIndex: Int, pageIndex: Int)
+            case showTableOfContents
+            indirect case hideTableOfContents(previousStep: Step)
+            case showChapter(chapterIndex: Int)
             
             var name: String {
                 switch self {
@@ -68,12 +72,29 @@ extension Simplest {
         
         var textData: [Chapter] = [
             Chapter("Introduction", pages:
-                Page("You're looking at a simple screen made with the Poet pattern. Tap this text to keep reading about it."),
-                Page("In Poet, whenever you interact with a view on screen, the view tells an “evaluator” about it — that's the “E” in Poet."),
+                Page("You're looking at a screen made with the Poet pattern. The code behind it emphasizes simplicity, clarity, and flexibility."),
+                Page("The process of writing Poet code is methodical but quick. It follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”"),
+                Page("Once you get comfortable with the basic structure, Poet frees you to write quickly and confidently, without the fear that your code will get tangled up over time."),
+                Page("We'll learn about the pattern, and the benefits it confers, by thinking about how this screen was made. But first, why is it called Poet?")
+            ),
+            
+            Chapter("Why Poet?", pages:
+                Page("Poet is an acronym that stands for Protocol-Oriented Evaluator/Translator. The evaluator and translator are a pair that work together."),
+                Page("You can think of the evaluator and translator as two different layers in the pattern, or as two different phases of reasoning that the programmer will undertake."),
+                Page("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”"),
+                Page("The translator interprets the intent of the evaluator and turns it into observable and passable “display state.”"),
+                Page("And the view layer — a screen made up of SwiftUI View structs — is what observes or is passed the translator's display state."),
+                Page("A given user flow requires participation from the evaluator, translator, and view layer. Sometimes we need to be deliberate about each layer and spell them out step by step."),
+                Page("Other times, we know what each layer should do, and protocol-oriented programming can bridge them all with default protocol implementations."),
+                Page("We can explore these ideas further by thinking about how this screen was made.")
+                ),
+            
+            Chapter("Interacting with a View", pages:
+                Page("In Poet, whenever you interact with a view on screen, the view tells an evaluator about it."),
                 Page("When you tap this view, for instance, it says to the evaluator, buttonTapped(action: Evaluator.ButtonAction\n.advancePage)"),
                 Page("That's a little wordy, but it's just spelling out an enum case the evaluator owns: “advancePage.”"),
-                Page("The view layer only knows that name .advancePage, not what it does. The rest is handled by a couple of partners, the evaluator and the “translator” — the “T” in Poet."),
-                Page("First, the evaluator makes decisions about “business state.” Then the translator interprets that state and creates its own “display state.” The view layer responds any time display state changes."),
+                Page("The view layer only knows that name .advancePage, not what it does. The rest is handled by the partnership of an evaluator and translator."),
+                Page("Again, the evaluator will make decisions about business state. The translator will interpret that state and create its own display state. And the view layer will respond any time display state changes."),
                 Page("The evaluator and translator are two different stops along an assembly line that rolls toward the view layer."),
                 Page("Soon we'll talk about why it's handy to have these two different types of state, business and display, after a brief discussion of state in general.")
             ),
@@ -161,6 +182,7 @@ extension Simplest {
             // Imperative, Protocol-Oriented Translating
             Chapter("Protocol-Oriented Translating", pages:
                 // Protocol-oriented translating -- alert, bezel, action sheets. because we're writing in swift, we can take advantage of protoocol-oriented programming — the “P.O.” in P.O.E.T. — to make certain flows easy to implement. this gives us a pattern that speeds us up, instead of forcing us to reinvent or re-implement certain common solutions every time we make a new screen. The translator and view layer can each one require one or two lines of boilerplate to fully implement alerts, action sheets, and other common UI elements.
+                // Over time, you might find protocol-oriented improvements that give you certain things for free.
                 Page("."),
                 Page("")
             ),
@@ -195,13 +217,25 @@ extension Simplest.Evaluator {
     
     enum Step: EvaluatorStep {
         case loading
-        case title(TitleStepConfiguration)
+        case interlude
+        case mainTitle(MainTitleStepConfiguration)
+        case chapterTitle(ChapterTitleStepConfiguration)
         case page(TextStepConfiguration)
         case world(WorldStepConfiguration)
-        case interlude
+        case tableOfContents(TableOfContentsConfiguration)
     }
     
     // MARK: Configurations
+    
+    struct MainTitleStepConfiguration {
+        var title: String
+    }
+    
+    struct ChapterTitleStepConfiguration {
+        var title: String
+        var chapterIndex: Int
+        var chapterNumber: Int { return chapterIndex + 1 }
+    }
     
     struct TextStepConfiguration {
         var title: String
@@ -211,19 +245,19 @@ extension Simplest.Evaluator {
         var pageIndex: Int
         var pageNumber: Int { return pageIndex + 1 }
         var pageCount: Int
-        var action: ButtonAction?
-    }
-    
-    struct TitleStepConfiguration {
-        var title: String
-        var chapterIndex: Int
-        var chapterNumber: Int { return chapterIndex + 1 }
+        var buttonAction: ButtonAction?
+        var tableOfContentsAction: ButtonAction
     }
     
     struct WorldStepConfiguration {
         var image: String
         var title: String
-        var action: ButtonAction
+        var buttonAction: ButtonAction
+    }
+    
+    struct TableOfContentsConfiguration {
+        var selectableChapterTitles: [NamedEvaluatorAction]
+        var returnAction: ButtonAction
     }
 }
 
@@ -232,9 +266,21 @@ extension Simplest.Evaluator {
 extension Simplest.Evaluator: ViewCycleEvaluator {
     
     func viewDidAppear() {
+        
+        // Opening animation
+        
         showInterlude()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(500))) {
-            self.showPage(forChapterIndex: 0, pageIndex: 0)
+        afterWait(500) {
+            self.showMainTitle("Why Poet?")
+            afterWait(1000) {
+                self.showInterlude()
+                afterWait(1000) {
+                    self.showChapterTitle(forChapterIndex: 0)
+                    afterWait(1000) {
+                        self.showPage(forChapterIndex: 0, pageIndex: 0)
+                    }
+                }
+            }
         }
     }
 }
@@ -249,6 +295,9 @@ extension Simplest.Evaluator: ButtonEvaluator {
         case .advancePage:
             advancePage()
             
+        case .rewindPage:
+            rewindPage()
+            
         case .advanceWorldImage:
             advanceWorldImage()
             
@@ -256,7 +305,19 @@ extension Simplest.Evaluator: ButtonEvaluator {
             showWorld()
             
         case .returnToTutorial(let chapterIndex, let pageIndex):
-            showPage(forChapterIndex: chapterIndex, pageIndex: pageIndex)
+            showInterlude()
+            afterWait(200) {
+                self.showPage(forChapterIndex: chapterIndex, pageIndex: pageIndex)
+            }
+            
+        case .showTableOfContents:
+            showTableOfContents()
+            
+        case .hideTableOfContents(let previousStep):
+            current.step = previousStep
+            
+        case .showChapter(let chapterIndex):
+            self.showPage(forChapterIndex: chapterIndex, pageIndex: 0)
         }
     }
 }
@@ -269,13 +330,22 @@ extension Simplest.Evaluator {
         current.step = .interlude
     }
     
-    // MARK: Title
+    // MARK: Main Title
     
-    func showTitle(forChapterIndex chapterIndex: Int) {
-        let configuration = TitleStepConfiguration(
+    func showMainTitle(_ text: String) {
+        let configuration = MainTitleStepConfiguration(
+            title: text
+        )
+        current.step = .mainTitle(configuration)
+    }
+    
+    // MARK: Chapter Title
+    
+    func showChapterTitle(forChapterIndex chapterIndex: Int) {
+        let configuration = ChapterTitleStepConfiguration(
             title: textData[chapterIndex].title,
             chapterIndex: chapterIndex)
-        current.step = .title(configuration)
+        current.step = .chapterTitle(configuration)
     }
     
     // MARK: Page
@@ -287,13 +357,14 @@ extension Simplest.Evaluator {
             chapterIndex: chapterIndex,
             pageIndex: pageIndex,
             pageCount: textData[chapterIndex].pages.count,
-            action: textData[chapterIndex].pages[pageIndex].action
+            buttonAction: textData[chapterIndex].pages[pageIndex].action,
+            tableOfContentsAction: ButtonAction.showTableOfContents
         )
         current.step = .page(configuration)
     }
     
     func advancePage() {
-        // Must be in Text step
+        // Must be in Page step
         guard case let .page(configuration) = current.step else { return }
         
         var isNewChapter = false
@@ -314,7 +385,7 @@ extension Simplest.Evaluator {
         if isNewChapter {
             showInterlude()
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(500))) {
-                self.showTitle(forChapterIndex: nextChapter)
+                self.showChapterTitle(forChapterIndex: nextChapter)
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(1000))) {
                     self.showPage(forChapterIndex: nextChapter, pageIndex: nextPage)
                 }
@@ -324,11 +395,45 @@ extension Simplest.Evaluator {
         }
     }
     
+    func rewindPage() {
+        // Must be in Page step
+        guard case let .page(configuration) = current.step else { return }
+        
+        
+        let (chapter, page): (Int, Int) = {
+            if configuration.pageIndex > 0 {
+                return (configuration.chapterIndex, configuration.pageIndex - 1)
+            } else {
+                if configuration.chapterIndex > 0 {
+                    let newChapter = configuration.chapterIndex - 1
+                    let newPage = textData[newChapter].pages.count - 1
+                    return (newChapter, newPage)
+                } else {
+                    return (0, 0)
+                }
+            }
+        }()
+        
+        showPage(forChapterIndex: chapter, pageIndex: page)
+    }
+    
+    // MARK: Hello World
+    
+    func showWorld() {
+        // Must be in Page step
+        if case let .page(configuration) = self.current.step {
+            showInterlude()
+            afterWait(500) {
+                self.showWorld(rememberingChapterIndex: configuration.chapterIndex, pageIndex: configuration.pageIndex + 1)
+            }
+        }
+    }
+
     func showWorld(rememberingChapterIndex chapterIndex: Int, pageIndex: Int) {
         let configuration = WorldStepConfiguration(
             image: self.worldImages[0],
             title: "Hello World!",
-            action: .returnToTutorial(chapterIndex: chapterIndex, pageIndex: pageIndex)
+            buttonAction: .returnToTutorial(chapterIndex: chapterIndex, pageIndex: pageIndex)
         )
         current.step = .world(configuration)
     }
@@ -351,15 +456,27 @@ extension Simplest.Evaluator {
             current.step = .world(configuration)
         }
     }
-
-    func showWorld() {
-        // Must be in Text step
-        if case let .page(configuration) = self.current.step {
-            showInterlude()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(500))) {
-                self.showWorld(rememberingChapterIndex: configuration.chapterIndex, pageIndex: configuration.pageIndex + 1)
-            }
+    
+    // MARK: Table of Contents
+    
+    func showTableOfContents() {
+        
+        var selectableChapterTitles = [NamedEvaluatorAction]()
+        
+        for (i, chapter) in textData.enumerated() {
+            let selectableChapterTitle = NamedEvaluatorAction(
+                name: "\(i + 1). \(chapter.title)",
+                action: ButtonAction.showChapter(chapterIndex: i)
+            )
+            selectableChapterTitles.append(selectableChapterTitle)
         }
+        
+        let configuration = TableOfContentsConfiguration(
+            selectableChapterTitles: selectableChapterTitles,
+            returnAction: ButtonAction.hideTableOfContents(previousStep: current.step)
+        )
+        
+        current.step = .tableOfContents(configuration)
     }
 }
 

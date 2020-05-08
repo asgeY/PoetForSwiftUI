@@ -34,7 +34,7 @@ extension Menu.Evaluator: ViewCycleEvaluator {
             Link("Introduction",
                  destination: { AnyView(Intro.Screen()) }),
             
-            Link("How does it work? — A Tutorial",
+            Link("Why Poet?",
                  destination: { AnyView(Simplest.Screen()) }),
             
             Link("Paging Demo and Tutorial",

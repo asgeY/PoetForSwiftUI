@@ -23,12 +23,30 @@ extension Template {
             translator = _evaluator.translator
         }
         
+        @State var navBarHidden: Bool = true
+        
         var body: some View {
-            VStack {
-                ObservingTextView(translator.greeting)
+            ZStack {
+                
+                VStack {
+                    ObservingTextView(translator.greeting)
+                }
+                
+                VStack {
+                    BackButton()
+                    Spacer()
+                }
             }.onAppear {
                 self.evaluator?.viewDidAppear()
+                self.navBarHidden = true
             }
+                
+            // MARK: Hide Navigation Bar
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                self.navBarHidden = true
+            }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarHidden(self.navBarHidden)
         }
     }
 }
