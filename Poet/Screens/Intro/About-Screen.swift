@@ -80,7 +80,7 @@ struct BackButton: View {
             })
             {
                 Image(systemName: "chevron.left")
-                    .foregroundColor(Color.black)
+                    .foregroundColor(Color.primary)
                     .padding(EdgeInsets.init(top: 16, leading: 24, bottom: 16, trailing: 24))
             }
             
@@ -101,9 +101,9 @@ struct DismissButton: View {
             })
             {
                 Image(systemName: "xmark")
-                    .foregroundColor(Color.black)
-                    .padding(24)
-                    .font(Font.system(size: 20, weight: .medium))
+                    .foregroundColor(Color.primary)
+                    .padding(EdgeInsets(top: 26, leading: 24, bottom: 24, trailing: 24))
+                    .font(Font.system(size: 18, weight: .medium))
             }
         }
     }

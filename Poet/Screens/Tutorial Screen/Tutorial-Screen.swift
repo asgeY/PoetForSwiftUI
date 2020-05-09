@@ -18,7 +18,7 @@ extension Tutorial {
         let translator: Translator
         
         enum Layout {
-            static let boxSize: CGFloat = 300
+            static let boxSize: CGFloat = 290
         }
         
         init() {
@@ -31,6 +31,7 @@ extension Tutorial {
         @State var navBarHidden: Bool = true
         @State var showingAbout = false
         @State var showingTableOfContents = false
+        @State var showingExtra = false
         
         var body: some View {
             debugPrint("Tutorial body")
@@ -70,7 +71,7 @@ extension Tutorial {
                         }
                         
                         
-                        Hideable(isShowing: self.translator.shouldShowText, transition: .opacity) // <-- observed
+                        Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) // <-- observed
                         {
                             // MARK: Page Count
                             
@@ -88,8 +89,7 @@ extension Tutorial {
                                     }
                                     Spacer().frame(width: 14)
                                     ObservingTextView(self.translator.pageXofX) // <-- observed
-                                        .font(Font.caption.monospacedDigit())
-                                        .opacity(0.85)
+                                        .font(Font.system(size: 12, weight: .semibold).monospacedDigit())
                                     Spacer().frame(width: 14)
                                     Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
                                         Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.pageForward) }) {
@@ -108,25 +108,18 @@ extension Tutorial {
                             .foregroundColor(Color.primary)
                         }
                                 
-                        Hideable(isShowing: self.translator.shouldShowText, transition: .opacity) // <-- observed
+                        Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) // <-- observed
                         {
                             ZStack(alignment: .topLeading) {
                                 RoundedRectangle(cornerRadius: 12)
                                     .fill(
-                                        self.touchingDownOnBox ? Color.black.opacity(0.03) : Color.black.opacity(0.025)
+                                        self.touchingDownOnBox ? Color.primary.opacity(0.03) : Color.primary.opacity(0.025)
                                 )
                                 VStack {
                                     
-                                    // MARK: Page Text
+                                    // MARK: Page Body
                                     
-//                                    SwappableText(self.translator.text, kerning: -0.05, transition: .opacity)
-                                    ObservingTextView(self.translator.text) // <-- observed
-                                        .font(Font.system(size: 17, weight: .medium))
-//                                        .font(.headline)
-                                        .lineSpacing(4)
-                                        .padding(EdgeInsets(top: 20, leading: 20, bottom: 10, trailing: 20))
-                                        .blur(radius: self.touchingDownOnBox ? 0.25 : 0)
-                                        .opacity(self.touchingDownOnBox ? 0.33 : 1)
+                                    TutorialBodyView(bodyElements: self.translator.body, isTouching: self.$touchingDownOnBox)
                                     Spacer()
                                 }
                             }
@@ -160,7 +153,7 @@ extension Tutorial {
                         {
                             ZStack(alignment: .center) {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.black.opacity(0.025))
+                                    .fill(Color.primary.opacity(0.025))
                                 
                                 ObservingImageView(self.translator.imageName) // <-- observed
                                     .font(Font.headline)
@@ -190,23 +183,38 @@ extension Tutorial {
                             Text("Tap me")
                         }
                         .font(Font.caption)
-                        .opacity(0.85)
+                        .opacity(0.9)
                         .padding(.top, 10)
                     }
                     Spacer()
                 }
                 .offset(x: 0, y: Layout.boxSize / 2.0 + 30)
                 
-                // MARK: Illustration
+                // Extra
                 
-                VStack {
+                HStack {
                     Spacer()
-//                    Hideable(isShowing: self.translator.shouldShowIllustration, transition: .opacity)
-//                    {
-//                    Image("")
-//                    }
-                        .padding(.bottom, 20)
+                    Hideable(isShowing: self.translator.shouldShowExtraButton, transition: .asymmetric(insertion: AnyTransition.move(edge: .bottom).combined(with: .opacity), removal: .opacity))
+                    {
+                        HStack {
+                            Button(action: {
+                                self.showingExtra.toggle()
+                            }) {
+//                                Image(systemName: "chevron.left.slash.chevron.right")
+//                                    .font(Font.system(size: 20, weight: .medium))
+                                Image(systemName: "text.bubble")
+                                    .font(Font.system(size: 20, weight: .medium))
+                            }.foregroundColor(.primary)
+                                .sheet(isPresented: self.$showingExtra) {
+                                    Extra(bodyElements: self.translator.extraBody)
+                            }
+                        }
+                        .opacity(0.9)
+                        .padding(.top, 10)
+                    }
+                    Spacer().frame(width: 48)
                 }
+                .offset(x: 0, y: -(Layout.boxSize / 2.0 + 28))
                 
                 // MARK: Button
                 
@@ -220,9 +228,9 @@ extension Tutorial {
                             label: {
                                 ObservingTextView(self.translator.buttonName)
                                     .font(Font.headline)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color(UIColor.systemBackground))
                                     .padding(EdgeInsets(top: 12, leading: 18, bottom: 12, trailing: 18))
-                                    .background(Capsule().fill(Color.black.opacity(0.95)))
+                                    .background(Capsule().fill(Color.primary))
                         })
                     }
                     .padding(.bottom, 36)
@@ -326,6 +334,133 @@ struct TableOfContents: View {
     }
 }
 
+struct Extra: View {
+    @ObservedObject var bodyElements: ObservableArray<Tutorial.Evaluator.Page.Body>
+    
+    var body: some View {
+        ZStack {
+            VStack {
+                DismissButton()
+                    .zIndex(2)
+                Spacer()
+            }.zIndex(2)
+            
+            VStack {
+                Spacer().frame(height:52)
+                ScrollView {
+                    ForEach(self.bodyElements.array, id: \.id) { bodyElement in
+                        HStack {
+                            self.viewForBodyElement(bodyElement)
+                            Spacer()
+                        }
+                    }
+                    .padding(EdgeInsets(top: 0, leading: 36, bottom: 30, trailing: 16))
+                    Spacer()
+                }
+            }.background(Rectangle().fill(Color(UIColor.systemBackground)))
+        }
+    }
+    
+    func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
+        switch bodyElement {
+        case .text(let text):
+            return AnyView(
+                Text(text)
+                    .font(Font.system(size: 16, weight: .medium))
+                    .lineSpacing(5)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom, 14)
+            )
+        case .code(let code):
+            return AnyView(
+                Text(code)
+                    .font(Font.system(size: 13, weight: .regular, design: .monospaced))
+                    .lineSpacing(5)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -15))
+            )
+            
+        case .smallCode(let code):
+            return AnyView(
+                Text(code)
+                    .font(Font.system(size: 11.5, weight: .regular, design: .monospaced))
+                    .lineSpacing(5)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
+            )
+            
+        case .extraSmallCode(let code):
+            return AnyView(
+                Text(code)
+                    .font(Font.system(size: 10, weight: .regular, design: .monospaced))
+                    .lineSpacing(4)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
+            )
+        }
+    }
+}
+
+struct TutorialBodyView: View {
+    @ObservedObject var bodyElements: ObservableArray<Tutorial.Evaluator.Page.Body>
+    @Binding var isTouching: Bool
+    
+    var body: some View {
+        VStack {
+            ForEach(bodyElements.array, id: \.id) { bodyElement in
+                HStack {
+                    self.viewForBodyElement(bodyElement)
+                    Spacer()
+                }
+            }
+            Spacer()
+        }.padding(EdgeInsets(top: 28, leading: 28, bottom: 0, trailing: 28))
+    }
+    
+    func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
+        switch bodyElement {
+        case .text(let text):
+            return AnyView(
+                Text(text)
+                    .font(Font.system(size: 16, weight: .medium))
+                    .lineSpacing(5)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom, 14)
+                    .opacity(self.isTouching ? 0.33 : 1)
+            )
+        case .code(let code):
+            return AnyView(
+                Text(code)
+                    .font(Font.system(size: 13, weight: .regular, design: .monospaced))
+                    .lineSpacing(5)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -15))
+                    .opacity(self.isTouching ? 0.33 : 1)
+            )
+            
+        case .smallCode(let code):
+            return AnyView(
+                Text(code)
+                    .font(Font.system(size: 11.5, weight: .regular, design: .monospaced))
+                    .lineSpacing(5)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
+                    .opacity(self.isTouching ? 0.33 : 1)
+            )
+            
+        case .extraSmallCode(let code):
+            return AnyView(
+                Text(code)
+                    .font(Font.system(size: 10, weight: .regular, design: .monospaced))
+                    .lineSpacing(4)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
+                    .opacity(self.isTouching ? 0.33 : 1)
+            )
+        }
+    }
+}
+
 struct Dimmable: View {
     @ObservedObject var isShowing: ObservableBool
     let content: AnyView
@@ -370,7 +505,6 @@ struct MainTitle: View {
             VStack {
                 ObservingTextView(self.text, alignment: .center, kerning: -0.05)
                     .font(Font.system(size: 32, weight: .semibold).monospacedDigit())
-                    .opacity(0.85)
                     .padding(.top, 5)
             }
         }
@@ -392,7 +526,6 @@ struct ChapterTitle: View {
                     .opacity(self.shouldShowNumber.bool ? 1 : 0)
                 ObservingTextView(self.text, alignment: .center, kerning: -0.05)
                     .font(Font.system(size: 24, weight: .semibold).monospacedDigit())
-                    .opacity(0.85)
                     .padding(.top, 5)
             }
             .offset(x: 0, y: self.isFocused.bool ? 0 : -266)

@@ -41,7 +41,7 @@ struct LeftAndRightButtonView: View {
             .opacity(self.rightButtonIsEnabled.bool ? 1 : 0.25)
             .edgesIgnoringSafeArea([.top, .bottom])
         }
-        .foregroundColor(Color.black)
+        .foregroundColor(Color.primary)
     }
 }
 

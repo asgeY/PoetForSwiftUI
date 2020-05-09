@@ -109,14 +109,14 @@ struct BottomButton: View {
                         self.bottomButtonAction.action?.name ?? "")
                         .animation(.none)
                         .font(Font.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(UIColor.systemBackground))
                         .frame(width: geometry.size.width - 100)
                         .padding(EdgeInsets(top: 16, leading: 18, bottom: 16, trailing: 18))
                         .background(
                             ZStack {
                                 BlurView()
                                 Rectangle()
-                                    .fill(Color.black.opacity(0.95))
+                                    .fill(Color.primary.opacity(0.95))
                             }
                             .mask(
                                 Capsule()

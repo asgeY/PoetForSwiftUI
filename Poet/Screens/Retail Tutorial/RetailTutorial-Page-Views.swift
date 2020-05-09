@@ -18,7 +18,7 @@ struct InstructionView: View {
             Image.numberCircleFill(instructionNumber.int)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .frame(width: 24, height: 24)
                 .offset(x: 19.5, y: -1.5)
             Text(instruction.string)
@@ -137,7 +137,7 @@ struct SelectableCapsuleButton: View {
             Image(systemName: imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .foregroundColor(.white)
+                .foregroundColor(Color(UIColor.systemBackground))
                 .frame(
                     width: self.isSelected ? 12 : 0,
                     height: self.isSelected ? 12 : 0)
@@ -146,7 +146,7 @@ struct SelectableCapsuleButton: View {
                 .layoutPriority(30)
             Text(title)
                 .font(Font.system(.headline))
-                .foregroundColor( self.isSelected ? .white : .black)
+                .foregroundColor( self.isSelected ? Color(UIColor.systemBackground) : .primary)
                 .lineLimit(1)
                 .fixedSize(horizontal: true, vertical: false)
                 .padding(EdgeInsets(top: 10, leading: (isSelected ? 8 : 4), bottom: 10, trailing: 0))
@@ -158,7 +158,7 @@ struct SelectableCapsuleButton: View {
             ZStack {
                 BlurView()
                 Rectangle()
-                    .fill(Color.black.opacity( self.isSelected ? 0.95 : 0))
+                    .fill(Color.primary.opacity( self.isSelected ? 0.95 : 0))
             }
             .mask(
                 Capsule()
@@ -198,7 +198,7 @@ struct OptionView: View {
             Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
                 .frame(width: isSelected ? 25 : 23, height: isSelected ? 25 : 23)
                 .animation(.spring(response: 0.25, dampingFraction: 0.25, blendDuration: 0), value: isSelected)
                 .offset(x: isSelected ? 19 : 20, y: isSelected ? -2 : -1)

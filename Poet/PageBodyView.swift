@@ -39,7 +39,7 @@ struct PageBodyView: View {
                     }
                         .background(
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.black.opacity(0.035)))
+                                .fill(Color.primary.opacity(0.035)))
 //                        .padding(.bottom, 20)
                         .padding(EdgeInsets(top: 0, leading: -14, bottom: 20, trailing: -14))
                 )

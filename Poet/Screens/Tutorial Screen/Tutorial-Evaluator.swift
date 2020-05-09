@@ -21,10 +21,10 @@ extension Tutorial {
         enum ButtonAction: EvaluatorAction {
             case pageForward
             case pageBackward
-            case advanceWorldImage
             case helloWorld
-            case returnToTutorial(chapterIndex: Int, pageIndex: Int)
-            case showChapter(chapterIndex: Int)
+            case advanceWorldImage
+            case returnToTutorial(chapterIndex: Int, pageIndex: Int, pageData: [Chapter])
+            case showChapter(chapterIndex: Int, pageData: [Chapter])
             
             var name: String {
                 switch self {
@@ -49,12 +49,35 @@ extension Tutorial {
         }
         
         struct Page {
-            let text: String
-            let action: ButtonAction?
             
-            init(_ text: String, action: ButtonAction? = nil) {
-                self.text = text
+            let body: [Body]
+            let action: ButtonAction?
+            let extra: [Body]?
+            
+            init(_ body: [Body], action: ButtonAction? = nil, extra: [Body]? = nil) {
+                self.body = body
                 self.action = action
+                self.extra = extra
+            }
+            
+            enum Body {
+                case text(String)
+                case code(String)
+                case smallCode(String)
+                case extraSmallCode(String)
+                
+                var id: String {
+                    switch self {
+                    case .text(let text):
+                        return "text_\(text)"
+                    case .code(let text):
+                        return "code_\(text)"
+                    case .smallCode(let text):
+                        return "smallCode_\(text)"
+                    case .extraSmallCode(let text):
+                        return "extraSmallCode_\(text)"
+                    }
+                }
             }
         }
         
@@ -68,150 +91,7 @@ extension Tutorial {
             "world06"
         ]
         
-        var textData: [Chapter] = [
-            Chapter("Introduction", pages:
-                Page("You're looking at a screen made with the Poet pattern. The code behind it emphasizes simplicity, clarity, and flexibility."),
-                Page("The process of writing Poet code is methodical but quick. It follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”"),
-                Page("Once you get comfortable with the basic structure, Poet frees you to write quickly and confidently, without the fear that your code will get tangled up over time."),
-                Page("We'll learn about the pattern, and the benefits it confers, by thinking about how this screen was made. But first, why is it called Poet?")
-            ),
-            
-            Chapter("Why Poet?", pages:
-                Page("Poet is an acronym that stands for Protocol-Oriented Evaluator/Translator. The evaluator and translator are a pair that work together."),
-                Page("You can think of the evaluator and translator as two different layers in the pattern, or as two different phases of reasoning that the programmer will undertake."),
-                Page("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”"),
-                Page("The translator interprets the intent of the evaluator and turns it into observable and passable “display state.”"),
-                Page("And the view layer — a screen made up of SwiftUI View structs — is the part that observes or is passed the translator's display state."),
-                Page("A given user flow requires participation from all three layers — evaluator, translator, and view. Sometimes we need to be deliberate about each layer and spell out their work step by step."),
-                Page("Other times, we already know what each layer should do, and protocol-oriented programming can bridge them all with default protocol implementations."),
-                Page("We can explore these ideas further by thinking about the screen you're looking at now.")
-                ),
-            
-            Chapter("Interacting with a View", pages:
-                Page("In Poet, whenever you interact with a view on screen, the view tells an evaluator about it."),
-                Page("When you tap this view, for instance, it says to the evaluator, buttonTapped(action: Evaluator.ButtonAction\n.pageForward)"),
-                Page("That's a little wordy, but it's just spelling out an enum case the evaluator owns: “pageForward.”"),
-                Page("The view layer only knows that name .pageForward, not what it does. The rest is handled by the partnership of an evaluator and translator."),
-                Page("Again, the evaluator will make decisions about business state. The translator will interpret that state and create its own display state. And the view layer will respond any time display state changes."),
-                Page("The evaluator and translator are two different stops along an assembly line that rolls toward the view layer."),
-                Page("Soon we'll talk about why it's handy to have these two different types of state, business and display, after a brief discussion of state in general.")
-            ),
-            
-            // State
-            Chapter("State", pages:
-                Page("Everything we do in an app creates state. State is the answer to the question, “what is true at this moment?”"),
-                Page("On this screen, we can intuit that our state includes the text we're reading and the actions available to us."),
-                Page("It also entails that we're reading text and not, say, spinning a globe. But you can do that, too. Tap the “Hello World” button below.", action: .helloWorld),
-                Page("Cool, huh? It looks like this screen has at least two different modes, or collections of state, that it must keep track of: showing this page, and showing that globe."),
-                Page("We have another, too: every time we start a new chapter, that cool title animation feels like it's a distinct step."),
-                Page("Modes are tough to reason about, because people tend not to notice them. Programmers often fail to distinguish which states are incompatible, so they never properly separate them into distinct data structures."),
-                Page("Poet doesn't use the word “mode,” by the way. It calls these different collections of state “steps.” Naming is hard."),
-                Page("The challenge in making apps is to never create the conditions in which conflicting state can arise, because keeping track of everything will place an undue burden on the programmer."),
-                Page("When we think about what's on screen, for example, there are many elements which all dynamically respond to different observable properties. With each new property we add, we create a combinatorial explosion of possible states."),
-                Page("In our business logic, too, we inevitably create a combinatorial explosion every time we add another bool to consider."),
-                Page("Some bools will be harmless when not properly set, while others will create an incoherent overall state if we're not careful."),
-                Page("Accounting for all possible combinations of mutually incompatible state is tough without a good plan."),
-                Page("As choices like these build up over time, our code can become dense with conditions and exceptions. These make it nearly impossible to debug, maintain and modify."),
-                Page("Programming can be more straightforward, though, if you keep two things in mind. First, a screen's state doesn't need to be one flat list. It can be collected into coherent structures. And second, we can make a useful distinction between business state and display state."),
-                Page("If I want to show a page on screen, for instance, I know I will have to set several things each time: the page text, the chapter title, and so on."),
-                Page("It only makes sense that we group these things together as a coherent “step,” which contains all the state needed to show a page correctly."),
-                Page("And along with that decision to group a page's state into a coherent structure, we can notice it's possible to further distinguish between business decisions (what is the page text? what is the chapter title?) and display decisions (how should the chapter title animate on screen?"),
-                Page("In making these distinctions, we slow ourselves down once, the first time we create a “step.” Once, and only once, translator will have to interpret the step by setting every relevant property correctly. But from then on, we speed ourselves up every time we want to use that step."),
-                Page("By structuring our state coherently up front, we'll be able to mutate the current step's data or swap one step for another without fearing that we have missed something and created incompatible state."),
-                Page("Most patterns don't make these choices explicit, but they also don't protect you from creating incoherent state. They speed you up at first and then slow you down over time."),
-                Page("Next, we'll think more about the distinction between business state and display state.")
-            ),
-            
-            // Display State
-            Chapter("Display State", pages:
-                Page("Display state entails all the choices that determine what happens on screen. What should the text say? The title? Should a button be visible?"),
-                Page("When we say display state, it's important to note that we don't mean the view layer. The view layer can respond to changes in display state, and we'll call that response “view logic.”"),
-                Page("But before we ever get to the view layer, something has to save the state that the view layer responds to."),
-                Page("Poet gives that job to a layer called the translator. On this screen, for instance, the translator answers true or false to “shouldShowText” and “shouldShowButton.” It offers strings for “title” and “text.” And so on."),
-                Page("There's one special thing about how it does that: the text, strings, bools, and so on are all “observable,” meaning someone else can watch them for changes."),
-                Page("The view layer observes those bools and other types, and hides or remakes its views accordingly."),
-                Page(
-                    """
-                    The translator says things like this:
-
-                    shouldShowTitle.bool = true
-                    shouldShowImage.bool = false
-                    """),
-                Page(
-                    """
-                    and this:
-
-                    title.string = configuration.title
-                    text.string = configuration.text
-                    """),
-                Page("But if setting values to show, hide or modify on-screen elements is all a matter of display state, then what is left for business state?")
-            ),
-            
-            // Business State
-            Chapter("Business State", pages:
-                Page("The evaluator/translator divide allows the evaluator to make higher-level decisions about what should happen, without worrying about setting a precise display state."),
-                Page("It's the evaluator who decides what we really want to do. The evaluator hears that a user action has taken place, thinks about the current business state, and then saves a new state."),
-                Page("The last thing an evaluator will do is always to say, “show a certain ‘step’ with a certain ‘configuration,’” at which point the translator will interpret the new step into new display state."),
-                Page("When you tap this text, for instance, the evaluator handles the .pageForward action by checking its current step, which it expects to be a .page step and not some other kind (like .world or .interlude)."),
-                Page("That .page step contains a configuration which knows everything we need to know about our current state: chapterIndex, pageIndex, etc. The evaluator can reason about these values whenever a new user action arrives."),
-                Page("The configuration also contains values which are there to serve the translator: title and text are strings that are plucked off a data store using chapterIndex and pageIndex. They're added to the configuration so the translator won't have to figure them out later. Title and text are therefore first-class members of business state."),
-//                Page("So evaluator's steps serve two masters, but only "),
-                Page("If we want to go to the next page, we start with our current “page” step, modify its configuration, and save it as a new step."),
-                Page("To go to the next chapter, we cycle through a few steps with a slight delay: first an “interlude” step where everything fades away, then a “title” step where we just see the title, and then back to a new page."),
-                Page("The translator and the view layer will handle all the details like opacity and spring animations, letting the evaluator stay high above the action.")
-            ),
-            
-            // Interpreting
-            Chapter("Interpreting", pages:
-                // after a configuration is set, a translator takes some of those values and applies additional reasoning.
-                // could you accomplish this all on one layer? technically, yes. but it aids the devlopment process to handle them separately.
-                // the two-step process lets us first modify our business state with certainty by thinking in large categories — what step are we in? what data do we care about for that step?
-                // then we modify our view state with certainty by taking the step as our starting point — what configuration do we have for our step? how should we change our view state in a way that will be correct for any possible values in our configuration?
-                // a translator might want to style a title a certain way in one step, and a different way in another step. but an evaluator can have two different steps, each configured with a title, and leave it at that.
-                // this separation of concerns not only decouples business logic from the view layer, it decouples it from the display state that informs the view layer.
-                // as a result, you can refactor either layer, the evaluator or the translator, confident that you won't introduce unexpected behavior.
-                // composable state. e.g. use interludes at various places
-                
-                Page("."),
-                Page("")
-                
-                // Protocol-oriented translating -- alert, bezel
-            ),
-            
-            // Decoupling the View Layer
-            Chapter("Decoupling the View Layer", pages:
-                // translator.buttonAction... button action injected into button. evaluator only known by protocol.
-                Page("."),
-                Page("")
-            ),
-            
-            // Imperative, Protocol-Oriented Translating
-            Chapter("Protocol-Oriented Translating", pages:
-                // Protocol-oriented translating -- alert, bezel, action sheets. because we're writing in swift, we can take advantage of protoocol-oriented programming — the “P.O.” in P.O.E.T. — to make certain flows easy to implement. this gives us a pattern that speeds us up, instead of forcing us to reinvent or re-implement certain common solutions every time we make a new screen. The translator and view layer can each one require one or two lines of boilerplate to fully implement alerts, action sheets, and other common UI elements.
-                // Over time, you might find protocol-oriented improvements that give you certain things for free.
-                Page("."),
-                Page("")
-            ),
-            
-            // Decoupling the View Layer
-            Chapter("Helper Types", pages:
-                // evaluator known by protocol. buttonTapped(...)
-                Page("Observables"),
-                Page("Passables")
-            ),
-
-            // the right division, the right abstraction between the two layers.
-            // there's a hinge where translator behavior is reusable. we eliminate a source of combinatorial explosions.
-            
-            // Interpreting Business State
-            
-            // in terms of business state, incompatible
-            // in display state, we're either showing things or not. but any given thing should only know about the state it cares about.
-            
-            
-        ]
-        
-        
+        let pageStore = PageStore.shared
     }
 }
 
@@ -243,15 +123,35 @@ extension Tutorial.Evaluator {
     }
     
     struct PageStepConfiguration {
-        var title: String
-        var text: String
         var chapterIndex: Int
-        var chapterNumber: Int { return chapterIndex + 1 }
         var pageIndex: Int
+        var pageData: [Chapter]
+        
+        // Computed
+        var title: String { return pageData[chapterIndex].title }
+        var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
+        var extra: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].extra }
+        var chapterNumber: Int { return chapterIndex + 1 }
         var pageNumber: Int { return pageIndex + 1 }
-        var pageCount: Int
-        var buttonAction: ButtonAction?
-        var selectableChapterTitles: [NumberedNamedEvaluatorAction]
+        var pageCount: Int { return pageData[chapterIndex].pages.count }
+        var chapterCount: Int { return pageData.count }
+        var buttonAction: ButtonAction? { return pageData[chapterIndex].pages[pageIndex].action }
+        var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
+        
+        func selectableChapterTitles(for pageData: [Chapter]) -> [NumberedNamedEvaluatorAction] {
+            var selectableChapterTitles = [NumberedNamedEvaluatorAction]()
+            
+            for (i, chapter) in pageData.enumerated() {
+                let selectableChapterTitle = NumberedNamedEvaluatorAction(
+                    number: i + 1,
+                    name: chapter.title,
+                    action: ButtonAction.showChapter(chapterIndex: i, pageData: pageData)
+                )
+                selectableChapterTitles.append(selectableChapterTitle)
+            }
+            
+            return selectableChapterTitles
+        }
     }
     
     struct WorldStepConfiguration {
@@ -267,17 +167,24 @@ extension Tutorial.Evaluator: ViewCycleEvaluator {
     
     func viewDidAppear() {
         
-        // Opening animation
+        // Get our pages
+        let pageData = pageStore.pageData
         
-        showInterlude()
+        // Opening animation
+        showInterludeStep()
         afterWait(500) {
-            self.showMainTitle("The Poet Pattern")
+            self.showMainTitleStep("The Poet Pattern")
             afterWait(1000) {
-                self.showInterlude()
+                self.showInterludeStep()
                 afterWait(1000) {
-                    self.showChapterTitle(forChapterIndex: 0)
+                    self.showChapterTitleStep(
+                        forChapterIndex: 0,
+                        pageData: pageData)
                     afterWait(1000) {
-                        self.showPage(forChapterIndex: 0, pageIndex: 0)
+                        self.showPageStep(
+                            forChapterIndex: 0,
+                            pageIndex: 0,
+                            pageData: pageData)
                     }
                 }
             }
@@ -302,16 +209,22 @@ extension Tutorial.Evaluator: ButtonEvaluator {
             advanceWorldImage()
             
         case .helloWorld:
-            showWorld()
+            showWorldStep()
             
-        case .returnToTutorial(let chapterIndex, let pageIndex):
-            showInterlude()
+        case .returnToTutorial(let chapterIndex, let pageIndex, let pageData):
+            showInterludeStep()
             afterWait(200) {
-                self.showPage(forChapterIndex: chapterIndex, pageIndex: pageIndex)
+                self.showPageStep(
+                    forChapterIndex: chapterIndex,
+                    pageIndex: pageIndex,
+                    pageData: pageData)
             }
             
-        case .showChapter(let chapterIndex):
-            self.showPage(forChapterIndex: chapterIndex, pageIndex: 0)
+        case .showChapter(let chapterIndex, let pageData):
+            self.showPageStep(
+                forChapterIndex: chapterIndex,
+                pageIndex: 0,
+                pageData: pageData)
         }
     }
 }
@@ -320,13 +233,13 @@ extension Tutorial.Evaluator: ButtonEvaluator {
 
 extension Tutorial.Evaluator {
     
-    func showInterlude() {
+    func showInterludeStep() {
         current.step = .interlude
     }
     
     // MARK: Main Title
     
-    func showMainTitle(_ text: String) {
+    func showMainTitleStep(_ text: String) {
         let configuration = MainTitleStepConfiguration(
             title: text
         )
@@ -335,24 +248,20 @@ extension Tutorial.Evaluator {
     
     // MARK: Chapter Title
     
-    func showChapterTitle(forChapterIndex chapterIndex: Int) {
+    func showChapterTitleStep(forChapterIndex chapterIndex: Int, pageData: [Chapter]) {
         let configuration = ChapterTitleStepConfiguration(
-            title: textData[chapterIndex].title,
+            title: pageData[chapterIndex].title,
             chapterIndex: chapterIndex)
         current.step = .chapterTitle(configuration)
     }
     
     // MARK: Page
     
-    func showPage(forChapterIndex chapterIndex: Int, pageIndex: Int) {
+    func showPageStep(forChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
         let configuration = PageStepConfiguration(
-            title: textData[chapterIndex].title,
-            text: textData[chapterIndex].pages[pageIndex].text,
             chapterIndex: chapterIndex,
             pageIndex: pageIndex,
-            pageCount: textData[chapterIndex].pages.count,
-            buttonAction: textData[chapterIndex].pages[pageIndex].action,
-            selectableChapterTitles: selectableChapterTitles()
+            pageData: pageData
         )
         current.step = .page(configuration)
     }
@@ -364,11 +273,11 @@ extension Tutorial.Evaluator {
         var isNewChapter = false
         
         let (nextChapter, nextPage): (Int, Int) = {
-            if configuration.pageIndex < textData[configuration.chapterIndex].pages.count - 1 {
+            if configuration.pageIndex < configuration.pageCount - 1 {
                 return (configuration.chapterIndex, configuration.pageIndex + 1)
             } else {
                 isNewChapter = true
-                if configuration.chapterIndex < textData.count - 1 {
+                if configuration.chapterIndex < configuration.chapterCount - 1 {
                     return (configuration.chapterIndex + 1, 0)
                 } else {
                     return (0, 0)
@@ -377,15 +286,15 @@ extension Tutorial.Evaluator {
         }()
         
         if isNewChapter {
-            showInterlude()
+            showInterludeStep()
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(500))) {
-                self.showChapterTitle(forChapterIndex: nextChapter)
+                self.showChapterTitleStep(forChapterIndex: nextChapter, pageData: configuration.pageData)
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(1000))) {
-                    self.showPage(forChapterIndex: nextChapter, pageIndex: nextPage)
+                    self.showPageStep(forChapterIndex: nextChapter, pageIndex: nextPage, pageData: configuration.pageData)
                 }
             }
         } else {
-            showPage(forChapterIndex: nextChapter, pageIndex: nextPage)
+            showPageStep(forChapterIndex: nextChapter, pageIndex: nextPage, pageData: configuration.pageData)
         }
     }
     
@@ -400,7 +309,7 @@ extension Tutorial.Evaluator {
             } else {
                 if configuration.chapterIndex > 0 {
                     let newChapter = configuration.chapterIndex - 1
-                    let newPage = textData[newChapter].pages.count - 1
+                    let newPage = configuration.pageData[newChapter].pages.count - 1
                     return (newChapter, newPage)
                 } else {
                     return (0, 0)
@@ -408,26 +317,26 @@ extension Tutorial.Evaluator {
             }
         }()
         
-        showPage(forChapterIndex: chapter, pageIndex: page)
+        showPageStep(forChapterIndex: chapter, pageIndex: page, pageData: configuration.pageData)
     }
     
     // MARK: Hello World
     
-    func showWorld() {
+    func showWorldStep() {
         // Must be in Page step
         if case let .page(configuration) = self.current.step {
-            showInterlude()
+            showInterludeStep()
             afterWait(500) {
-                self.showWorld(rememberingChapterIndex: configuration.chapterIndex, pageIndex: configuration.pageIndex + 1)
+                self.showWorld(rememberingChapterIndex: configuration.chapterIndex, pageIndex: configuration.pageIndex + 1, pageData: configuration.pageData)
             }
         }
     }
 
-    func showWorld(rememberingChapterIndex chapterIndex: Int, pageIndex: Int) {
+    func showWorld(rememberingChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
         let configuration = WorldStepConfiguration(
             image: self.worldImages[0],
             title: "Hello World!",
-            buttonAction: .returnToTutorial(chapterIndex: chapterIndex, pageIndex: pageIndex)
+            buttonAction: .returnToTutorial(chapterIndex: chapterIndex, pageIndex: pageIndex, pageData: pageData)
         )
         current.step = .world(configuration)
     }
@@ -449,23 +358,6 @@ extension Tutorial.Evaluator {
         
             current.step = .world(configuration)
         }
-    }
-    
-    // MARK: Table of Contents - Selectable Chapter Titltes
-    
-    func selectableChapterTitles() -> [NumberedNamedEvaluatorAction] {
-        var selectableChapterTitles = [NumberedNamedEvaluatorAction]()
-        
-        for (i, chapter) in textData.enumerated() {
-            let selectableChapterTitle = NumberedNamedEvaluatorAction(
-                number: i + 1,
-                name: chapter.title,
-                action: ButtonAction.showChapter(chapterIndex: i)
-            )
-            selectableChapterTitles.append(selectableChapterTitle)
-        }
-        
-        return selectableChapterTitles
     }
 }
 

@@ -21,10 +21,13 @@ extension Tutorial {
         var mainTitle = ObservableString()
         var chapterNumber = ObservableInt()
         var chapterTitle = ObservableString()
-        var text = ObservableString()
         var pageXofX = ObservableString()
         var imageName = ObservableString()
         var buttonName = ObservableString()
+        
+        // Arrays
+        var body = ObservableArray<Evaluator.Page.Body>([])
+        var extraBody = ObservableArray<Evaluator.Page.Body>([])
         var selectableChapterTitles = ObservableArray<NumberedNamedEvaluatorAction>([])
         
         // Bools
@@ -32,7 +35,7 @@ extension Tutorial {
         var shouldShowChapterTitle = ObservableBool()
         var shouldShowChapterNumber = ObservableBool()
         var shouldFocusOnChapterTitle = ObservableBool()
-        var shouldShowText = ObservableBool()
+        var shouldShowBody = ObservableBool()
         var shouldShowImage = ObservableBool()
         var shouldShowTapMe = ObservableBool()
         var shouldShowButton = ObservableBool()
@@ -42,6 +45,7 @@ extension Tutorial {
         var shouldShowTableOfContentsButton = ObservableBool()
         var shouldShowTableOfContents = ObservableBool()
         var shouldShowAboutButton = ObservableBool()
+        var shouldShowExtraButton = ObservableBool()
         
         // Actions
         var buttonAction = Observable<EvaluatorAction?>(nil)
@@ -93,7 +97,7 @@ extension Tutorial.Translator {
         shouldFocusOnChapterTitle.bool = false
         shouldShowChapterTitle.bool = false
         shouldShowChapterNumber.bool = false
-        shouldShowText.bool = false
+        shouldShowBody.bool = false
         shouldShowImage.bool = false
         shouldShowTapMe.bool = false
         shouldShowButton.bool = false
@@ -101,6 +105,7 @@ extension Tutorial.Translator {
         shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
         shouldShowAboutButton.bool = false
+        shouldShowExtraButton.bool = false
     }
     
     func showChapterTitleStep(_ configuration: Evaluator.ChapterTitleStepConfiguration) {
@@ -112,7 +117,7 @@ extension Tutorial.Translator {
         shouldShowChapterNumber.bool = true
         
         shouldShowMainTitle.bool = false
-        shouldShowText.bool = false
+        shouldShowBody.bool = false
         shouldShowImage.bool = false
         shouldShowTapMe.bool = false
         shouldShowButton.bool = false
@@ -120,6 +125,7 @@ extension Tutorial.Translator {
         shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
         shouldShowAboutButton.bool = false
+        shouldShowExtraButton.bool = false
         
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
@@ -130,36 +136,24 @@ extension Tutorial.Translator {
     
         // linear animation
         withAnimation(.linear(duration: 0.4)) {
-            
-            // show
-            shouldShowChapterTitle.bool = true
             shouldShowChapterNumber.bool = true
-            
-            // hide
+            shouldShowChapterTitle.bool = true
             shouldFocusOnChapterTitle.bool = false
             shouldShowImage.bool = false
             shouldShowTableOfContents.bool = false
-            
-            // show or hide
             shouldShowTableOfContentsButton.bool = !firstPage
             shouldShowAboutButton.bool = !firstPage
         }
         
         // spring animation
         withAnimation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0)) {
-            
-            // show or hide
             shouldShowButton.bool = configuration.buttonAction != nil
         }
         
         // delayed animation
         withAnimation(Animation.linear(duration: 0.4).delay(0.3)) {
-            
-            // show
-            shouldShowText.bool = true
+            shouldShowBody.bool = true
             shouldEnableRightButton.bool = true
-            
-            // show or hide
             shouldShowLeftAndRightButtons.bool = !firstPage
             shouldEnableLeftButton.bool = !firstPage
         }
@@ -167,20 +161,30 @@ extension Tutorial.Translator {
         // "Tap Me" Chapter 1 Page 1
         if firstPage {
             withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0).delay(0.8)) {
-                // show
                 self.shouldShowTapMe.bool = true
             }
         } else {
             withAnimation(Animation.linear(duration: 0.5)) {
-                // hide
                 self.shouldShowTapMe.bool = false
+            }
+        }
+        
+        // Extra Reading button
+        if configuration.extra != nil {
+            withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.65, blendDuration: 0).delay(0.15)) {
+                shouldShowExtraButton.bool = true
+            }
+        } else {
+            withAnimation(Animation.linear(duration: 0.2)) {
+                shouldShowExtraButton.bool = false
             }
         }
         
         // values
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
-        text.string = configuration.text
+        body.array = configuration.body
+        extraBody.array = configuration.extra ?? []
         pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCount)"
         buttonAction.object = configuration.buttonAction
         selectableChapterTitles.array = configuration.selectableChapterTitles
@@ -199,11 +203,12 @@ extension Tutorial.Translator {
         // hide
         shouldFocusOnChapterTitle.bool = false
         shouldShowChapterNumber.bool = false
-        shouldShowText.bool = false
+        shouldShowBody.bool = false
         shouldShowLeftAndRightButtons.bool = false
         shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
         shouldShowAboutButton.bool = false
+        shouldShowExtraButton.bool = false
         
         imageName.string = configuration.image
         chapterTitle.string = configuration.title
@@ -228,7 +233,7 @@ extension Tutorial.Translator {
             shouldShowMainTitle.bool = false
             shouldShowChapterTitle.bool = false
             shouldShowChapterNumber.bool = false
-            shouldShowText.bool = false
+            shouldShowBody.bool = false
             shouldShowImage.bool = false
             shouldShowTapMe.bool = false
             shouldShowButton.bool = false
@@ -236,6 +241,7 @@ extension Tutorial.Translator {
             shouldShowTableOfContentsButton.bool = false
             shouldShowTableOfContents.bool = false
             shouldShowAboutButton.bool = false
+            shouldShowExtraButton.bool = false
         }
     }
 }

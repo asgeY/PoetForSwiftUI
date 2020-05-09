@@ -48,10 +48,10 @@ struct CharacterBezel: View {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(Color.white.opacity(0.9))
+                        .fill(Color(UIColor.systemBackground).opacity(0.9))
                         .padding(10)
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(Color.black.opacity(0.12))
+                        .fill(Color.primary.opacity(0.12))
                         .padding(10)
                     .mask(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)

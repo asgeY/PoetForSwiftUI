@@ -46,7 +46,7 @@ extension BiggerTutorial {
                                     .font(Font.subheadline.monospacedDigit().bold())
                                     .multilineTextAlignment(.center)
                                     .layoutPriority(10)
-                                    .foregroundColor(Color.black)
+                                    .foregroundColor(Color.primary)
                                 )
                         )
                         .layoutPriority(10)
@@ -93,7 +93,7 @@ extension BiggerTutorial {
                     TappableTextCapsuleView(
                         action: evaluator?.pageNumberAction,
                         text: translator.pageXofX)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color.primary)
                     Spacer().frame(height: 10)
                         .allowsHitTesting(false)
                 }
