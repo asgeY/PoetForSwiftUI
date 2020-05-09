@@ -1,5 +1,5 @@
 //
-//  Intro-Evaluator.swift
+//  About-Evaluator.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/24/20.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Intro {
+extension About {
     class Evaluator {
         
         // Translator
@@ -17,13 +17,13 @@ extension Intro {
         
         // Data
         
-        private var page: Page = IntroDataStore.shared.page
+        private var page: Page = AboutDataStore.shared.page
     }
 }
 
 // MARK: View Cycle
 
-extension Intro.Evaluator: ViewCycleEvaluator {
+extension About.Evaluator: ViewCycleEvaluator {
     func viewDidAppear() {
         translator.show(page: page)
     }

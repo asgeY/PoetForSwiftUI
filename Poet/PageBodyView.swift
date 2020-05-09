@@ -53,6 +53,30 @@ struct PageBodyView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 )
             
+            case .leftLargeTitle(let string):
+                return AnyView(
+                   HStack {
+                       Text(string)
+                           .multilineTextAlignment(.leading)
+                           .font(Font.system(size: 32, weight: .bold, design: .default))
+                           .padding(EdgeInsets(top: 0, leading: 0, bottom: 28, trailing: 0))
+                           .fixedSize(horizontal: false, vertical: true)
+                       Spacer()
+                   }
+               )
+            
+            case .leftMediumTitle(let string):
+             return AnyView(
+                HStack {
+                    Text(string)
+                        .multilineTextAlignment(.leading)
+                        .font(Font.system(size: 24, weight: .bold, design: .default))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer()
+                }
+            )
+            
             case .largeTitle(let string):
                 return AnyView(
                     HStack {
@@ -82,8 +106,8 @@ struct PageBodyView: View {
             case .subtitle(let string):
                 return AnyView(
                     Text(string)
-                        .font(Font.system(size: 16, weight: .semibold, design: .default))
-                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 20, trailing: 0))
+                        .font(Font.system(size: 17, weight: .semibold, design: .default))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
                         .fixedSize(horizontal: false, vertical: true)
                 )
             
@@ -102,11 +126,15 @@ struct PageBodyView: View {
                 )
             case .fineprint(let string):
                 return AnyView(
-                    Text(string)
-                        .font(Font.system(size: 10, design: .monospaced))
-                        .opacity(0.5)
-                        .padding(.bottom, 20)
-                        .fixedSize(horizontal: false, vertical: true)
+                    VStack(alignment: .leading) {
+                        Divider()
+                            .padding(.bottom, 20)
+                        Text(string)
+                            .font(Font.system(size: 12, design: .monospaced))
+                            .opacity(0.4)
+                            .padding(.bottom, 20)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 )
             
             case .signature(let string):
@@ -154,7 +182,7 @@ struct PageBodyView: View {
                             if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
                                 Spacer().frame(height:44)
                             }
-                        }.padding(EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 50))
+                        }.padding(EdgeInsets(top: 0, leading: 56, bottom: 0, trailing: 56))
                     }
                 }
 //                List(pageBody.array, id: \.id) { element in

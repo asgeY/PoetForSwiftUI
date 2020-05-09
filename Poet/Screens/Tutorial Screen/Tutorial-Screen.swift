@@ -1,5 +1,5 @@
 //
-//  Simplest-Screen.swift
+//  Tutorial-Screen.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 5/2/20.
@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct Simplest {}
+struct Tutorial {}
 
-extension Simplest {
+extension Tutorial {
     struct Screen: View {
         
         let _evaluator: Evaluator
@@ -18,7 +18,7 @@ extension Simplest {
         let translator: Translator
         
         enum Layout {
-            static let boxSize: CGFloat = 284
+            static let boxSize: CGFloat = 300
         }
         
         init() {
@@ -29,9 +29,11 @@ extension Simplest {
         
         @State var touchingDownOnBox = false
         @State var navBarHidden: Bool = true
+        @State var showingAbout = false
+        @State var showingTableOfContents = false
         
         var body: some View {
-            debugPrint("simplest body")
+            debugPrint("Tutorial body")
             return ZStack {
                   
                 VStack {
@@ -75,7 +77,7 @@ extension Simplest {
                             ZStack(alignment: .topLeading) {
                                 HStack {
                                     Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                        Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.rewindPage) }) {
+                                        Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.pageBackward) }) {
                                             Image(systemName: "chevron.compact.left")
                                                 .resizable()
                                                 .frame(width: 3.5, height: 9, alignment: .center)
@@ -90,7 +92,7 @@ extension Simplest {
                                         .opacity(0.85)
                                     Spacer().frame(width: 14)
                                     Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                        Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.advancePage) }) {
+                                        Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.pageForward) }) {
                                             Image(systemName: "chevron.compact.right")
                                                 .resizable()
                                                 .frame(width: 3.5, height: 9, alignment: .center)
@@ -111,16 +113,16 @@ extension Simplest {
                             ZStack(alignment: .topLeading) {
                                 RoundedRectangle(cornerRadius: 12)
                                     .fill(
-                                        self.touchingDownOnBox ? Color.black.opacity(0.035) : Color.black.opacity(0.03)
+                                        self.touchingDownOnBox ? Color.black.opacity(0.03) : Color.black.opacity(0.025)
                                 )
                                 VStack {
                                     
                                     // MARK: Page Text
                                     
 //                                    SwappableText(self.translator.text, kerning: -0.05, transition: .opacity)
-                                    ObservingTextView(self.translator.text, kerning: -0.05) // <-- observed
-//                                        .font(Font.system(size: 16, weight: .medium))
-                                        .font(.headline)
+                                    ObservingTextView(self.translator.text) // <-- observed
+                                        .font(Font.system(size: 17, weight: .medium))
+//                                        .font(.headline)
                                         .lineSpacing(4)
                                         .padding(EdgeInsets(top: 20, leading: 20, bottom: 10, trailing: 20))
                                         .blur(radius: self.touchingDownOnBox ? 0.25 : 0)
@@ -148,7 +150,7 @@ extension Simplest {
                                 withAnimation(.linear(duration: 0.15)) {
                                     self.touchingDownOnBox = false
                                 }
-                                self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.advancePage)
+                                self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.pageForward)
                             }
                         }
                         
@@ -158,7 +160,7 @@ extension Simplest {
                         {
                             ZStack(alignment: .center) {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.black.opacity(0.03))
+                                    .fill(Color.black.opacity(0.025))
                                 
                                 ObservingImageView(self.translator.imageName) // <-- observed
                                     .font(Font.headline)
@@ -195,11 +197,22 @@ extension Simplest {
                 }
                 .offset(x: 0, y: Layout.boxSize / 2.0 + 30)
                 
+                // MARK: Illustration
+                
+                VStack {
+                    Spacer()
+//                    Hideable(isShowing: self.translator.shouldShowIllustration, transition: .opacity)
+//                    {
+//                    Image("")
+//                    }
+                        .padding(.bottom, 20)
+                }
+                
                 // MARK: Button
                 
                 VStack {
                     Spacer()
-                    Hideable(isShowing: self.translator.shouldShowButton, transition: .opacity)
+                    Hideable(isShowing: self.translator.shouldShowButton, transition: AnyTransition.asymmetric(insertion: AnyTransition.move(edge: .bottom).combined(with: .opacity), removal: AnyTransition.opacity))
                     {
                         ObservingButton(
                             action: self.translator.buttonAction,
@@ -215,35 +228,41 @@ extension Simplest {
                     .padding(.bottom, 36)
                 }
                 
-                VStack {
-                    
-                    // MARK: Back Button
-                    
-                    BackButton()
-                    Spacer()
-                }
+                // MARK: Table of Contents Button and About Button
                 
                 VStack {
-                    
                     HStack {
-                        Spacer()
-                        
-                        // MARK: Table of Contents Button
-                        
                         Hideable(isShowing: self.translator.shouldShowTableOfContentsButton, transition: .opacity) {
-                            ObservingButton(action: self.translator.tableOfContentsAction, evaluator: self.evaluator) {
+                            
+                            Button(action: {
+                                self.showingTableOfContents.toggle()
+                            }) {
                                 Image(systemName: "list.bullet")
+                            }.sheet(isPresented: self.$showingTableOfContents) {
+                                TableOfContents(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
                             }
                             .foregroundColor(Color.primary)
+                            .font(Font.system(size: 20, weight: .medium))
+                            .padding(EdgeInsets.init(top: 16, leading: 22, bottom: 16, trailing: 24))
+                        }
+                        
+                        Spacer()
+                        
+                        Hideable(isShowing: self.translator.shouldShowAboutButton, transition: .opacity) {
+                            Button(action: {
+                                self.showingAbout.toggle()
+                            }) {
+                                Image(systemName: "sparkles")
+                            }.sheet(isPresented: self.$showingAbout) {
+                                About.Screen()
+                            }
+                            .foregroundColor(Color.primary)
+                            .font(Font.system(size: 20, weight: .medium))
                             .padding(EdgeInsets.init(top: 16, leading: 22, bottom: 16, trailing: 24))
                         }
                     }
                     Spacer()
                 }
-                
-                Hideable(isShowing: self.translator.shouldShowTableOfContents, transition: .move(edge: .bottom)) {
-                    TableOfContents(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
-                }.zIndex(2)
             }
             .onAppear {
                 self.evaluator?.viewDidAppear()
@@ -262,21 +281,47 @@ extension Simplest {
 }
 
 struct TableOfContents: View {
-    @ObservedObject var selectableChapterTitles: ObservableArray<NamedEvaluatorAction>
+    @ObservedObject var selectableChapterTitles: ObservableArray<NumberedNamedEvaluatorAction>
     weak var evaluator: ButtonEvaluator?
     
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     var body: some View {
-        VStack {
-            Spacer().frame(height:44)
-            Text("Table of Contents")
-                .font(Font.headline)
-            List(self.selectableChapterTitles.array, id: \.id) { item in
-                Text(item.name)
-                    .font(Font.subheadline.monospacedDigit())
-                    .onTapGesture {
-                        self.evaluator?.buttonTapped(action: item.action)
+        ZStack {
+            VStack {
+                DismissButton()
+                    .zIndex(2)
+                Spacer()
+            }.zIndex(2)
+            
+            VStack {
+                Spacer().frame(height:42)
+                HStack {
+                    Text("Table of Contents")
+                        .multilineTextAlignment(.leading)
+                        .font(Font.system(size: 18, weight: .semibold))
+                    Spacer()
+                }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+                Spacer().frame(height:16)
+                ScrollView {
+                    ForEach(self.selectableChapterTitles.array, id: \.id) { item in
+                        Button(action: {
+                            self.evaluator?.buttonTapped(action: item.action)
+                            self.presentationMode.wrappedValue.dismiss()
+                        }) {
+                            HStack {
+                                Text("\(item.number).   " + item.name)
+                                Spacer()
+                            }
+                            .font(Font.body.monospacedDigit())
+                            .multilineTextAlignment(.leading)
+                            
+                        }
+                        .foregroundColor(.primary)
+                        .padding(EdgeInsets(top: 13, leading: 30, bottom: 13, trailing: 30))
+                    }
                 }
-            }.padding(.leading, 20)
+            }.background(Rectangle().fill(Color(UIColor.systemBackground)))
         }
     }
 }
@@ -341,7 +386,7 @@ struct ChapterTitle: View {
     var body: some View {
         GeometryReader() { geometry in
             VStack {
-                Image(systemName: (self.number.int <= 50) ? "\(self.number.int).circle.fill" : ".circle.fill")
+                Image.numberCircleFill(self.number.int)
                     .resizable()
                     .frame(width: 30, height: 30)
                     .opacity(self.shouldShowNumber.bool ? 1 : 0)
@@ -350,7 +395,7 @@ struct ChapterTitle: View {
                     .opacity(0.85)
                     .padding(.top, 5)
             }
-            .offset(x: 0, y: self.isFocused.bool ? 0 : -240)
+            .offset(x: 0, y: self.isFocused.bool ? 0 : -266)
         }
     }
 }

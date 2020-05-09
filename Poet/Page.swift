@@ -19,6 +19,8 @@ struct Page {
         case text(String)
         case code(String)
         case quote(String)
+        case leftLargeTitle(String)
+        case leftMediumTitle(String)
         case largeTitle(String)
         case title(String)
         case subtitle(String)
@@ -38,6 +40,10 @@ struct Page {
                 return "code_\(string)"
             case .quote(let string):
                 return "quote_\(string)"
+            case .leftLargeTitle(let string):
+                return "leftLargeTitle_\(string)"
+            case .leftMediumTitle(let string):
+                return "leftMediumTitle_\(string)"
             case .largeTitle(let string):
                 return "largeTitle_\(string)"
             case .title(let string):

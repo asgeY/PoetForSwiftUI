@@ -28,3 +28,10 @@ struct NamedEvaluatorAction {
     let action: EvaluatorAction
     var id: UUID = UUID()
 }
+
+struct NumberedNamedEvaluatorAction {
+    let number: Int
+    let name: String
+    let action: EvaluatorAction
+    var id: UUID = UUID()
+}

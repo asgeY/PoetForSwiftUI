@@ -32,10 +32,10 @@ extension Menu.Evaluator: ViewCycleEvaluator {
         
         items.array = [
             Link("Introduction",
-                 destination: { AnyView(Intro.Screen()) }),
+                 destination: { AnyView(About.Screen()) }),
             
             Link("Why Poet?",
-                 destination: { AnyView(Simplest.Screen()) }),
+                 destination: { AnyView(Tutorial.Screen()) }),
             
             Link("Paging Demo and Tutorial",
                  destination: { AnyView(BiggerTutorial.Screen()) }),

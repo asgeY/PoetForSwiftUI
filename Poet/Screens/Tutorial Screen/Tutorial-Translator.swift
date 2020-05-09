@@ -1,5 +1,5 @@
 //
-//  Simplest-Translator.swift
+//  Tutorial-Translator.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 5/2/20.
@@ -9,11 +9,11 @@
 import Foundation
 import SwiftUI
 
-extension Simplest {
+extension Tutorial {
 
     class Translator {
         
-        typealias Evaluator = Simplest.Evaluator
+        typealias Evaluator = Tutorial.Evaluator
         
         // Observable Display State
         
@@ -25,7 +25,7 @@ extension Simplest {
         var pageXofX = ObservableString()
         var imageName = ObservableString()
         var buttonName = ObservableString()
-        var selectableChapterTitles = ObservableArray<NamedEvaluatorAction>([])
+        var selectableChapterTitles = ObservableArray<NumberedNamedEvaluatorAction>([])
         
         // Bools
         var shouldShowMainTitle = ObservableBool()
@@ -41,6 +41,7 @@ extension Simplest {
         var shouldEnableRightButton = ObservableBool()
         var shouldShowTableOfContentsButton = ObservableBool()
         var shouldShowTableOfContents = ObservableBool()
+        var shouldShowAboutButton = ObservableBool()
         
         // Actions
         var buttonAction = Observable<EvaluatorAction?>(nil)
@@ -57,7 +58,7 @@ extension Simplest {
     }
 }
 
-extension Simplest.Translator {
+extension Tutorial.Translator {
     func translate(step: Evaluator.Step) {
         switch step {
             
@@ -71,16 +72,13 @@ extension Simplest.Translator {
             showChapterTitleStep(configuration)
 
         case .page(let configuration):
-            showTextStep(configuration)
+            showPageStep(configuration)
             
         case .world(let configuration):
             showWorldStep(configuration)
             
         case .interlude:
             showInterlude()
-            
-        case .tableOfContents(let configuration):
-            showTableOfContents(configuration)
         }
     }
     
@@ -102,6 +100,7 @@ extension Simplest.Translator {
         shouldShowLeftAndRightButtons.bool = false
         shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
+        shouldShowAboutButton.bool = false
     }
     
     func showChapterTitleStep(_ configuration: Evaluator.ChapterTitleStepConfiguration) {
@@ -120,48 +119,71 @@ extension Simplest.Translator {
         shouldShowLeftAndRightButtons.bool = false
         shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
+        shouldShowAboutButton.bool = false
         
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
     }
     
-    func showTextStep(_ configuration: Evaluator.TextStepConfiguration) {
+    func showPageStep(_ configuration: Evaluator.PageStepConfiguration) {
         let firstPage = configuration.chapterNumber == 1 && configuration.pageNumber == 1
     
+        // linear animation
         withAnimation(.linear(duration: 0.4)) {
-            shouldFocusOnChapterTitle.bool = false
+            
+            // show
             shouldShowChapterTitle.bool = true
             shouldShowChapterNumber.bool = true
+            
+            // hide
+            shouldFocusOnChapterTitle.bool = false
             shouldShowImage.bool = false
-            shouldShowButton.bool = configuration.buttonAction != nil
-            shouldShowTableOfContentsButton.bool = !firstPage
             shouldShowTableOfContents.bool = false
+            
+            // show or hide
+            shouldShowTableOfContentsButton.bool = !firstPage
+            shouldShowAboutButton.bool = !firstPage
         }
         
+        // spring animation
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0)) {
+            
+            // show or hide
+            shouldShowButton.bool = configuration.buttonAction != nil
+        }
+        
+        // delayed animation
         withAnimation(Animation.linear(duration: 0.4).delay(0.3)) {
+            
+            // show
             shouldShowText.bool = true
+            shouldEnableRightButton.bool = true
+            
+            // show or hide
             shouldShowLeftAndRightButtons.bool = !firstPage
             shouldEnableLeftButton.bool = !firstPage
-            shouldEnableRightButton.bool = true
         }
         
         // "Tap Me" Chapter 1 Page 1
         if firstPage {
             withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0).delay(0.8)) {
+                // show
                 self.shouldShowTapMe.bool = true
             }
         } else {
             withAnimation(Animation.linear(duration: 0.5)) {
+                // hide
                 self.shouldShowTapMe.bool = false
             }
         }
         
+        // values
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
         text.string = configuration.text
         pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCount)"
         buttonAction.object = configuration.buttonAction
-        tableOfContentsAction.object = configuration.tableOfContentsAction
+        selectableChapterTitles.array = configuration.selectableChapterTitles
         
         if let actionName = configuration.buttonAction?.name {
             buttonName.string = actionName
@@ -169,14 +191,19 @@ extension Simplest.Translator {
     }
     
     func showWorldStep(_ configuration: Evaluator.WorldStepConfiguration) {
-        shouldFocusOnChapterTitle.bool = false
+        
+        // show
         shouldShowChapterTitle.bool = true
+        shouldShowButton.bool = true
+        
+        // hide
+        shouldFocusOnChapterTitle.bool = false
         shouldShowChapterNumber.bool = false
         shouldShowText.bool = false
-        shouldShowButton.bool = true
         shouldShowLeftAndRightButtons.bool = false
         shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
+        shouldShowAboutButton.bool = false
         
         imageName.string = configuration.image
         chapterTitle.string = configuration.title
@@ -195,6 +222,8 @@ extension Simplest.Translator {
     
     func showInterlude() {
         withAnimation(.linear(duration: 0.2)) {
+            
+            // hide
             shouldFocusOnChapterTitle.bool = false
             shouldShowMainTitle.bool = false
             shouldShowChapterTitle.bool = false
@@ -206,14 +235,7 @@ extension Simplest.Translator {
             shouldShowLeftAndRightButtons.bool = false
             shouldShowTableOfContentsButton.bool = false
             shouldShowTableOfContents.bool = false
-        }
-    }
-    
-    func showTableOfContents(_ configuration: Evaluator.TableOfContentsConfiguration) {
-        selectableChapterTitles.array = configuration.selectableChapterTitles
-        tableOfContentsAction.object = configuration.returnAction
-        withAnimation(Animation.spring(response: 0.6, dampingFraction: 0.7, blendDuration: 0)) {
-            shouldShowTableOfContents.bool = true
+            shouldShowAboutButton.bool = false
         }
     }
 }

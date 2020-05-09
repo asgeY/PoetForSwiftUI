@@ -1,5 +1,5 @@
 //
-//  Intro-Translator.swift
+//  About-Translator.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/24/20.
@@ -8,10 +8,10 @@
 
 import Foundation
 
-extension Intro {
+extension About {
     
     class Translator {
-        typealias Evaluator = Intro.Evaluator
+        typealias Evaluator = About.Evaluator
         
         // Observable state
         var pageBody = ObservableArray<Page.Element>([])
@@ -20,7 +20,7 @@ extension Intro {
 
 // MARK: Translating Methods
 
-extension Intro.Translator {
+extension About.Translator {
     
     func show(page: Page) {
         pageBody.array = page.body

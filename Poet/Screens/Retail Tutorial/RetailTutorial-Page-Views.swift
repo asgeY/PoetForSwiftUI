@@ -15,7 +15,7 @@ struct InstructionView: View {
     
     var body: some View {
         ZStack(alignment: .topLeading) {
-            Image(systemName: (instructionNumber.int <= 50) ? "\(instructionNumber.int).circle.fill" : ".circle.fill")
+            Image.numberCircleFill(instructionNumber.int)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.black)
