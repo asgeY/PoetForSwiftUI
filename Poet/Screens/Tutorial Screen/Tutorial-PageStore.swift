@@ -19,8 +19,8 @@ extension Tutorial {
         let pageData: [Chapter] = [
             Chapter("Introduction", pages:
                 Page([.text("You're looking at a screen made with the Poet pattern. The code behind it emphasizes clarity, certainty, and flexibility.")]),
-                Page([.text("The process of writing Poet code is methodical but quick. It follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”")]),
-                Page([.text("Once you get comfortable with the basic structure, Poet frees you to write quickly and confidently, without the fear that your code will get tangled up over time.")]),
+                Page([.text("The process of writing Poet code is methodical but relatively quick. It follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”")]),
+                Page([.text("Poet has a rote structure but it frees you to write quickly and confidently, without the fear that your code will get tangled up over time.")]),
                 Page([.text("We'll learn about the pattern, and the benefits it confers, by thinking about how this screen was made. But first, why is it called Poet?")])
             ),
             
@@ -32,16 +32,23 @@ extension Tutorial {
                 Page([.text("And the view layer — a screen made up of SwiftUI View structs — is the part that observes or is passed the translator's display state.")]),
                 Page([.text("A given user flow requires participation from all three layers — evaluator, translator, and view. Sometimes we need to be deliberate about each layer and spell out their work step by step.")]),
                 Page([.text("Other times, we already know what each layer should do, and protocol-oriented programming can bridge them all with default protocol implementations.")]),
-                Page([.text("OK. We said we'd think about how this screen was made. We'll do that next.")])
+                Page([.text("That's enough of a high-level overview. Back to this screen and how it was made.")])
                 ),
             
             Chapter("Interacting with a View", pages:
                 Page([.text("In Poet, whenever you interact with a view on screen, the view tells its evaluator about it.")]),
-                    Page([.text("When you tap this text, for instance, it says to the evaluator:"), .code("buttonTapped(action: Evaluator.ButtonAction\n.pageForward)")]),
-                Page([.text("That's a little wordy, but it's just spelling out an enum case the evaluator owns:"), .code(".pageForward")]),
                 
                 Page([
-                    .text("That action belongs to an enum that is declared on our evaluator and which contains all the cases relevant to this screen:"),
+                    .text("When you tap this text, for instance, it says to the evaluator:"),
+                    .code(
+                        """
+                        buttonTapped(action:
+                          ButtonAction.pageForward)
+                        """
+                    )]),
+                
+                Page([
+                    .text(".pageForward belongs to an enum that is declared on our evaluator and which contains all the button actions relevant to this screen:"),
                     .smallCode(
                     """
                     enum ButtonAction: EvaluatorAction {
@@ -52,7 +59,7 @@ extension Tutorial {
                     )
                     
                 ], extra: [
-                    .extraSmallCode(
+                    .code(
                     """
                     enum ButtonAction: EvaluatorAction {
                         case pageForward
@@ -76,59 +83,49 @@ extension Tutorial {
                     """
                     )
                 ]),
-                Page([.text("The view layer only knows that name"),
-                      .code(".pageForward"),
-                      .text("and not what it does. The rest is handled by the evaluator and translator.")
-                ]),
-                Page([.text("The evaluator will make decisions about business state. Then the translator will interpret that state and create its own display state. And the view layer will respond any time display state changes.")]),
-                Page([.text("The evaluator and translator are two different stops along an assembly line that rolls toward the view layer.")]),
+                
                 Page([
-                    .text("In the evaluator, our buttonTapped(:) method is where we first hear that a button was tapped:"),
-                    .smallCode(
+                    .text("The evaluator's ButtonAction type conforms to a more general type EvaluatorAction, so the view layer can be fully decoupled from the business layer.")
+                ]),
+                
+                Page([.text("But in our case, our view is a little opinionated and does know our action by its specific type:"),
+                      .smallCode(
                         """
-                        func buttonTapped(action: EvaluatorAction?) {}
+                        Tutorial.Evaluator.ButtonAction
+                        .pageForward
                         """
                     )
-                ], extra: [
-                    .extraSmallCode(
+                ]),
+                
+                Page([
+                    .text("Even an opinionated view doesn't know what a button action really does, though. That's up to the evaluator, who conforms to ButtonEvaluator:"),
+                    .smallCode(
                         """
-                        extension Tutorial.Evaluator: ButtonEvaluator {
-                            func buttonTapped(action: EvaluatorAction?) {
-                                guard let action = action as? ButtonAction else { return }
-                                switch action {
-                                    
-                                case .pageForward:
-                                    pageForward()
-                                    
-                                case .pageBackward:
-                                    pageBackward()
-                                    
-                                case .advanceWorldImage:
-                                    advanceWorldImage()
-                                    
-                                case .helloWorld:
-                                    showWorldStep()
-                                    
-                                case .returnToTutorial(let chapterIndex, let pageIndex, let pageData):
-                                    showInterludeStep()
-                                    afterWait(200) {
-                                        self.showPageStep(
-                                            forChapterIndex: chapterIndex,
-                                            pageIndex: pageIndex,
-                                            pageData: pageData)
-                                    }
-                                    
-                                case .showChapter(let chapterIndex, let pageData):
-                                    self.showPageStep(
-                                        forChapterIndex: chapterIndex,
-                                        pageIndex: 0,
-                                        pageData: pageData)
-                                }
-                            }
+                        protocol ButtonEvaluator: class {
+                          func buttonTapped(
+                            action: EvaluatorAction?)
                         }
                         """
                     )
                 ]),
+                
+                Page([.text("Upon receiving an action, the evaluator will make decisions about business state. Then the translator will interpret that state and create its own display state. And the view layer will respond any time display state changes.")]),
+                
+                Page([.text("The evaluator and translator are two different stops along an assembly line that rolls toward the view layer.")])
+                ),
+                
+            Chapter("Updating Business State", pages:
+                Page([
+                    .text("In the evaluator, our buttonTapped(:) method is where we first hear that a button was tapped."),
+                    .smallCode(
+                        """
+                        func buttonTapped(action: EvaluatorAction?) {
+                            // …
+                        }
+                        """
+                    )
+                ]),
+                    
                 Page([
                     .text("Within that method, we make sure the general EvaluatorAction type sent to us is really the ButtonAction type we expect:"),
                     .smallCode(
@@ -147,41 +144,82 @@ extension Tutorial {
                             pageForward()
                         """
                     )
-                ]),
-                
-                Page([
-                    .text("Now the evaluator begins the work of reflecting on its current state and then updating it. That starts by looking at our current “step.”"),
-                ]),
-                
-                Page([
-                    .text("The evaluator always has one and only one current step. A step is a simple enum that represents a coherent unit of business state."),
-                ]),
-                
-                Page([
-                    .text("Our evaluator has a few different steps it could be in:"),
-                    .extraSmallCode(
-                        """
-                        enum Step: EvaluatorStep {
-                            case loading
-                            case interlude
-                            case mainTitle(
-                              MainTitleStepConfiguration)
-                            case chapterTitle(
-                              ChapterTitleStepConfiguration)
-                            case page(PageStepConfiguration)
-                            case world(WorldStepConfiguration)
+                ], extra: [
+                .code(
+                    """
+                    extension Tutorial.Evaluator: ButtonEvaluator {
+                      func buttonTapped(action: EvaluatorAction?) {
+                        guard let action = action as? ButtonAction else { return }
+                        switch action {
+                                
+                        case .pageForward:
+                          pageForward()
+                                
+                        case .pageBackward:
+                          pageBackward()
+                                
+                        case .advanceWorldImage:
+                          advanceWorldImage()
+                                
+                        case .helloWorld:
+                          showWorldStep()
+                                
+                        case .returnToTutorial(let chapterIndex, let pageIndex, let pageData):
+                          showInterludeStep()
+                          afterWait(200) {
+                            self.showPageStep(
+                              forChapterIndex: chapterIndex,
+                              pageIndex: pageIndex,
+                              pageData: pageData)
+                          }
+                                
+                          case .showChapter(let chapterIndex, let pageData):
+                            self.showPageStep(
+                              forChapterIndex: chapterIndex,
+                              pageIndex: 0,
+                              pageData: pageData)
                         }
+                      }
+                    }
+                    """
+                )
+                ]),
+                
+                Page([
+                    .text("Now the evaluator begins the work of reflecting on its current state and then updating it. It starts by looking at our current “step.”"),
+                ]),
+                
+                Page([
+                    .text("The evaluator always has one and only one current step. A step is a simple enum case that represents a coherent unit of business state."),
+                ]),
+                
+                Page([
+                    .text("Our evaluator has a few different steps it could be in, including a .page step:"),
+                    .smallCode(
+                        """
+                        case page(PageStepConfiguration)
                         """)
+                ], extra: [
+                    .code(
+                    """
+                    enum Step: EvaluatorStep {
+                      case loading
+                      case interlude
+                      case mainTitle(MainTitleStepConfiguration)
+                      case chapterTitle(ChapterTitleStepConfiguration)
+                      case page(PageStepConfiguration)
+                      case world(WorldStepConfiguration)
+                    }
+                    """)
                 ]),
         
                 Page([
                     .text("We should currently be in the page step. We'll check just to make sure:"),
-                    .smallCode(
+                    .extraSmallCode(
                         """
                         func pageForward() {
-                          guard case let
-                            .page(configuration) =
-                            current.step
+                          guard case let .page(configuration)
+                            = current.step
                           else {
                             return
                           }
@@ -189,66 +227,203 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("Now we know our current step's state, stored as a PageStepConfiguration. That configuration has lots of stuff on it:"),
-                    .extraSmallCode(
+                    .text("Now we know our current step's state, stored as a PageStepConfiguration. That configuration has lots of data stored on it:"),
+                    .smallCode(
                         """
                         struct PageStepConfiguration {
-                            var title: String
-                            var body: [Page.Body]
-                            var chapterIndex: Int
-                            var pageIndex: Int
-                            // etc.
+                          var chapterIndex: Int
+                          var pageIndex: Int
+                          var pageData: [Chapter]
+                          // etc.
                         """)
                 ], extra: [
-                    .extraSmallCode(
+                    .code(
                     """
                     struct PageStepConfiguration {
-                        var chapterIndex: Int
-                        var pageIndex: Int
-                        var pageData: [Chapter]
+                      var chapterIndex: Int
+                      var pageIndex: Int
+                      var pageData: [Chapter]
                         
-                        // Computed
-                        var title: String { return pageData[chapterIndex].title }
-                        var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
-                        var extra: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].extra }
-                        var chapterNumber: Int { return chapterIndex + 1 }
-                        var pageNumber: Int { return pageIndex + 1 }
-                        var pageCount: Int { return pageData[chapterIndex].pages.count }
-                        var chapterCount: Int { return pageData.count }
-                        var buttonAction: ButtonAction? { return pageData[chapterIndex].pages[pageIndex].action }
-                        var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
+                      // Computed
+                      var title: String { return pageData[chapterIndex].title }
+                      var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
+                      var extra: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].extra }
+                      var chapterNumber: Int { return chapterIndex + 1 }
+                      var pageNumber: Int { return pageIndex + 1 }
+                      var pageCountWithinChapter: Int { return pageData[chapterIndex].pages.count }
+                      var chapterCount: Int { return pageData.count }
+                      var buttonAction: ButtonAction? { return pageData[chapterIndex].pages[pageIndex].action }
+                      var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
                         
-                        // ...
+                      // ...
                     }
                     """)
                 ]),
                 
                 Page([
-                    .text("Using the values stored in our page configuration, we'll figure out if we're at the end of a chapter, by checking two properties:"),
-                    .code("configuration.pageIndex"),
+                    .text("We'll use the configuration's data to reason about our current business state. We've been asked to page forward, but first we need to figure out if we're in the middle of a chapter or at the end of one.")
+                ]),
+                
+                Page([
+                    .text("We know there are two values stored in our page configuration which will let us figure that out:"),
+                    .code(".pageIndex"),
                     .text("and"),
-                    .code("configuration.pageCount")
+                    .code(".pageCountWithinChapter")
                 ]),
                 
                 Page([
-                    .text("")
+                    .text("Notice that all the data we need is on the configuration itself. We haven't looked anywhere else. In strict implementations of the Poet pattern, the configuration is always the entire source of truth for the evaluator's state.")
                 ]),
                 
                 Page([
-                    .text("")
+                    .text("Why be so exacting? By making the step the source of truth, we can avoid ambiguous or mismatched state. There is no global state, on the evaluator or beyond, to mismanage. There is only what is defined on the current step.")
                 ]),
                 
                 Page([
-                    .text("")
+                    .text("If we determine that we are in the middle of a chapter, we'll figure out the next page index and ask to show it:"),
+                    .extraSmallCode(
+                        """
+                        showPageStep(
+                          forChapterIndex: nextChapter,
+                          pageIndex: nextPage,
+                          pageData: configuration.pageData)
+                        """)
+                ]),
+                
+                
+                Page([
+                .text("We'll do a little extra if we're at the end of a chapter:"),
+                .extraSmallCode(
+                    """
+                    showInterludeStep()
+                      afterWait(500) {
+                        self.showChapterTitleStep( ... )
+                        afterWait(1000) {
+                          self.showPageStep( ... )
+                    """)
+                ], extra: [
+                    .code(
+                    """
+                    func pageForward() {
+                      // Must be in Page step
+                      guard case let .page(configuration) = current.step else { return }
+                        
+                      var isNewChapter = false
+                        
+                      let (nextChapter, nextPage): (Int, Int) = {
+                        if configuration.pageIndex < configuration.pageCountWithinChapter - 1 {
+                          return (configuration.chapterIndex, configuration.pageIndex + 1)
+                        } else {
+                          isNewChapter = true
+                          if configuration.chapterIndex < configuration.chapterCount - 1 {
+                            return (configuration.chapterIndex + 1, 0)
+                          } else {
+                            return (0, 0)
+                          }
+                        }
+                      }()
+                        
+                      if isNewChapter {
+                        showInterludeStep()
+                        afterWait(500) {
+                          self.showChapterTitleStep(
+                            forChapterIndex: nextChapter,
+                            pageData: configuration.pageData)
+                          afterWait(1000) {
+                            self.showPageStep(
+                              forChapterIndex: nextChapter,
+                              pageIndex: nextPage,
+                              pageData: configuration.pageData)
+                          }
+                        }
+                      } else {
+                        showPageStep(
+                          forChapterIndex: nextChapter,
+                          pageIndex: nextPage,
+                          pageData: configuration.pageData)
+                      }
+                    }
+                    """)
                 ]),
                 
                 Page([
-                    .text("")
+                    .text("What does it mean to “show” a step? We just make a new configuration and save it:"),
+                    .smallCode(
+                        """
+                        let configuration =
+                          PageStepConfiguration(
+                            chapterIndex: chapterIndex,
+                            pageIndex: pageIndex,
+                            pageData: pageData
+                        )
+                        current.step =
+                          .page(configuration)
+                        """
+                    )
+                ], extra: [
+                    .code(
+                        """
+                        func showPageStep(forChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
+                          let configuration = PageStepConfiguration(
+                            chapterIndex: chapterIndex,
+                            pageIndex: pageIndex,
+                            pageData: pageData
+                          )
+                          current.step = .page(configuration)
+                        }
+                        """
+                    )
                 ]),
                 
-                Page([.text("Soon we'll talk about why it's handy to have these two different types of state, business and display, after a brief discussion of state in general.")])
+                Page([
+                    .text("When we save the step, our Translator will hear about it. That's because the step is a “Passable” type that publishes its changes:"),
+                    .smallCode("var current = PassableStep(Step.loading)")
+                ]),
+                
+                Page([.text("PassableStep is just a helpful wrapper:"),
+                      .extraSmallCode(
+                        """
+                        class PassableStep<S: EvaluatorStep> {
+                          var subject =
+                            PassthroughSubject<S, Never>()
+                            
+                          var step: S {
+                            willSet { subject.send(newValue) }
+                          }
+                                
+                          init(_ step: S) { self.step = step }
+                        }
+                        """
+                    )
+                ]),
+                
+                Page([.text("The translator listens to the passable step by making a sink for its published values:"),
+                      .extraSmallCode(
+                        """
+                        init(_ step:
+                          PassableStep<Evaluator.Step>) {
+                            behavior = step.subject.sink
+                            { value in
+                              self.translate(step: value)
+                            }
+                        }
+                        """
+                    )
+                ]),
+                
+                Page([.text("So, with the translator already set up properly, the evaluator completes its work simply by saving a new step.")])
+                
+//                Page([.text("Soon we'll talk about why it's handy to have these two different types of state, business and display, after a brief discussion of state in general.")])
             ),
             
+            // Translating
+            Chapter("Translating", pages:
+                
+                Page([.text("")])
+            ),
+            
+            /*
+             
             // State
             Chapter("State", pages:
                 
@@ -376,6 +551,8 @@ extension Tutorial {
                 Page([.text("Observables")]),
                 Page([.text("Passables")])
             ),
+            
+            */
 
             // the right division, the right abstraction between the two layers.
             // there's a hinge where translator behavior is reusable. we eliminate a source of combinatorial explosions.
@@ -385,6 +562,10 @@ extension Tutorial {
             // in terms of business state, incompatible
             // in display state, we're either showing things or not. but any given thing should only know about the state it cares about.
             
+            Chapter("The End", pages:
+                // evaluator known by protocol. buttonTapped(...)
+                Page([.text("Thanks for reading!")])
+            ),
             
         ]
     }

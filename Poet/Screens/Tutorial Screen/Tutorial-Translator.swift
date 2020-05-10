@@ -171,7 +171,7 @@ extension Tutorial.Translator {
         
         // Extra Reading button
         if configuration.extra != nil {
-            withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.65, blendDuration: 0).delay(0.15)) {
+            withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.65, blendDuration: 0)) {
                 shouldShowExtraButton.bool = true
             }
         } else {
@@ -185,7 +185,7 @@ extension Tutorial.Translator {
         chapterTitle.string = configuration.title
         body.array = configuration.body
         extraBody.array = configuration.extra ?? []
-        pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCount)"
+        pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCountWithinChapter)"
         buttonAction.object = configuration.buttonAction
         selectableChapterTitles.array = configuration.selectableChapterTitles
         

@@ -133,7 +133,7 @@ extension Tutorial.Evaluator {
         var extra: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].extra }
         var chapterNumber: Int { return chapterIndex + 1 }
         var pageNumber: Int { return pageIndex + 1 }
-        var pageCount: Int { return pageData[chapterIndex].pages.count }
+        var pageCountWithinChapter: Int { return pageData[chapterIndex].pages.count }
         var chapterCount: Int { return pageData.count }
         var buttonAction: ButtonAction? { return pageData[chapterIndex].pages[pageIndex].action }
         var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
@@ -273,7 +273,7 @@ extension Tutorial.Evaluator {
         var isNewChapter = false
         
         let (nextChapter, nextPage): (Int, Int) = {
-            if configuration.pageIndex < configuration.pageCount - 1 {
+            if configuration.pageIndex < configuration.pageCountWithinChapter - 1 {
                 return (configuration.chapterIndex, configuration.pageIndex + 1)
             } else {
                 isNewChapter = true
@@ -287,14 +287,22 @@ extension Tutorial.Evaluator {
         
         if isNewChapter {
             showInterludeStep()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(500))) {
-                self.showChapterTitleStep(forChapterIndex: nextChapter, pageData: configuration.pageData)
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(1000))) {
-                    self.showPageStep(forChapterIndex: nextChapter, pageIndex: nextPage, pageData: configuration.pageData)
+            afterWait(500) {
+                self.showChapterTitleStep(
+                    forChapterIndex: nextChapter,
+                    pageData: configuration.pageData)
+                afterWait(1000) {
+                    self.showPageStep(
+                        forChapterIndex: nextChapter,
+                        pageIndex: nextPage,
+                        pageData: configuration.pageData)
                 }
             }
         } else {
-            showPageStep(forChapterIndex: nextChapter, pageIndex: nextPage, pageData: configuration.pageData)
+            showPageStep(
+                forChapterIndex: nextChapter,
+                pageIndex: nextPage,
+                pageData: configuration.pageData)
         }
     }
     

@@ -13,6 +13,8 @@ struct Tutorial {}
 extension Tutorial {
     struct Screen: View {
         
+        typealias ButtonAction = Evaluator.ButtonAction
+        
         let _evaluator: Evaluator
         weak var evaluator: Evaluator?
         let translator: Translator
@@ -78,7 +80,7 @@ extension Tutorial {
                             ZStack(alignment: .topLeading) {
                                 HStack {
                                     Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                        Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.pageBackward) }) {
+                                        Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageBackward) }) {
                                             Image(systemName: "chevron.compact.left")
                                                 .resizable()
                                                 .frame(width: 3.5, height: 9, alignment: .center)
@@ -92,7 +94,7 @@ extension Tutorial {
                                         .font(Font.system(size: 12, weight: .semibold).monospacedDigit())
                                     Spacer().frame(width: 14)
                                     Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                        Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.pageForward) }) {
+                                        Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
                                             Image(systemName: "chevron.compact.right")
                                                 .resizable()
                                                 .frame(width: 3.5, height: 9, alignment: .center)
@@ -143,7 +145,7 @@ extension Tutorial {
                                 withAnimation(.linear(duration: 0.15)) {
                                     self.touchingDownOnBox = false
                                 }
-                                self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.pageForward)
+                                self.evaluator?.buttonTapped(action: ButtonAction.pageForward)
                             }
                         }
                         
@@ -164,7 +166,7 @@ extension Tutorial {
                         }
                         .onTapGesture {
                             debugPrint("tap image")
-                            self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.advanceWorldImage)
+                            self.evaluator?.buttonTapped(action: ButtonAction.advanceWorldImage)
                         }
                     }
                     .frame(height: Layout.boxSize)
@@ -194,9 +196,8 @@ extension Tutorial {
                 
                 HStack {
                     Spacer()
-                    Hideable(isShowing: self.translator.shouldShowExtraButton, transition: .asymmetric(insertion: AnyTransition.move(edge: .bottom).combined(with: .opacity), removal: .opacity))
+                    Hideable(isShowing: self.translator.shouldShowExtraButton, transition: .scale)
                     {
-                        HStack {
                             Button(action: {
                                 self.showingExtra.toggle()
                             }) {
@@ -205,17 +206,17 @@ extension Tutorial {
                                 Image(systemName: "text.bubble")
                                     .font(Font.system(size: 20, weight: .medium))
                                     .padding(30)
+                                    .zIndex(4)
                             }.foregroundColor(.primary)
                                 .sheet(isPresented: self.$showingExtra) {
                                     Extra(bodyElements: self.translator.extraBody)
-                            }.zIndex(3)
-                        }
-                        .opacity(0.9)
-                        .padding(.top, 10)
-                        .offset(x: Layout.boxSize / 2.0 - 20, y: 0)
+                            }
+                            .zIndex(4)
                     }
+                    .frame(width: 50, height: 50)
                     Spacer()
                 }
+                .offset(x: Layout.boxSize / 2.0 - 20, y: 0)
                 .offset(x: 0, y: -(Layout.boxSize / 2.0 + 28))
                 
                 // MARK: Button
@@ -347,21 +348,24 @@ struct Extra: View {
                 Spacer()
             }.zIndex(2)
             
-            VStack {
-                Spacer().frame(height:52)
-                ScrollView {
-                    ForEach(self.bodyElements.array, id: \.id) { bodyElement in
-                        HStack {
-                            self.viewForBodyElement(bodyElement)
-                                .foregroundColor(.white)
-                            Spacer()
+            VStack(alignment: .leading) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        Spacer().frame(height:52)
+                        ForEach(self.bodyElements.array, id: \.id) { bodyElement in
+                            HStack {
+                                self.viewForBodyElement(bodyElement)
+                                    .foregroundColor(.white)
+                                Spacer()
+                            }
                         }
+                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 30, trailing: 16))
+                        Spacer()
                     }
-                    .padding(EdgeInsets(top: 0, leading: 36, bottom: 30, trailing: 16))
-                    Spacer()
                 }
             }.background(Rectangle().fill(
-                Color(UIColor(red: 0.1176, green: 0.1176, blue: 0.14117, alpha: 1))
+                Color(UIColor(red: 54/255.0, green: 103/255.0, blue: 194/255.0, alpha: 1))
+//                 Color(UIColor(red: 0.1176, green: 0.1176, blue: 0.14117, alpha: 1))
             ))
         }.edgesIgnoringSafeArea(.bottom)
     }
@@ -379,7 +383,7 @@ struct Extra: View {
         case .code(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 13, weight: .regular, design: .monospaced))
+                    .font(Font.system(size: 12, weight: .semibold, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -15))
@@ -388,7 +392,7 @@ struct Extra: View {
         case .smallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 11.5, weight: .regular, design: .monospaced))
+                    .font(Font.system(size: 11.5, weight: .semibold, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
@@ -397,7 +401,7 @@ struct Extra: View {
         case .extraSmallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 10, weight: .regular, design: .monospaced))
+                    .font(Font.system(size: 10, weight: .semibold, design: .monospaced))
                     .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
@@ -430,7 +434,7 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 16, weight: .medium))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.bottom, 14)
+                    .padding(.bottom, 16)
                     .opacity(self.isTouching ? 0.33 : 1)
             )
         case .code(let code):
@@ -439,7 +443,7 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 13, weight: .regular, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -15))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: -25))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
             
@@ -449,17 +453,17 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 11.5, weight: .regular, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: -25))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
             
         case .extraSmallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 10, weight: .regular, design: .monospaced))
+                    .font(Font.system(size: 10.5, weight: .regular, design: .monospaced))
                     .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: -25))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
         }
