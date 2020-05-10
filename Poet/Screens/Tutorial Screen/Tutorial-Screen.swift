@@ -204,15 +204,17 @@ extension Tutorial {
 //                                    .font(Font.system(size: 20, weight: .medium))
                                 Image(systemName: "text.bubble")
                                     .font(Font.system(size: 20, weight: .medium))
+                                    .padding(30)
                             }.foregroundColor(.primary)
                                 .sheet(isPresented: self.$showingExtra) {
                                     Extra(bodyElements: self.translator.extraBody)
-                            }
+                            }.zIndex(3)
                         }
                         .opacity(0.9)
                         .padding(.top, 10)
+                        .offset(x: Layout.boxSize / 2.0 - 20, y: 0)
                     }
-                    Spacer().frame(width: 48)
+                    Spacer()
                 }
                 .offset(x: 0, y: -(Layout.boxSize / 2.0 + 28))
                 
@@ -340,7 +342,7 @@ struct Extra: View {
     var body: some View {
         ZStack {
             VStack {
-                DismissButton()
+                DismissButton(foregroundColor: Color.white)
                     .zIndex(2)
                 Spacer()
             }.zIndex(2)
@@ -351,14 +353,17 @@ struct Extra: View {
                     ForEach(self.bodyElements.array, id: \.id) { bodyElement in
                         HStack {
                             self.viewForBodyElement(bodyElement)
+                                .foregroundColor(.white)
                             Spacer()
                         }
                     }
                     .padding(EdgeInsets(top: 0, leading: 36, bottom: 30, trailing: 16))
                     Spacer()
                 }
-            }.background(Rectangle().fill(Color(UIColor.systemBackground)))
-        }
+            }.background(Rectangle().fill(
+                Color(UIColor(red: 0.1176, green: 0.1176, blue: 0.14117, alpha: 1))
+            ))
+        }.edgesIgnoringSafeArea(.bottom)
     }
     
     func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
@@ -600,15 +605,18 @@ private struct OnTouchDownGestureModifier: ViewModifier {
     let callback: () -> Void
 
     func body(content: Content) -> some View {
-        content
+        debugPrint("OnTouchDownGestureModifier body")
+        return content
             .simultaneousGesture(DragGesture(minimumDistance: 0)
                 .onChanged { value in
+                    debugPrint("OnTouchDownGestureModifier onChanged")
                     if !self.tapped {
                         self.tapped = true
                         self.callback()
                     }
                 }
                 .onEnded { _ in
+                    debugPrint("OnTouchDownGestureModifier onEnded")
                     self.tapped = false
                 })
     }
@@ -628,10 +636,11 @@ private struct OnTouchUpGestureModifier: ViewModifier {
     let callback: () -> Void
 
     func body(content: Content) -> some View {
-        content
+        debugPrint("OnTouchUpGestureModifier body")
+        return content
             .simultaneousGesture(DragGesture(minimumDistance: 0)
                 .onChanged { value in
-                    
+                    debugPrint("OnTouchUpGestureModifier onChanged")
                     let movementX = value.translation.width
                     let movementY = value.translation.height
                     
@@ -642,20 +651,27 @@ private struct OnTouchUpGestureModifier: ViewModifier {
                     
                     debugPrint("width: \(self.width)")
                     debugPrint("startLocation.x: \(value.startLocation.x)")
+                    debugPrint("startLocation.y: \(value.startLocation.y)")
                     debugPrint("movementx: \(movementX)")
+                    debugPrint("movementy: \(movementY)")
+                    debugPrint("distanceUp: \(distanceUp)")
+                    debugPrint("distanceDown: \(distanceDown)")
+                    debugPrint("distanceLeft: \(distanceLeft)")
                     debugPrint("distanceRight: \(distanceRight)")
                     
-                    if movementX < -distanceLeft ||
-                        movementX > distanceRight ||
-                        movementY < -distanceUp ||
-                        movementY > distanceDown
+                    if movementX < -abs(distanceLeft) ||
+                        movementX > abs(distanceRight) ||
+                        movementY < -abs(distanceUp) ||
+                        movementY > abs(distanceDown)
                         {
+                            debugPrint("setting canceled to true")
                         self.canceled = true
                         self.cancelCallback()
                     }
                     
                 }
                 .onEnded { _ in
+                    debugPrint("OnTouchUpGestureModifier onEnded")
                     if self.canceled == false {
                         self.callback()
                     }

@@ -36,7 +36,7 @@ extension Tutorial {
                 ),
             
             Chapter("Interacting with a View", pages:
-                Page([.text("In Poet, whenever you interact with a view on screen, the view tells an evaluator about it.")]),
+                Page([.text("In Poet, whenever you interact with a view on screen, the view tells its evaluator about it.")]),
                     Page([.text("When you tap this text, for instance, it says to the evaluator:"), .code("buttonTapped(action: Evaluator.ButtonAction\n.pageForward)")]),
                 Page([.text("That's a little wordy, but it's just spelling out an enum case the evaluator owns:"), .code(".pageForward")]),
                 
@@ -86,7 +86,7 @@ extension Tutorial {
                     .text("In the evaluator, our buttonTapped(:) method is where we first hear that a button was tapped:"),
                     .smallCode(
                         """
-                        func buttonTapped(action: EvaluatorAction?) { ... }
+                        func buttonTapped(action: EvaluatorAction?) {}
                         """
                     )
                 ], extra: [
@@ -134,45 +134,6 @@ extension Tutorial {
                     .smallCode(
                         """
                         guard let action = action as? ButtonAction else { return }
-                        """
-                    )
-                ], extra: [
-                    .extraSmallCode(
-                        """
-                        extension Tutorial.Evaluator: ButtonEvaluator {
-                            func buttonTapped(action: EvaluatorAction?) {
-                                guard let action = action as? ButtonAction else { return }
-                                switch action {
-                                    
-                                case .pageForward:
-                                    pageForward()
-                                    
-                                case .pageBackward:
-                                    pageBackward()
-                                    
-                                case .advanceWorldImage:
-                                    advanceWorldImage()
-                                    
-                                case .helloWorld:
-                                    showWorldStep()
-                                    
-                                case .returnToTutorial(let chapterIndex, let pageIndex, let pageData):
-                                    showInterludeStep()
-                                    afterWait(200) {
-                                        self.showPageStep(
-                                            forChapterIndex: chapterIndex,
-                                            pageIndex: pageIndex,
-                                            pageData: pageData)
-                                    }
-                                    
-                                case .showChapter(let chapterIndex, let pageData):
-                                    self.showPageStep(
-                                        forChapterIndex: chapterIndex,
-                                        pageIndex: 0,
-                                        pageData: pageData)
-                                }
-                            }
-                        }
                         """
                     )
                 ]),

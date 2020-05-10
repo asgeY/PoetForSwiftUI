@@ -164,7 +164,7 @@ extension Tutorial.Translator {
                 self.shouldShowTapMe.bool = true
             }
         } else {
-            withAnimation(Animation.linear(duration: 0.5)) {
+            withAnimation(Animation.linear(duration: 0.3)) {
                 self.shouldShowTapMe.bool = false
             }
         }
