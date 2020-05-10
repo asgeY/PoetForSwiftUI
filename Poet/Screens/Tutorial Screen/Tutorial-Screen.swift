@@ -72,43 +72,7 @@ extension Tutorial {
                             }
                         }
                         
-                        
-                        Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) // <-- observed
-                        {
-                            // MARK: Page Count
-                            
-                            ZStack(alignment: .topLeading) {
-                                HStack {
-                                    Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                        Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageBackward) }) {
-                                            Image(systemName: "chevron.compact.left")
-                                                .resizable()
-                                                .frame(width: 3.5, height: 9, alignment: .center)
-                                                .padding(EdgeInsets(top: 30, leading: 16, bottom: 30, trailing: 0))
-                                                .font(Font.system(size: 16, weight: .ultraLight))
-                                                .opacity(0.7)
-                                        }
-                                    }
-                                    Spacer().frame(width: 14)
-                                    ObservingTextView(self.translator.pageXofX) // <-- observed
-                                        .font(Font.system(size: 12, weight: .semibold).monospacedDigit())
-                                    Spacer().frame(width: 14)
-                                    Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                        Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
-                                            Image(systemName: "chevron.compact.right")
-                                                .resizable()
-                                                .frame(width: 3.5, height: 9, alignment: .center)
-                                                .padding(EdgeInsets(top: 30, leading: 0, bottom: 30, trailing: 16))
-                                                .font(Font.system(size: 16, weight: .ultraLight))
-                                                .opacity(0.7)
-                                        }
-                                    }
-                                }.offset(x: 0, y: -(Layout.boxSize / 2.0 + 24))
-                            }
-                            .fixedSize(horizontal: true, vertical: true)
-                            .frame(width: 100, height: 100)
-                            .foregroundColor(Color.primary)
-                        }
+                        // MARK: Page Body
                                 
                         Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) // <-- observed
                         {
@@ -118,8 +82,6 @@ extension Tutorial {
                                         self.touchingDownOnBox ? Color.primary.opacity(0.03) : Color.primary.opacity(0.025)
                                 )
                                 VStack {
-                                    
-                                    // MARK: Page Body
                                     
                                     TutorialBodyView(bodyElements: self.translator.body, isTouching: self.$touchingDownOnBox)
                                     Spacer()
@@ -148,6 +110,43 @@ extension Tutorial {
                                 self.evaluator?.buttonTapped(action: ButtonAction.pageForward)
                             }
                         }
+                        
+                        // MARK: Page Count and Arrows
+                        
+                        Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) {
+                            
+                            ZStack(alignment: .topLeading) {
+                                HStack {
+                                    Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
+                                        Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageBackward) }) {
+                                            Image(systemName: "chevron.compact.left")
+                                                .resizable()
+                                                .frame(width: 3.5, height: 9, alignment: .center)
+                                                .padding(EdgeInsets(top: 32, leading: 18, bottom: 32, trailing: 0))
+                                                .font(Font.system(size: 16, weight: .medium))
+                                                .opacity(0.2)
+                                        }.zIndex(4)
+                                    }
+                                    Spacer().frame(width: 15)
+                                    ObservingTextView(self.translator.pageXofX) // <-- observed
+                                        .font(Font.system(size: 12, weight: .semibold).monospacedDigit())
+                                    Spacer().frame(width: 15)
+                                    Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
+                                        Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
+                                            Image(systemName: "chevron.compact.right")
+                                                .resizable()
+                                                .frame(width: 3.5, height: 9, alignment: .center)
+                                                .padding(EdgeInsets(top: 32, leading: 0, bottom: 32, trailing: 18))
+                                                .font(Font.system(size: 16, weight: .medium))
+                                                .opacity(0.2)
+                                        }.zIndex(4)
+                                    }
+                                }.offset(x: 0, y: -(Layout.boxSize / 2.0 + 24))
+                            }
+                            .fixedSize(horizontal: true, vertical: true)
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(Color.primary)
+                        }.zIndex(4)
                         
                         // MARK: Image
                         
