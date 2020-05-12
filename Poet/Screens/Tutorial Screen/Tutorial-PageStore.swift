@@ -488,7 +488,7 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("You'll notice something: they all are an “observable” type. Observable types are just convenient wrappers around published value types. They tuck away the slight complexity of publishing.")
+                    .text("You'll notice something: they are all an “observable” type. Observable types are just convenient wrappers around published value types. They tuck away the slight complexity of publishing.")
                 ]),
                 
                 Page([
@@ -496,11 +496,19 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("Fortunately, because our evaluator holds onto its state as a coherent step, the translator can translate each step independently of the others. As long as every property is set correctly, we have done our job to a T.")
+                    .text("Fortunately, because our evaluator holds onto its state as a coherent step, the translator can translate each step independently of the others. As long as every property is set correctly for a given step, we have done our job to a T.")
                 ]),
                 
                 Page([
-                    .text("There's another benefit to these wrappers. By keeping a published value on a separate object, we don't end up making our views observe the translator itself. If they did, they would remake themselves whenever any value on the translator changes, even values the view isn't interested in.")
+                    .text("There's another benefit to these observable wrappers. Imagine we kept all of our published values on our translator, instead of on separate objects. Every view would observe the translator itself.")
+                ]),
+                
+                Page([
+                    .text("If we did that, our entire view hierarchy would remake itself whenever a value on the translator changes, even values a particular view isn't interested in.")
+                ]),
+                
+                Page([
+                    .text("This is inefficient, and it could also lead to unexpected outcomes — if views exhibit certain behavior whenever they appear, for instance.")
                 ]),
                 
                 Page([
