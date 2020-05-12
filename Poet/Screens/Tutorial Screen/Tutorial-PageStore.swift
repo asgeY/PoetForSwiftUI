@@ -255,7 +255,8 @@ extension Tutorial {
                       var chapterCount: Int { return pageData.count }
                       var buttonAction: ButtonAction? { return pageData[chapterIndex].pages[pageIndex].action }
                       var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
-                        
+                       
+                      // Helper methods
                       // ...
                     }
                     """)
@@ -474,7 +475,7 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("For instance, here are a few strings and integers we set, which correspond to stuff we see on screen:"),
+                    .text("For instance, here are a few strings and integers we will set, which correspond to stuff we see on screen:"),
                     .smallCode(
                         """
                         var mainTitle = ObservableString()
@@ -488,6 +489,14 @@ extension Tutorial {
                 
                 Page([
                     .text("You'll notice something: they all are an “observable” type. Observable types are just convenient wrappers around published value types. They tuck away the slight complexity of publishing.")
+                ]),
+                
+                Page([
+                    .text("The translator holds onto many observable properties, each of which will be observed by some view on screen. The job of the translator is to set all these properties coherently, so that the view layer makes the correct choices.")
+                ]),
+                
+                Page([
+                    .text("Fortunately, because our evaluator holds onto its state as a coherent step, the translator can translate each step independently of the others. As long as every property is set correctly, we have done our job to a T.")
                 ]),
                 
                 Page([

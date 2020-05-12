@@ -138,6 +138,7 @@ extension Tutorial.Evaluator {
         var buttonAction: ButtonAction? { return pageData[chapterIndex].pages[pageIndex].action }
         var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
         
+        // Helper methods
         func selectableChapterTitles(for pageData: [Chapter]) -> [NumberedNamedEvaluatorAction] {
             var selectableChapterTitles = [NumberedNamedEvaluatorAction]()
             
