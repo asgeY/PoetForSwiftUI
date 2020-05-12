@@ -218,7 +218,7 @@ extension Tutorial {
                                     .zIndex(4)
                             }.foregroundColor(.primary)
                                 .sheet(isPresented: self.$showingExtra) {
-                                    Extra(bodyElements: self.translator.extraBody)
+                                    Extra(bodyElements: self.translator.supplementBody)
                             }
                             .zIndex(4)
                     }

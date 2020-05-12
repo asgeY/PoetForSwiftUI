@@ -27,7 +27,7 @@ extension Tutorial {
         
         // Arrays
         var body = ObservableArray<Evaluator.Page.Body>([])
-        var extraBody = ObservableArray<Evaluator.Page.Body>([])
+        var supplementBody = ObservableArray<Evaluator.Page.Body>([])
         var selectableChapterTitles = ObservableArray<NumberedNamedEvaluatorAction>([])
         
         // Bools
@@ -67,30 +67,30 @@ extension Tutorial.Translator {
         switch step {
             
         case .loading:
-            showLoading()
+            translateLoading()
             
         case .mainTitle(let configuration):
-            showMainTitleStep(configuration)
+            translateMainTitleStep(configuration)
             
         case .chapterTitle(let configuration):
-            showChapterTitleStep(configuration)
+            translateChapterTitleStep(configuration)
 
         case .page(let configuration):
-            showPageStep(configuration)
+            translatePageStep(configuration)
             
         case .world(let configuration):
-            showWorldStep(configuration)
+            translateWorldStep(configuration)
             
         case .interlude:
-            showInterlude()
+            translateInterlude()
         }
     }
     
-    func showLoading() {
-        // do nothing
+    func translateLoading() {
+        // do nothing. no initial setup necessary.
     }
     
-    func showMainTitleStep(_ configuration: Evaluator.MainTitleStepConfiguration) {
+    func translateMainTitleStep(_ configuration: Evaluator.MainTitleStepConfiguration) {
         shouldShowMainTitle.bool = true
         mainTitle.string = configuration.title
         
@@ -108,7 +108,7 @@ extension Tutorial.Translator {
         shouldShowExtraButton.bool = false
     }
     
-    func showChapterTitleStep(_ configuration: Evaluator.ChapterTitleStepConfiguration) {
+    func translateChapterTitleStep(_ configuration: Evaluator.ChapterTitleStepConfiguration) {
         withAnimation(.linear(duration: 0.1)) {
             shouldShowChapterTitle.bool = true
         }
@@ -131,7 +131,7 @@ extension Tutorial.Translator {
         chapterTitle.string = configuration.title
     }
     
-    func showPageStep(_ configuration: Evaluator.PageStepConfiguration) {
+    func translatePageStep(_ configuration: Evaluator.PageStepConfiguration) {
         let firstPage = configuration.chapterNumber == 1 && configuration.pageNumber == 1
     
         // linear animation
@@ -170,7 +170,7 @@ extension Tutorial.Translator {
         }
         
         // Extra Reading button
-        if configuration.extra != nil {
+        if configuration.supplement != nil {
             withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) {
                 shouldShowExtraButton.bool = true
             }
@@ -184,7 +184,7 @@ extension Tutorial.Translator {
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
         body.array = configuration.body
-        extraBody.array = configuration.extra ?? []
+        supplementBody.array = configuration.supplement ?? []
         pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCountWithinChapter)"
         buttonAction.object = configuration.buttonAction
         selectableChapterTitles.array = configuration.selectableChapterTitles
@@ -194,7 +194,7 @@ extension Tutorial.Translator {
         }
     }
     
-    func showWorldStep(_ configuration: Evaluator.WorldStepConfiguration) {
+    func translateWorldStep(_ configuration: Evaluator.WorldStepConfiguration) {
         
         // show
         shouldShowChapterTitle.bool = true
@@ -225,7 +225,7 @@ extension Tutorial.Translator {
         }
     }
     
-    func showInterlude() {
+    func translateInterlude() {
         withAnimation(.linear(duration: 0.2)) {
             
             // hide

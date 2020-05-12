@@ -130,7 +130,7 @@ extension Tutorial.Evaluator {
         // Computed
         var title: String { return pageData[chapterIndex].title }
         var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
-        var extra: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].supplement }
+        var supplement: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].supplement }
         var chapterNumber: Int { return chapterIndex + 1 }
         var pageNumber: Int { return pageIndex + 1 }
         var pageCountWithinChapter: Int { return pageData[chapterIndex].pages.count }

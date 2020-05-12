@@ -111,7 +111,7 @@ extension Tutorial {
                 
                 Page([.text("Upon receiving an action, the evaluator will make decisions about business state. Then the translator will interpret that state and create its own display state. And the view layer will respond any time display state changes.")]),
                 
-                Page([.text("The evaluator and translator are two different stops along an assembly line that rolls toward the view layer.")])
+                Page([.text("The evaluator and translator are two different stops along a route that rolls toward the view layer.")])
                 ),
                 
             Chapter("Updating Business State", pages:
@@ -419,8 +419,84 @@ extension Tutorial {
             // Translating
             Chapter("Translating", pages:
                 
-                Page([.text("")])
-            ),
+                Page([
+                    .text("The work of the translator is more straightforward than that of the evaluator. For any given state in the evaluator, the translator must turn it into display state (should I show something? what should it say? does it animate?) in a reliable, deterministic manner."),
+                ]),
+                    
+                Page([
+                    .text("It does this by calling the translate(:) method on itself whenever it notices that the evaluator's current.step has been modified:"),
+                    .smallCode("self.translate(step: value)"),
+                    .text("That method expects a Step declared on the evaluator."),
+                ]),
+                    
+                Page([
+                    .text("In the translate method, the translator just gathers the step's configuration and calls a corresponding method:"),
+                    .smallCode(
+                        """
+                        func translate(step: Evaluator.Step) {
+                          switch step {
+                          case .page(let configuration):
+                          translatePageStep(configuration)
+                        """
+                    )
+                ], supplement: [
+                    .code(
+                        """
+                        func translate(step: Evaluator.Step) {
+                            switch step {
+                                
+                            case .loading:
+                                translateLoading()
+                                
+                            case .mainTitle(let configuration):
+                                translateMainTitleStep(configuration)
+                                
+                            case .chapterTitle(let configuration):
+                                translateChapterTitleStep(configuration)
+
+                            case .page(let configuration):
+                                translatePageStep(configuration)
+                                
+                            case .world(let configuration):
+                                translateWorldStep(configuration)
+                                
+                            case .interlude:
+                                translateInterlude()
+                            }
+                        }
+                        """
+                    )]
+                ),
+                
+                Page([
+                    .text("And now we face the work of creating display state. It turns out that's just a matter of assigning basic value types like strings, integers, bools, and arrays. Occasionally, we also choose an animation.")
+                ]),
+                
+                Page([
+                    .text("For instance, here are a few strings and integers we set, which correspond to stuff we see on screen:"),
+                    .smallCode(
+                        """
+                        var mainTitle = ObservableString()
+                        var chapterNumber = ObservableInt()
+                        var chapterTitle =
+                          ObservableString()
+                        var pageXofX = ObservableString()
+                        """
+                    )
+                ]),
+                
+                Page([
+                    .text("You'll notice something: they all are an “observable” type. Observable types are just convenient wrappers around published value types. They tuck away the slight complexity of publishing.")
+                ]),
+                
+                Page([
+                    .text("There's another benefit to these wrappers. By keeping a published value on a separate object, we don't end up making our views observe the translator itself. If they did, they would remake themselves whenever any value on the translator changes, even values the view isn't interested in.")
+                ]),
+                
+                Page([
+                    .text("")
+                ])
+            )
             
             /*
              
