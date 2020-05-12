@@ -32,6 +32,7 @@ extension Tutorial {
                 Page([.text("And the view layer — a screen made up of SwiftUI View structs — is the part that observes or is passed the translator's display state.")]),
                 Page([.text("A given user flow requires participation from all three layers — evaluator, translator, and view. Sometimes we need to be deliberate about each layer and spell out their work step by step.")]),
                 Page([.text("Other times, we already know what each layer should do, and protocol-oriented programming can bridge them all with default protocol implementations.")]),
+                Page([.text("There's one more feature of the Poet pattern that's pretty fundamental: “steps.” The evaluator's business state is always encapsulated in a single step, a distinct unit of state. We'll talk a lot more about that soon.")]),
                 Page([.text("That's enough of a high-level overview. Back to this screen and how it was made.")])
                 ),
             
