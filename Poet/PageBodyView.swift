@@ -130,7 +130,7 @@ struct PageBodyView: View {
                         Divider()
                             .padding(.bottom, 20)
                         Text(string)
-                            .font(Font.system(size: 12, design: .monospaced))
+                            .font(Font.system(size: 12, weight: .medium))
                             .opacity(0.4)
                             .padding(.bottom, 20)
                             .fixedSize(horizontal: false, vertical: true)

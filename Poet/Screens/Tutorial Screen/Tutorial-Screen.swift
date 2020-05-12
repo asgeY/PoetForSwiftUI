@@ -79,7 +79,7 @@ extension Tutorial {
                             ZStack(alignment: .topLeading) {
                                 RoundedRectangle(cornerRadius: 12)
                                     .fill(
-                                        self.touchingDownOnBox ? Color.primary.opacity(0.03) : Color.primary.opacity(0.025)
+                                        self.touchingDownOnBox ? Color.primary.opacity(0.032) : Color.primary.opacity(0.026)
                                 )
                                 VStack {
                                     
@@ -121,26 +121,36 @@ extension Tutorial {
                                         Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageBackward) }) {
                                             Image(systemName: "chevron.compact.left")
                                                 .resizable()
-                                                .frame(width: 3.5, height: 9, alignment: .center)
+                                                .frame(width: 3.8, height: 10, alignment: .center)
                                                 .padding(EdgeInsets(top: 32, leading: 18, bottom: 32, trailing: 0))
                                                 .font(Font.system(size: 16, weight: .medium))
                                                 .opacity(0.2)
-                                        }.zIndex(4)
+                                        }
+                                        .layoutPriority(0)
+                                        .zIndex(4)
                                     }
+                                    .layoutPriority(0)
                                     Spacer().frame(width: 15)
+                                        .layoutPriority(0)
                                     ObservingTextView(self.translator.pageXofX) // <-- observed
                                         .font(Font.system(size: 12, weight: .semibold).monospacedDigit())
+                                        .fixedSize(horizontal: true, vertical: false)
+                                        .layoutPriority(2)
                                     Spacer().frame(width: 15)
+                                        .layoutPriority(0)
                                     Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
                                         Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
                                             Image(systemName: "chevron.compact.right")
                                                 .resizable()
-                                                .frame(width: 3.5, height: 9, alignment: .center)
+                                                .frame(width: 3.8, height: 10, alignment: .center)
                                                 .padding(EdgeInsets(top: 32, leading: 0, bottom: 32, trailing: 18))
                                                 .font(Font.system(size: 16, weight: .medium))
                                                 .opacity(0.2)
-                                        }.zIndex(4)
+                                        }
+                                        .layoutPriority(0)
+                                        .zIndex(4)
                                     }
+                                    .layoutPriority(0)
                                 }.offset(x: 0, y: -(Layout.boxSize / 2.0 + 24))
                             }
                             .fixedSize(horizontal: true, vertical: true)
@@ -154,7 +164,7 @@ extension Tutorial {
                         {
                             ZStack(alignment: .center) {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.primary.opacity(0.025))
+                                    .fill(Color.primary.opacity(0.026))
                                 
                                 ObservingImageView(self.translator.imageName) // <-- observed
                                     .font(Font.headline)
@@ -216,7 +226,7 @@ extension Tutorial {
                     Spacer()
                 }
                 .offset(x: Layout.boxSize / 2.0 - 20, y: 0)
-                .offset(x: 0, y: -(Layout.boxSize / 2.0 + 28))
+                .offset(x: 0, y: -(Layout.boxSize / 2.0 + 26))
                 
                 // MARK: Button
                 

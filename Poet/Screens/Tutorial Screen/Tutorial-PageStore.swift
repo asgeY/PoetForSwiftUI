@@ -58,7 +58,7 @@ extension Tutorial {
                     """
                     )
                     
-                ], extra: [
+                ], supplement: [
                     .code(
                     """
                     enum ButtonAction: EvaluatorAction {
@@ -144,7 +144,7 @@ extension Tutorial {
                             pageForward()
                         """
                     )
-                ], extra: [
+                ], supplement: [
                 .code(
                     """
                     extension Tutorial.Evaluator: ButtonEvaluator {
@@ -199,7 +199,7 @@ extension Tutorial {
                         """
                         case page(PageStepConfiguration)
                         """)
-                ], extra: [
+                ], supplement: [
                     .code(
                     """
                     enum Step: EvaluatorStep {
@@ -236,7 +236,7 @@ extension Tutorial {
                           var pageData: [Chapter]
                           // etc.
                         """)
-                ], extra: [
+                ], supplement: [
                     .code(
                     """
                     struct PageStepConfiguration {
@@ -247,7 +247,7 @@ extension Tutorial {
                       // Computed
                       var title: String { return pageData[chapterIndex].title }
                       var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
-                      var extra: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].extra }
+                      var supplement: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].supplement }
                       var chapterNumber: Int { return chapterIndex + 1 }
                       var pageNumber: Int { return pageIndex + 1 }
                       var pageCountWithinChapter: Int { return pageData[chapterIndex].pages.count }
@@ -301,7 +301,7 @@ extension Tutorial {
                         afterWait(1000) {
                           self.showPageStep( ... )
                     """)
-                ], extra: [
+                ], supplement: [
                     .code(
                     """
                     func pageForward() {
@@ -360,7 +360,7 @@ extension Tutorial {
                           .page(configuration)
                         """
                     )
-                ], extra: [
+                ], supplement: [
                     .code(
                         """
                         func showPageStep(forChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
@@ -561,11 +561,6 @@ extension Tutorial {
             
             // in terms of business state, incompatible
             // in display state, we're either showing things or not. but any given thing should only know about the state it cares about.
-            
-            Chapter("The End", pages:
-                // evaluator known by protocol. buttonTapped(...)
-                Page([.text("Thanks for reading!")])
-            ),
             
         ]
     }
