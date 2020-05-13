@@ -492,11 +492,39 @@ extension Tutorial {
                 ]),
                 
                 Page([
+                    .text("ObservableString, for instance, looks like this:"),
+                    .extraSmallCode(
+                    """
+                    class ObservableString: ObservableObject {
+                      @Published var string: String
+                        
+                      init(_ string: String = "") {
+                        self.string = string
+                      }
+                    }
+                    """
+                    )
+                ]),
+                
+                Page([
                     .text("The translator holds onto many observable properties, each of which will be observed by some view on screen. The job of the translator is to set all these properties coherently, so that the view layer makes the correct choices.")
                 ]),
                 
                 Page([
                     .text("Fortunately, because our evaluator holds onto its state as a coherent step, the translator can translate each step independently of the others. As long as every property is set correctly for a given step, we have done our job to a T.")
+                ]),
+                
+                Page([
+                    .text("We have an “interlude” step in which we want everything on screen to go away. To translate that step, we just say no to everything:"),
+                    .extraSmallCode(
+                        """
+                        shouldShowChapterTitle.bool = false
+                        shouldShowChapterNumber.bool = false
+                        shouldShowBody.bool = false
+                        shouldShowTapMe.bool = false
+                        // etc.
+                        """
+                    )
                 ]),
                 
                 Page([

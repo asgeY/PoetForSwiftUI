@@ -10,25 +10,21 @@ import Combine
 import Foundation
 
 class ObservableString: ObservableObject {
-    @Published var string: String = ""
+    @Published var string: String
     
-    init() {}
-    
-    init(_ string: String) {
+    init(_ string: String = "") {
         self.string = string
     }
 }
 
 class ObservableBool: ObservableObject, Equatable {
-    @Published var bool: Bool = false
+    @Published var bool: Bool
     
     static func == (lhs: ObservableBool, rhs: ObservableBool) -> Bool {
         return lhs.bool == rhs.bool
     }
     
-    init() {}
-    
-    init(_ bool: Bool) {
+    init(_ bool: Bool = false) {
         self.bool = bool
     }
     
@@ -37,11 +33,7 @@ class ObservableBool: ObservableObject, Equatable {
 class ObservableDouble: ObservableObject {
     @Published var double: Double
     
-    init() {
-        double = 0.0
-    }
-    
-    init(_ double: Double) {
+    init(_ double: Double = 0.0) {
         self.double = double
     }
 }
@@ -49,11 +41,7 @@ class ObservableDouble: ObservableObject {
 class ObservableInt: ObservableObject {
     @Published var int: Int
     
-    init() {
-        int = 0
-    }
-    
-    init(_ int: Int) {
+    init(_ int: Int = 0) {
         self.int = int
     }
 }
@@ -61,9 +49,7 @@ class ObservableInt: ObservableObject {
 class ObservableURL: ObservableObject {
     @Published var url: URL?
     
-    init() {}
-    
-    init(_ url: URL) {
+    init(_ url: URL? = nil) {
         self.url = url
     }
 }
