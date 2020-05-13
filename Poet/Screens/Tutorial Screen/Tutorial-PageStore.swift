@@ -507,28 +507,11 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("The translator holds onto many observable properties, each of which will be observed by some view on screen. The job of the translator is to set all these properties coherently, so that the view layer makes the correct choices.")
+                    .text("Any view in the view layer can observe an ObservableString by holding onto it as an @ObservedObject. Every time the wrapped string value changes, the view will update.")
                 ]),
                 
                 Page([
-                    .text("Fortunately, because our evaluator holds onto its state as a coherent step, the translator can translate each step independently of the others. As long as every property is set correctly for a given step, we have done our job to a T.")
-                ]),
-                
-                Page([
-                    .text("We have an “interlude” step in which we want everything on screen to go away. To translate that step, we just say no to everything:"),
-                    .extraSmallCode(
-                        """
-                        shouldShowChapterTitle.bool = false
-                        shouldShowChapterNumber.bool = false
-                        shouldShowBody.bool = false
-                        shouldShowTapMe.bool = false
-                        // etc.
-                        """
-                    )
-                ]),
-                
-                Page([
-                    .text("There's another benefit to these observable wrappers. Imagine we kept all of our published values on our translator, instead of on separate objects. Every view would observe the translator itself.")
+                    .text("There's another benefit to these observable wrappers. Imagine we kept all of our published values on the translator itself, instead of on these separate objects. Every view would have to hold onto the translator as an @ObservedObject.")
                 ]),
                 
                 Page([
@@ -539,6 +522,162 @@ extension Tutorial {
                     .text("This is inefficient, and it could also lead to unexpected outcomes — if views exhibit certain behavior whenever they appear, for instance.")
                 ]),
                 
+                Page([
+                    .text("The translator holds onto many observable properties, each of which will be observed by some view on screen. The job of the translator is to set all these properties coherently, so that the view layer makes the correct choices.")
+                ]),
+                
+                Page([
+                    .text("Fortunately, because our evaluator holds onto its state as a coherent step, the translator can translate each step independently of the others. As long as every property is set correctly for a given step, we have done our job to a T.")
+                ]),
+                
+                
+                Page([
+                    .text("We have an “interlude” step, for example, in which we want everything on screen to go away. To translate that step, we just say no to everything:"),
+                    .extraSmallCode(
+                        """
+                        shouldShowChapterNumber.bool = false
+                        shouldShowChapterTitle.bool = false
+                        shouldShowBody.bool = false
+                        shouldShowTapMe.bool = false
+                        """
+                    )
+                ], supplement: [
+                    .code(
+                        """
+                        func translateInterlude() {
+                          withAnimation(.linear(duration: 0.2)) {
+                                
+                            // hide everything
+                            shouldFocusOnChapterTitle.bool = false
+                            shouldShowMainTitle.bool = false
+                            shouldShowChapterNumber.bool = false
+                            shouldShowChapterTitle.bool = false
+                            shouldShowBody.bool = false
+                            shouldShowImage.bool = false
+                            shouldShowTapMe.bool = false
+                            shouldShowButton.bool = false
+                            shouldShowLeftAndRightButtons.bool = false
+                            shouldShowTableOfContentsButton.bool = false
+                            shouldShowTableOfContents.bool = false
+                            shouldShowAboutButton.bool = false
+                            shouldShowExtraButton.bool = false
+                          }
+                        }
+                        """
+                    )
+                ]),
+                
+                Page([
+                    .text("When we translate the “page” step, we say yes to some of those things:"),
+                    .extraSmallCode(
+                        """
+                        shouldShowChapterNumber.bool = true
+                        shouldShowChapterTitle.bool = true
+                        shouldShowBody.bool = true
+                        """
+                    )
+                ]),
+                
+                Page([
+                    .text("We're a little more clever about the “Tap Me” text:"),
+                    .extraSmallCode(
+                        """
+                        if firstPage {
+                          withAnimation( ... ) {
+                            self.shouldShowTapMe.bool = true
+                          }
+                        } else {
+                          withAnimation( ... ) {
+                            self.shouldShowTapMe.bool = false
+                          }
+                        }
+                        """
+                    )
+                ], supplement: [
+                    .code(
+                    """
+                    func translatePageStep(_ configuration: Evaluator.PageStepConfiguration) {
+                      let firstPage = configuration.chapterNumber == 1 && configuration.pageNumber == 1
+                    
+                      // linear animation
+                      withAnimation(.linear(duration: 0.4)) {
+                        shouldShowChapterNumber.bool = true
+                        shouldShowChapterTitle.bool = true
+                        shouldFocusOnChapterTitle.bool = false
+                        shouldShowImage.bool = false
+                        shouldShowTableOfContents.bool = false
+                        shouldShowTableOfContentsButton.bool = !firstPage
+                        shouldShowAboutButton.bool = !firstPage
+                      }
+                        
+                      // spring animation
+                      withAnimation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0)) {
+                        shouldShowButton.bool = configuration.buttonAction != nil
+                      }
+                        
+                      // delayed animation
+                      withAnimation(Animation.linear(duration: 0.4).delay(0.3)) {
+                        shouldShowBody.bool = true
+                        shouldEnableRightButton.bool = true
+                        shouldShowLeftAndRightButtons.bool = !firstPage
+                        shouldEnableLeftButton.bool = !firstPage
+                      }
+                        
+                      // "Tap Me" Chapter 1 Page 1
+                      if firstPage {
+                        withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0).delay(0.8)) {
+                          self.shouldShowTapMe.bool = true
+                        }
+                      } else {
+                        withAnimation(Animation.linear(duration: 0.3)) {
+                          self.shouldShowTapMe.bool = false
+                        }
+                      }
+                        
+                      // Extra Reading button
+                      if configuration.supplement != nil {
+                        withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) {
+                          shouldShowExtraButton.bool = true
+                        }
+                      } else {
+                        withAnimation(Animation.linear(duration: 0.2)) {
+                          shouldShowExtraButton.bool = false
+                        }
+                      }
+                        
+                      // values
+                      chapterNumber.int = configuration.chapterNumber
+                      chapterTitle.string = configuration.title
+                      body.array = configuration.body
+                      supplementBody.array = configuration.supplement ?? []
+                      pageXofX.string = "\\(configuration.pageNumber) / \\(configuration.pageCountWithinChapter)"
+                      buttonAction.object = configuration.buttonAction
+                      selectableChapterTitles.array = configuration.selectableChapterTitles
+                        
+                      if let actionName = configuration.buttonAction?.name {
+                        buttonName.string = actionName
+                      }
+                    }
+                    """
+                    )
+                ]),
+                
+                Page([
+                    .text("Some steps will be very simple to translate, while others will account for animations and involve what we might call display reasoning — say, formatting a string, or choosing whether or not to show a thing, based on the presence of a certain value.")
+                ]),
+                
+                Page([
+                    .text("So we have formalized two distinct phases of reasoning for the programmer. Business decisions, like manipulating data and deciding what to do next, occur in the evaluator. Display decisions about how to present the data, or how to animate a transition, happen in the translator.")
+                ]),
+                
+                Page([
+                    .text("In a simple enough user flow, we could get by without all these distinctions. The translator/evaluator split isn't strictly necessary. Neither is the division of state into distinct steps.")
+                ]),
+                
+                Page([
+                    .text("")
+                ]),
+                                
                 Page([
                     .text("")
                 ])

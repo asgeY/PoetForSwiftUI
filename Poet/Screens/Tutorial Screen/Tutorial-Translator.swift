@@ -201,8 +201,8 @@ extension Tutorial.Translator {
         shouldShowButton.bool = true
         
         // hide
-        shouldFocusOnChapterTitle.bool = false
         shouldShowChapterNumber.bool = false
+        shouldFocusOnChapterTitle.bool = false
         shouldShowBody.bool = false
         shouldShowLeftAndRightButtons.bool = false
         shouldShowTableOfContentsButton.bool = false
@@ -228,11 +228,11 @@ extension Tutorial.Translator {
     func translateInterlude() {
         withAnimation(.linear(duration: 0.2)) {
             
-            // hide
+            // hide everything
             shouldFocusOnChapterTitle.bool = false
             shouldShowMainTitle.bool = false
-            shouldShowChapterTitle.bool = false
             shouldShowChapterNumber.bool = false
+            shouldShowChapterTitle.bool = false
             shouldShowBody.bool = false
             shouldShowImage.bool = false
             shouldShowTapMe.bool = false

@@ -423,6 +423,8 @@ struct TutorialBodyView: View {
     @ObservedObject var bodyElements: ObservableArray<Tutorial.Evaluator.Page.Body>
     @Binding var isTouching: Bool
     
+    let bottomPadding: CGFloat = 16
+    
     var body: some View {
         VStack {
             ForEach(bodyElements.array, id: \.id) { bodyElement in
@@ -432,7 +434,7 @@ struct TutorialBodyView: View {
                 }
             }
             Spacer()
-        }.padding(EdgeInsets(top: 28, leading: 28, bottom: 0, trailing: 28))
+        }.padding(EdgeInsets(top: 28, leading: 28, bottom: -bottomPadding, trailing: 28))
     }
     
     func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
@@ -452,7 +454,7 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 13, weight: .regular, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: -25))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -25))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
             
@@ -462,7 +464,7 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 11.5, weight: .regular, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: -25))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -25))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
             
@@ -472,7 +474,7 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 10.5, weight: .regular, design: .monospaced))
                     .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: -25))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -25))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
         }
