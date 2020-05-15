@@ -29,11 +29,13 @@ extension Template {
             ZStack {
                 
                 VStack {
-                    ObservingTextView(translator.greeting)
+                    ObservingTextView(translator.title)
+                        .font(Font.headline)
+                        .padding(50)
                 }
                 
                 VStack {
-                    BackButton()
+                    DismissButton()
                     Spacer()
                 }
             }.onAppear {

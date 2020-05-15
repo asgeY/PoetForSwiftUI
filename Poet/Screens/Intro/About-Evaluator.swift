@@ -25,6 +25,6 @@ extension About {
 
 extension About.Evaluator: ViewCycleEvaluator {
     func viewDidAppear() {
-        translator.show(page: page)
+        translator.show(page: page) // <-- quick and dirty. not real state-based Poet
     }
 }

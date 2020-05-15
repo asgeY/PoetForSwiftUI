@@ -47,6 +47,11 @@ extension Tutorial {
         var shouldShowAboutButton = ObservableBool()
         var shouldShowExtraButton = ObservableBool()
         
+        // Passable
+        var showSomething = PassablePlease()
+        var showTemplate = PassablePlease()
+        var showHelloWorld = PassablePlease()
+        
         // Actions
         var buttonAction = Observable<EvaluatorAction?>(nil)
         var tableOfContentsAction = Observable<EvaluatorAction?>(nil)
@@ -77,9 +82,6 @@ extension Tutorial.Translator {
 
         case .page(let configuration):
             translatePageStep(configuration)
-            
-        case .world(let configuration):
-            translateWorldStep(configuration)
             
         case .interlude:
             translateInterlude()
@@ -191,37 +193,6 @@ extension Tutorial.Translator {
         
         if let actionName = configuration.buttonAction?.name {
             buttonName.string = actionName
-        }
-    }
-    
-    func translateWorldStep(_ configuration: Evaluator.WorldStepConfiguration) {
-        
-        // show
-        shouldShowChapterTitle.bool = true
-        shouldShowButton.bool = true
-        
-        // hide
-        shouldShowChapterNumber.bool = false
-        shouldFocusOnChapterTitle.bool = false
-        shouldShowBody.bool = false
-        shouldShowLeftAndRightButtons.bool = false
-        shouldShowTableOfContentsButton.bool = false
-        shouldShowTableOfContents.bool = false
-        shouldShowAboutButton.bool = false
-        shouldShowExtraButton.bool = false
-        
-        imageName.string = configuration.image
-        chapterTitle.string = configuration.title
-        buttonAction.object = configuration.buttonAction
-        buttonName.string = configuration.buttonAction.name
-        
-        withAnimation(.linear(duration: 0.4)) {
-            self.shouldShowImage.bool = true
-        }
-        
-        // Delayed 0.5
-        withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0).delay(0.5)) {
-            self.shouldShowTapMe.bool = true
         }
     }
     

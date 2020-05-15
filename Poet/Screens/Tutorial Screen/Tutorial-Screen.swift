@@ -34,6 +34,8 @@ extension Tutorial {
         @State var showingAbout = false
         @State var showingTableOfContents = false
         @State var showingExtra = false
+        @State var showingHelloWorld = false
+        
         
         var body: some View {
             debugPrint("Tutorial body")
@@ -158,25 +160,6 @@ extension Tutorial {
                             .foregroundColor(Color.primary)
                         }.zIndex(4)
                         
-                        // MARK: Image
-                        
-                        Hideable(isShowing: self.translator.shouldShowImage, transition: .opacity) // <-- observed
-                        {
-                            ZStack(alignment: .center) {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color.primary.opacity(0.026))
-                                
-                                ObservingImageView(self.translator.imageName) // <-- observed
-                                    .font(Font.headline)
-                                    .frame(width: 130, height: 130)
-                            }
-                            .frame(width: Layout.boxSize, height: Layout.boxSize)
-                                
-                        }
-                        .onTapGesture {
-                            debugPrint("tap image")
-                            self.evaluator?.buttonTapped(action: ButtonAction.advanceWorldImage)
-                        }
                     }
                     .frame(height: Layout.boxSize)
                     
@@ -283,6 +266,21 @@ extension Tutorial {
                     }
                     Spacer()
                 }
+                
+                // MARK: Something Screen
+                ViewPresenter(self.translator.showSomething) {
+                    Text("Something")
+                }
+                
+                // MARK: Template Screen
+                ViewPresenter(self.translator.showTemplate) {
+                    Template.Screen()
+                }
+                
+                // MARK: Hello World Screen
+                ViewPresenter(self.translator.showHelloWorld) {
+                    HelloWorld.Screen()
+                }
             }
             .onAppear {
                 self.evaluator?.viewDidAppear()
@@ -296,7 +294,29 @@ extension Tutorial {
             }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarHidden(self.navBarHidden)
+            
         }
+    }
+}
+
+struct ViewPresenter<Content>: View where Content : View {
+    let passablePlease: PassablePlease
+    var content: () -> Content
+    @State var isShowing: Bool = false
+       
+    init(_ passablePlease: PassablePlease, @ViewBuilder content: @escaping () -> Content) {
+        self.passablePlease = passablePlease
+        self.content = content
+    }
+    
+    var body: some View {
+        Spacer()
+            .sheet(isPresented: self.$isShowing) {
+                self.content()
+            }
+            .onReceive(passablePlease.subject) { _ in
+                self.isShowing.toggle()
+            }
     }
 }
 

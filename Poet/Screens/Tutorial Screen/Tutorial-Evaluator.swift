@@ -21,17 +21,19 @@ extension Tutorial {
         enum ButtonAction: EvaluatorAction {
             case pageForward
             case pageBackward
-            case helloWorld
-            case advanceWorldImage
-            case returnToTutorial(chapterIndex: Int, pageIndex: Int, pageData: [Chapter])
             case showChapter(chapterIndex: Int, pageData: [Chapter])
+            case showSomething
+            case showTemplate
+            case showHelloWorld
             
             var name: String {
                 switch self {
-                case .helloWorld:
-                    return "Hello World"
-                case .returnToTutorial:
-                    return "Return to Tutorial"
+                case .showSomething:
+                    return "Show Something"
+                case .showTemplate:
+                    return "Show Template"
+                case .showHelloWorld:
+                    return "Show Demo"
                 default:
                     return ""
                 }
@@ -81,16 +83,6 @@ extension Tutorial {
             }
         }
         
-        // Data
-        var worldImages = [
-            "world01",
-            "world02",
-            "world03",
-            "world04",
-            "world05",
-            "world06"
-        ]
-        
         let pageStore = PageStore.shared
     }
 }
@@ -107,7 +99,6 @@ extension Tutorial.Evaluator {
         case mainTitle(MainTitleStepConfiguration)
         case chapterTitle(ChapterTitleStepConfiguration)
         case page(PageStepConfiguration)
-        case world(WorldStepConfiguration)
     }
     
     // MARK: Configurations
@@ -153,12 +144,6 @@ extension Tutorial.Evaluator {
             
             return selectableChapterTitles
         }
-    }
-    
-    struct WorldStepConfiguration {
-        var image: String
-        var title: String
-        var buttonAction: ButtonAction
     }
 }
 
@@ -206,26 +191,20 @@ extension Tutorial.Evaluator: ButtonEvaluator {
         case .pageBackward:
             pageBackward()
             
-        case .advanceWorldImage:
-            advanceWorldImage()
-            
-        case .helloWorld:
-            showWorldStep()
-            
-        case .returnToTutorial(let chapterIndex, let pageIndex, let pageData):
-            showInterludeStep()
-            afterWait(200) {
-                self.showPageStep(
-                    forChapterIndex: chapterIndex,
-                    pageIndex: pageIndex,
-                    pageData: pageData)
-            }
-            
         case .showChapter(let chapterIndex, let pageData):
             self.showPageStep(
                 forChapterIndex: chapterIndex,
                 pageIndex: 0,
                 pageData: pageData)
+            
+        case .showSomething:
+            translator.showSomething.please()
+            
+        case .showTemplate:
+            translator.showTemplate.please()
+            
+        case .showHelloWorld:
+            translator.showHelloWorld.please()
         }
     }
 }
@@ -327,46 +306,6 @@ extension Tutorial.Evaluator {
         }()
         
         showPageStep(forChapterIndex: chapter, pageIndex: page, pageData: configuration.pageData)
-    }
-    
-    // MARK: Hello World
-    
-    func showWorldStep() {
-        // Must be in Page step
-        if case let .page(configuration) = self.current.step {
-            showInterludeStep()
-            afterWait(500) {
-                self.showWorld(rememberingChapterIndex: configuration.chapterIndex, pageIndex: configuration.pageIndex + 1, pageData: configuration.pageData)
-            }
-        }
-    }
-
-    func showWorld(rememberingChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
-        let configuration = WorldStepConfiguration(
-            image: self.worldImages[0],
-            title: "Hello World!",
-            buttonAction: .returnToTutorial(chapterIndex: chapterIndex, pageIndex: pageIndex, pageData: pageData)
-        )
-        current.step = .world(configuration)
-    }
-    
-    func advanceWorldImage() {
-        // Must be in Image step
-        guard case var .world(configuration) = current.step else { return }
-        
-        if let index = worldImages.firstIndex(of: configuration.image) {
-            let newImage: String = {
-                if index < worldImages.count - 1 {
-                    return worldImages[index + 1]
-                } else {
-                    return worldImages[0]
-                }
-            }()
-            
-            configuration.image = newImage
-        
-            current.step = .world(configuration)
-        }
     }
 }
 

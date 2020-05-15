@@ -422,11 +422,11 @@ extension Tutorial {
             Chapter("Translating", pages:
                 
                 Page([
-                    .text("The work of the translator is more straightforward than that of the evaluator. For any given state in the evaluator, the translator must turn it into display state (should I show something? what should it say? does it animate?) in a reliable, deterministic manner."),
+                    .text("The work of the translator is straightforward. For any given state in the evaluator, the translator must turn it into display state — should I show something? What should it say? Does it animate? — in a reliable, deterministic manner."),
                 ]),
                     
                 Page([
-                    .text("It does this by calling the translate(:) method on itself whenever it notices that the evaluator's current.step has been modified:"),
+                    .text("It does this by calling the translate(:) method on itself whenever it notices that the evaluator's current step has been modified:"),
                     .smallCode("self.translate(step: value)"),
                     .text("That method expects a Step declared on the evaluator."),
                 ]),
@@ -475,7 +475,7 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("For instance, here are a few strings and integers we will set, which correspond to stuff we see on screen:"),
+                    .text("For instance, here are a few strings and integers we will set, which correspond to things we see on screen:"),
                     .smallCode(
                         """
                         var mainTitle = ObservableString()
@@ -523,11 +523,23 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("The translator holds onto many observable properties, each of which will be observed by some view on screen. The job of the translator is to set all these properties coherently, so that the view layer makes the correct choices.")
+                    .text("Now we're familiar with our observable properties:"),
+                    .smallCode(
+                        """
+                        var mainTitle = ObservableString()
+                        var chapterNumber = ObservableInt()
+                        // etc.
+                        """
+                    ),
+                    .text("Each of these will be observed by a a view on screen."),
                 ]),
                 
                 Page([
-                    .text("Fortunately, because our evaluator holds onto its state as a coherent step, the translator can translate each step independently of the others. As long as every property is set correctly for a given step, we have done our job to a T.")
+                    .text("The job of the translator is to set all these observable properties coherently, so that the view layer can make the correct choices, according to its own view logic.")
+                ]),
+                
+                Page([
+                    .text("Fortunately, because our evaluator holds onto its state as a coherent step, the translator can think about each step independently of the others. As long as every property is set correctly for a given step, we have done our job to a T.")
                 ]),
                 
                 
@@ -663,7 +675,7 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("Some steps will be very simple to translate, while others will account for animations and involve what we might call display reasoning — say, formatting a string, or choosing whether or not to show a thing, based on the presence of a certain value.")
+                    .text("Some steps will be simple to translate, while others will account for animations and involve what we might call display reasoning — say, formatting a string, or choosing whether or not to show a thing based on the presence of a certain value.")
                 ]),
                 
                 Page([
@@ -671,16 +683,315 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("In a simple enough user flow, we could get by without all these distinctions. The translator/evaluator split isn't strictly necessary. Neither is the division of state into distinct steps.")
+                    .text("In a simple enough user flow, we could get by without all these distinctions. The evaluator/translator split isn't strictly necessary. Neither is the division of state into distinct steps.")
                 ]),
                 
                 Page([
-                    .text("")
+                    .text("But as screens get more complicated, these distinctions allow us to divide our work into manageable pieces that won't get tangled up over time. The programmer's cognitive load is lessened.")
                 ]),
                                 
                 Page([
-                    .text("")
+                    .text("Some user flows will be complicated enough that we'll really appreciate the clarity of a step-based approach. We'll look at such an example soon. But first, let's take a brief detour and think about another sort of translating involving passable state.")
                 ])
+            ),
+            
+            Chapter("Passable State", pages:
+                Page([.text("If you tap the “Show Something” button below, you'll see a new screen pop up. Try it and come back when you're done (pull down to dismiss the screen).")], action: .showSomething),
+                
+                Page([.text("How did our evaluator, translator, and view layer work together to present that?"),
+                      .text("They relied on what we can call passable state. More specifically, they made use of a PassthroughSubject to publish (and receive) our intent to show the screen.")]),
+                
+                Page([.text("PassthroughSubjects are a tiny bit demanding to think about, so we've wrapped one inside a type we call PassablePlease:"),
+                      .extraSmallCode(
+                        """
+                        class PassablePlease {
+                          var subject =
+                            PassthroughSubject<Any?, Never>()
+                          func please() {
+                            subject.send(nil)
+                          }
+                        }
+                        """
+                    )
+                ]),
+                
+                Page([.text("When our evaluator hears that we've triggered a ButtonAction named “showSomething,” it says to the translator directly:"),
+                      .smallCode("translator.showSomething.please()")]),
+                
+                Page([.text("Why talk to the translator directly? We're presenting a modal, and everything on our current screen will remain unchanged underneath the modal. So it would feel superfluous to modify our own business state by assigning a new step.")]),
+                
+                Page([.text("Inside the translator, this works because we hold onto a PassablePlease object:"),
+                      .extraSmallCode(
+                    """
+                    var showSomething = PassablePlease()
+                    """
+                )]),
+                
+                Page([.text("The view layer is listening for that please. Whenever it hears please, it shows the screen by toggling a @State property that a sheet (or modal) holds onto as a binding. But we've made that something that's easy to think about, too.")]),
+                
+                Page([.text("In the view layer, the entire code for presenting the Something screen looks like this:"),
+                  .extraSmallCode(
+                    """
+                    ViewPresenter(self.translator.showSomething) {
+                        Text("Something")
+                    }
+                    """
+                )]),
+                
+                Page([.text("You could add a whole bunch of modals to a screen, each listening for a different please, by using that ViewPresenter type. How simple. So what does ViewPresenter do under the hood?")]),
+                
+                Page(
+                    [.text("ViewPresenter is a view takes a PassablePlease and some view content as arguments. Here's its body:"),
+                     .extraSmallCode(
+                        """
+                        var body: some View {
+                          Spacer()
+                            .sheet(
+                              isPresented: self.$isShowing)
+                              { self.content() }
+                            .onReceive(passablePlease.subject)
+                              { _ in self.isShowing.toggle() }
+                        }
+                        """
+                        )
+                    ],
+                    supplement: [
+                    .code(
+                        """
+                        struct ViewPresenter<Content>: View where Content : View {
+                            let passablePlease: PassablePlease
+                            var content: () -> Content
+                            @State var isShowing: Bool = false
+                               
+                            init(_ passablePlease: PassablePlease, @ViewBuilder content: @escaping () -> Content) {
+                                self.passablePlease = passablePlease
+                                self.content = content
+                            }
+                            
+                            var body: some View {
+                                Spacer()
+                                    .sheet(isPresented: self.$isShowing) {
+                                        self.content()
+                                    }
+                                    .onReceive(passablePlease.subject) { _ in
+                                        self.isShowing.toggle()
+                                    }
+                            }
+                        }
+                        """
+                        )
+                    ]
+                ),
+                
+                Page([.text("The job of a ViewPresenter is to notice when a new “please” comes through and to toggle its own isShowing property. When that property toggles to true, the sheet will present the content.")]),
+                Page([.text("If we had needed to do some more translating before passing our please to the view layer, our evaluator could have called a method on the translator:"),
+                      .smallCode("translator.showSomethingScreen()")]),
+                Page([.text("The translator then would do whatever extra translating it had in mind before calling please() on its own property.")]),
+                Page([.text("And that's how we pass state imperatively, keeping a rigorous separation of our different layers but also linking them up with minimal code that's easy to follow.")]),
+                Page([.text("Now, as promised, we can look at some examples, each a little more complex than the last, to better illustrate the Poet pattern. How about a simple template to start?")])
+            ),
+            
+            Chapter("Template", pages:
+                Page([.text("If you tap “Show Template,” you'll see a very simple screen made with the Poet pattern. We'll look at the code for each layer.")], action: .showTemplate),
+                Page([.text("The evaluator has only two steps:"),
+                      .extraSmallCode(
+                        """
+                        case loading
+                        case title(TitleStepConfiguration)
+                        """),
+                      .text("Loading is just an empty step before the view has appeared.")]),
+                Page([.text("When the view appears, the evaluator shows the title step:"),
+                .extraSmallCode(
+                    """
+                    func showTitleStep() {
+                      let configuration = TitleStepConfiguration(
+                        title: "..."
+                      )
+                      current.step = .title(configuration)
+                    }
+                    """),
+                ], supplement: [
+                    .code(
+                    """
+                    import Foundation
+
+                    extension Template {
+                        class Evaluator {
+                            
+                            // Translator
+                            lazy var translator: Translator = Translator(current)
+                            
+                            // Current Step
+                            var current = PassableStep(Step.loading)
+                            
+                        }
+                    }
+
+                    // Steps and Step Configurations
+                    extension Template.Evaluator {
+                        
+                        // Steps
+                        enum Step: EvaluatorStep {
+                            case loading
+                            case title(TitleStepConfiguration)
+                        }
+                        
+                        // Configurations
+                        struct TitleStepConfiguration {
+                            var title: String
+                        }
+                    }
+
+                    // View Cycle
+                    extension Template.Evaluator: ViewCycleEvaluator {
+                        
+                        func viewDidAppear() {
+                            showTitleStep()
+                        }
+                    }
+
+                    // Advancing Between Steps
+                    extension Template.Evaluator {
+                        func showTitleStep() {
+                            let configuration = TitleStepConfiguration(
+                                title: "You're looking at the Poet Template, located in Template-Screen.swift.\n\nLook at the code to see an example of very minimal screen that still follows the Poet pattern."
+                            )
+                            current.step = .title(configuration)
+                        }
+                    }
+
+                    """
+                )]),
+                
+                Page([.text("The translator translates by setting an observable title:"),
+                .extraSmallCode(
+                    """
+                    func translateTitleStep( _ configuration:
+                      Evaluator.TitleStepConfiguration) {
+                        title.string = configuration.title
+                    }
+                  """
+                )], supplement: [
+                    .code(
+                        """
+                        import Foundation
+
+                        extension Template {
+
+                            class Translator {
+                                
+                                typealias Evaluator = Template.Evaluator
+                                
+                                // Observable Display State
+                                var title = ObservableString()
+                                
+                                // Passthrough Behavior
+                                private var behavior: Behavior?
+                                
+                                init(_ step: PassableStep<Evaluator.Step>) {
+                                    behavior = step.subject.sink { value in
+                                        self.translate(step: value)
+                                    }
+                                }
+                            }
+                        }
+
+                        extension Template.Translator {
+                            func translate(step: Evaluator.Step) {
+                                switch step {
+                                    
+                                case .loading:
+                                    translateLoadingStep()
+                                    
+                                case .title(let configuration):
+                                    translateTitleStep(configuration)
+                                }
+                            }
+                            
+                            func translateLoadingStep() {
+                                // nothing to see here
+                            }
+                            
+                            func translateTitleStep(_ configuration: Evaluator.TitleStepConfiguration) {
+                                // Set observable display state
+                                title.string = configuration.title
+                            }
+                        }
+                        """
+                    )
+                ]),
+                
+                Page([
+                    .text("And the view layer observes the title:"),
+                    .smallCode(
+                        """
+                        VStack {
+                          ObservingTextView(translator.title)
+                          .padding(36)
+                        }
+                        """
+                    )
+                ], supplement: [
+                    .code(
+                        """
+                        import SwiftUI
+
+                        struct Template {}
+
+                        extension Template {
+                            struct Screen: View {
+                                
+                                let _evaluator: Evaluator
+                                weak var evaluator: Evaluator?
+                                let translator: Translator
+                                
+                                init() {
+                                    _evaluator = Evaluator()
+                                    evaluator = _evaluator
+                                    translator = _evaluator.translator
+                                }
+                                
+                                @State var navBarHidden: Bool = true
+                                
+                                var body: some View {
+                                    ZStack {
+                                        
+                                        VStack {
+                                            ObservingTextView(translator.title)
+                                            .padding(36)
+                                        }
+                                        
+                                        VStack {
+                                            DismissButton()
+                                            Spacer()
+                                        }
+                                    }.onAppear {
+                                        self.evaluator?.viewDidAppear()
+                                        self.navBarHidden = true
+                                    }
+                                        
+                                    // MARK: Hide Navigation Bar
+                                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                                        self.navBarHidden = true
+                                    }
+                                    .navigationBarTitle("", displayMode: .inline)
+                                    .navigationBarHidden(self.navBarHidden)
+                                }
+                            }
+                        }
+                        """
+                    )
+                ]),
+                
+                Page([.text("That's it. You can use the Template whenever you start a new screen. If you understand its flow, you should be able to follow the flow of more complicated screens, too. Let's look at one we'll call Hello World.")])
+            ),
+            
+            Chapter("Hello World", pages:
+                Page([.text("...")], action: .showHelloWorld)
+            ),
+            
+            Chapter("Retail Demo", pages:
+                Page([.text("...")])
             )
             
             /*
