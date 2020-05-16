@@ -697,7 +697,7 @@ extension Tutorial {
             ),
             
             Chapter("Passable State", pages:
-                Page([.text("If you tap the button that says “Show Something,” you'll see a new screen pop up. Try it and come back when you're done (pull down to dismiss the screen).")], action: .showSomething),
+                Page([.text("If you tap the button that says “Show Something,” you'll see a very simple screen pop up. Try it and come back when you're done (pull down to dismiss the screen).")], action: .showSomething),
                 
                 Page([.text("How did our evaluator, translator, and view layer work together to present that?"),
                       .text("They relied on what we can call passable state. More specifically, they made use of a PassthroughSubject to publish (and receive) our intent to show the screen.")]),
@@ -793,24 +793,24 @@ extension Tutorial {
             ),
             
             Chapter("Template", pages:
-                Page([.text("If you tap “Show Template,” you'll see a very simple screen made with the Poet pattern. We'll look at the code for each layer.")], action: .showTemplate),
+                Page([.text("If you tap “Show Template,” you'll see a screen that does always nothing: it just shows some text set by an evaluator. Let's quickly look at the code for each layer.")], action: .showTemplate),
                 Page([.text("The evaluator has only two steps:"),
                       .extraSmallCode(
                         """
                         case loading
-                        case title(TitleStepConfiguration)
+                        case text(TextStepConfiguration)
                         """),
                       .text("Loading is just an empty step before the view has appeared.")]),
                 Page([.text("When the view appears, the evaluator shows the title step:"),
                 .extraSmallCode(
                     """
                     func viewDidAppear() {
-                        showTitleStep()
+                        showTextStep()
                     }
 
-                    func showTitleStep() {
+                    func showTextStep() {
                       let configuration =
-                      TitleStepConfiguration(title: "...")
+                      TextStepConfiguration(title: ...)
                       current.step = .title(configuration)
                     }
                     """),
@@ -837,12 +837,13 @@ extension Tutorial {
                         // Steps
                         enum Step: EvaluatorStep {
                             case loading
-                            case title(TitleStepConfiguration)
+                            case text(TextStepConfiguration)
                         }
                         
                         // Configurations
-                        struct TitleStepConfiguration {
+                        struct TextStepConfiguration {
                             var title: String
+                            var body: String
                         }
                     }
 
@@ -857,23 +858,24 @@ extension Tutorial {
                     // Advancing Between Steps
                     extension Template.Evaluator {
                         func showTitleStep() {
-                            let configuration = TitleStepConfiguration(
-                                title: "You're looking at the Poet Template, located in Template-Screen.swift.\n\nLook at the code to see an example of very minimal screen that still follows the Poet pattern."
+                            let configuration = TextStepConfiguration(
+                                title: "Template",
+                                body: "You're looking at a screen made with a simple template, located in Template-Screen.swift.\n\nUse this template as the basis for new screens, or read through its code to get a better sense of the Poet pattern."
                             )
-                            current.step = .title(configuration)
+                            current.step = .text(configuration)
                         }
                     }
-
                     """
                 )]),
                 
-                Page([.text("The translator then sets an observable title:"),
+                Page([.text("The translator then sets an observable title and body:"),
                 .extraSmallCode(
                     """
-                    func translateTitleStep(
+                    func translateTextStep(
                       _ configuration:
-                      Evaluator.TitleStepConfiguration) {
+                      Evaluator.TextStepConfiguration) {
                         title.string = configuration.title
+                        body.string = configuration.body
                     }
                     """
                 )], supplement: [
@@ -889,6 +891,7 @@ extension Tutorial {
                                 
                                 // Observable Display State
                                 var title = ObservableString()
+                                var body = ObservableString()
                                 
                                 // Passthrough Behavior
                                 private var behavior: Behavior?
@@ -908,8 +911,8 @@ extension Tutorial {
                                 case .loading:
                                     translateLoadingStep()
                                     
-                                case .title(let configuration):
-                                    translateTitleStep(configuration)
+                                case .text(let configuration):
+                                    translateTextStep(configuration)
                                 }
                             }
                             
@@ -917,9 +920,10 @@ extension Tutorial {
                                 // nothing to see here
                             }
                             
-                            func translateTitleStep(_ configuration: Evaluator.TitleStepConfiguration) {
+                            func translateTextStep(_ configuration: Evaluator.TextStepConfiguration) {
                                 // Set observable display state
                                 title.string = configuration.title
+                                body.string = configuration.body
                             }
                         }
                         """
@@ -931,7 +935,8 @@ extension Tutorial {
                     .extraSmallCode(
                         """
                         VStack {
-                          ObservingTextView(translator.title)
+                            ObservingTextView(translator.title)
+                            ObservingTextView(translator.body)
                         }
                         """
                     )
@@ -962,7 +967,13 @@ extension Tutorial {
                                         
                                         VStack {
                                             ObservingTextView(translator.title)
-                                            .padding(36)
+                                                .font(Font.headline)
+                                                .fixedSize(horizontal: false, vertical: true)
+
+                                            ObservingTextView(translator.body)
+                                                .font(Font.body)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                                .padding(50)
                                         }
                                         
                                         VStack {
@@ -987,7 +998,7 @@ extension Tutorial {
                     )
                 ]),
                 
-                Page([.text("That's it. You can use the Template whenever you start a new screen. If you understand its flow, you should be able to follow the flow of more complicated screens, too. Let's look at one we'll call Hello World.")])
+                Page([.text("That's it. You can use the template whenever you start a new screen. If you understand its flow, you should be able to follow the flow of more complicated screens, too. Let's look at one we'll call Hello World.")])
             ),
             
             Chapter("Hello World", pages:

@@ -31,6 +31,11 @@ extension Template {
                 VStack {
                     ObservingTextView(translator.title)
                         .font(Font.headline)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    ObservingTextView(translator.body)
+                        .font(Font.body)
+                        .fixedSize(horizontal: false, vertical: true)
                         .padding(50)
                 }
                 

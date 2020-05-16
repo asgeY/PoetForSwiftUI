@@ -16,6 +16,7 @@ extension Template {
         
         // Observable Display State
         var title = ObservableString()
+        var body = ObservableString()
         
         // Passthrough Behavior
         private var behavior: Behavior?
@@ -35,8 +36,8 @@ extension Template.Translator {
         case .loading:
             translateLoadingStep()
             
-        case .title(let configuration):
-            translateTitleStep(configuration)
+        case .text(let configuration):
+            translateTextStep(configuration)
         }
     }
     
@@ -44,8 +45,9 @@ extension Template.Translator {
         // nothing to see here
     }
     
-    func translateTitleStep(_ configuration: Evaluator.TitleStepConfiguration) {
+    func translateTextStep(_ configuration: Evaluator.TextStepConfiguration) {
         // Set observable display state
         title.string = configuration.title
+        body.string = configuration.body
     }
 }

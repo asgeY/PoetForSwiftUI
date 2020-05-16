@@ -26,12 +26,13 @@ extension Template.Evaluator {
     // Steps
     enum Step: EvaluatorStep {
         case loading
-        case title(TitleStepConfiguration)
+        case text(TextStepConfiguration)
     }
     
     // Configurations
-    struct TitleStepConfiguration {
+    struct TextStepConfiguration {
         var title: String
+        var body: String
     }
 }
 
@@ -46,9 +47,10 @@ extension Template.Evaluator: ViewCycleEvaluator {
 // Advancing Between Steps
 extension Template.Evaluator {
     func showTitleStep() {
-        let configuration = TitleStepConfiguration(
-            title: "You're looking at the Poet Template, located in Template-Screen.swift.\n\nLook at the code to see an example of a very minimal screen that still follows the Poet pattern."
+        let configuration = TextStepConfiguration(
+            title: "Template",
+            body: "You're looking at a screen made with a simple template, located in Template-Screen.swift.\n\nUse this template as the basis for new screens, or read through its code to get a better sense of the Poet pattern."
         )
-        current.step = .title(configuration)
+        current.step = .text(configuration)
     }
 }
