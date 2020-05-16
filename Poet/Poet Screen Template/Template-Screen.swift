@@ -36,7 +36,7 @@ extension Template {
                     ObservingTextView(translator.body)
                         .font(Font.body)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(50)
+                        .padding(EdgeInsets(top: 30, leading: 50, bottom: 50, trailing: 50))
                 }
                 
                 VStack {
