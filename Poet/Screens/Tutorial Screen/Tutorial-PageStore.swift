@@ -796,8 +796,8 @@ extension Tutorial {
                         case loading
                         case text(TextStepConfiguration)
                         """),
-                      .text("Loading is just an empty step before the view has appeared.")]),
-                Page([.text("When the view appears, the evaluator shows the title step:"),
+                      .text("Loading is just an empty step before the view has appeared.")], action: .showTemplate),
+                Page([.text("When the view appears, the evaluator shows the text step:"),
                 .extraSmallCode(
                     """
                     func viewDidAppear() {
@@ -807,10 +807,11 @@ extension Tutorial {
                     func showTextStep() {
                       let configuration =
                       TextStepConfiguration(title: ...)
-                      current.step = .title(configuration)
+                      current.step = .text(configuration)
                     }
                     """),
-                ], supplement: [
+                ], action: .showTemplate,
+                   supplement: [
                     .code(
                     """
                     import Foundation
@@ -847,16 +848,16 @@ extension Tutorial {
                     extension Template.Evaluator: ViewCycleEvaluator {
                         
                         func viewDidAppear() {
-                            showTitleStep()
+                            showTextStep()
                         }
                     }
 
                     // Advancing Between Steps
                     extension Template.Evaluator {
-                        func showTitleStep() {
+                        func showTextStep() {
                             let configuration = TextStepConfiguration(
                                 title: "Template",
-                                body: "You're looking at a screen made with a simple template, located in Template-Screen.swift.\n\nUse this template as the basis for new screens, or read through its code to get a better sense of the Poet pattern."
+                                body: "You're looking at a screen made with a simple template, located in Template-Screen.swift.\\n\\nUse this template as the basis for new screens, or read through its code to get a better sense of the Poet pattern."
                             )
                             current.step = .text(configuration)
                         }
@@ -874,7 +875,8 @@ extension Tutorial {
                         body.string = configuration.body
                     }
                     """
-                )], supplement: [
+                )], action: .showTemplate,
+                    supplement: [
                     .code(
                         """
                         import Foundation
@@ -931,12 +933,13 @@ extension Tutorial {
                     .extraSmallCode(
                         """
                         VStack {
-                            ObservingTextView(translator.title)
-                            ObservingTextView(translator.body)
+                          ObservingTextView(translator.title)
+                          ObservingTextView(translator.body)
                         }
                         """
                     )
-                ], supplement: [
+                ], action: .showTemplate,
+                   supplement: [
                     .code(
                         """
                         import SwiftUI
@@ -998,7 +1001,146 @@ extension Tutorial {
             ),
             
             Chapter("Hello World", pages:
-                Page([.text("If you tap the button that says “Show Hello World” you'll see a new screen. Try it, play around for a bit, and come back when you're done.")], action: .showHelloWorld)
+                Page([.text("Tap the button that says “Show Hello World” to see another new screen. Play around for a bit and come back when you're done.")], action: .showHelloWorld),
+                Page([.text("The Hello World example demonstrates how a good pattern actually simplifies our logic even as the problem grows more complex. Our Evaluator does most of its thinking using two types:"),
+                      .smallCode("CelestialBody\nCelestialBodyStepConfiguration")], action: .showHelloWorld),
+                Page([.text("On viewDidAppear, instances of CelestialBody are mapped from JSON data. We then make a step configuration to store that data and select the first CelestialBody as our “currentCelestialBody.”")], action: .showHelloWorld),
+                Page([.text("The evaluator only thinks about three things: what are all the celestial bodies? Which one is currently showing? And which image is currently showing for that body?")], action: .showHelloWorld),
+                Page([.text("As our screens get more complex, display state gets more interesting. Our translator interprets the business state by doing some rote extraction (names, images), but also by creating an array of tabs to show on screen.")], action: .showHelloWorld),
+                
+                Page([.text("Each tab is just a ButtonAction, which on this screen conforms to a protocol that requires it to provide an icon and an ID:"),
+                  .extraSmallCode(
+                    """
+                    tabs.array =
+                     configuration.celestialBodies.map {
+                      ButtonAction.showCelestialBody($0) }
+                    """
+                )], action: .showHelloWorld),
+                
+                Page([.text("Whichever body is designated as the currentCelestialBody will inform which tab is selected:"),
+                      .extraSmallCode(
+                        """
+                        currentTab.object =
+                         ButtonAction.showCelestialBody(
+                          configuration.currentCelestialBody)
+                        """
+                    )], action: .showHelloWorld),
+                
+                Page([.text("These are only slight transformations, but they justify the translator as a separate layer. Our business and display logic are cleanly separated and we don't repeat ourselves.")], action: .showHelloWorld),
+                Page([.text("Such a clean division between evaluator and translator is possible because the view layer does its part, too.")], action: .showHelloWorld),
+                
+                Page([.text("The screen features a custom view that observes the translator's tabs and creates a CircularTabButton for each one:"),
+                      .extraSmallCode(
+                        """
+                        ForEach(self.tabs.array, id: \\.id) {
+                          tab in
+                          CircularTabButton(
+                            evaluator:self.evaluator, tab: tab
+                          )
+                        }
+                        """
+                    )],
+                     action: .showHelloWorld,
+                     supplement: [.code(
+                        
+                    """
+                    struct CircularTabBar: View {
+                        typealias TabButtonAction = EvaluatorActionWithIconAndID
+                        
+                        weak var evaluator: ButtonEvaluator?
+                        @ObservedObject var tabs: ObservableArray<TabButtonAction>
+                        @ObservedObject var currentTab: Observable<TabButtonAction?>
+                        let spacing: CGFloat = 30
+                        
+                        var body: some View {
+                            ZStack {
+                                HStack(spacing: spacing) {
+                                    // MARK: World Button
+                                    ForEach(self.tabs.array, id: \\.id) { tab in
+                                        CircularTabButton(evaluator: self.evaluator, tab: tab)
+                                    }
+                                }.overlay(
+                                    GeometryReader() { geometry in
+                                        Capsule()
+                                            .fill(Color.primary.opacity(0.06))
+                                            .frame(width: geometry.size.width / CGFloat(self.tabs.array.count), height: 48)
+                                            .opacity(self.indexOfCurrentTab() != nil ? 1 : 0)
+                                            .offset(x: {
+                                                let divided = CGFloat((geometry.size.width + self.spacing) / CGFloat(self.tabs.array.count))
+                                                return divided * CGFloat(self.indexOfCurrentTab() ?? 0) + (self.spacing / 2.0) - (geometry.size.width / 2.0)
+                                            }(), y: 0)
+                                            .allowsHitTesting(false)
+                                    }
+                                )
+                            }
+                        }
+                        
+                        func indexOfCurrentTab() -> Int? {
+                            if let currentTabObject = currentTab.object {
+                                return self.tabs.array.firstIndex { tab in
+                                    tab.id == currentTabObject.id
+                                }
+                            }
+                            return nil
+                        }
+                        
+                        struct CircularTabButton: View {
+                            weak var evaluator: ButtonEvaluator?
+                            let tab: TabButtonAction
+                            var body: some View {
+                                Button(action: { self.evaluator?.buttonTapped(action: self.tab) }) {
+                                    Image(self.tab.icon)
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                }
+                            }
+                        }
+                    }
+                    """)]
+                ),
+                    
+                Page([.text("The CircularTabBar also figures out which tab button should be highlighted, based on the currentTab it observes. It calculates the offset of the highlight to match the correct tab's location.")], action: .showHelloWorld),
+                
+                Page([.text("So the view is smart about view logic but unopinionated about its content, which is determined by display state.")], action: .showHelloWorld),
+                
+                Page([.text("This makes it easy for the translator to animate its changes:"),
+                      .extraSmallCode(
+                        """
+                        withAnimation(
+                        .spring(response: 0.45,
+                                dampingFraction: 0.65,
+                                blendDuration: 0)) {
+                          currentTab.object =
+                           ButtonAction.showCelestialBody(
+                           configuration.currentCelestialBody)
+                        }
+                        """
+                    )],
+                     action: .showHelloWorld,
+                     supplement: [
+                        .code(
+                            """
+                            func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {
+                                // Set observable display state
+                                title.string = "Hello \\(configuration.currentCelestialBody.name)!"
+                                imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
+                                foregroundColor.object = configuration.currentCelestialBody.foreground.color
+                                backgroundColor.object = configuration.currentCelestialBody.background.color
+                                tapAction.object = configuration.tapAction
+                                tabs.array = configuration.celestialBodies.map { ButtonAction.showCelestialBody($0) }
+                                withAnimation(.linear) {
+                                    shouldShowTapMe.bool = configuration.tapAction != nil
+                                }
+                                withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
+                                    currentTab.object = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
+                                }
+                            }
+                            """
+                        )
+                    ]
+                ),
+                
+                Page([.text("The end result is a well-organized screen that is flexible enough to show whatever the JSON prescribes, with clearly defined state to manage the user interaction. Now let's move on to something more complex.")])
             ),
             
             Chapter("Retail Demo", pages:

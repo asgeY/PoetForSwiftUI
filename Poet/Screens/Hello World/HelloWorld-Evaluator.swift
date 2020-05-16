@@ -11,145 +11,112 @@ import SwiftUI
 extension HelloWorld {
     class Evaluator {
         
+        typealias CelestialBody = HelloWorld.CelestialBody
+        
         // Translator
         lazy var translator: Translator = Translator(current)
         
         // Current Step
         var current = PassableStep(Step.loading)
-        
     }
 }
 
-// Button Actions
+// MARK: Button Actions
 extension HelloWorld.Evaluator {
-    enum ButtonAction: EvaluatorAction {
+    enum ButtonAction: EvaluatorActionWithIcon, EvaluatorActionWithIconAndID {
         case advanceImage
-        case showHelloWorld
-        case showHelloMoon
-        case showHelloSun
-    }
-}
-
-// Steps and Step Configurations
-extension HelloWorld.Evaluator {
-    
-    // Steps
-    enum Step: EvaluatorStep {
-        case loading
-        case imageTapping(ImageTappingStepConfiguration)
-    }
-    
-    // Configurations
-    struct ImageTappingStepConfiguration {
-        let title: String
-        let images: [String]
-        var currentImage: String
-        let foreground: Color
-        let background: Color
-        let tapAction: ButtonAction?
+        case showCelestialBody(CelestialBody)
         
-        mutating func configurationForNextImage() -> ImageTappingStepConfiguration {
-            if let index = images.firstIndex(of: currentImage) {
-                let newImage: String = {
-                    if index < images.count - 1 {
-                        return images[index + 1]
-                    } else {
-                        return images[0]
-                    }
-                }()
+        /*
+         Our ButtonActions conform to TabButtonConfiguration,
+         which requires an icon and a unique id,
+         so each Celestial Body button can be treated as a tab on screen.
+         We can just ignore these properties for any button actions that don't want to be a tab.
+         */
+        
+        var icon: String {
+            switch self {
                 
-                currentImage = newImage
+            case .showCelestialBody(let body):
+                return body.images.first ?? ""
+                
+            default:
+                return ""
             }
-            
-            return self
+        }
+        
+        var id: String {
+            switch self {
+                
+            case .showCelestialBody(let body):
+                return String(body.id.uuidString)
+                
+            default:
+                return ""
+            }
         }
     }
 }
 
-// View Cycle
-extension HelloWorld.Evaluator: ViewCycleEvaluator {
-    
-    func viewDidAppear() {
-        showHelloWorld()
-    }
-}
-
-// Showing Steps
+// MARK: Steps and Step Configurations
 extension HelloWorld.Evaluator {
     
-    // MARK: World
-    
-    func showHelloWorld() {
-        let title = "Hello World!"
-        
-        let images = [
-            "world01",
-            "world02",
-            "world03",
-            "world04",
-            "world05",
-            "world06"
-        ]
-        
-        let foreground = Color(UIColor.systemTeal)
-        let background = Color.green.opacity(0.5)
-        
-        let tapAction = ButtonAction.advanceImage
-        
-        showTappableImagesWithTitle(images, title: title, foreground: foreground, background: background, tapAction: tapAction)
+    enum Step: EvaluatorStep {
+        case loading
+        case celestialBody(CelestialBodyStepConfiguration)
     }
     
-    // MARK: Moon
-    
-    func showHelloMoon() {
-        let title = "Hello Moon!"
+    struct CelestialBodyStepConfiguration {
+        let celestialBodies: [CelestialBody]
+        let currentCelestialBody: CelestialBody
+        let currentImageIndex: Int
+        let tapAction: ButtonAction?
         
-        let images = [
-            "moon-01-full",
-            "moon-02-waning-gibbous",
-            "moon-03-waning-crescent",
-            "moon-04-new",
-            "moon-05-waxing-crescent",
-            "moon-06-waxing-gibbous"
-        ]
-        
-        let foreground = Color(UIColor.systemIndigo).opacity(0.5)
-        let background = Color(UIColor.systemPink).opacity(0.3)
-        
-        let tapAction = ButtonAction.advanceImage
-        
-        showTappableImagesWithTitle(images, title: title, foreground: foreground, background: background, tapAction: tapAction)
-    }
-    
-    // MARK: Sun
-    
-    func showHelloSun() {
-        let title = "Hello Sun!"
-        
-        let images = [
-            "sun"
-        ]
-        
-        let foreground = Color(UIColor.systemYellow)
-        let background = Color(UIColor.systemOrange)
-        
-        showTappableImagesWithTitle(images, title: title, foreground: foreground, background: background, tapAction: nil)
-    }
-    
-    func showTappableImagesWithTitle(_ images: [String], title: String, foreground: Color, background: Color, tapAction: ButtonAction?) {
-        let configuration = ImageTappingStepConfiguration(
-            title: title,
-            images: images,
-            currentImage: images.first ?? "",
-            foreground: foreground,
-            background: background,
-            tapAction: tapAction
-        )
-        current.step = Step.imageTapping(configuration)
+        func configurationForNextImage() -> CelestialBodyStepConfiguration {
+            let newIndex: Int = {
+                if currentImageIndex < currentCelestialBody.images.count - 1 {
+                    return currentImageIndex + 1
+                } else {
+                    return 0
+                }
+            }()
+            
+            let newConfiguration = CelestialBodyStepConfiguration(
+                celestialBodies: celestialBodies,
+                currentCelestialBody: currentCelestialBody,
+                currentImageIndex: newIndex,
+                tapAction: tapAction)
+            
+            return newConfiguration
+        }
     }
 }
 
-// Button Evaluating
+// MARK: View Cycle
+extension HelloWorld.Evaluator: ViewCycleEvaluator {
+    
+    /**
+     On viewDidAppear(), we fetch data from a Store. Then we make (and assign) a CelestialBodyStepConfiguration that contains our fetched data.
+     */
+    func viewDidAppear() {
+        let data = HelloWorld.Store.shared.data
+        
+        if let first = data.first {
+            
+            // On viewDidAppear,
+            
+            let configuration = CelestialBodyStepConfiguration(
+                celestialBodies: data,
+                currentCelestialBody: first,
+                currentImageIndex: 0,
+                tapAction: first.images.count > 0 ? .advanceImage : nil)
+            
+            current.step = .celestialBody(configuration)
+        }
+    }
+}
+
+// MARK: Button Evaluating
 extension HelloWorld.Evaluator: ButtonEvaluator {
     func buttonTapped(action: EvaluatorAction?) {
         guard let action = action as? ButtonAction else { return }
@@ -159,20 +126,34 @@ extension HelloWorld.Evaluator: ButtonEvaluator {
         case .advanceImage:
             advanceImage()
             
-        case .showHelloWorld:
-            showHelloWorld()
-            
-        case .showHelloMoon:
-            showHelloMoon()
-            
-        case .showHelloSun:
-            showHelloSun()
+        case .showCelestialBody(let body):
+            showCelestialBody(body)
         }
     }
     
+    /**
+    advanceImage(:) makes (and assigns) a new CelestialBodyStepConfiguration using the next image index.
+    */
     func advanceImage() {
-        guard case var .imageTapping(configuration) = current.step else { return }
+        guard case let .celestialBody(configuration) = current.step else { return }
+        current.step = .celestialBody(configuration.configurationForNextImage())
+    }
+    
+    /**
+     showCelestialBody(:) makes (and assigns) a new CelestialBodyStepConfiguration using the chosen celestial body.
+     It carries over the `celestialBodies` data from the previous configuration.
+     */
+    func showCelestialBody(_ body: CelestialBody) {
+        guard case let .celestialBody(configuration) = current.step else { return }
         
-        current.step = .imageTapping(configuration.configurationForNextImage())
+        
+        
+        let newConfiguration = CelestialBodyStepConfiguration(
+            celestialBodies: configuration.celestialBodies,
+            currentCelestialBody: body,
+            currentImageIndex: 0,
+            tapAction: body.images.count > 1 ? .advanceImage : nil)
+        
+        current.step = .celestialBody(newConfiguration)
     }
 }

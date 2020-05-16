@@ -64,6 +64,8 @@
 		DC656560246F07230048A848 /* HelloWorld-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65655F246F07230048A848 /* HelloWorld-Screen.swift */; };
 		DC656562246F08C80048A848 /* HelloWorld-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656561246F08C80048A848 /* HelloWorld-Evaluator.swift */; };
 		DC656564246F08D60048A848 /* HelloWorld-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656563246F08D60048A848 /* HelloWorld-Translator.swift */; };
+		DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656524705E7C0048A848 /* HelloWorld-Store.swift */; };
+		DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656724709D570048A848 /* EvaluatorAction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +140,8 @@
 		DC65655F246F07230048A848 /* HelloWorld-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Screen.swift"; sourceTree = "<group>"; };
 		DC656561246F08C80048A848 /* HelloWorld-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Evaluator.swift"; sourceTree = "<group>"; };
 		DC656563246F08D60048A848 /* HelloWorld-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Translator.swift"; sourceTree = "<group>"; };
+		DC65656524705E7C0048A848 /* HelloWorld-Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Store.swift"; sourceTree = "<group>"; };
+		DC65656724709D570048A848 /* EvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorAction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +253,7 @@
 		875562EB244D142E00DB49C4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				DC65656724709D570048A848 /* EvaluatorAction.swift */,
 				3B1E8D392462A9CD005D033C /* AfterWait.swift */,
 				87AC827E2454CDE90090E443 /* Actions.swift */,
 				87AC827C2454C3EA0090E443 /* Numbers.swift */,
@@ -349,6 +354,7 @@
 				DC65655F246F07230048A848 /* HelloWorld-Screen.swift */,
 				DC656561246F08C80048A848 /* HelloWorld-Evaluator.swift */,
 				DC656563246F08D60048A848 /* HelloWorld-Translator.swift */,
+				DC65656524705E7C0048A848 /* HelloWorld-Store.swift */,
 			);
 			path = "Hello World";
 			sourceTree = "<group>";
@@ -477,6 +483,7 @@
 				875562F1244D34CE00DB49C4 /* LeftAndRightButtonView.swift in Sources */,
 				8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */,
 				8794A5FC245C9FF200D41E4F /* Menu-Data.swift in Sources */,
+				DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */,
 				875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */,
 				DC656562246F08C80048A848 /* HelloWorld-Evaluator.swift in Sources */,
 				DC4C111A245DF73B009BC14D /* ObservingImageView.swift in Sources */,
@@ -502,6 +509,7 @@
 				872734A12456B868009C39B5 /* BiggerTutorial-Data.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
 				3B6ACFE2245C29E700905DDB /* RetailTutorial-Page-Views.swift in Sources */,
+				DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */,
 				87E7E441245964A100047253 /* RetailTutorial-Page.swift in Sources */,
 				87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */,
 				DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */,

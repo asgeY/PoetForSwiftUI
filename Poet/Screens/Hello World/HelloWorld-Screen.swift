@@ -81,13 +81,9 @@ extension HelloWorld {
                     
                     VStack {
                         Spacer()
-                        HStack(spacing: 20) {
-                            // MARK: World Button
-                            WorldButton(evaluator: self.evaluator)
-                            MoonButton(evaluator: self.evaluator)
-                            SunButton(evaluator: self.evaluator)
-                        }.foregroundColor(.primary)
-                        Spacer().frame(height: 20)
+                        CircularTabBar(evaluator: self.evaluator, tabs: self.translator.tabs, currentTab: self.translator.currentTab)
+                            .foregroundColor(.primary)
+                        Spacer().frame(height: 30)
                     }.zIndex(2)
                 }
                 
@@ -104,39 +100,6 @@ extension HelloWorld {
                 }
                 .navigationBarTitle("Pager", displayMode: .inline)
                     .navigationBarHidden(self.navBarHidden)
-            }
-        }
-    }
-    
-    struct WorldButton: View {
-        weak var evaluator: ButtonEvaluator?
-        var body: some View {
-            Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.showHelloWorld) }) {
-                Image("world01")
-                .resizable()
-                .frame(width: 30, height: 30)
-            }
-        }
-    }
-    
-    struct MoonButton: View {
-        weak var evaluator: ButtonEvaluator?
-        var body: some View {
-            Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.showHelloMoon) }) {
-                Image("moon-03-waning-crescent")
-                .resizable()
-                .frame(width: 30, height: 30)
-            }
-        }
-    }
-    
-    struct SunButton: View {
-        weak var evaluator: ButtonEvaluator?
-        var body: some View {
-            Button(action: { self.evaluator?.buttonTapped(action: Evaluator.ButtonAction.showHelloSun) }) {
-                Image("sun")
-                .resizable()
-                .frame(width: 30, height: 30)
             }
         }
     }
@@ -170,3 +133,58 @@ extension HelloWorld {
         }
     }
 }
+
+struct CircularTabBar: View {
+    typealias TabButtonAction = EvaluatorActionWithIconAndID
+    
+    weak var evaluator: ButtonEvaluator?
+    @ObservedObject var tabs: ObservableArray<TabButtonAction>
+    @ObservedObject var currentTab: Observable<TabButtonAction?>
+    let spacing: CGFloat = 30
+    
+    var body: some View {
+        ZStack {
+            HStack(spacing: spacing) {
+                // MARK: World Button
+                ForEach(self.tabs.array, id: \.id) { tab in
+                    CircularTabButton(evaluator: self.evaluator, tab: tab)
+                }
+            }.overlay(
+                GeometryReader() { geometry in
+                    Capsule()
+                        .fill(Color.primary.opacity(0.06))
+                        .frame(width: geometry.size.width / CGFloat(self.tabs.array.count), height: 48)
+                        .opacity(self.indexOfCurrentTab() != nil ? 1 : 0)
+                        .offset(x: {
+                            let divided = CGFloat((geometry.size.width + self.spacing) / CGFloat(self.tabs.array.count))
+                            return divided * CGFloat(self.indexOfCurrentTab() ?? 0) + (self.spacing / 2.0) - (geometry.size.width / 2.0)
+                        }(), y: 0)
+                        .allowsHitTesting(false)
+                }
+            )
+        }
+    }
+    
+    func indexOfCurrentTab() -> Int? {
+        if let currentTabObject = currentTab.object {
+            return self.tabs.array.firstIndex { tab in
+                tab.id == currentTabObject.id
+            }
+        }
+        return nil
+    }
+    
+    struct CircularTabButton: View {
+        weak var evaluator: ButtonEvaluator?
+        let tab: TabButtonAction
+        var body: some View {
+            Button(action: { self.evaluator?.buttonTapped(action: self.tab) }) {
+                Image(self.tab.icon)
+                .resizable()
+                .frame(width: 30, height: 30)
+            }
+        }
+    }
+}
+
+

@@ -13,6 +13,7 @@ extension HelloWorld {
     class Translator {
         
         typealias Evaluator = HelloWorld.Evaluator
+        typealias ButtonAction = Evaluator.ButtonAction
         
         // Observable Display State
         var title = ObservableString()
@@ -21,6 +22,8 @@ extension HelloWorld {
         var backgroundColor = Observable<Color>(.clear)
         var tapAction = Observable<Evaluator.ButtonAction?>(nil)
         var shouldShowTapMe = ObservableBool()
+        var tabs = ObservableArray<EvaluatorActionWithIconAndID>([])
+        var currentTab = Observable<EvaluatorActionWithIconAndID?>(nil)
         
         // Passthrough Behavior
         private var behavior: Behavior?
@@ -40,8 +43,8 @@ extension HelloWorld.Translator {
         case .loading:
             translateLoadingStep()
             
-        case .imageTapping(let configuration):
-            translateImageTappingStep(configuration)
+        case .celestialBody(let configuration):
+            translateCelestialBodyStep(configuration)
         }
     }
     
@@ -49,13 +52,20 @@ extension HelloWorld.Translator {
         // nothing to see here
     }
     
-    func translateImageTappingStep(_ configuration: Evaluator.ImageTappingStepConfiguration) {
+    func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {
         // Set observable display state
-        title.string = configuration.title
-        imageName.string = configuration.currentImage
-        foregroundColor.object = configuration.foreground
-        backgroundColor.object = configuration.background
+        title.string = "Hello \(configuration.currentCelestialBody.name)!"
+        imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
+        foregroundColor.object = configuration.currentCelestialBody.foreground.color
+        backgroundColor.object = configuration.currentCelestialBody.background.color
         tapAction.object = configuration.tapAction
-        shouldShowTapMe.bool = configuration.tapAction != nil
+        tabs.array = configuration.celestialBodies.map { ButtonAction.showCelestialBody($0) }
+        withAnimation(.linear) {
+            shouldShowTapMe.bool = configuration.tapAction != nil
+        }
+        withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
+            currentTab.object = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
+        }
+        
     }
 }

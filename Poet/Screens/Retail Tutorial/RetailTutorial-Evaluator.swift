@@ -177,8 +177,6 @@ extension RetailTutorial.Evaluator: ViewCycleEvaluator {
 
 // Actions
 
-protocol EvaluatorAction {}
-
 protocol BottomButtonEvaluator: class {
     func bottomButtonTapped(action: EvaluatorAction?)
 }
