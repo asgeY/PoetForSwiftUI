@@ -691,12 +691,13 @@ extension Tutorial {
                 ]),
                                 
                 Page([
-                    .text("Some user flows will be complicated enough that we'll really appreciate the clarity of a step-based approach. We'll look at such an example soon. But first, let's take a brief detour and think about another sort of translating involving passable state.")
-                ])
+                    .text("Some user flows will be complicated enough that we'll really appreciate the clarity of a step-based approach. We'll look at such an example soon.")]),
+                
+                Page([.text("But first, let's take a brief detour and think about another sort of translating involving passable state.")])
             ),
             
             Chapter("Passable State", pages:
-                Page([.text("If you tap the “Show Something” button below, you'll see a new screen pop up. Try it and come back when you're done (pull down to dismiss the screen).")], action: .showSomething),
+                Page([.text("If you tap the button that says “Show Something,” you'll see a new screen pop up. Try it and come back when you're done (pull down to dismiss the screen).")], action: .showSomething),
                 
                 Page([.text("How did our evaluator, translator, and view layer work together to present that?"),
                       .text("They relied on what we can call passable state. More specifically, they made use of a PassthroughSubject to publish (and receive) our intent to show the screen.")]),
@@ -718,16 +719,16 @@ extension Tutorial {
                 Page([.text("When our evaluator hears that we've triggered a ButtonAction named “showSomething,” it says to the translator directly:"),
                       .smallCode("translator.showSomething.please()")]),
                 
-                Page([.text("Why talk to the translator directly? We're presenting a modal, and everything on our current screen will remain unchanged underneath the modal. So it would feel superfluous to modify our own business state by assigning a new step.")]),
+                Page([.text("Why talk to the translator directly? We're presenting a modal, and everything on our current screen will remain unchanged underneath the modal. So it would feel superfluous to modify our own business state by changing our current step.")]),
                 
-                Page([.text("Inside the translator, this works because we hold onto a PassablePlease object:"),
+                Page([.text("Inside the translator, saying “please” works because we hold onto a PassablePlease object:"),
                       .extraSmallCode(
                     """
                     var showSomething = PassablePlease()
                     """
                 )]),
                 
-                Page([.text("The view layer is listening for that please. Whenever it hears please, it shows the screen by toggling a @State property that a sheet (or modal) holds onto as a binding. But we've made that something that's easy to think about, too.")]),
+                Page([.text("The view layer is listening for that word. Whenever it hears please, it shows the screen by toggling a @State property that a sheet (or modal) holds onto as a binding. But we've made that something that's easy to think about, too.")]),
                 
                 Page([.text("In the view layer, the entire code for presenting the Something screen looks like this:"),
                   .extraSmallCode(
@@ -803,10 +804,13 @@ extension Tutorial {
                 Page([.text("When the view appears, the evaluator shows the title step:"),
                 .extraSmallCode(
                     """
+                    func viewDidAppear() {
+                        showTitleStep()
+                    }
+
                     func showTitleStep() {
-                      let configuration = TitleStepConfiguration(
-                        title: "..."
-                      )
+                      let configuration =
+                      TitleStepConfiguration(title: "...")
                       current.step = .title(configuration)
                     }
                     """),
@@ -863,14 +867,15 @@ extension Tutorial {
                     """
                 )]),
                 
-                Page([.text("The translator translates by setting an observable title:"),
+                Page([.text("The translator then sets an observable title:"),
                 .extraSmallCode(
                     """
-                    func translateTitleStep( _ configuration:
+                    func translateTitleStep(
+                      _ configuration:
                       Evaluator.TitleStepConfiguration) {
                         title.string = configuration.title
                     }
-                  """
+                    """
                 )], supplement: [
                     .code(
                         """
@@ -923,11 +928,10 @@ extension Tutorial {
                 
                 Page([
                     .text("And the view layer observes the title:"),
-                    .smallCode(
+                    .extraSmallCode(
                         """
                         VStack {
                           ObservingTextView(translator.title)
-                          .padding(36)
                         }
                         """
                     )
@@ -987,11 +991,11 @@ extension Tutorial {
             ),
             
             Chapter("Hello World", pages:
-                Page([.text("...")], action: .showHelloWorld)
+                Page([.text("If you tap the button that says “Show Hello World” you'll see a new screen. Try it, play around for a bit, and come back when you're done.")], action: .showHelloWorld)
             ),
             
             Chapter("Retail Demo", pages:
-                Page([.text("...")])
+                Page([.text("")], action: .showRetailDemo)
             )
             
             /*

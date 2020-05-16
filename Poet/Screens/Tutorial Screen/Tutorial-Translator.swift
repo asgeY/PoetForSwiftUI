@@ -51,6 +51,7 @@ extension Tutorial {
         var showSomething = PassablePlease()
         var showTemplate = PassablePlease()
         var showHelloWorld = PassablePlease()
+        var showRetailDemo = PassablePlease()
         
         // Actions
         var buttonAction = Observable<EvaluatorAction?>(nil)

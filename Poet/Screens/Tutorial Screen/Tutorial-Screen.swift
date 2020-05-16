@@ -281,6 +281,11 @@ extension Tutorial {
                 ViewPresenter(self.translator.showHelloWorld) {
                     HelloWorld.Screen()
                 }
+                
+                // MARK: Retail Demo Screen
+                ViewPresenter(self.translator.showRetailDemo) {
+                    RetailTutorial.Screen()
+                }
             }
             .onAppear {
                 self.evaluator?.viewDidAppear()

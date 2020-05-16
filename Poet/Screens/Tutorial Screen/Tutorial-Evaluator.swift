@@ -25,6 +25,7 @@ extension Tutorial {
             case showSomething
             case showTemplate
             case showHelloWorld
+            case showRetailDemo
             
             var name: String {
                 switch self {
@@ -33,7 +34,9 @@ extension Tutorial {
                 case .showTemplate:
                     return "Show Template"
                 case .showHelloWorld:
-                    return "Show Demo"
+                    return "Show Hello World"
+                case .showRetailDemo:
+                    return "Show Retail Demo"
                 default:
                     return ""
                 }
@@ -205,6 +208,9 @@ extension Tutorial.Evaluator: ButtonEvaluator {
             
         case .showHelloWorld:
             translator.showHelloWorld.please()
+            
+        case .showRetailDemo:
+            translator.showRetailDemo.please()
         }
     }
 }
