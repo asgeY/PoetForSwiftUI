@@ -784,7 +784,14 @@ extension Tutorial {
                 Page([.text("If we had needed to do some more translating before passing our please to the view layer, our evaluator could have called a method on the translator:"),
                       .smallCode("translator.showSomethingScreen()")]),
                 Page([.text("The translator then would do whatever extra translating it had in mind before calling please() on its own property.")]),
-                Page([.text("And that's how we pass state imperatively, keeping a rigorous separation of our different layers but also linking them up with minimal code that's easy to follow.")]),
+                Page([.text("And that's how we pass state imperatively. We keep a rigorous separation of our different layers, but we also link them up with minimal code that's easy to follow.")]),
+                Page([.text("Speaking of minimal code, let's look at another technique to save ourselves from repetitive code as we bridge our different layers: protocol-oriented translating.")])
+            ),
+            
+            Chapter("Protocol-Oriented Translating", pages:
+                Page([.text("")]),
+                Page([.text("")]),
+                Page([.text("")]),
                 Page([.text("Now, as promised, we can look at some examples, each a little more complex than the last, to better illustrate the Poet pattern. How about a simple template to start?")])
             ),
             
@@ -1004,11 +1011,11 @@ extension Tutorial {
                 Page([.text("Tap the button that says “Show Hello World” to see another new screen. Play around for a bit and come back when you're done.")], action: .showHelloWorld),
                 Page([.text("The Hello World example demonstrates how a good pattern actually simplifies our logic even as the problem grows more complex. Our Evaluator does most of its thinking using two types:"),
                       .smallCode("CelestialBody\nCelestialBodyStepConfiguration")], action: .showHelloWorld),
-                Page([.text("On viewDidAppear, instances of CelestialBody are mapped from JSON data. We then make a step configuration to store that data and select the first CelestialBody as our “currentCelestialBody.”")], action: .showHelloWorld),
+                Page([.text("On viewDidAppear, we map instances of CelestialBody from JSON data. We then make a step configuration to store that data and select the first CelestialBody as our “currentCelestialBody.”")], action: .showHelloWorld),
                 Page([.text("The evaluator only thinks about three things: what are all the celestial bodies? Which one is currently showing? And which image is currently showing for that body?")], action: .showHelloWorld),
                 Page([.text("As our screens get more complex, display state gets more interesting. Our translator interprets the business state by doing some rote extraction (names, images), but also by creating an array of tabs to show on screen.")], action: .showHelloWorld),
                 
-                Page([.text("Each tab is just a ButtonAction, which on this screen conforms to a protocol that requires it to provide an icon and an ID:"),
+                Page([.text("Each tab is just a ButtonAction, which on this screen conforms to a protocol promising an icon and ID for each action:"),
                   .extraSmallCode(
                     """
                     tabs.array =
@@ -1146,146 +1153,6 @@ extension Tutorial {
             Chapter("Retail Demo", pages:
                 Page([.text("")], action: .showRetailDemo)
             )
-            
-            /*
-             
-            // State
-            Chapter("State", pages:
-                
-                Page([.text("Everything we do in an app creates state. State is the answer to the question, “what is true at this moment?”")]),
-                    
-                Page([.text("On this screen, we can guess that our state includes the text we're reading and the actions available to us.")]),
-                
-                Page([.text("It also entails that we're reading text and not, say, spinning a globe. But you can do that, too. Tap the “Hello World” button below.")], action: .helloWorld),
-                
-                Page([.text("Cool, huh? It looks like this screen has at least two different modes, or collections of state, that it must keep track of: showing this page, and showing that globe.")]),
-                
-                Page([.text("We have another, too, every time we start a new chapter and animate its title.")]),
-                
-                Page([.text("Modes are tough to reason about, because people tend not to notice them. Programmers often fail to distinguish which states are incompatible, so they never properly separate them into distinct data structures.")]),
-                
-                Page([.text("The challenge in making apps is to never create the conditions in which conflicting state can arise, because keeping track of everything will place an undue burden on the programmer.")]),
-                
-                Page([.text("When we think about what's on screen, for example, there are many elements which all dynamically respond to different observable properties. With each new property we add, we create a combinatorial explosion of possible states.")]),
-                
-                Page([.text("In our business logic, too, we inevitably multiply the number of potential states every time we add another bool to consider.")]),
-                
-                Page([.text("Some bools will be harmless when not properly set, while others will create an incoherent overall state if we're not careful.")]),
-                
-                Page([.text("Accounting for all possible combinations of mutually incompatible state is tough without a good plan. Bad choices build up over time, and the code becomes difficult to debug, maintain and modify.")]),
-                
-                Page([.text("Things will go better if you keep two things in mind. First, a screen's business state doesn't need to be one flat list that collapses different types of state onto a single object. It can be collected into coherent structures. And second, we can make a useful distinction between business state and display state.")]),
-                
-                Page([.text("One flat list of state — especially business state — is dangerous, because it places incompatible concepts alongside each other as if they might mingle without a problem.")]),
-                
-                Page([.text("If I want to show a page on screen, for instance, I know I will have to set several things: the chapter title, the page text, the page number. If I want to show an image, I will need to set an image. What happens if I set both an image and text at the same time?")]),
-                
-                Page([.text("In the simplest SwiftUI patterns, with a view layer tied directly to our business state, we might end up showing text and an image at the same time. That's a contrived example and easy to avoid, but on a more complex screen with more potential states, it's easy to imagine losing track of things.")]),
-                
-                Page([.text("Imagine a screen with four sequential steps, for instance, each of which both transforms data and stores the data for future transformations. How will you name all those properties in a way you can reason about? In a single, flat list it would be easy to lose track of the purpose of individual properties.")]),
-                
-                Page([.text("In such a scenario, it only makes sense that we separate our data into structures that represent the steps, each of which contains only the state needed to show that particular step correctly.")]),
-                
-                Page([.text("And along with that decision to group a page's state into a coherent structure, we can notice it's possible to further distinguish between business decisions (what is the page text? what is the chapter title?) and display decisions (how should the chapter title animate on screen?")]),
-                
-                Page([.text("In making these distinctions, we slow ourselves down once, the first time we create a “step.” Once, and only once, translator will have to interpret the step by setting every relevant property correctly. But from then on, we speed ourselves up every time we want to use that step.")]),
-                
-                Page([.text("By structuring our state coherently up front, we'll be able to mutate the current step's data or swap one step for another without fearing that we have missed something and created incompatible state.")]),
-                
-                Page([.text("Most patterns don't make these choices explicit, but they also don't protect you from creating incoherent state. They speed you up at first and then slow you down over time.")]),
-                
-                Page([.text("Next, we'll think more about the distinction between business state and display state.")])
-            ),
-            
-            // Display State
-            Chapter("Display State", pages:
-                Page([.text("Display state entails all the choices that determine what happens on screen. What should the text say? The title? Should a button be visible?")]),
-                Page([.text("When we say display state, it's important to note that we don't mean the view layer. The view layer can respond to changes in display state, and we'll call that response “view logic.”")]),
-                Page([.text("But before we ever get to the view layer, something has to save the state that the view layer responds to.")]),
-                Page([.text("Poet gives that job to a layer called the translator. On this screen, for instance, the translator answers true or false to “shouldShowBody” and “shouldShowButton.” It offers strings for “title” and “text.” And so on.")]),
-                Page([.text("There's one special thing about how it does that: the text, strings, bools, and so on are all “observable,” meaning someone else can watch them for changes.")]),
-                Page([.text("The view layer observes those bools and other types and hides or remakes its views accordingly.")]),
-                Page([.text(
-                    "The translator says things like this:"),
-                    .code(
-                    """
-                    shouldShowChapterTitle.bool = true
-
-                    shouldShowChapterNumber.bool = true
-                    """)]),
-                
-                Page([.text("And this:"),
-                    .code(
-                    """
-                    chapterNumber.int = configuration.chapterNumber
-
-                    chapterTitle.string = configuration.title
-                    """)]),
-                Page([.text("But if setting values to show, hide or modify on-screen elements is all a matter of display state, then what is left for business state?")])
-            ),
-            
-            // Business State
-            Chapter("Business State", pages:
-                Page([.text("The evaluator/translator divide allows the evaluator to make higher-level decisions about what should happen, without worrying about setting a precise display state.")]),
-                Page([.text("It's the evaluator who decides what we really want to do. The evaluator hears that a user action has taken place, thinks about the current business state, and then saves a new state.")]),
-                Page([.text("The last thing an evaluator will do is always to say, “show a certain ‘step’ with a certain ‘configuration,’” at which point the translator will interpret the new step into new display state.")]),
-                Page([.text("When you tap this text, for instance, the evaluator handles the .pageForward action by checking its current step, which it expects to be a .page step and not some other kind (like .world or .interlude).")]),
-                Page([.text("That .page step contains a configuration which knows everything we need to know about our current state: chapterIndex, pageIndex, etc. The evaluator can reason about these values whenever a new user action arrives.")]),
-                Page([.text("The configuration also contains values which are there to serve the translator: title and text are strings that are plucked off a data store using chapterIndex and pageIndex. They're added to the configuration so the translator won't have to figure them out later. Title and text are therefore first-class members of business state.")]),
-//                Page("So evaluator's steps serve two masters, but only "),
-                Page([.text("If we want to go to the next page, we start with our current “page” step, modify its configuration, and save it as a new step.")]),
-                Page([.text("To go to the next chapter, we cycle through a few steps with a slight delay: first an “interlude” step where everything fades away, then a “title” step where we just see the title, and then back to a new page.")]),
-                Page([.text("The translator and the view layer will handle all the details like opacity and spring animations, letting the evaluator stay high above the action.")])
-            ),
-            
-            // Interpreting
-            Chapter("Interpreting", pages:
-                // after a configuration is set, a translator takes some of those values and applies additional reasoning.
-                // could you accomplish this all on one layer? technically, yes. but it aids the devlopment process to handle them separately.
-                // the two-step process lets us first modify our business state with certainty by thinking in large categories — what step are we in? what data do we care about for that step?
-                // then we modify our view state with certainty by taking the step as our starting point — what configuration do we have for our step? how should we change our view state in a way that will be correct for any possible values in our configuration?
-                // a translator might want to style a title a certain way in one step, and a different way in another step. but an evaluator can have two different steps, each configured with a title, and leave it at that.
-                // this separation of concerns not only decouples business logic from the view layer, it decouples it from the display state that informs the view layer.
-                // as a result, you can refactor either layer, the evaluator or the translator, confident that you won't introduce unexpected behavior.
-                // composable state. e.g. use interludes at various places
-                
-                Page([.text("")]),
-                Page([.text("")])
-                
-                // Protocol-oriented translating -- alert, bezel
-            ),
-            
-            // Decoupling the View Layer
-            Chapter("Decoupling the View Layer", pages:
-                // translator.buttonAction... button action injected into button. evaluator only known by protocol.
-                Page([.text("")]),
-                Page([.text("")])
-            ),
-            
-            // Imperative, Protocol-Oriented Translating
-            Chapter("Protocol-Oriented Translating", pages:
-                // Protocol-oriented translating -- alert, bezel, action sheets. because we're writing in swift, we can take advantage of protoocol-oriented programming — the “P.O.” in P.O.E.T. — to make certain flows easy to implement. this gives us a pattern that speeds us up, instead of forcing us to reinvent or re-implement certain common solutions every time we make a new screen. The translator and view layer can each one require one or two lines of boilerplate to fully implement alerts, action sheets, and other common UI elements.
-                // Over time, you might find protocol-oriented improvements that give you certain things for free.
-                Page([.text("")]),
-                Page([.text("")])
-            ),
-            
-            // Decoupling the View Layer
-            Chapter("Helper Types", pages:
-                // evaluator known by protocol. buttonTapped(...)
-                Page([.text("Observables")]),
-                Page([.text("Passables")])
-            ),
-            
-            */
-
-            // the right division, the right abstraction between the two layers.
-            // there's a hinge where translator behavior is reusable. we eliminate a source of combinatorial explosions.
-            
-            // Interpreting Business State
-            
-            // in terms of business state, incompatible
-            // in display state, we're either showing things or not. but any given thing should only know about the state it cares about.
             
         ]
     }

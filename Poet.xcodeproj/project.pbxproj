@@ -9,10 +9,6 @@
 /* Begin PBXBuildFile section */
 		3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E8D392462A9CD005D033C /* AfterWait.swift */; };
 		3B6ACFE2245C29E700905DDB /* RetailTutorial-Page-Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6ACFE1245C29E700905DDB /* RetailTutorial-Page-Views.swift */; };
-		8727349E2456B868009C39B5 /* BiggerTutorial-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349C2456B616009C39B5 /* BiggerTutorial-Screen.swift */; };
-		8727349F2456B868009C39B5 /* BiggerTutorial-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349B2456B616009C39B5 /* BiggerTutorial-Evaluator.swift */; };
-		872734A02456B868009C39B5 /* BiggerTutorial-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349D2456B616009C39B5 /* BiggerTutorial-Translator.swift */; };
-		872734A12456B868009C39B5 /* BiggerTutorial-Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8727349A2456B616009C39B5 /* BiggerTutorial-Data.swift */; };
 		875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562B3244C253200DB49C4 /* AppDelegate.swift */; };
 		875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562B5244C253200DB49C4 /* SceneDelegate.swift */; };
 		875562BA244C253500DB49C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875562B9244C253500DB49C4 /* Assets.xcassets */; };
@@ -66,6 +62,7 @@
 		DC656564246F08D60048A848 /* HelloWorld-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656563246F08D60048A848 /* HelloWorld-Translator.swift */; };
 		DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656524705E7C0048A848 /* HelloWorld-Store.swift */; };
 		DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656724709D570048A848 /* EvaluatorAction.swift */; };
+		DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6565692470AA530048A848 /* EvaluatorStep.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,10 +78,6 @@
 /* Begin PBXFileReference section */
 		3B1E8D392462A9CD005D033C /* AfterWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterWait.swift; sourceTree = "<group>"; };
 		3B6ACFE1245C29E700905DDB /* RetailTutorial-Page-Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTutorial-Page-Views.swift"; sourceTree = "<group>"; };
-		8727349A2456B616009C39B5 /* BiggerTutorial-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BiggerTutorial-Data.swift"; sourceTree = "<group>"; };
-		8727349B2456B616009C39B5 /* BiggerTutorial-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BiggerTutorial-Evaluator.swift"; sourceTree = "<group>"; };
-		8727349C2456B616009C39B5 /* BiggerTutorial-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BiggerTutorial-Screen.swift"; sourceTree = "<group>"; };
-		8727349D2456B616009C39B5 /* BiggerTutorial-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BiggerTutorial-Translator.swift"; sourceTree = "<group>"; };
 		875562B0244C253200DB49C4 /* Poet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875562B3244C253200DB49C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		875562B5244C253200DB49C4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +135,7 @@
 		DC656563246F08D60048A848 /* HelloWorld-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Translator.swift"; sourceTree = "<group>"; };
 		DC65656524705E7C0048A848 /* HelloWorld-Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Store.swift"; sourceTree = "<group>"; };
 		DC65656724709D570048A848 /* EvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorAction.swift; sourceTree = "<group>"; };
+		DC6565692470AA530048A848 /* EvaluatorStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorStep.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,17 +156,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		872734992456B5F9009C39B5 /* Bigger Tutorial */ = {
-			isa = PBXGroup;
-			children = (
-				8727349C2456B616009C39B5 /* BiggerTutorial-Screen.swift */,
-				8727349B2456B616009C39B5 /* BiggerTutorial-Evaluator.swift */,
-				8727349D2456B616009C39B5 /* BiggerTutorial-Translator.swift */,
-				8727349A2456B616009C39B5 /* BiggerTutorial-Data.swift */,
-			);
-			path = "Bigger Tutorial";
-			sourceTree = "<group>";
-		};
 		875562A7244C253200DB49C4 = {
 			isa = PBXGroup;
 			children = (
@@ -241,10 +224,9 @@
 			isa = PBXGroup;
 			children = (
 				87AC82752453B94C0090E443 /* Menu */,
-				87D299D32455162A003959C3 /* Intro */,
+				87D299D32455162A003959C3 /* About */,
 				DC4C1111245DEDE5009BC14D /* Tutorial Screen */,
 				DC65655E246F05660048A848 /* Hello World */,
-				872734992456B5F9009C39B5 /* Bigger Tutorial */,
 				87E7E43724595C6300047253 /* Retail Tutorial */,
 			);
 			path = Screens;
@@ -254,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				DC65656724709D570048A848 /* EvaluatorAction.swift */,
+				DC6565692470AA530048A848 /* EvaluatorStep.swift */,
 				3B1E8D392462A9CD005D033C /* AfterWait.swift */,
 				87AC827E2454CDE90090E443 /* Actions.swift */,
 				87AC827C2454C3EA0090E443 /* Numbers.swift */,
@@ -303,7 +286,7 @@
 			path = Menu;
 			sourceTree = "<group>";
 		};
-		87D299D32455162A003959C3 /* Intro */ = {
+		87D299D32455162A003959C3 /* About */ = {
 			isa = PBXGroup;
 			children = (
 				87D299D524551639003959C3 /* About-Screen.swift */,
@@ -311,7 +294,7 @@
 				87D299D624551639003959C3 /* About-Translator.swift */,
 				87D299DE24561B9B003959C3 /* About-Data.swift */,
 			);
-			path = Intro;
+			path = About;
 			sourceTree = "<group>";
 		};
 		87E7E43724595C6300047253 /* Retail Tutorial */ = {
@@ -468,6 +451,7 @@
 				87D299D8245518C1003959C3 /* About-Translator.swift in Sources */,
 				878B3A532453806700ACADE4 /* ButtonActionView.swift in Sources */,
 				8794A606245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift in Sources */,
+				DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */,
 				87E7E43F2459637900047253 /* RetailTutorial-Translator.swift in Sources */,
 				87AC827A2453BB3C0090E443 /* Menu-Evaluator.swift in Sources */,
 				DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */,
@@ -478,7 +462,6 @@
 				8794A5FA245C343400D41E4F /* RetailTutorial-PageViewMaker.swift in Sources */,
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
 				DC4C111F245DFF21009BC14D /* Tutorial-Evaluator.swift in Sources */,
-				8727349F2456B868009C39B5 /* BiggerTutorial-Evaluator.swift in Sources */,
 				878B3A51245378E300ACADE4 /* AlertView.swift in Sources */,
 				875562F1244D34CE00DB49C4 /* LeftAndRightButtonView.swift in Sources */,
 				8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */,
@@ -488,11 +471,9 @@
 				DC656562246F08C80048A848 /* HelloWorld-Evaluator.swift in Sources */,
 				DC4C111A245DF73B009BC14D /* ObservingImageView.swift in Sources */,
 				87AC82792453BB3A0090E443 /* Menu-Screen.swift in Sources */,
-				872734A02456B868009C39B5 /* BiggerTutorial-Translator.swift in Sources */,
 				87AC827F2454CDE90090E443 /* Actions.swift in Sources */,
 				878B3A3E2452B96800ACADE4 /* ViewWrappers.swift in Sources */,
 				87D299DF24561B9B003959C3 /* About-Data.swift in Sources */,
-				8727349E2456B868009C39B5 /* BiggerTutorial-Screen.swift in Sources */,
 				87D299E324561D69003959C3 /* TappableTextCapsuleView.swift in Sources */,
 				87E9E9AB246748D600CF2E1E /* Tutorial-PageStore.swift in Sources */,
 				DC4C1114245DEE21009BC14D /* Template-Screen.swift in Sources */,
@@ -506,7 +487,6 @@
 				87D299D7245518C1003959C3 /* About-Evaluator.swift in Sources */,
 				878B3A4F245378CF00ACADE4 /* AlertTranslating.swift in Sources */,
 				87AC827B2453BB400090E443 /* Menu-Translator.swift in Sources */,
-				872734A12456B868009C39B5 /* BiggerTutorial-Data.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
 				3B6ACFE2245C29E700905DDB /* RetailTutorial-Page-Views.swift in Sources */,
 				DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */,
