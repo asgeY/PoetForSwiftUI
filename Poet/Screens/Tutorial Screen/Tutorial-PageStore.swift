@@ -209,7 +209,6 @@ extension Tutorial {
                       case mainTitle(MainTitleStepConfiguration)
                       case chapterTitle(ChapterTitleStepConfiguration)
                       case page(PageStepConfiguration)
-                      case world(WorldStepConfiguration)
                     }
                     """)
                 ]),
@@ -458,9 +457,6 @@ extension Tutorial {
 
                             case .page(let configuration):
                                 translatePageStep(configuration)
-                                
-                            case .world(let configuration):
-                                translateWorldStep(configuration)
                                 
                             case .interlude:
                                 translateInterlude()
@@ -793,7 +789,7 @@ extension Tutorial {
             ),
             
             Chapter("Template", pages:
-                Page([.text("If you tap “Show Template,” you'll see a screen that does always nothing: it just shows some text set by an evaluator. Let's quickly look at the code for each layer.")], action: .showTemplate),
+                Page([.text("If you tap “Show Template,” you'll see a screen that does almost nothing: it just shows some text set by an evaluator. Let's quickly look at the code for each layer.")], action: .showTemplate),
                 Page([.text("The evaluator has only two steps:"),
                       .extraSmallCode(
                         """
