@@ -37,28 +37,38 @@ extension HelloWorld {
         
         enum CelestialBodyColor: String, Decodable {
             case blue = "blue"
-            case lightGreen = "lightGreen"
-            case darkGreen = "darkGreen"
+            case brightblue = "brightblue"
+            case lightgreen = "lightgreen"
+            case darkgreen = "darkgreen"
             case deepblue = "deepblue"
             case green = "green"
-            case lightIndigoPink = "lightIndigoPink"
-            case magenta = "magenta"
+            case hotpink = "hotpink"
+            case indigopink = "indigopink"
+            case ivory = "ivory"
             case orange = "orange"
             case pink = "pink"
+            case purple = "purple"
+            case salmon = "salmon"
+            case seafoam = "seafoam"
             case white = "white"
             case yellow = "yellow"
     
             var color: Color {
                 switch self {
                 case .blue:             return Color(UIColor.systemTeal)
-                case .lightGreen:       return Color(UIColor(red: 166/255.0, green: 225/255.0, blue: 166/255.0, alpha: 1))
-                case .darkGreen:        return Color(UIColor(red: 37/255.0, green: 107/255.0, blue: 51/255.0, alpha: 1))
-                case .deepblue:         return Color(UIColor(red: 36/255.0, green: 85/255.0, blue: 116/255.0, alpha: 1))
+                case .brightblue:       return Color(UIColor(red: 73/255.0, green: 190/255.0, blue: 222/255.0, alpha: 1))
+                case .lightgreen:       return Color(UIColor(red: 166/255.0, green: 225/255.0, blue: 166/255.0, alpha: 1))
+                case .darkgreen:        return Color(UIColor(red: 37/255.0, green: 107/255.0, blue: 51/255.0, alpha: 1))
+                case .deepblue:         return Color(UIColor(red: 41/255.0, green: 42/255.0, blue: 51/255.0, alpha: 1))
                 case .green:            return Color(UIColor.systemGreen)
-                case .lightIndigoPink:  return Color(UIColor(red: 166/255.0, green: 139/255.0, blue: 204/255.0, alpha: 1))
-                case .magenta:          return Color(UIColor.magenta)
+                case .hotpink:          return Color(UIColor(red: 249/255.0, green: 124/255.0, blue: 177/255.0, alpha: 1))
+                case .indigopink:       return Color(UIColor(red: 166/255.0, green: 139/255.0, blue: 204/255.0, alpha: 1))
+                case .ivory:            return Color(UIColor(red: 233/255.0, green: 233/255.0, blue: 224/255.0, alpha: 1))
                 case .orange:           return Color(UIColor.systemOrange)
                 case .pink:             return Color(UIColor(red: 248/255.0, green: 188/255.0, blue: 199/255.0, alpha: 1))
+                case .purple:           return Color(UIColor(red: 175/255.0, green: 134/255.0, blue: 232/255.0, alpha: 1))
+                case .salmon:           return Color(UIColor(red: 235/255.0, green: 123/255.0, blue: 110/255.0, alpha: 1))
+                case .seafoam:          return Color(UIColor(red: 123/255.0, green: 190/255.0, blue: 176/255.0, alpha: 1))
                 case .white:            return Color.white
                 case .yellow:           return Color(UIColor.systemYellow)
                 }
@@ -99,7 +109,7 @@ extension HelloWorld {
         "world06"
     ],
     "foreground": "blue",
-    "background": "lightGreen"
+    "background": "lightgreen"
     },
 
     {
@@ -112,7 +122,7 @@ extension HelloWorld {
         "moon05",
         "moon06"
     ],
-    "foreground": "lightIndigoPink",
+    "foreground": "indigopink",
     "background": "pink"
     },
 
@@ -135,7 +145,7 @@ extension HelloWorld {
         "comet05",
         "comet06"
     ],
-    "foreground": "pink",
+    "foreground": "salmon",
     "background": "deepblue"
     }
 ]

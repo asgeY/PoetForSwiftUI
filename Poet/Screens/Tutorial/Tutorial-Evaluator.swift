@@ -229,8 +229,8 @@ extension Tutorial.Evaluator: ButtonEvaluator {
                 title: "Something went wrong!",
                 message: "Just kidding, it's fine.",
                 primaryAlertAction: AlertAction(
-                    title: "OK",
-                    style: .regular,
+                    title: "Cancel",
+                    style: .cancel,
                     action: nil),
                 secondaryAlertAction: AlertAction(
                     title: "Delete",
@@ -344,8 +344,4 @@ extension Tutorial.Evaluator {
         
         showPageStep(forChapterIndex: chapter, pageIndex: page, pageData: configuration.pageData)
     }
-}
-
-protocol ButtonEvaluator: class {
-    func buttonTapped(action: EvaluatorAction?)
 }

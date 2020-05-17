@@ -911,7 +911,7 @@ extension Tutorial {
                     """
                     )
                 ]),
-                Page([.text("Our translator will hold onto that AlertTranslator. But that's as much thinking as we want to do on each screen we make.")]),
+                Page([.text("Our translator will hold onto that AlertTranslator. But that's as much thinking as we want to do on each screen we implement.")]),
                 Page([.text("So we'll make our translator conform to AlertTranslating to give it default implementations of some “showAlert” methods."),
                       .extraSmallCode(
                         """
@@ -962,7 +962,7 @@ extension Tutorial {
                         """
                     )
                 ]),
-                Page([.text("That's a lot, but it's written once and we never have to think about it. To use it all, the evaluator just asks the translator to show an alert:"),
+                Page([.text("That's a lot, but it's written once and we never have to think about it. To use it, the evaluator just asks the translator to show an alert:"),
                       .extraSmallCode(
                         """
                         translator.showAlert(

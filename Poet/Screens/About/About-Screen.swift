@@ -26,7 +26,6 @@ extension About {
         @State var navBarHidden: Bool = true
         
         var body: some View {
-            debugPrint("About body")
             return GeometryReader() { geometry in
                 ZStack {
                     VStack {
@@ -36,7 +35,6 @@ extension About {
                     }.zIndex(2)
                     
                     VStack {
-//                        Spacer().frame(height:10)
                         
                         // MARK: Page Body
                         PageBodyView(pageBody: self.translator.pageBody)

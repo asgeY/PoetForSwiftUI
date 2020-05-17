@@ -53,6 +53,7 @@
 		DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111D245DF9AA009BC14D /* Tutorial-Screen.swift */; };
 		DC4C111F245DFF21009BC14D /* Tutorial-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111B245DF9AA009BC14D /* Tutorial-Evaluator.swift */; };
 		DC4C1120245DFF21009BC14D /* Tutorial-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111C245DF9AA009BC14D /* Tutorial-Translator.swift */; };
+		DC4C6C462471054E0014A34C /* ButtonEvaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C452471054E0014A34C /* ButtonEvaluator.swift */; };
 		DC656560246F07230048A848 /* HelloWorld-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65655F246F07230048A848 /* HelloWorld-Screen.swift */; };
 		DC656562246F08C80048A848 /* HelloWorld-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656561246F08C80048A848 /* HelloWorld-Evaluator.swift */; };
 		DC656564246F08D60048A848 /* HelloWorld-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656563246F08D60048A848 /* HelloWorld-Translator.swift */; };
@@ -123,6 +124,7 @@
 		DC4C111B245DF9AA009BC14D /* Tutorial-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-Evaluator.swift"; sourceTree = "<group>"; };
 		DC4C111C245DF9AA009BC14D /* Tutorial-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-Translator.swift"; sourceTree = "<group>"; };
 		DC4C111D245DF9AA009BC14D /* Tutorial-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-Screen.swift"; sourceTree = "<group>"; };
+		DC4C6C452471054E0014A34C /* ButtonEvaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonEvaluator.swift; sourceTree = "<group>"; };
 		DC65655F246F07230048A848 /* HelloWorld-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Screen.swift"; sourceTree = "<group>"; };
 		DC656561246F08C80048A848 /* HelloWorld-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Evaluator.swift"; sourceTree = "<group>"; };
 		DC656563246F08D60048A848 /* HelloWorld-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Translator.swift"; sourceTree = "<group>"; };
@@ -174,7 +176,6 @@
 				875562B3244C253200DB49C4 /* AppDelegate.swift */,
 				875562B5244C253200DB49C4 /* SceneDelegate.swift */,
 				875562EA244D13F700DB49C4 /* Screens */,
-				DC4C1112245DEDF8009BC14D /* Poet Screen Template */,
 				8794A5FD245CB87700D41E4F /* Helpers */,
 				87E7E43A24595FF100047253 /* ObservingPageView.swift */,
 				87D299DA24561A67003959C3 /* Page.swift */,
@@ -216,7 +217,8 @@
 			children = (
 				87AC82752453B94C0090E443 /* Menu */,
 				87D299D32455162A003959C3 /* About */,
-				DC4C1111245DEDE5009BC14D /* Tutorial Screen */,
+				DC4C1111245DEDE5009BC14D /* Tutorial */,
+				DC4C1112245DEDF8009BC14D /* Template */,
 				DC65655E246F05660048A848 /* Hello World */,
 				87E7E43724595C6300047253 /* Retail Tutorial */,
 			);
@@ -234,6 +236,7 @@
 				875562EC244D144600DB49C4 /* Observables.swift */,
 				875562F4244D5FDB00DB49C4 /* Passables.swift */,
 				DC04F6F024661C1400F49E00 /* ImageExtensions.swift */,
+				DC4C6C452471054E0014A34C /* ButtonEvaluator.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -300,7 +303,7 @@
 			path = "Retail Tutorial";
 			sourceTree = "<group>";
 		};
-		DC4C1111245DEDE5009BC14D /* Tutorial Screen */ = {
+		DC4C1111245DEDE5009BC14D /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
 				DC4C111D245DF9AA009BC14D /* Tutorial-Screen.swift */,
@@ -308,17 +311,17 @@
 				DC4C111C245DF9AA009BC14D /* Tutorial-Translator.swift */,
 				87E9E9AA246748D600CF2E1E /* Tutorial-PageStore.swift */,
 			);
-			path = "Tutorial Screen";
+			path = Tutorial;
 			sourceTree = "<group>";
 		};
-		DC4C1112245DEDF8009BC14D /* Poet Screen Template */ = {
+		DC4C1112245DEDF8009BC14D /* Template */ = {
 			isa = PBXGroup;
 			children = (
 				DC4C1113245DEE21009BC14D /* Template-Screen.swift */,
 				DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */,
 				DC4C1117245DEF9A009BC14D /* Template-Translator.swift */,
 			);
-			path = "Poet Screen Template";
+			path = Template;
 			sourceTree = "<group>";
 		};
 		DC65655E246F05660048A848 /* Hello World */ = {
@@ -453,6 +456,7 @@
 				87E7E43F2459637900047253 /* RetailTutorial-Translator.swift in Sources */,
 				87AC827A2453BB3C0090E443 /* Menu-Evaluator.swift in Sources */,
 				DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */,
+				DC4C6C462471054E0014A34C /* ButtonEvaluator.swift in Sources */,
 				875562F5244D5FDB00DB49C4 /* Passables.swift in Sources */,
 				DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */,
 				3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */,
