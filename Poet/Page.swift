@@ -30,7 +30,6 @@ struct Page {
         case image(String)
         case space(Int)
         case link(name: String, url: URL) // not implemented yet
-        case button(name: String, action: Action) // not implemented yet
         
         var id: String {
             switch self {
@@ -60,8 +59,6 @@ struct Page {
                 return "image_\(string)"
             case .link(let name, _):
                 return "link_\(name)"
-            case .button(let name, _):
-                return "button_\(name)"
             case .space(let height):
                 return "space_\(height)"
             }

@@ -729,16 +729,16 @@ extension Tutorial {
                 Page([.text("In the view layer, the entire code for presenting the Something screen looks like this:"),
                   .extraSmallCode(
                     """
-                    ViewPresenter(self.translator.showSomething) {
+                    Presenter(self.translator.showSomething) {
                         Text("Something")
                     }
                     """
                 )]),
                 
-                Page([.text("You could add a whole bunch of modals to a screen, each listening for a different please, by using that ViewPresenter type. How simple. So what does ViewPresenter do under the hood?")]),
+                Page([.text("You could add a whole bunch of modals to a screen, each listening for a different please, by using that Presenter type. And in fact that's what this Tutorial does. So what does Presenter do under the hood?")]),
                 
                 Page(
-                    [.text("ViewPresenter is a view takes a PassablePlease and some view content as arguments. Here's its body:"),
+                    [.text("Presenter is a view takes a PassablePlease and some view content as arguments. Here's its body:"),
                      .extraSmallCode(
                         """
                         var body: some View {
@@ -755,7 +755,7 @@ extension Tutorial {
                     supplement: [
                     .code(
                         """
-                        struct ViewPresenter<Content>: View where Content : View {
+                        struct Presenter<Content>: View where Content : View {
                             let passablePlease: PassablePlease
                             var content: () -> Content
                             @State var isShowing: Bool = false
@@ -780,15 +780,23 @@ extension Tutorial {
                     ]
                 ),
                 
-                Page([.text("The job of a ViewPresenter is to notice when a new “please” comes through and to toggle its own isShowing property. When that property toggles to true, the sheet will present the content.")]),
-                Page([.text("If we had needed to do some more translating before passing our please to the view layer, our evaluator could have called a method on the translator:"),
+                Page([.text("The job of a Presenter is to notice when a new “please” comes through and to toggle its own isShowing property. When that property toggles to true, the sheet will present the content.")]),
+                Page([.text("If we had needed to do some more translating before passing our please to the view layer, our evaluator could have called a method directly on the translator, something like this:"),
                       .smallCode("translator.showSomethingScreen()")]),
                 Page([.text("The translator then would do whatever extra translating it had in mind before calling please() on its own property.")]),
                 Page([.text("And that's how we pass state imperatively. We keep a rigorous separation of our different layers, but we also link them up with minimal code that's easy to follow.")]),
-                Page([.text("Speaking of minimal code, let's look at another technique to save ourselves from repetitive code as we bridge our different layers: protocol-oriented translating.")])
+                Page([.text("Speaking of minimal code, let's look at another technique that saves us from being repetitive as we bridge our different layers: protocol-oriented translating.")])
             ),
             
             Chapter("Protocol-Oriented Translating", pages:
+                Page([.text("A lot of user interface elements are very predictable but still require a good amount of code to implement: alerts, action sheets, bezels, toasts.")]),
+                Page([.text("iOS programmers are used to asking for these things imperatively, but in SwiftUI, we need to bring them about my modifying our display state.")]),
+                Page([.text("Thankfully, we don't need to waste a lot of thought linking up our three layers and re-implementing these elements on every new screen. Instead, we can follow what we'll call protocol-oriented translating.")]),
+                Page([.text("Take an alert, for example. If you tap the button below that says “Show Alert,” you'll see one.")], action: .showAlert),
+                Page([.text("We can show alerts with two styled actions, too.")], action: .showAnotherAlert),
+                Page([.text("")]),
+                Page([.text("")]),
+                Page([.text("")]),
                 Page([.text("")]),
                 Page([.text("")]),
                 Page([.text("")]),

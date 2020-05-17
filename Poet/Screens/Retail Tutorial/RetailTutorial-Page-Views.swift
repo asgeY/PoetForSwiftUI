@@ -129,7 +129,7 @@ struct SelectableCapsuleButton: View {
     let title: String
     let isSelected: Bool
     let imageName: String
-    let action: Action
+    let action: (() -> Void)?
     
     var body: some View {
         debugPrint("SelectableCapsuleButton body")

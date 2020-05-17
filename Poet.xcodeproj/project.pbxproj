@@ -16,15 +16,12 @@
 		875562C0244C253500DB49C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 875562BE244C253500DB49C4 /* LaunchScreen.storyboard */; };
 		875562CB244C253500DB49C4 /* PoetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562CA244C253500DB49C4 /* PoetTests.swift */; };
 		875562ED244D144600DB49C4 /* Observables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562EC244D144600DB49C4 /* Observables.swift */; };
-		875562F1244D34CE00DB49C4 /* LeftAndRightButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562F0244D34CE00DB49C4 /* LeftAndRightButtonView.swift */; };
 		875562F5244D5FDB00DB49C4 /* Passables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562F4244D5FDB00DB49C4 /* Passables.swift */; };
-		878B3A3E2452B96800ACADE4 /* ViewWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A3D2452B96800ACADE4 /* ViewWrappers.swift */; };
 		878B3A472453472300ACADE4 /* CharacterBezel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A462453472300ACADE4 /* CharacterBezel.swift */; };
 		878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */; };
 		878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */; };
 		878B3A4F245378CF00ACADE4 /* AlertTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A4E245378CF00ACADE4 /* AlertTranslating.swift */; };
 		878B3A51245378E300ACADE4 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A50245378E300ACADE4 /* AlertView.swift */; };
-		878B3A532453806700ACADE4 /* ButtonActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A522453806700ACADE4 /* ButtonActionView.swift */; };
 		8794A5FA245C343400D41E4F /* RetailTutorial-PageViewMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A5F9245C343400D41E4F /* RetailTutorial-PageViewMaker.swift */; };
 		8794A5FC245C9FF200D41E4F /* Menu-Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A5FB245C9FF200D41E4F /* Menu-Data.swift */; };
 		8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A601245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift */; };
@@ -34,14 +31,13 @@
 		87AC827A2453BB3C0090E443 /* Menu-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AC82782453B9520090E443 /* Menu-Evaluator.swift */; };
 		87AC827B2453BB400090E443 /* Menu-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AC82772453B9520090E443 /* Menu-Translator.swift */; };
 		87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AC827C2454C3EA0090E443 /* Numbers.swift */; };
-		87AC827F2454CDE90090E443 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AC827E2454CDE90090E443 /* Actions.swift */; };
+		87AC827F2454CDE90090E443 /* Behavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AC827E2454CDE90090E443 /* Behavior.swift */; };
 		87D299D7245518C1003959C3 /* About-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299D424551639003959C3 /* About-Evaluator.swift */; };
 		87D299D8245518C1003959C3 /* About-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299D624551639003959C3 /* About-Translator.swift */; };
 		87D299D9245518C1003959C3 /* About-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299D524551639003959C3 /* About-Screen.swift */; };
 		87D299DB24561A67003959C3 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299DA24561A67003959C3 /* Page.swift */; };
 		87D299DF24561B9B003959C3 /* About-Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299DE24561B9B003959C3 /* About-Data.swift */; };
 		87D299E124561D4E003959C3 /* PageBodyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299E024561D4E003959C3 /* PageBodyView.swift */; };
-		87D299E324561D69003959C3 /* TappableTextCapsuleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D299E224561D69003959C3 /* TappableTextCapsuleView.swift */; };
 		87E7E436245905B000047253 /* PagingTutorialTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7E435245905B000047253 /* PagingTutorialTests.swift */; };
 		87E7E43924595CBD00047253 /* RetailTutorial-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7E43824595CBD00047253 /* RetailTutorial-Screen.swift */; };
 		87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7E43A24595FF100047253 /* ObservingPageView.swift */; };
@@ -89,15 +85,12 @@
 		875562CA244C253500DB49C4 /* PoetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PoetTests.swift; sourceTree = "<group>"; };
 		875562CC244C253500DB49C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		875562EC244D144600DB49C4 /* Observables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observables.swift; sourceTree = "<group>"; };
-		875562F0244D34CE00DB49C4 /* LeftAndRightButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAndRightButtonView.swift; sourceTree = "<group>"; };
 		875562F4244D5FDB00DB49C4 /* Passables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passables.swift; sourceTree = "<group>"; };
-		878B3A3D2452B96800ACADE4 /* ViewWrappers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWrappers.swift; sourceTree = "<group>"; };
 		878B3A462453472300ACADE4 /* CharacterBezel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezel.swift; sourceTree = "<group>"; };
 		878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCycleEvaluating.swift; sourceTree = "<group>"; };
 		878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservingTextView.swift; sourceTree = "<group>"; };
 		878B3A4E245378CF00ACADE4 /* AlertTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTranslating.swift; sourceTree = "<group>"; };
 		878B3A50245378E300ACADE4 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
-		878B3A522453806700ACADE4 /* ButtonActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonActionView.swift; sourceTree = "<group>"; };
 		8794A5F9245C343400D41E4F /* RetailTutorial-PageViewMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTutorial-PageViewMaker.swift"; sourceTree = "<group>"; };
 		8794A5FB245C9FF200D41E4F /* Menu-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Menu-Data.swift"; sourceTree = "<group>"; };
 		8794A601245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DissmissReceiverExample-Screen.swift"; sourceTree = "<group>"; };
@@ -107,14 +100,13 @@
 		87AC82772453B9520090E443 /* Menu-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Menu-Translator.swift"; sourceTree = "<group>"; };
 		87AC82782453B9520090E443 /* Menu-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Menu-Evaluator.swift"; sourceTree = "<group>"; };
 		87AC827C2454C3EA0090E443 /* Numbers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Numbers.swift; sourceTree = "<group>"; };
-		87AC827E2454CDE90090E443 /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
+		87AC827E2454CDE90090E443 /* Behavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Behavior.swift; sourceTree = "<group>"; };
 		87D299D424551639003959C3 /* About-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "About-Evaluator.swift"; sourceTree = "<group>"; };
 		87D299D524551639003959C3 /* About-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "About-Screen.swift"; sourceTree = "<group>"; };
 		87D299D624551639003959C3 /* About-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "About-Translator.swift"; sourceTree = "<group>"; };
 		87D299DA24561A67003959C3 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		87D299DE24561B9B003959C3 /* About-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "About-Data.swift"; sourceTree = "<group>"; };
 		87D299E024561D4E003959C3 /* PageBodyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageBodyView.swift; sourceTree = "<group>"; };
-		87D299E224561D69003959C3 /* TappableTextCapsuleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappableTextCapsuleView.swift; sourceTree = "<group>"; };
 		87E7E435245905B000047253 /* PagingTutorialTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingTutorialTests.swift; sourceTree = "<group>"; };
 		87E7E43824595CBD00047253 /* RetailTutorial-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTutorial-Screen.swift"; sourceTree = "<group>"; };
 		87E7E43A24595FF100047253 /* ObservingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservingPageView.swift; sourceTree = "<group>"; };
@@ -183,15 +175,12 @@
 				DC4C1112245DEDF8009BC14D /* Poet Screen Template */,
 				8794A5FD245CB87700D41E4F /* Helpers */,
 				87E7E43A24595FF100047253 /* ObservingPageView.swift */,
-				875562F0244D34CE00DB49C4 /* LeftAndRightButtonView.swift */,
 				87D299DA24561A67003959C3 /* Page.swift */,
 				87D299E024561D4E003959C3 /* PageBodyView.swift */,
-				87D299E224561D69003959C3 /* TappableTextCapsuleView.swift */,
 				878B3A462453472300ACADE4 /* CharacterBezel.swift */,
 				878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */,
 				878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */,
 				DC4C1119245DF73B009BC14D /* ObservingImageView.swift */,
-				878B3A522453806700ACADE4 /* ButtonActionView.swift */,
 				878B3A4D245378C400ACADE4 /* Alert */,
 				875562EB244D142E00DB49C4 /* Utilities */,
 				875562B9244C253500DB49C4 /* Assets.xcassets */,
@@ -237,12 +226,11 @@
 			children = (
 				DC65656724709D570048A848 /* EvaluatorAction.swift */,
 				DC6565692470AA530048A848 /* EvaluatorStep.swift */,
+				87AC827E2454CDE90090E443 /* Behavior.swift */,
 				3B1E8D392462A9CD005D033C /* AfterWait.swift */,
-				87AC827E2454CDE90090E443 /* Actions.swift */,
 				87AC827C2454C3EA0090E443 /* Numbers.swift */,
 				875562EC244D144600DB49C4 /* Observables.swift */,
 				875562F4244D5FDB00DB49C4 /* Passables.swift */,
-				878B3A3D2452B96800ACADE4 /* ViewWrappers.swift */,
 				DC04F6F024661C1400F49E00 /* ImageExtensions.swift */,
 			);
 			path = Utilities;
@@ -449,7 +437,6 @@
 				DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */,
 				875562ED244D144600DB49C4 /* Observables.swift in Sources */,
 				87D299D8245518C1003959C3 /* About-Translator.swift in Sources */,
-				878B3A532453806700ACADE4 /* ButtonActionView.swift in Sources */,
 				8794A606245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift in Sources */,
 				DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */,
 				87E7E43F2459637900047253 /* RetailTutorial-Translator.swift in Sources */,
@@ -463,7 +450,6 @@
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
 				DC4C111F245DFF21009BC14D /* Tutorial-Evaluator.swift in Sources */,
 				878B3A51245378E300ACADE4 /* AlertView.swift in Sources */,
-				875562F1244D34CE00DB49C4 /* LeftAndRightButtonView.swift in Sources */,
 				8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */,
 				8794A5FC245C9FF200D41E4F /* Menu-Data.swift in Sources */,
 				DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */,
@@ -471,10 +457,8 @@
 				DC656562246F08C80048A848 /* HelloWorld-Evaluator.swift in Sources */,
 				DC4C111A245DF73B009BC14D /* ObservingImageView.swift in Sources */,
 				87AC82792453BB3A0090E443 /* Menu-Screen.swift in Sources */,
-				87AC827F2454CDE90090E443 /* Actions.swift in Sources */,
-				878B3A3E2452B96800ACADE4 /* ViewWrappers.swift in Sources */,
+				87AC827F2454CDE90090E443 /* Behavior.swift in Sources */,
 				87D299DF24561B9B003959C3 /* About-Data.swift in Sources */,
-				87D299E324561D69003959C3 /* TappableTextCapsuleView.swift in Sources */,
 				87E9E9AB246748D600CF2E1E /* Tutorial-PageStore.swift in Sources */,
 				DC4C1114245DEE21009BC14D /* Template-Screen.swift in Sources */,
 				87E7E43D245961B400047253 /* RetailTutorial-Evaluator.swift in Sources */,

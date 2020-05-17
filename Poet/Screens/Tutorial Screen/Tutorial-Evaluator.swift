@@ -23,6 +23,8 @@ extension Tutorial {
             case pageBackward
             case showChapter(chapterIndex: Int, pageData: [Chapter])
             case showSomething
+            case showAlert
+            case showAnotherAlert
             case showTemplate
             case showHelloWorld
             case showRetailDemo
@@ -31,6 +33,10 @@ extension Tutorial {
                 switch self {
                 case .showSomething:
                     return "Show Something"
+                case .showAlert:
+                    return "Show Alert"
+                case .showAnotherAlert:
+                    return "Show Another Alert"
                 case .showTemplate:
                     return "Show Template"
                 case .showHelloWorld:
@@ -211,6 +217,24 @@ extension Tutorial.Evaluator: ButtonEvaluator {
             
         case .showRetailDemo:
             translator.showRetailDemo.please()
+            
+        case .showAlert:
+            translator.showAlert(title: "Alert!", message: "You did it.")
+            
+        case .showAnotherAlert:
+            translator.showAlert(
+                title: "Something went wrong!",
+                message: "Just kidding, it's fine.",
+                primaryAlertAction: AlertAction(
+                    title: "OK",
+                    style: .regular,
+                    action: nil),
+                secondaryAlertAction: AlertAction(
+                    title: "Delete",
+                    style: .destructive,
+                    action: {
+                        self.translator.showAlert(title: "What?", message: "There's nothing to delete.")
+                }))
         }
     }
 }

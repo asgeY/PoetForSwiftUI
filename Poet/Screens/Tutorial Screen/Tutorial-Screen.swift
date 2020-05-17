@@ -193,8 +193,6 @@ extension Tutorial {
                             Button(action: {
                                 self.showingExtra.toggle()
                             }) {
-//                                Image(systemName: "chevron.left.slash.chevron.right")
-//                                    .font(Font.system(size: 20, weight: .medium))
                                 Image(systemName: "text.bubble")
                                     .font(Font.system(size: 20, weight: .medium))
                                     .padding(30)
@@ -268,24 +266,26 @@ extension Tutorial {
                 }
                 
                 // MARK: Something Screen
-                ViewPresenter(self.translator.showSomething) {
+                Presenter(self.translator.showSomething) {
                     Text("Something")
                 }
                 
                 // MARK: Template Screen
-                ViewPresenter(self.translator.showTemplate) {
+                Presenter(self.translator.showTemplate) {
                     Template.Screen()
                 }
                 
                 // MARK: Hello World Screen
-                ViewPresenter(self.translator.showHelloWorld) {
+                Presenter(self.translator.showHelloWorld) {
                     HelloWorld.Screen()
                 }
                 
                 // MARK: Retail Demo Screen
-                ViewPresenter(self.translator.showRetailDemo) {
+                Presenter(self.translator.showRetailDemo) {
                     RetailTutorial.Screen()
                 }
+                
+                AlertView(translator: translator)
             }
             .onAppear {
                 self.evaluator?.viewDidAppear()
@@ -304,7 +304,7 @@ extension Tutorial {
     }
 }
 
-struct ViewPresenter<Content>: View where Content : View {
+struct Presenter<Content>: View where Content : View {
     let passablePlease: PassablePlease
     var content: () -> Content
     @State var isShowing: Bool = false
@@ -399,7 +399,6 @@ struct Extra: View {
                 }
             }.background(Rectangle().fill(
                 Color(UIColor(red: 54/255.0, green: 103/255.0, blue: 194/255.0, alpha: 1))
-//                 Color(UIColor(red: 0.1176, green: 0.1176, blue: 0.14117, alpha: 1))
             ))
         }.edgesIgnoringSafeArea(.bottom)
     }

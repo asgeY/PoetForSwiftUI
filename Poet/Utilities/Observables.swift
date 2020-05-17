@@ -70,14 +70,6 @@ class ObservableAlertAction: ObservableObject {
     }
 }
 
-class ObservableNamedAction: ObservableObject {
-    @Published var action: NamedAction?
-    
-    init(_ action: NamedAction? = nil) {
-        self.action = action
-    }
-}
-
 class ObservableNamedEvaluatorAction: ObservableObject {
     @Published var action: NamedEvaluatorAction?
     

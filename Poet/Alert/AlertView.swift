@@ -10,11 +10,19 @@ import Combine
 import SwiftUI
 
 struct AlertView: View {
-    @ObservedObject var title: ObservableString
-    @ObservedObject var message: ObservableString
-    @ObservedObject var primaryAlertAction: ObservableAlertAction
-    @ObservedObject var secondaryAlertAction: ObservableAlertAction
-    @ObservedObject var isPresented: ObservableBool
+    @ObservedObject private var title: ObservableString
+    @ObservedObject private var message: ObservableString
+    @ObservedObject private var primaryAlertAction: ObservableAlertAction
+    @ObservedObject private var secondaryAlertAction: ObservableAlertAction
+    @ObservedObject private var isPresented: ObservableBool
+    
+    init(translator: AlertTranslating) {
+        title = translator.alertTranslator.alertTitle
+        message = translator.alertTranslator.alertMessage
+        primaryAlertAction = translator.alertTranslator.primaryAlertAction
+        secondaryAlertAction = translator.alertTranslator.secondaryAlertAction
+        isPresented = translator.alertTranslator.isAlertPresented
+    }
     
     var body: some View {
         VStack {

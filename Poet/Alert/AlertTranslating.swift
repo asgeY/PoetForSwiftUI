@@ -55,7 +55,7 @@ struct AlertTranslator {
 struct AlertAction {
     let title: String
     let style: AlertStyle
-    let action: Action
+    let action: (() -> Void)?
     
     enum AlertStyle {
         case regular
