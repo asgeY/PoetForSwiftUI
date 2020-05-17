@@ -14,16 +14,19 @@ extension Retail {
         @Published var body: [Section] = [Section]()
         
         enum Section: String, ObservingPageSection {
-            case title
-            case instruction
+            case canceledTitle
+            case completedTitle
+            case completedSummary
+            case customerTitle
+            case deliveryOptions
             case details
             case displayableProducts
-            case products
-            case findableProducts
-            case deliveryOptions
-            case completedSummary
-            case space
             case divider
+            case findableProducts
+            case instruction
+            case products
+            case space
+            case topSpace
             
             var id: String {
                 return rawValue

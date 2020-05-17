@@ -121,7 +121,7 @@ extension Retail.Translator {
         let productCount = configuration.products.count
         
         // Assign values to our observable page data
-        title.string = "Order for \(configuration.customer)"
+        title.string = "Order for \n\(configuration.customer)"
         details.string = "\(configuration.products.count) \(pluralizedProduct(productCount)) requested"
         instruction.string = "Tap start to claim this order"
 //        products.array = configuration.products
@@ -136,7 +136,7 @@ extension Retail.Translator {
         })
         
         // Say that only these things should appear in the body
-        displaySections([.title, .instruction, .divider, .details, .displayableProducts])
+        displaySections([.topSpace, .customerTitle, .instruction, .divider, .details, .displayableProducts])
         
         // Bottom button
         bottomButtonAction.action = NamedEvaluatorAction(name: "Start", action: configuration.startAction)
@@ -149,7 +149,7 @@ extension Retail.Translator {
         let foundCount = configuration.findableProducts.filter {$0.status == .found}.count
         
         // Assign values to our observable page data
-        title.string = "Order for \(configuration.customer)"
+        title.string = "Order for \n\(configuration.customer)"
         details.string = "\(foundCount) \(pluralizedProduct(foundCount)) marked found"
         instruction.string = "Mark found or not found"
         instructionNumber.int = 2
@@ -166,7 +166,7 @@ extension Retail.Translator {
             })
             
             // Say that only these things should appear in the body
-            displaySections([.title, .instruction, .divider, .details, .displayableProducts])
+            displaySections([.topSpace, .customerTitle, .instruction, .divider, .details, .displayableProducts])
         }
         
         // Bottom button
@@ -185,7 +185,7 @@ extension Retail.Translator {
     func showDeliveryOptions(_ configuration: Evaluator.ChooseDeliveryLocationConfiguration) {
         
         // Assign values to our observable page data
-        title.string = "Order for \(configuration.customer)"
+        title.string = "Order for \n\(configuration.customer)"
         details.string = "\(configuration.products.count) of \(configuration.numberOfProductsRequested) \(pluralizedProduct(configuration.numberOfProductsRequested)) found"
         instruction.string = "Choose a Delivery Location"
         instructionNumber.int = 3
@@ -206,7 +206,7 @@ extension Retail.Translator {
         
         // Say that only these things should appear in the body
         withAnimation(.linear) {
-            displaySections([.title, .instruction, .deliveryOptions, .divider, .details, .displayableProducts])
+            displaySections([.topSpace, .customerTitle, .instruction, .deliveryOptions, .divider, .details, .displayableProducts])
         }
         
         // Bottom button
@@ -224,7 +224,7 @@ extension Retail.Translator {
         let productCount = configuration.products.count
         
         // Assign values to our observable page data
-        title.string = "Completed order for \(configuration.customer)"
+        title.string = title(for: configuration.customer)
         instruction.string = "Deliver to \(configuration.deliveryLocation)"
         instructionNumber.int = 4
         details.string = "\(productCount) \(pluralizedProduct(productCount)) fulfilled"
@@ -248,7 +248,7 @@ extension Retail.Translator {
             })
         
             // Say that only these things should appear in the body
-            displaySections([.title, .instruction, .divider, .details, .displayableProducts, .completedSummary])
+            displaySections([.topSpace, .completedTitle, .customerTitle, .instruction, .divider, .details, .displayableProducts, .completedSummary])
         }
         
         // Bottom button
@@ -258,8 +258,9 @@ extension Retail.Translator {
     // MARK: Canceled Step
     
     func showCanceled(_ configuration: Evaluator.CanceledConfiguration) {
+        
         // Assign values to our observable page data
-        title.string = "Canceled order for \(configuration.customer)"
+        title.string = title(for: configuration.customer)
         instruction.string = "You're all set!"
         instructionNumber.int = 3
         details.string = "The customer has been notified that their order cannot be fulfilled."
@@ -274,24 +275,26 @@ extension Retail.Translator {
         
         // Say that only these things should appear in the body
         withAnimation(.linear) {
-            displaySections([.title, .instruction, .divider, .details, .completedSummary])
+            displaySections([.topSpace, .canceledTitle, .customerTitle, .instruction, .divider, .details, .completedSummary])
         }
         
         // Bottom button
         bottomButtonAction.action = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
     }
     
+    // Text and Styling
+    
     func pluralizedProduct(_ count: Int) -> String {
         return (count == 1) ? "product" : "products"
     }
     
+    func title(for customer: String) -> String {
+        return "Order for \n\(customer)"
+    }
+    
     // MARK: Sections
     func displaySections(_ newSections: [Retail.Page.Section]) {
-//        if let existingSections = self.sections.array as? [Retail.Page.Section] {
-//            if existingSections != newSections {
-                self.sections.array = newSections
-//            }
-//        }
+        self.sections.array = newSections
     }
     
 }

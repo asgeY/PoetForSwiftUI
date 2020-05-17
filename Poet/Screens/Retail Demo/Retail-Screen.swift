@@ -28,16 +28,6 @@ extension Retail {
         var body: some View {
             ZStack {
                 VStack {
-                    Spacer().frame(height:21)
-                    
-                    // MARK: Title
-                    Text("Retail")
-                        .font(Font.subheadline.monospacedDigit().bold())
-                        .opacity(0.33)
-                        .multilineTextAlignment(.center)
-                        .layoutPriority(10)
-                    
-                    Spacer().frame(height:18)
                     
                     // MARK: Page View
                     

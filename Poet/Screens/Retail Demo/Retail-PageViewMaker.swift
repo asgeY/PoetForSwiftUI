@@ -36,6 +36,8 @@ extension Retail {
         // Fade state
         let isDeliveryOptionsShowing = ObservableBool()
         let isCompletedSummaryShowing = ObservableBool()
+        let isCompletedTitleShowing = ObservableBool()
+        let isCanceledTitleShowing = ObservableBool()
         
         func view(for section: ObservingPageSection) -> AnyView {
             guard let section = section as? Retail.Page.Section else {
@@ -43,14 +45,42 @@ extension Retail {
             }
             
             switch section {
+            
+            case .topSpace:
+                return AnyView(
+                    Spacer().frame(height: 40)
+                )
                 
-            case .title:
+            case .canceledTitle:
+            return AnyView(
+                Fadeable(isShowing: isCanceledTitleShowing) {
+                    HStack {
+                        Text("Canceled")
+                            .font(Font.system(size: 32, weight: .bold))
+                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 40))
+                        Spacer()
+                    }.foregroundColor(Color(UIColor.systemRed))
+                }
+            )
+                
+            case .completedTitle:
+                return AnyView(
+                    Fadeable(isShowing: isCompletedTitleShowing) {
+                        HStack {
+                            Text("Completed")
+                                .font(Font.system(size: 32, weight: .bold))
+                                .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 40))
+                            Spacer()
+                        }.foregroundColor(Color(UIColor.systemGreen))
+                    }
+                )
+                
+            case .customerTitle:
                 return AnyView(
                     HStack {
                         ObservingTextView(title)
                             .font(Font.system(size: 32, weight: .bold))
                             .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 40))
-                            .id("title")
                         Spacer()
                     }
                 )
@@ -66,7 +96,7 @@ extension Retail {
                         .background(Color.primary)
                         .frame(height: 1.75)
                         .opacity(0.22)
-                        .padding(.bottom, 20)
+                        .padding(EdgeInsets(top: 0, leading: 40, bottom: 20, trailing: 0))
                 )
                 
             case .details:
@@ -77,7 +107,6 @@ extension Retail {
                                 .font(Font.headline.monospacedDigit().bold())
                                 .opacity(0.4)
                                 .padding(EdgeInsets(top: 0, leading: 40, bottom: 26, trailing: 42))
-                                .id("details")
                             Spacer()
                         }
                     }
@@ -86,7 +115,6 @@ extension Retail {
             case .instruction:
                 return AnyView(
                     InstructionView(instructionNumber: instructionNumber, instruction: instruction)
-                        .id("instruction")
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
                 )
              
@@ -134,7 +162,7 @@ extension Retail {
                                     .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                                 Spacer()
                             }
-                        }
+                        }.padding(.bottom, 30)
                     }
                 )
             }
@@ -161,7 +189,7 @@ struct Fadeable<Content>: View where Content : View {
                 }
         }
             .onAppear() {
-                withAnimation(Animation.linear(duration: 0.3).delay(0.25)) {
+                withAnimation(Animation.linear(duration: 0.3).delay(0.3)) {
                     self.isShowing.bool = true
                 }
         }
