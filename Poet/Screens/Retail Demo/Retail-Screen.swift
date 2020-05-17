@@ -39,8 +39,6 @@ extension Retail {
                             instruction: translator.instruction,
                             instructionNumber: translator.instructionNumber,
                             displayableProducts: translator.displayableProducts,
-                            products: translator.products,
-                            findableProducts: translator.findableProducts,
                             deliveryOptions: translator.deliveryOptions,
                             deliveryPreference: translator.deliveryPreference,
                             completedSummary: translator.completedSummary,

@@ -15,10 +15,29 @@ extension Retail {
         
         typealias Evaluator = Retail.Evaluator
         
+        // ObservingPageViewSections
+        enum Section: String, ObservingPageViewSection {
+            case canceledTitle
+            case completedTitle
+            case completedSummary
+            case customerTitle
+            case deliveryOptions
+            case details
+            case displayableProducts
+            case divider
+            case instruction
+            case space
+            case topSpace
+            
+            var id: String {
+                return rawValue
+            }
+        }
+        
         // OBSERVABLE STATE
         
-        // Page
-        var sections = ObservableArray<ObservingPageSection>([])
+        // Observable Sections for PageViewMaker
+        var sections = ObservableArray<ObservingPageViewSection>([])
         var title = ObservableString()
         var details = ObservableString()
         var instruction = ObservableString()
@@ -48,24 +67,8 @@ extension Retail {
         // Display Type
         struct DisplayableProduct {
             var product: Product
-            var status: FoundStatus
-            var showsFindingButtons: Bool
             var findableProduct: FindableProduct?
             var id: String { return product.upc }
-            
-            enum FoundStatus {
-                case unknown
-                case found
-                case notFound
-            }
-            
-            static func status(for findableProductStatus: FindableProduct.FoundStatus) -> FoundStatus {
-                switch findableProductStatus {
-                case .found: return .found
-                case .notFound: return .notFound
-                case .unknown: return .unknown
-                }
-            }
         }
         
         init(_ step: PassableStep<Evaluator.Step>) {
@@ -124,13 +127,11 @@ extension Retail.Translator {
         title.string = "Order for \n\(configuration.customer)"
         details.string = "\(configuration.products.count) \(pluralizedProduct(productCount)) requested"
         instruction.string = "Tap start to claim this order"
-//        products.array = configuration.products
         instructionNumber.int = 1
+        
         displayableProducts.array = configuration.products.map({
             return DisplayableProduct(
                 product: $0,
-                status: .unknown,
-                showsFindingButtons: false,
                 findableProduct: nil
             )
         })
@@ -153,14 +154,11 @@ extension Retail.Translator {
         details.string = "\(foundCount) \(pluralizedProduct(foundCount)) marked found"
         instruction.string = "Mark found or not found"
         instructionNumber.int = 2
+        
         withAnimation(Animation.linear(duration: 0.3)) {
-//            findableProducts.array = configuration.findableProducts
-            
             displayableProducts.array = configuration.findableProducts.map({
                 return DisplayableProduct(
                     product: $0.product,
-                    status: DisplayableProduct.status(for: $0.status),
-                    showsFindingButtons: true,
                     findableProduct: $0
                 )
             })
@@ -191,14 +189,11 @@ extension Retail.Translator {
         instructionNumber.int = 3
         deliveryOptions.array = configuration.deliveryLocationChoices
         deliveryPreference.string = configuration.deliveryLocationPreference ?? ""
+        
         withAnimation(.linear) {
-//            products.array = configuration.products
-            
             displayableProducts.array = configuration.products.map({
                 return DisplayableProduct(
                     product: $0,
-                    status: .found,
-                    showsFindingButtons: false,
                     findableProduct: nil
                 )
             })
@@ -230,6 +225,7 @@ extension Retail.Translator {
         details.string = "\(productCount) \(pluralizedProduct(productCount)) fulfilled"
         let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
         let timeString = numberFormatter.string(from: timeNumber)
+        
         completedSummary.string =
         """
         Order completed on \(dateFormatter.string(from: configuration.timeCompleted)).
@@ -241,8 +237,6 @@ extension Retail.Translator {
             displayableProducts.array = configuration.products.map({
                 return DisplayableProduct(
                     product: $0,
-                    status: .found,
-                    showsFindingButtons: false,
                     findableProduct: nil
                 )
             })
@@ -266,6 +260,7 @@ extension Retail.Translator {
         details.string = "The customer has been notified that their order cannot be fulfilled."
         let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
         let timeString = numberFormatter.string(from: timeNumber)
+        
         completedSummary.string =
         """
         Order canceled on \(dateFormatter.string(from: configuration.timeCompleted)).
@@ -293,7 +288,7 @@ extension Retail.Translator {
     }
     
     // MARK: Sections
-    func displaySections(_ newSections: [Retail.Page.Section]) {
+    func displaySections(_ newSections: [Section]) {
         self.sections.array = newSections
     }
     

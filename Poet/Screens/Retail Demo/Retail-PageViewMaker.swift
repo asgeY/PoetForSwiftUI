@@ -25,8 +25,6 @@ extension Retail {
         var instruction: ObservableString
         var instructionNumber: ObservableInt
         var displayableProducts: ObservableArray<Retail.Translator.DisplayableProduct>
-        var products: ObservableArray<Product>
-        var findableProducts: ObservableArray<FindableProduct>
         var deliveryOptions: ObservableArray<String>
         var deliveryPreference: ObservableString
         var completedSummary: ObservableString
@@ -39,8 +37,8 @@ extension Retail {
         let isCompletedTitleShowing = ObservableBool()
         let isCanceledTitleShowing = ObservableBool()
         
-        func view(for section: ObservingPageSection) -> AnyView {
-            guard let section = section as? Retail.Page.Section else {
+        func view(for section: ObservingPageViewSection) -> AnyView {
+            guard let section = section as? Retail.Translator.Section else {
                 return AnyView(EmptyView())
             }
             
@@ -122,18 +120,6 @@ extension Retail {
                 return AnyView(
                     DisplayableProductsView(displayableProducts: displayableProducts, evaluator: self.findingProductsEvaluator)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                )
-                
-            case .products:
-                return AnyView(
-                    ProductsView(products: products)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
-                )
-
-            case .findableProducts:
-                return AnyView(
-                    FindableProductsView(findableProducts: findableProducts, evaluator: self.findingProductsEvaluator)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
                 )
                 
             case .deliveryOptions:

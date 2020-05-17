@@ -66,35 +66,6 @@ struct ProductView: View {
     }
 }
 
-struct ProductsView: View {
-    @ObservedObject var products: ObservableArray<Product>
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 40) {
-            ForEach(products.array, id: \.upc) { product in
-                ProductView(product: product)
-            }
-        }
-    }
-}
-
-struct FindableProductsView: View {
-    @ObservedObject var findableProducts: ObservableArray<FindableProduct>
-    weak var evaluator: FindingProductsEvaluator?
-
-    var body: some View {
-        debugPrint("FindableProductsView")
-        return VStack(alignment: .leading, spacing: 40) {
-            ForEach(findableProducts.array, id: \.product.upc) { findableProduct in
-                return VStack(alignment: .leading, spacing: 10) {
-                    ProductView(product: findableProduct.product)
-                    FoundNotFoundButtonsOld(findableProduct: findableProduct, evaluator: self.evaluator)
-                }
-            }
-        }
-    }
-}
-
 struct DisplayableProductsView: View {
     @ObservedObject var displayableProducts: ObservableArray<Retail.Translator.DisplayableProduct>
     weak var evaluator: FindingProductsEvaluator?
@@ -106,8 +77,8 @@ struct DisplayableProductsView: View {
                 return HStack {
                     VStack(alignment: .leading, spacing: 10) {
                         ProductView(product: displayableProduct.product)
-                        if displayableProduct.showsFindingButtons {
-                            FoundNotFoundButtons(displayableProduct: displayableProduct, evaluator: self.evaluator)
+                        if displayableProduct.findableProduct != nil {
+                            FoundNotFoundButtons(findableProduct: displayableProduct.findableProduct!, evaluator: self.evaluator)
                                 .padding(EdgeInsets(top: 5, leading: 20, bottom: 0, trailing: 20))
                                 .transition(.opacity)
                         }
@@ -120,7 +91,7 @@ struct DisplayableProductsView: View {
     }
 }
 
-struct FoundNotFoundButtonsOld: View {
+struct FoundNotFoundButtons: View {
     let findableProduct: FindableProduct
     weak var evaluator: FindingProductsEvaluator?
     
@@ -149,45 +120,6 @@ struct FoundNotFoundButtonsOld: View {
                         isSelected: isNotFound,
                         imageName: "xmark",
                         action: { self.evaluator?.toggleProductNotFound(self.findableProduct) }
-                    )
-                    .layoutPriority(30)
-                }
-                .frame(width: geometry.size.width / 2.0)
-                .offset(x: geometry.size.width / 2.0, y: 0)
-            }
-        }.frame(height: 44)
-    }
-}
-
-struct FoundNotFoundButtons: View {
-    let displayableProduct: Retail.Translator.DisplayableProduct
-    weak var evaluator: FindingProductsEvaluator?
-    
-    var body: some View {
-        debugPrint("FoundNotFoundButtons. upc: \(displayableProduct.product.upc)")
-        let isFound = displayableProduct.status == .found
-        let isNotFound = displayableProduct.status == .notFound
-        
-        return GeometryReader() { geometry in
-            ZStack {
-                HStack {
-                    SelectableCapsuleButton(
-                        title: "Found",
-                        isSelected: isFound,
-                        imageName: "checkmark",
-                        action: self.displayableProduct.findableProduct != nil ? { self.evaluator?.toggleProductFound(self.displayableProduct.findableProduct!) } : {}
-                    )
-                    .layoutPriority(30)
-                }
-                .frame(width: geometry.size.width / 2.0)
-                .offset(x: 0, y: 0)
-                
-                HStack {
-                    SelectableCapsuleButton(
-                        title: "Not Found",
-                        isSelected: isNotFound,
-                        imageName: "xmark",
-                        action: self.displayableProduct.findableProduct != nil ? { self.evaluator?.toggleProductNotFound(self.displayableProduct.findableProduct!) } : {}
                     )
                     .layoutPriority(30)
                 }

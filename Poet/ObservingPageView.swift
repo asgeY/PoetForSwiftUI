@@ -9,16 +9,16 @@
 import SwiftUI
 import Combine
 
-protocol ObservingPageSection {
+protocol ObservingPageViewSection {
     var id: String { get }
 }
 
 protocol ObservingPageView_ViewMaker {
-    func view(for: ObservingPageSection) -> AnyView
+    func view(for: ObservingPageViewSection) -> AnyView
 }
 
 struct ObservingPageView: View {
-    @ObservedObject var sections: ObservableArray<ObservingPageSection>
+    @ObservedObject var sections: ObservableArray<ObservingPageViewSection>
     var viewMaker: ObservingPageView_ViewMaker
     
     var body: some View {
