@@ -14,7 +14,7 @@ extension Retail {
         
         // Translator
         
-        lazy var translator: Translator = Translator(current)
+        lazy var translator: Translator = Translator(current, evaluator: self)
         
         // Step
         

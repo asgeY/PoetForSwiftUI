@@ -27,40 +27,26 @@ extension Retail {
         
         var body: some View {
             ZStack {
+                
+                // MARK: Page View
+                
+                ObservingPageView(
+                    sections: self.translator.sections,
+                    viewMaker: Retail.ViewMaker()
+                )
+
+                // MARK: Dismiss Button
+                
                 VStack {
-                    
-                    // MARK: Page View
-                    
-                    ObservingPageView(
-                        sections: self.translator.sections,
-                        viewMaker: PageViewMaker(
-                            title: translator.title,
-                            details: translator.details,
-                            instruction: translator.instruction,
-                            instructionNumber: translator.instructionNumber,
-                            displayableProducts: translator.displayableProducts,
-                            deliveryOptions: translator.deliveryOptions,
-                            deliveryPreference: translator.deliveryPreference,
-                            completedSummary: translator.completedSummary,
-                            findingProductsEvaluator: evaluator,
-                            optionsEvaluator: evaluator)
-                    )
-                        .layoutPriority(10)
-                    
-                }
-                VStack {
-                    
-                    // MARK: Dismiss Button
-                    
                     DismissButton()
                     DismissReceiver(translator: translator.dismissTranslator)
                     Spacer()
                 }
+                
+                // MARK: Bottom Button
+                
                 VStack {
                     Spacer()
-                    
-                    // MARK: Bottom Button
-                    
                     BottomButton(bottomButtonAction: self.translator.bottomButtonAction, evaluator: evaluator)
                 }
             }.onAppear() {

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E8D392462A9CD005D033C /* AfterWait.swift */; };
-		3B6ACFE2245C29E700905DDB /* Retail-Page-Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B6ACFE1245C29E700905DDB /* Retail-Page-Views.swift */; };
 		875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562B3244C253200DB49C4 /* AppDelegate.swift */; };
 		875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562B5244C253200DB49C4 /* SceneDelegate.swift */; };
 		875562BA244C253500DB49C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875562B9244C253500DB49C4 /* Assets.xcassets */; };
@@ -74,7 +73,6 @@
 
 /* Begin PBXFileReference section */
 		3B1E8D392462A9CD005D033C /* AfterWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterWait.swift; sourceTree = "<group>"; };
-		3B6ACFE1245C29E700905DDB /* Retail-Page-Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Retail-Page-Views.swift"; sourceTree = "<group>"; };
 		875562B0244C253200DB49C4 /* Poet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875562B3244C253200DB49C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		875562B5244C253200DB49C4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -295,7 +293,6 @@
 				87E7E43C245961B400047253 /* Retail-Evaluator.swift */,
 				87E7E43E2459637900047253 /* Retail-Translator.swift */,
 				8794A5F9245C343400D41E4F /* Retail-PageViewMaker.swift */,
-				3B6ACFE1245C29E700905DDB /* Retail-Page-Views.swift */,
 			);
 			path = "Retail Demo";
 			sourceTree = "<group>";
@@ -485,7 +482,6 @@
 				878B3A4F245378CF00ACADE4 /* AlertTranslating.swift in Sources */,
 				87AC827B2453BB400090E443 /* Menu-Translator.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
-				3B6ACFE2245C29E700905DDB /* Retail-Page-Views.swift in Sources */,
 				DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */,
 				87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */,
 				DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */,
