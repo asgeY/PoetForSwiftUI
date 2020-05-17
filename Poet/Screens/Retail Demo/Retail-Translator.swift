@@ -225,7 +225,9 @@ extension Retail.Translator {
         
         // Assign values to our observable page data
         title.string = "Completed order for \(configuration.customer)"
-        details.string = "Customer will be waiting at: \n\(configuration.deliveryLocation)"
+        instruction.string = "Deliver to \(configuration.deliveryLocation)"
+        instructionNumber.int = 4
+        details.string = "\(productCount) \(pluralizedProduct(productCount)) fulfilled"
         let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
         let timeString = numberFormatter.string(from: timeNumber)
         completedSummary.string =
@@ -246,7 +248,7 @@ extension Retail.Translator {
             })
         
             // Say that only these things should appear in the body
-            displaySections([.title, .divider, .details, .displayableProducts, .divider, .completedSummary])
+            displaySections([.title, .instruction, .divider, .details, .displayableProducts, .completedSummary])
         }
         
         // Bottom button
@@ -258,7 +260,9 @@ extension Retail.Translator {
     func showCanceled(_ configuration: Evaluator.CanceledConfiguration) {
         // Assign values to our observable page data
         title.string = "Canceled order for \(configuration.customer)"
-        details.string = "You're all set"
+        instruction.string = "You're all set!"
+        instructionNumber.int = 3
+        details.string = "The customer has been notified that their order cannot be fulfilled."
         let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
         let timeString = numberFormatter.string(from: timeNumber)
         completedSummary.string =
@@ -270,7 +274,7 @@ extension Retail.Translator {
         
         // Say that only these things should appear in the body
         withAnimation(.linear) {
-            displaySections([.title, .divider, .details, .divider, .completedSummary])
+            displaySections([.title, .instruction, .divider, .details, .completedSummary])
         }
         
         // Bottom button

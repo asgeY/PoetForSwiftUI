@@ -76,7 +76,7 @@ extension Retail {
                             ObservingTextView(details)
                                 .font(Font.headline.monospacedDigit().bold())
                                 .opacity(0.4)
-                                .padding(EdgeInsets(top: 0, leading: 40, bottom: 30, trailing: 42))
+                                .padding(EdgeInsets(top: 0, leading: 40, bottom: 26, trailing: 42))
                                 .id("details")
                             Spacer()
                         }
@@ -119,12 +119,21 @@ extension Retail {
             case .completedSummary:
                 return AnyView(
                     Fadeable(isShowing: isCompletedSummaryShowing) {
-                        HStack {
-                            ObservingTextView(self.completedSummary)
-                                .font(Font.system(.headline))
-                                .opacity(0.33)
-                                .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
-                            Spacer()
+                        VStack {
+                            Divider()
+                            .background(Color.primary)
+                            .frame(height: 1.75)
+                            .opacity(0.22)
+                            .padding(.bottom, 20)
+                            
+                            HStack {
+                                ObservingTextView(self.completedSummary)
+                                    .font(Font.system(.headline))
+                                    .opacity(0.33)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+                                Spacer()
+                            }
                         }
                     }
                 )
