@@ -1,5 +1,5 @@
 //
-//  RetailTutorial-Screen.swift
+//  Retail-Screen.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/28/20.
@@ -8,17 +8,16 @@
 
 import SwiftUI
 
-struct RetailTutorial {}
+struct Retail {}
 
-extension RetailTutorial {
+extension Retail {
     struct Screen: View {
         
-        let _evaluator: RetailTutorial.Evaluator
-        weak var evaluator: RetailTutorial.Evaluator?
-        let translator: RetailTutorial.Translator
+        let _evaluator: Retail.Evaluator
+        weak var evaluator: Retail.Evaluator?
+        let translator: Retail.Translator
         
         init() {
-            debugPrint("init RetailTutorial Screen")
             _evaluator = Evaluator()
             evaluator = _evaluator
             translator = _evaluator.translator
@@ -29,12 +28,12 @@ extension RetailTutorial {
         var body: some View {
             ZStack {
                 VStack {
-                    Spacer().frame(height:12)
+                    Spacer().frame(height:21)
                     
                     // MARK: Title
-                    
                     Text("Retail")
                         .font(Font.subheadline.monospacedDigit().bold())
+                        .opacity(0.33)
                         .multilineTextAlignment(.center)
                         .layoutPriority(10)
                     
@@ -49,6 +48,7 @@ extension RetailTutorial {
                             details: translator.details,
                             instruction: translator.instruction,
                             instructionNumber: translator.instructionNumber,
+                            displayableProducts: translator.displayableProducts,
                             products: translator.products,
                             findableProducts: translator.findableProducts,
                             deliveryOptions: translator.deliveryOptions,
@@ -62,9 +62,9 @@ extension RetailTutorial {
                 }
                 VStack {
                     
-                    // MARK: Back Button
+                    // MARK: Dismiss Button
                     
-                    BackButton()
+                    DismissButton()
                     DismissReceiver(translator: translator.dismissTranslator)
                     Spacer()
                 }

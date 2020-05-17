@@ -1,5 +1,5 @@
 //
-//  RetailTutorial-Translator.swift
+//  Retail-Translator.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/29/20.
@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import SwiftUI
 
-extension RetailTutorial {
+extension Retail {
 
     class Translator: AlertTranslating, CharacterBezelTranslating, DismissTranslating {
         
-        typealias Evaluator = RetailTutorial.Evaluator
+        typealias Evaluator = Retail.Evaluator
         
         // OBSERVABLE STATE
         
@@ -24,6 +25,7 @@ extension RetailTutorial {
         var instructionNumber = ObservableInt()
         var deliveryOptions = ObservableArray<String>([])
         var deliveryPreference = ObservableString()
+        var displayableProducts: ObservableArray<DisplayableProduct> = ObservableArray<DisplayableProduct>([])
         var products: ObservableArray<Product> = ObservableArray<Product>([])
         var findableProducts: ObservableArray<FindableProduct> = ObservableArray<FindableProduct>([])
         var completedSummary = ObservableString()
@@ -39,7 +41,41 @@ extension RetailTutorial {
         // Passthrough Behavior
         var behavior: Behavior?
         
+        // Formatter
+        var dateFormatter: DateFormatter
+        var numberFormatter: NumberFormatter
+        
+        // Display Type
+        struct DisplayableProduct {
+            var product: Product
+            var status: FoundStatus
+            var showsFindingButtons: Bool
+            var findableProduct: FindableProduct?
+            var id: String { return product.upc }
+            
+            enum FoundStatus {
+                case unknown
+                case found
+                case notFound
+            }
+            
+            static func status(for findableProductStatus: FindableProduct.FoundStatus) -> FoundStatus {
+                switch findableProductStatus {
+                case .found: return .found
+                case .notFound: return .notFound
+                case .unknown: return .unknown
+                }
+            }
+        }
+        
         init(_ step: PassableStep<Evaluator.Step>) {
+            dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .long
+            dateFormatter.timeStyle = .long
+            numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            numberFormatter.maximumSignificantDigits = 2
+            numberFormatter.minimumSignificantDigits = 0
             behavior = step.subject.sink { value in
                 self.translate(step: value)
             }
@@ -47,7 +83,7 @@ extension RetailTutorial {
     }
 }
 
-extension RetailTutorial.Translator {
+extension Retail.Translator {
     func translate(step: Evaluator.Step) {
         switch step {
             
@@ -82,17 +118,25 @@ extension RetailTutorial.Translator {
     
     func showNotStarted(_ configuration: Evaluator.NotStartedConfiguration) {
         
-        let pluralizedProduct = configuration.products.count == 1 ? "product" : "products"
+        let productCount = configuration.products.count
         
         // Assign values to our observable page data
         title.string = "Order for \(configuration.customer)"
-        details.string = "\(configuration.products.count) \(pluralizedProduct) requested"
+        details.string = "\(configuration.products.count) \(pluralizedProduct(productCount)) requested"
         instruction.string = "Tap start to claim this order"
+//        products.array = configuration.products
         instructionNumber.int = 1
-        products.array = configuration.products
+        displayableProducts.array = configuration.products.map({
+            return DisplayableProduct(
+                product: $0,
+                status: .unknown,
+                showsFindingButtons: false,
+                findableProduct: nil
+            )
+        })
         
         // Say that only these things should appear in the body
-        displaySections([.title, .instruction, .details, .products])
+        displaySections([.title, .instruction, .divider, .details, .displayableProducts])
         
         // Bottom button
         bottomButtonAction.action = NamedEvaluatorAction(name: "Start", action: configuration.startAction)
@@ -102,15 +146,28 @@ extension RetailTutorial.Translator {
     
     func showFindingProducts(_ configuration: Evaluator.FindProductsConfiguration) {
         
+        let foundCount = configuration.findableProducts.filter {$0.status == .found}.count
+        
         // Assign values to our observable page data
         title.string = "Order for \(configuration.customer)"
-        details.string = "\(configuration.findableProducts.filter {$0.status == .found}.count) marked as found"
-        instruction.string = "Find products for this order"
+        details.string = "\(foundCount) \(pluralizedProduct(foundCount)) marked found"
+        instruction.string = "Mark found or not found"
         instructionNumber.int = 2
-        findableProducts.array = configuration.findableProducts
-        
-        // Say that only these things should appear in the body
-        displaySections([.title, .instruction, .details, .findableProducts])
+        withAnimation(Animation.linear(duration: 0.3)) {
+//            findableProducts.array = configuration.findableProducts
+            
+            displayableProducts.array = configuration.findableProducts.map({
+                return DisplayableProduct(
+                    product: $0.product,
+                    status: DisplayableProduct.status(for: $0.status),
+                    showsFindingButtons: true,
+                    findableProduct: $0
+                )
+            })
+            
+            // Say that only these things should appear in the body
+            displaySections([.title, .instruction, .divider, .details, .displayableProducts])
+        }
         
         // Bottom button
         if let nextAction = configuration.nextAction {
@@ -134,10 +191,23 @@ extension RetailTutorial.Translator {
         instructionNumber.int = 3
         deliveryOptions.array = configuration.deliveryLocationChoices
         deliveryPreference.string = configuration.deliveryLocationPreference ?? ""
-        products.array = configuration.products
+        withAnimation(.linear) {
+//            products.array = configuration.products
+            
+            displayableProducts.array = configuration.products.map({
+                return DisplayableProduct(
+                    product: $0,
+                    status: .found,
+                    showsFindingButtons: false,
+                    findableProduct: nil
+                )
+            })
+        }
         
         // Say that only these things should appear in the body
-        displaySections([.title, .instruction, .deliveryOptions, .details, .products])
+        withAnimation(.linear) {
+            displaySections([.title, .instruction, .deliveryOptions, .divider, .details, .displayableProducts])
+        }
         
         // Bottom button
         if let nextAction = configuration.nextAction {
@@ -151,21 +221,33 @@ extension RetailTutorial.Translator {
     
     func showCompleted(_ configuration: Evaluator.CompletedConfiguration) {
         
+        let productCount = configuration.products.count
+        
         // Assign values to our observable page data
         title.string = "Completed order for \(configuration.customer)"
-        instruction.string = "Customer will be waiting at: \n\(configuration.deliveryLocation)"
-        instructionNumber.int = 4
-        products.array = configuration.products
-        
+        details.string = "Customer will be waiting at: \n\(configuration.deliveryLocation)"
+        let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
+        let timeString = numberFormatter.string(from: timeNumber)
         completedSummary.string =
         """
-        Order completed at \(configuration.timeCompleted).
-        \(configuration.products.count) \(pluralizedProduct(configuration.products.count)) found.
-        Time to complete: \(configuration.elapsedTime) seconds.
+        Order completed on \(dateFormatter.string(from: configuration.timeCompleted)).
+        \(productCount) of \(configuration.numberOfProductsRequested) \(pluralizedProduct(configuration.numberOfProductsRequested)) found.
+        Time to complete: \(timeString ?? String(configuration.elapsedTime)) seconds.
         """
         
-        // Say that only these things should appear in the body
-        displaySections([.title, .instruction, .products, .completedSummary])
+        withAnimation(.linear) {
+            displayableProducts.array = configuration.products.map({
+                return DisplayableProduct(
+                    product: $0,
+                    status: .found,
+                    showsFindingButtons: false,
+                    findableProduct: nil
+                )
+            })
+        
+            // Say that only these things should appear in the body
+            displaySections([.title, .divider, .details, .displayableProducts, .divider, .completedSummary])
+        }
         
         // Bottom button
         bottomButtonAction.action = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
@@ -176,17 +258,20 @@ extension RetailTutorial.Translator {
     func showCanceled(_ configuration: Evaluator.CanceledConfiguration) {
         // Assign values to our observable page data
         title.string = "Canceled order for \(configuration.customer)"
-        instruction.string = "You're all set"
-        instructionNumber.int = 3
+        details.string = "You're all set"
+        let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
+        let timeString = numberFormatter.string(from: timeNumber)
         completedSummary.string =
         """
-        Order canceled at \(configuration.timeCompleted).
+        Order canceled on \(dateFormatter.string(from: configuration.timeCompleted)).
         0 products found.
-        Time to complete: \(configuration.elapsedTime) seconds.
+        Time to complete: \(timeString ?? String(configuration.elapsedTime)) seconds.
         """
         
         // Say that only these things should appear in the body
-        displaySections([.title, .instruction, .completedSummary])
+        withAnimation(.linear) {
+            displaySections([.title, .divider, .details, .divider, .completedSummary])
+        }
         
         // Bottom button
         bottomButtonAction.action = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
@@ -197,12 +282,12 @@ extension RetailTutorial.Translator {
     }
     
     // MARK: Sections
-    func displaySections(_ newSections: [RetailTutorial.Page.Section]) {
-        if let existingSections = self.sections.array as? [RetailTutorial.Page.Section] {
-            if existingSections != newSections {
+    func displaySections(_ newSections: [Retail.Page.Section]) {
+//        if let existingSections = self.sections.array as? [Retail.Page.Section] {
+//            if existingSections != newSections {
                 self.sections.array = newSections
-            }
-        }
+//            }
+//        }
     }
     
 }

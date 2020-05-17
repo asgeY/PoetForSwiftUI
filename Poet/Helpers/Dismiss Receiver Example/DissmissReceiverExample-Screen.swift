@@ -18,7 +18,6 @@ extension DismissReceiverExample {
         let translator: Translator
         
         init() {
-            debugPrint("init RetailTutorial Screen")
             _evaluator = Evaluator()
             evaluator = _evaluator
             translator = _evaluator.translator

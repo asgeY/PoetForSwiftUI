@@ -38,7 +38,6 @@ extension Tutorial {
         
         
         var body: some View {
-            debugPrint("Tutorial body")
             return ZStack {
                   
                 VStack {
@@ -283,7 +282,7 @@ extension Tutorial {
                     
                     // MARK: Retail Demo
                     Presenter(self.translator.showRetailDemo) {
-                        RetailTutorial.Screen()
+                        Retail.Screen()
                     }
                     
                     // MARK: Alert

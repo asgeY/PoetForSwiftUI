@@ -29,7 +29,6 @@ extension HelloWorld {
         @State var navBarHidden: Bool = true
         
         var body: some View {
-            debugPrint("About body")
             return GeometryReader() { geometry in
                 ZStack {
                     
@@ -49,6 +48,7 @@ extension HelloWorld {
                         // MARK: Title
                         
                         ObservingTextView(self.translator.title)
+                            .font(Font.headline)
                         
                         Spacer().frame(height:20)
                         

@@ -1,5 +1,5 @@
 //
-//  RetailTutorial-Page.swift
+//  Retail-Page.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/29/20.
@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-extension RetailTutorial {
+extension Retail {
     class Page: ObservableObject {
         @Published var body: [Section] = [Section]()
         
@@ -17,10 +17,13 @@ extension RetailTutorial {
             case title
             case instruction
             case details
+            case displayableProducts
             case products
             case findableProducts
             case deliveryOptions
             case completedSummary
+            case space
+            case divider
             
             var id: String {
                 return rawValue

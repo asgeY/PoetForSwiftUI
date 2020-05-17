@@ -1,5 +1,5 @@
 //
-//  RetailTutorial-Evaluator.swift
+//  Retail-Evaluator.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/29/20.
@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-extension RetailTutorial {
+extension Retail {
     class Evaluator {
         
         // Translator
@@ -41,34 +41,22 @@ extension RetailTutorial {
                 location: "Bin 1A"),
             
             Product(
-                title: "MacBook Pro 13” 2TB",
-                upc: "885909918162",
-                image: "macbookpro13",
-                location: "Bin 1B"),
-            
-            Product(
                 title: "iPad Pro 11” 128gb",
                 upc: "888462533391",
                 image: "ipadpro11",
                 location: "Bin 2B"),
             
             Product(
-                title: "iPad Pro 11” 256gb",
-                upc: "888462533392",
-                image: "ipadpro11",
-                location: "Bin 2C"),
-            
-            Product(
                 title: "Magic Keyboard for iPad Pro 11”",
                 upc: "888462153501",
                 image: "magickeyboard11",
                 location: "Bin 3A"),
-            
+
             Product(
-                title: "Magic Keyboard for iPad Pro 13”",
-                upc: "888462153502",
-                image: "magickeyboard11",
-                location: "Bin 3B"),
+                title: "Airpods Pro",
+                upc: "190199246850",
+                image: "airpodspro",
+                location: "Bin 2C"),
             ]
         )
         
@@ -101,7 +89,7 @@ struct FindableProduct {
     }
 }
 
-extension RetailTutorial.Evaluator {
+extension Retail.Evaluator {
     
     enum Step: EvaluatorStep {
         case loading
@@ -145,6 +133,7 @@ extension RetailTutorial.Evaluator {
         var orderID: String
         var deliveryLocation: String
         var products: [Product]
+        var numberOfProductsRequested: Int
         var timeCompleted: Date
         var elapsedTime: TimeInterval
         var doneAction: BottomButtonAction
@@ -161,12 +150,12 @@ extension RetailTutorial.Evaluator {
 
 // View Cycle
 
-extension RetailTutorial.Evaluator: ViewCycleEvaluator {
+extension Retail.Evaluator: ViewCycleEvaluator {
     func viewDidAppear() {
         if case .loading = current.step {
             current.step = .notStarted(
                 NotStartedConfiguration(
-                    customer: "Bob Odenkirk",
+                    customer: "Bob Dobalina",
                     orderID: order.id,
                     products: order.products,
                     startAction: BottomButtonAction.startOrder)
@@ -181,7 +170,7 @@ protocol BottomButtonEvaluator: class {
     func bottomButtonTapped(action: EvaluatorAction?)
 }
 
-extension RetailTutorial.Evaluator: BottomButtonEvaluator {
+extension Retail.Evaluator: BottomButtonEvaluator {
     
     func bottomButtonTapped(action: EvaluatorAction?) {
         guard let action = action as? BottomButtonAction else { return }
@@ -258,6 +247,7 @@ extension RetailTutorial.Evaluator: BottomButtonEvaluator {
             orderID: configuration.orderID,
             deliveryLocation: configuration.deliveryLocationPreference ?? "Unknown Location",
             products: configuration.products,
+            numberOfProductsRequested: configuration.numberOfProductsRequested,
             timeCompleted: Date(),
             elapsedTime: abs(configuration.startTime.timeIntervalSinceNow),
             doneAction: .done
@@ -283,7 +273,7 @@ extension RetailTutorial.Evaluator: BottomButtonEvaluator {
 
 // MARK: Finding Products Evaluator
 
-extension RetailTutorial.Evaluator: FindingProductsEvaluator {
+extension Retail.Evaluator: FindingProductsEvaluator {
     func toggleProductFound(_ product: FindableProduct) {
         guard case let Step.findProducts(configuration) = current.step else { return }
         
@@ -362,7 +352,7 @@ extension RetailTutorial.Evaluator: FindingProductsEvaluator {
 
 // MARK: Options Evaluator
 
-extension RetailTutorial.Evaluator: OptionsEvaluator {
+extension Retail.Evaluator: OptionsEvaluator {
     func toggleOption(_ option: String) {
         guard case var Step.chooseDeliveryLocation(configuration) = current.step else { return }
         

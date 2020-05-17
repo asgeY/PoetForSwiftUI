@@ -40,7 +40,7 @@ extension Menu.Evaluator: ViewCycleEvaluator {
 //            Title("Retail Example"),
             
             Link("Retail Demo",
-                 destination: { AnyView(RetailTutorial.Screen()) }),
+                 destination: { AnyView(Retail.Screen()) }),
             
 //            Link("Observable Page View Tutorial",
 //                 destination: { AnyView(Text("Coming soon...")) }),

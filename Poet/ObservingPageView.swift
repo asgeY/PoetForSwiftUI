@@ -27,21 +27,19 @@ struct ObservingPageView: View {
             return AnyView(EmptyView())
         } else {
             return AnyView(
-                VStack() {
-                    List(sections.array, id: \.id) { section in
-                        VStack {
-                            self.viewMaker.view(for: section)
-                            if (self.sections.array.firstIndex(where: {
-                                $0.id == section.id
-                            })) == self.sections.array.count - 1 {
-                                Spacer().frame(height:CGFloat(45))
+                VStack(spacing: 0) {
+                    ScrollView(showsIndicators: false) {
+                        ForEach(sections.array, id: \.id) { section in
+                            VStack(spacing: 0) {
+                                self.viewMaker.view(for: section)
+                                if (self.sections.array.firstIndex(where: {
+                                    $0.id == section.id
+                                })) == self.sections.array.count - 1 {
+                                    Spacer().frame(height:CGFloat(45))
+                                }
                             }
                         }
-                    }
-                        .onAppear() {
-                            UITableView.appearance().showsVerticalScrollIndicator = false
-                            UITableView.appearance().separatorColor = .clear
-                        }
+                    }.padding(0)
                     Spacer()
                 }
             )

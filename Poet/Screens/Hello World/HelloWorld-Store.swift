@@ -89,7 +89,7 @@ extension HelloWorld {
                     return bodies
                 } catch {
                     // eh, what are ya gonna do...
-                    debugPrint("oops")
+                    debugPrint("oops!")
                 }
             }
             return []

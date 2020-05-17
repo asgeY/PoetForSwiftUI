@@ -1392,9 +1392,9 @@ extension Tutorial {
                     
                 Page([.text("The CircularTabBar also figures out which tab button should be highlighted, based on the currentTab it observes. It calculates the offset of the highlight to match the correct tab's location.")], action: .showHelloWorld),
                 
-                Page([.text("So the view is smart about view logic but unopinionated about its content, which is determined by display state.")], action: .showHelloWorld),
+                Page([.text("So the view is smart about view logic but unopinionated about its content, which is determined by business and display state.")], action: .showHelloWorld),
                 
-                Page([.text("This makes it easy for the translator to animate its changes:"),
+                Page([.text("This separation of concerns makes it easy for the translator to animate its changes:"),
                       .extraSmallCode(
                         """
                         withAnimation(
@@ -1431,11 +1431,11 @@ extension Tutorial {
                     ]
                 ),
                 
-                Page([.text("The end result is a well-organized screen that is flexible enough to show whatever the JSON prescribes, with clearly defined state to manage the user interaction. Now let's move on to something more complex.")])
+                Page([.text("The end result is a well-organized screen that is flexible enough to show whatever the JSON prescribes, with clearly defined business state, display state, and view logic. Now let's move on to something more complex.")])
             ),
             
             Chapter("Retail Demo", pages:
-                Page([.text("")], action: .showRetailDemo)
+                Page([.text("Imagine you work in retail and your job is to find and deliver products. If you tap “Show Retail Demo” you'll see a screen that offers such a user flow.")], action: .showRetailDemo)
             )
             
         ]
