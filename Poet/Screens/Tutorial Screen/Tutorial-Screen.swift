@@ -222,7 +222,7 @@ extension Tutorial {
                                 ObservingTextView(self.translator.buttonName)
                                     .font(Font.headline)
                                     .foregroundColor(Color(UIColor.systemBackground))
-                                    .padding(EdgeInsets(top: 12, leading: 18, bottom: 12, trailing: 18))
+                                    .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
                                     .background(Capsule().fill(Color.primary))
                         })
                     }
@@ -265,27 +265,33 @@ extension Tutorial {
                     Spacer()
                 }
                 
-                // MARK: Something Screen
-                Presenter(self.translator.showSomething) {
-                    Text("Something")
+                Group {
+                    // MARK: Something Screen
+                    Presenter(self.translator.showSomething) {
+                        Text("Something")
+                    }
+                    
+                    // MARK: Template Screen
+                    Presenter(self.translator.showTemplate) {
+                        Template.Screen()
+                    }
+                    
+                    // MARK: Hello World Screen
+                    Presenter(self.translator.showHelloWorld) {
+                        HelloWorld.Screen()
+                    }
+                    
+                    // MARK: Retail Demo
+                    Presenter(self.translator.showRetailDemo) {
+                        RetailTutorial.Screen()
+                    }
+                    
+                    // MARK: Alert
+                    AlertView(translator: translator)
+                    
+                    // MARK: Character Bezel
+                    CharacterBezelView(translator: translator)
                 }
-                
-                // MARK: Template Screen
-                Presenter(self.translator.showTemplate) {
-                    Template.Screen()
-                }
-                
-                // MARK: Hello World Screen
-                Presenter(self.translator.showHelloWorld) {
-                    HelloWorld.Screen()
-                }
-                
-                // MARK: Retail Demo Screen
-                Presenter(self.translator.showRetailDemo) {
-                    RetailTutorial.Screen()
-                }
-                
-                AlertView(translator: translator)
             }
             .onAppear {
                 self.evaluator?.viewDidAppear()

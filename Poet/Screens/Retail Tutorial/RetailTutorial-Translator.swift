@@ -10,7 +10,7 @@ import Foundation
 
 extension RetailTutorial {
 
-    class Translator: AlertTranslating, BezelTranslating, DismissTranslating {
+    class Translator: AlertTranslating, CharacterBezelTranslating, DismissTranslating {
         
         typealias Evaluator = RetailTutorial.Evaluator
         
@@ -33,7 +33,7 @@ extension RetailTutorial {
         
         // Composed Translating
         var alertTranslator = AlertTranslator()
-        var bezelTranslator = BezelTranslator()
+        var characterBezelTranslator = CharacterBezelTranslator()
         var dismissTranslator = DismissTranslator()
         
         // Passthrough Behavior

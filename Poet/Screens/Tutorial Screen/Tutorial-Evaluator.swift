@@ -25,6 +25,7 @@ extension Tutorial {
             case showSomething
             case showAlert
             case showAnotherAlert
+            case showBezel
             case showTemplate
             case showHelloWorld
             case showRetailDemo
@@ -37,6 +38,8 @@ extension Tutorial {
                     return "Show Alert"
                 case .showAnotherAlert:
                     return "Show Another Alert"
+                case .showBezel:
+                    return "Show Bezel"
                 case .showTemplate:
                     return "Show Template"
                 case .showHelloWorld:
@@ -235,6 +238,10 @@ extension Tutorial.Evaluator: ButtonEvaluator {
                     action: {
                         self.translator.showAlert(title: "What?", message: "There's nothing to delete.")
                 }))
+            
+        case .showBezel:
+            let emojis = ["🐥", "🦈", "🐄", "🐟", "🐙", "🦕", "🦉", "🐯", "🐢", "🐘", "🦔", "🐆", "🐛", "🐌", "🐞", "🐴", "👨🏻‍💻"]
+            translator.showBezel(character: emojis.randomElement() ?? "")
         }
     }
 }

@@ -17,7 +17,7 @@
 		875562CB244C253500DB49C4 /* PoetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562CA244C253500DB49C4 /* PoetTests.swift */; };
 		875562ED244D144600DB49C4 /* Observables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562EC244D144600DB49C4 /* Observables.swift */; };
 		875562F5244D5FDB00DB49C4 /* Passables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562F4244D5FDB00DB49C4 /* Passables.swift */; };
-		878B3A472453472300ACADE4 /* CharacterBezel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A462453472300ACADE4 /* CharacterBezel.swift */; };
+		878B3A472453472300ACADE4 /* CharacterBezelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A462453472300ACADE4 /* CharacterBezelView.swift */; };
 		878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */; };
 		878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */; };
 		878B3A4F245378CF00ACADE4 /* AlertTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A4E245378CF00ACADE4 /* AlertTranslating.swift */; };
@@ -59,6 +59,7 @@
 		DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656524705E7C0048A848 /* HelloWorld-Store.swift */; };
 		DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656724709D570048A848 /* EvaluatorAction.swift */; };
 		DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6565692470AA530048A848 /* EvaluatorStep.swift */; };
+		DC65656D2470F4FB0048A848 /* CharacterBezelTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,7 +87,7 @@
 		875562CC244C253500DB49C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		875562EC244D144600DB49C4 /* Observables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observables.swift; sourceTree = "<group>"; };
 		875562F4244D5FDB00DB49C4 /* Passables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passables.swift; sourceTree = "<group>"; };
-		878B3A462453472300ACADE4 /* CharacterBezel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezel.swift; sourceTree = "<group>"; };
+		878B3A462453472300ACADE4 /* CharacterBezelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezelView.swift; sourceTree = "<group>"; };
 		878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCycleEvaluating.swift; sourceTree = "<group>"; };
 		878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservingTextView.swift; sourceTree = "<group>"; };
 		878B3A4E245378CF00ACADE4 /* AlertTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTranslating.swift; sourceTree = "<group>"; };
@@ -128,6 +129,7 @@
 		DC65656524705E7C0048A848 /* HelloWorld-Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Store.swift"; sourceTree = "<group>"; };
 		DC65656724709D570048A848 /* EvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorAction.swift; sourceTree = "<group>"; };
 		DC6565692470AA530048A848 /* EvaluatorStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorStep.swift; sourceTree = "<group>"; };
+		DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezelTranslating.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,10 +179,10 @@
 				87E7E43A24595FF100047253 /* ObservingPageView.swift */,
 				87D299DA24561A67003959C3 /* Page.swift */,
 				87D299E024561D4E003959C3 /* PageBodyView.swift */,
-				878B3A462453472300ACADE4 /* CharacterBezel.swift */,
 				878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */,
 				878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */,
 				DC4C1119245DF73B009BC14D /* ObservingImageView.swift */,
+				DC65656B2470F4C60048A848 /* Bezel */,
 				878B3A4D245378C400ACADE4 /* Alert */,
 				875562EB244D142E00DB49C4 /* Utilities */,
 				875562B9244C253500DB49C4 /* Assets.xcassets */,
@@ -330,6 +332,15 @@
 			path = "Hello World";
 			sourceTree = "<group>";
 		};
+		DC65656B2470F4C60048A848 /* Bezel */ = {
+			isa = PBXGroup;
+			children = (
+				878B3A462453472300ACADE4 /* CharacterBezelView.swift */,
+				DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */,
+			);
+			path = Bezel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -447,6 +458,7 @@
 				3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */,
 				DC656560246F07230048A848 /* HelloWorld-Screen.swift in Sources */,
 				8794A5FA245C343400D41E4F /* RetailTutorial-PageViewMaker.swift in Sources */,
+				DC65656D2470F4FB0048A848 /* CharacterBezelTranslating.swift in Sources */,
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
 				DC4C111F245DFF21009BC14D /* Tutorial-Evaluator.swift in Sources */,
 				878B3A51245378E300ACADE4 /* AlertView.swift in Sources */,
@@ -464,7 +476,7 @@
 				87E7E43D245961B400047253 /* RetailTutorial-Evaluator.swift in Sources */,
 				87D299E124561D4E003959C3 /* PageBodyView.swift in Sources */,
 				DC4C1120245DFF21009BC14D /* Tutorial-Translator.swift in Sources */,
-				878B3A472453472300ACADE4 /* CharacterBezel.swift in Sources */,
+				878B3A472453472300ACADE4 /* CharacterBezelView.swift in Sources */,
 				878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */,
 				8794A604245CB98600D41E4F /* DismissReceiverExample-Translator.swift in Sources */,
 				DC656564246F08D60048A848 /* HelloWorld-Translator.swift in Sources */,

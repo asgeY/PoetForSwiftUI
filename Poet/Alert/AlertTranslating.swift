@@ -20,24 +20,24 @@ protocol AlertTranslating {
 
 extension AlertTranslating {
     func showAlert(title: String, message: String) {
-        alertTranslator.alertTitle.string = title
-        alertTranslator.alertMessage.string = message
+        alertTranslator.title.string = title
+        alertTranslator.message.string = message
         alertTranslator.isAlertPresented.bool = true
         alertTranslator.primaryAlertAction.alertAction = nil
         alertTranslator.secondaryAlertAction.alertAction = nil
     }
     
     func showAlert(title: String, message: String, alertAction: AlertAction) {
-        alertTranslator.alertTitle.string = title
-        alertTranslator.alertMessage.string = message
+        alertTranslator.title.string = title
+        alertTranslator.message.string = message
         alertTranslator.primaryAlertAction.alertAction = alertAction
         alertTranslator.secondaryAlertAction.alertAction = nil
         alertTranslator.isAlertPresented.bool = true
     }
     
     func showAlert(title: String, message: String, primaryAlertAction: AlertAction, secondaryAlertAction: AlertAction) {
-        alertTranslator.alertTitle.string = title
-        alertTranslator.alertMessage.string = message
+        alertTranslator.title.string = title
+        alertTranslator.message.string = message
         alertTranslator.primaryAlertAction.alertAction = primaryAlertAction
         alertTranslator.secondaryAlertAction.alertAction = secondaryAlertAction
         alertTranslator.isAlertPresented.bool = true
@@ -45,8 +45,8 @@ extension AlertTranslating {
 }
 
 struct AlertTranslator {
-    var alertTitle = ObservableString()
-    var alertMessage = ObservableString()
+    var title = ObservableString()
+    var message = ObservableString()
     var primaryAlertAction = ObservableAlertAction()
     var secondaryAlertAction = ObservableAlertAction()
     var isAlertPresented = ObservableBool(false)
@@ -64,22 +64,7 @@ struct AlertAction {
     }
 }
 
-// Bezel
-
-protocol BezelTranslating {
-    var bezelTranslator: BezelTranslator { get }
-    func showBezel(character: String)
-}
-
-extension BezelTranslating {
-    func showBezel(character: String) {
-        bezelTranslator.character.string = character
-    }
-}
-
-struct BezelTranslator {
-    var character = PassableString()
-}
+// Dismiss Translating
 
 protocol DismissTranslating {
     var dismissTranslator: DismissTranslator { get }

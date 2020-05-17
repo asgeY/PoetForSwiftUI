@@ -17,8 +17,8 @@ struct AlertView: View {
     @ObservedObject private var isPresented: ObservableBool
     
     init(translator: AlertTranslating) {
-        title = translator.alertTranslator.alertTitle
-        message = translator.alertTranslator.alertMessage
+        title = translator.alertTranslator.title
+        message = translator.alertTranslator.message
         primaryAlertAction = translator.alertTranslator.primaryAlertAction
         secondaryAlertAction = translator.alertTranslator.secondaryAlertAction
         isPresented = translator.alertTranslator.isAlertPresented

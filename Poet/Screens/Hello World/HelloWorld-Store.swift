@@ -126,14 +126,14 @@ extension HelloWorld {
     },
 
     {
-    "name": "Falling Star",
+    "name": "Comet",
     "images": [
-        "fallingstar01",
-        "fallingstar02",
-        "fallingstar03",
-        "fallingstar04",
-        "fallingstar05",
-        "fallingstar06"
+        "comet01",
+        "comet02",
+        "comet03",
+        "comet04",
+        "comet05",
+        "comet06"
     ],
     "foreground": "pink",
     "background": "deepblue"

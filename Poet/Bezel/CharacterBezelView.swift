@@ -9,15 +9,15 @@
 import Combine
 import SwiftUI
 
-struct CharacterBezel: View {
+struct CharacterBezelView: View {
     
     @State private var character: String = ""
     @State private var opacity: Double = 0
     
-    var passableCharacter: PassableString
+    private var passableCharacter: PassableString
     
-    init(passableCharacter: PassableString) {
-        self.passableCharacter = passableCharacter
+    init(translator: CharacterBezelTranslating) {
+        self.passableCharacter = translator.characterBezelTranslator.character
     }
     
     enum Layout {
@@ -48,7 +48,7 @@ struct CharacterBezel: View {
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(Color(UIColor.systemBackground).opacity(0.9))
+                        .fill(Color(UIColor.systemBackground).opacity(0.95))
                         .padding(10)
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                         .fill(Color.primary.opacity(0.12))
@@ -80,9 +80,13 @@ struct CharacterBezel: View {
     }
 }
 
-struct CharacterBezel_Previews: PreviewProvider {
+struct CharacterBezelView_Previews: PreviewProvider {
+    class Translator: CharacterBezelTranslating {
+        var characterBezelTranslator = CharacterBezelTranslator()
+    }
+    
     static var previews: some View {
-        CharacterBezel(passableCharacter: PassableString())
+        CharacterBezelView(translator: Translator())
     }
 }
 
