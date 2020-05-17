@@ -152,7 +152,7 @@ extension Retail {
                             .background(Color.primary)
                             .frame(height: 1.75)
                             .opacity(0.22)
-                            .padding(.bottom, 20)
+                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 20, trailing: 0))
                             
                             HStack {
                                 ObservingTextView(self.completedSummary)
