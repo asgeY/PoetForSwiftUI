@@ -91,8 +91,8 @@ extension Tutorial {
                                 RoundedRectangle(cornerRadius: 12)
                                 .fill(
                                     self.touchingDownOnBox ?
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.02), Color.primary.opacity(0.04)]), startPoint: .top, endPoint: .bottom) :
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.016), Color.primary.opacity(0.028)]), startPoint: .top, endPoint: .bottom)
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.02), Color.primary.opacity(0.036)]), startPoint: .top, endPoint: .bottom) :
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.016), Color.primary.opacity(0.023)]), startPoint: .top, endPoint: .bottom)
                                 )
                             )
                             .frame(
@@ -159,7 +159,7 @@ extension Tutorial {
                                         .zIndex(4)
                                     }
                                     .layoutPriority(0)
-                                }.offset(x: 0, y: -(Layout.boxSize / 2.0 + 24))
+                                }.offset(x: 0, y: -(Layout.boxSize / 2.0 + 30))
                             }
                             .fixedSize(horizontal: true, vertical: true)
                             .frame(width: 100, height: 100)
@@ -188,7 +188,7 @@ extension Tutorial {
                     }
                     Spacer()
                 }
-                .offset(x: 0, y: Layout.boxSize / 2.0 + 30)
+                .offset(x: 0, y: Layout.boxSize / 2.0 + 34)
                 
                 // Extra
                 
@@ -584,7 +584,7 @@ struct ChapterTitle: View {
                     .font(Font.system(size: 24, weight: .semibold).monospacedDigit())
                     .padding(.top, 5)
             }
-            .offset(x: 0, y: self.isFocused.bool ? 0 : -266)
+            .offset(x: 0, y: self.isFocused.bool ? 0 : -278)
         }
     }
 }
