@@ -22,7 +22,7 @@ extension Tutorial {
                 Page([.text("You're looking at a screen made with the Poet pattern. The code behind it emphasizes clarity, certainty, and flexibility.")]),
                 Page([.text("The process of writing Poet code is methodical but relatively quick. It follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”")]),
                 Page([.text("Poet has a rote structure but it frees you to write quickly and confidently, without the fear that your code will get tangled up over time.")]),
-                Page([.text("We'll learn about the pattern, and the benefits it confers, by thinking about how this screen was made. But first, why is it called Poet?")])
+                Page([.text("We'll learn about the pattern and its benefits by thinking about how this screen was made. But first, why is it called Poet?")])
             ),
             
             Chapter("Why Poet?", pages:
@@ -66,17 +66,31 @@ extension Tutorial {
                     enum ButtonAction: EvaluatorAction {
                         case pageForward
                         case pageBackward
-                        case helloWorld
-                        case advanceWorldImage
-                        case returnToTutorial(chapterIndex: Int, pageIndex: Int, pageData: [Chapter])
                         case showChapter(chapterIndex: Int, pageData: [Chapter])
+                        case showSomething
+                        case showAlert
+                        case showAnotherAlert
+                        case showBezel
+                        case showTemplate
+                        case showHelloWorld
+                        case showRetailDemo
                         
                         var name: String {
                             switch self {
-                            case .helloWorld:
-                                return "Hello World"
-                            case .returnToTutorial:
-                                return "Return to Tutorial"
+                            case .showSomething:
+                                return "Show Something"
+                            case .showAlert:
+                                return "Show Alert"
+                            case .showAnotherAlert:
+                                return "Show Another Alert"
+                            case .showBezel:
+                                return "Show Bezel"
+                            case .showTemplate:
+                                return "Show Template"
+                            case .showHelloWorld:
+                                return "Show Hello World"
+                            case .showRetailDemo:
+                                return "Show Retail Demo"
                             default:
                                 return ""
                             }
@@ -87,14 +101,10 @@ extension Tutorial {
                 ])),
                 
                 Page([
-                    .text("The evaluator's ButtonAction type conforms to a more general type EvaluatorAction, so the view layer can be fully decoupled from the business layer.")
-                ]),
-                
-                Page([.text("But in our case, our view is a little opinionated and does know our action by its specific type:"),
-                      .smallCode(
+                    .text("The view layer can be fully decoupled from the business layer by only knowing an action as the general type EvaluatorAction. But in our case, our view is a little opinionated and does know our action by its specific type:"),
+                      .code(
                         """
                         Tutorial.Evaluator.ButtonAction
-                        .pageForward
                         """
                     )
                 ]),

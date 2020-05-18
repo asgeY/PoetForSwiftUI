@@ -128,7 +128,9 @@ extension HelloWorld {
             }
             .frame(width: 200, height: 200)
             .onTapGesture {
-                self.evaluator?.buttonTapped(action: self.tapAction.object)
+                if let action = self.tapAction.object {
+                    self.evaluator?.buttonTapped(action: action)
+                }
             }
         }
     }

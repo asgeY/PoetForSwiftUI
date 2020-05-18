@@ -232,7 +232,7 @@ extension Tutorial {
                             }.sheet(isPresented: self.$showingTableOfContents) {
                                 TableOfContents(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
                             }
-                            .foregroundColor(Color.primary.opacity(0.9))
+                            .foregroundColor(.primary)
                             .font(Font.system(size: 20, weight: .regular))
                             
                         }
@@ -428,7 +428,7 @@ struct Extra: View {
                     }
                 }
             }.background(Rectangle().fill(
-                Color(UIColor(red: 54/255.0, green: 103/255.0, blue: 194/255.0, alpha: 1))
+                Color(UIColor(red: 41/255.0, green: 42/255.0, blue: 48/255.0, alpha: 1))
             ))
         }.edgesIgnoringSafeArea(.bottom)
     }
