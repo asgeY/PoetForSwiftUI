@@ -233,7 +233,7 @@ extension Tutorial {
                                 TableOfContents(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
                             }
                             .foregroundColor(.primary)
-                            .font(Font.system(size: 20, weight: .regular))
+                            .font(Font.system(size: 20, weight: .semibold))
                             
                         }
                         .layoutPriority(2)
@@ -515,7 +515,7 @@ struct TutorialBodyView: View {
         case .smallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 11.5, weight: .regular, design: .monospaced))
+                    .font(Font.system(size: 12, weight: .regular, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -25))
@@ -525,7 +525,7 @@ struct TutorialBodyView: View {
         case .extraSmallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 10.5, weight: .regular, design: .monospaced))
+                    .font(Font.system(size: 11, weight: .regular, design: .monospaced))
                     .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -25))

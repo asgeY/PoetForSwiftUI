@@ -437,18 +437,19 @@ extension Tutorial {
                     
                 Page([
                     .text("It does this by calling the translate(:) method on itself whenever it notices that the evaluator's current step has been modified:"),
-                    .smallCode("self.translate(step: value)"),
+                    .code("self.translate(step: value)"),
                     .text("That method expects a Step declared on the evaluator."),
                 ]),
                     
                 Page([
                     .text("In the translate method, the translator just gathers the step's configuration and calls a corresponding method:"),
-                    .smallCode(
+                    .code(
                         """
                         func translate(step: Evaluator.Step) {
                           switch step {
                           case .page(let configuration):
-                          translatePageStep(configuration)
+                            translatePageStep(configuration)
+                          // …
                         """
                     )
                 ], supplement: Supplement(title: "translate()", body: [
@@ -483,12 +484,11 @@ extension Tutorial {
                 
                 Page([
                     .text("For instance, here are a few strings and integers we will set, which correspond to things we see on screen:"),
-                    .smallCode(
+                    .code(
                         """
                         var mainTitle = ObservableString()
                         var chapterNumber = ObservableInt()
-                        var chapterTitle =
-                          ObservableString()
+                        var chapterTitle = ObservableString()
                         var pageXofX = ObservableString()
                         """
                     )
@@ -500,7 +500,7 @@ extension Tutorial {
                 
                 Page([
                     .text("ObservableString, for instance, looks like this:"),
-                    .extraSmallCode(
+                    .smallCode(
                     """
                     class ObservableString: ObservableObject {
                       @Published var string: String
@@ -531,14 +531,14 @@ extension Tutorial {
                 
                 Page([
                     .text("Now we're familiar with our observable properties:"),
-                    .smallCode(
+                    .code(
                         """
                         var mainTitle = ObservableString()
                         var chapterNumber = ObservableInt()
                         // etc.
                         """
                     ),
-                    .text("Each of these will be observed by a a view on screen."),
+                    .text("Each of these will be observed by a view on screen."),
                 ]),
                 
                 Page([
@@ -552,7 +552,7 @@ extension Tutorial {
                 
                 Page([
                     .text("We have an “interlude” step, for example, in which we want everything on screen to go away. To translate that step, we just say no to everything:"),
-                    .extraSmallCode(
+                    .code(
                         """
                         shouldShowChapterNumber.bool = false
                         shouldShowChapterTitle.bool = false
@@ -588,7 +588,7 @@ extension Tutorial {
                 
                 Page([
                     .text("When we translate the “page” step, we say yes to some of those things:"),
-                    .extraSmallCode(
+                    .code(
                         """
                         shouldShowChapterNumber.bool = true
                         shouldShowChapterTitle.bool = true
@@ -599,7 +599,7 @@ extension Tutorial {
                 
                 Page([
                     .text("We're a little more clever about the “Tap Me” text:"),
-                    .extraSmallCode(
+                    .code(
                         """
                         if firstPage {
                           withAnimation( ... ) {
