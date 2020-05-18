@@ -82,11 +82,11 @@ extension Retail {
                         .padding(EdgeInsets(top: 0, leading: 40, bottom: 20, trailing: 0))
                 )
                 
-            case .details(let details):
+            case .feedback(let feedback):
                 return AnyView(
                     VStack {
                         HStack {
-                            ObservingTextView(details)
+                            ObservingTextView(feedback)
                                 .font(Font.headline.monospacedDigit().bold())
                                 .opacity(0.4)
                                 .padding(EdgeInsets(top: 0, leading: 40, bottom: 26, trailing: 42))

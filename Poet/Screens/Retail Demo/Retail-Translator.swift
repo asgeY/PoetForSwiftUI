@@ -23,7 +23,7 @@ extension Retail {
             case completedSummary(completedSummary: ObservableString)
             case customerTitle(title: ObservableString)
             case deliveryOptions(deliveryOptions: ObservableArray<String>, deliveryPreference: ObservableString, optionsEvaluator: OptionsEvaluator?)
-            case details(details: ObservableString)
+            case feedback(feedback: ObservableString)
             case displayableProducts(displayableProducts: ObservableArray<DisplayableProduct>, findingProductsEvaluator: FindingProductsEvaluator?)
             case divider
             case instruction(instructionNumber: ObservableInt, instruction: ObservableString)
@@ -36,7 +36,7 @@ extension Retail {
                 case .completedSummary:     return "completedSummary"
                 case .customerTitle:        return "customerTitle"
                 case .deliveryOptions:      return "deliveryOptions"
-                case .details:              return "details"
+                case .feedback:             return "feedback"
                 case .displayableProducts:  return "displayableProducts"
                 case .divider:              return "divider"
                 case .instruction:          return "instruction"
@@ -50,7 +50,7 @@ extension Retail {
         // Observable Sections for PageViewMaker
         var sections = ObservableArray<ObservingPageViewSection>([])
         var customerTitle = ObservableString()
-        var details = ObservableString()
+        var feedback = ObservableString()
         var instruction = ObservableString()
         var instructionNumber = ObservableInt()
         var deliveryOptions = ObservableArray<String>([])
@@ -139,7 +139,7 @@ extension Retail.Translator {
         
         // Assign values to our observable page data
         customerTitle.string = "Order for \n\(configuration.customer)"
-        details.string = "\(configuration.products.count) \(pluralizedProduct(productCount)) requested"
+        feedback.string = "\(configuration.products.count) \(pluralizedProduct(productCount)) requested"
         instruction.string = "Tap start to claim this order"
         instructionNumber.int = 1
         
@@ -156,7 +156,7 @@ extension Retail.Translator {
             customerTitle_,
             instruction_,
             divider_,
-            details_,
+            feedback_,
             displayableProducts_
         ])
         
@@ -172,7 +172,7 @@ extension Retail.Translator {
         
         // Assign values to our observable page data
         customerTitle.string = "Order for \n\(configuration.customer)"
-        details.string = "\(foundCount) \(pluralizedProduct(foundCount)) marked found"
+        feedback.string = "\(foundCount) \(pluralizedProduct(foundCount)) marked found"
         instruction.string = "Mark found or not found"
         instructionNumber.int = 2
         
@@ -190,7 +190,7 @@ extension Retail.Translator {
                 customerTitle_,
                 instruction_,
                 divider_,
-                details_,
+                feedback_,
                 displayableProducts_
             ])
         }
@@ -212,7 +212,7 @@ extension Retail.Translator {
         
         // Assign values to our observable page data
         customerTitle.string = "Order for \n\(configuration.customer)"
-        details.string = "\(configuration.products.count) of \(configuration.numberOfProductsRequested) \(pluralizedProduct(configuration.numberOfProductsRequested)) found"
+        feedback.string = "\(configuration.products.count) of \(configuration.numberOfProductsRequested) \(pluralizedProduct(configuration.numberOfProductsRequested)) found"
         instruction.string = "Choose a Delivery Location"
         instructionNumber.int = 3
         deliveryOptions.array = configuration.deliveryLocationChoices
@@ -233,7 +233,7 @@ extension Retail.Translator {
                 instruction_,
                 deliveryOptions_,
                 divider_,
-                details_,
+                feedback_,
                 displayableProducts_
             ])
         }
@@ -256,7 +256,7 @@ extension Retail.Translator {
         customerTitle.string = title(for: configuration.customer)
         instruction.string = "Deliver to \(configuration.deliveryLocation)"
         instructionNumber.int = 4
-        details.string = "\(productCount) \(pluralizedProduct(productCount)) fulfilled"
+        feedback.string = "\(productCount) \(pluralizedProduct(productCount)) fulfilled"
         let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
         let timeString = numberFormatter.string(from: timeNumber)
         
@@ -282,7 +282,7 @@ extension Retail.Translator {
                 customerTitle_,
                 instruction_,
                 divider_,
-                details_,
+                feedback_,
                 displayableProducts_,
                 completedSummary_
             ])
@@ -300,7 +300,7 @@ extension Retail.Translator {
         customerTitle.string = title(for: configuration.customer)
         instruction.string = "You're all set!"
         instructionNumber.int = 3
-        details.string = "The customer has been notified that their order cannot be fulfilled."
+        feedback.string = "The customer has been notified that their order cannot be fulfilled."
         let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
         let timeString = numberFormatter.string(from: timeNumber)
         
@@ -319,7 +319,7 @@ extension Retail.Translator {
                 customerTitle_,
                 instruction_,
                 divider_,
-                details_,
+                feedback_,
                 completedSummary_
             ])
         }
@@ -368,8 +368,8 @@ extension Retail.Translator {
         return .deliveryOptions(deliveryOptions: deliveryOptions, deliveryPreference: deliveryPreference, optionsEvaluator: evaluator)
     }
     
-    var details_: Section {
-        return .details(details: details)
+    var feedback_: Section {
+        return .feedback(feedback: feedback)
     }
     
     var displayableProducts_: Section {

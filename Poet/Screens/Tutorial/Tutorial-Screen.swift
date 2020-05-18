@@ -20,7 +20,7 @@ extension Tutorial {
         let translator: Translator
         
         enum Layout {
-            static let boxSize: CGFloat = 290
+            static let boxSize: CGFloat = 328
         }
         
         init() {
@@ -79,15 +79,22 @@ extension Tutorial {
                         {
                             ZStack(alignment: .topLeading) {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(
-                                        self.touchingDownOnBox ? Color.primary.opacity(0.032) : Color.primary.opacity(0.026)
-                                )
+                                    .stroke( Color.primary.opacity(0.0025))
+                                    
                                 VStack {
                                     
                                     TutorialBodyView(bodyElements: self.translator.body, isTouching: self.$touchingDownOnBox)
                                     Spacer()
                                 }
                             }
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                .fill(
+                                    self.touchingDownOnBox ?
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.02), Color.primary.opacity(0.04)]), startPoint: .top, endPoint: .bottom) :
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.016), Color.primary.opacity(0.028)]), startPoint: .top, endPoint: .bottom)
+                                )
+                            )
                             .frame(
                                 width: Layout.boxSize,
                                 height: Layout.boxSize)
@@ -463,7 +470,7 @@ struct TutorialBodyView: View {
                 }
             }
             Spacer()
-        }.padding(EdgeInsets(top: 28, leading: 28, bottom: -bottomPadding, trailing: 28))
+        }.padding(EdgeInsets(top: 26, leading: 26, bottom: -bottomPadding, trailing: 26))
     }
     
     func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
