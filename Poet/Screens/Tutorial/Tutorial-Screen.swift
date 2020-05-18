@@ -20,7 +20,7 @@ extension Tutorial {
         let translator: Translator
         
         enum Layout {
-            static let boxSize: CGFloat = 328
+            static let boxSize: CGFloat = 350
         }
         
         init() {
@@ -78,8 +78,8 @@ extension Tutorial {
                         Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) // <-- observed
                         {
                             ZStack(alignment: .topLeading) {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke( Color.primary.opacity(0.0025))
+//                                RoundedRectangle(cornerRadius: 12)
+//                                    .stroke( Color.primary.opacity(0.0025))
                                     
                                 VStack {
                                     
@@ -90,11 +90,13 @@ extension Tutorial {
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
                                 .fill(
+//                                    Color.white
                                     self.touchingDownOnBox ?
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.02), Color.primary.opacity(0.036)]), startPoint: .top, endPoint: .bottom) :
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.016), Color.primary.opacity(0.023)]), startPoint: .top, endPoint: .bottom)
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.02), Color.primary.opacity(0.026)]), startPoint: .top, endPoint: .bottom) :
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.01), Color.primary.opacity(0.012)]), startPoint: .top, endPoint: .bottom)
                                 )
                             )
+                                .shadow(color: Color.black.opacity(0.03), radius: 40, x: 0, y: 2)
                             .frame(
                                 width: Layout.boxSize,
                                 height: Layout.boxSize)
@@ -121,7 +123,7 @@ extension Tutorial {
                         
                         // MARK: Page Count and Arrows
                         
-                        Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) {
+                        Hideable(isShowing: self.translator.shouldShowPageCount, transition: .opacity) {
                             
                             ZStack(alignment: .topLeading) {
                                 HStack {
@@ -129,7 +131,7 @@ extension Tutorial {
                                         Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageBackward) }) {
                                             Image(systemName: "chevron.compact.left")
                                                 .resizable()
-                                                .frame(width: 3.8, height: 10, alignment: .center)
+                                                .frame(width: 4, height: 11, alignment: .center)
                                                 .padding(EdgeInsets(top: 32, leading: 18, bottom: 32, trailing: 0))
                                                 .font(Font.system(size: 16, weight: .medium))
                                                 .opacity(0.2)
@@ -141,7 +143,7 @@ extension Tutorial {
                                     Spacer().frame(width: 15)
                                         .layoutPriority(0)
                                     ObservingTextView(self.translator.pageXofX) // <-- observed
-                                        .font(Font.system(size: 12, weight: .semibold).monospacedDigit())
+                                        .font(Font.system(size: 13, weight: .medium).monospacedDigit())
                                         .fixedSize(horizontal: true, vertical: false)
                                         .layoutPriority(2)
                                     Spacer().frame(width: 15)
@@ -150,7 +152,7 @@ extension Tutorial {
                                         Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
                                             Image(systemName: "chevron.compact.right")
                                                 .resizable()
-                                                .frame(width: 3.8, height: 10, alignment: .center)
+                                                .frame(width: 4, height: 11, alignment: .center)
                                                 .padding(EdgeInsets(top: 32, leading: 0, bottom: 32, trailing: 18))
                                                 .font(Font.system(size: 16, weight: .medium))
                                                 .opacity(0.2)
@@ -159,7 +161,7 @@ extension Tutorial {
                                         .zIndex(4)
                                     }
                                     .layoutPriority(0)
-                                }.offset(x: 0, y: -(Layout.boxSize / 2.0 + 30))
+                                }.offset(x: 0, y: Layout.boxSize / 2.0 + 48)
                             }
                             .fixedSize(horizontal: true, vertical: true)
                             .frame(width: 100, height: 100)
@@ -188,7 +190,7 @@ extension Tutorial {
                     }
                     Spacer()
                 }
-                .offset(x: 0, y: Layout.boxSize / 2.0 + 34)
+                .offset(x: 0, y: Layout.boxSize / 2.0 + 48)
                 
                 // Extra
                 
@@ -299,6 +301,12 @@ extension Tutorial {
                     CharacterBezelView(translator: translator)
                 }
             }
+            .background(
+                LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.00), Color.primary.opacity(0.01)]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
+            )
+            .zIndex(0)
+                
             .onAppear {
                 self.evaluator?.viewDidAppear()
                 self.navBarHidden = true
@@ -478,7 +486,7 @@ struct TutorialBodyView: View {
         case .text(let text):
             return AnyView(
                 Text(text)
-                    .font(Font.system(size: 16, weight: .medium))
+                    .font(Font.body)
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.bottom, 16)
@@ -584,7 +592,7 @@ struct ChapterTitle: View {
                     .font(Font.system(size: 24, weight: .semibold).monospacedDigit())
                     .padding(.top, 5)
             }
-            .offset(x: 0, y: self.isFocused.bool ? 0 : -278)
+            .offset(x: 0, y: self.isFocused.bool ? 0 : -242)
         }
     }
 }

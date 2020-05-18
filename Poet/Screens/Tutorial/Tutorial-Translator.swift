@@ -38,6 +38,7 @@ extension Tutorial {
         var shouldShowBody = ObservableBool()
         var shouldShowImage = ObservableBool()
         var shouldShowTapMe = ObservableBool()
+        var shouldShowPageCount = ObservableBool()
         var shouldShowButton = ObservableBool()
         var shouldShowLeftAndRightButtons = ObservableBool()
         var shouldEnableLeftButton = ObservableBool()
@@ -113,6 +114,7 @@ extension Tutorial.Translator {
         shouldShowTableOfContents.bool = false
         shouldShowAboutButton.bool = false
         shouldShowExtraButton.bool = false
+        shouldShowPageCount.bool = false
     }
     
     func translateChapterTitleStep(_ configuration: Evaluator.ChapterTitleStepConfiguration) {
@@ -133,6 +135,7 @@ extension Tutorial.Translator {
         shouldShowTableOfContents.bool = false
         shouldShowAboutButton.bool = false
         shouldShowExtraButton.bool = false
+        shouldShowPageCount.bool = false
         
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
@@ -163,6 +166,7 @@ extension Tutorial.Translator {
             shouldEnableRightButton.bool = true
             shouldShowLeftAndRightButtons.bool = !firstPage
             shouldEnableLeftButton.bool = !firstPage
+            shouldShowPageCount.bool = !firstPage
         }
         
         // "Tap Me" Chapter 1 Page 1
@@ -218,6 +222,7 @@ extension Tutorial.Translator {
             shouldShowTableOfContents.bool = false
             shouldShowAboutButton.bool = false
             shouldShowExtraButton.bool = false
+            shouldShowPageCount.bool = false
         }
     }
 }
