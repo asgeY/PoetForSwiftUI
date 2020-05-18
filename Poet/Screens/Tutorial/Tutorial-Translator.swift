@@ -153,6 +153,7 @@ extension Tutorial.Translator {
             shouldShowTableOfContents.bool = false
             shouldShowTableOfContentsButton.bool = !firstPage
             shouldShowAboutButton.bool = !firstPage
+            shouldShowPageCount.bool = !firstPage
         }
         
         // spring animation
@@ -161,12 +162,11 @@ extension Tutorial.Translator {
         }
         
         // delayed animation
-        withAnimation(Animation.linear(duration: 0.4).delay(0.3)) {
+        withAnimation(Animation.linear(duration: 0.4).delay(0.35)) {
             shouldShowBody.bool = true
             shouldEnableRightButton.bool = true
             shouldShowLeftAndRightButtons.bool = !firstPage
             shouldEnableLeftButton.bool = !firstPage
-            shouldShowPageCount.bool = !firstPage
         }
         
         // "Tap Me" Chapter 1 Page 1

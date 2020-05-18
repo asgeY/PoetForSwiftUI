@@ -49,7 +49,7 @@ extension Tutorial {
                     )]),
                 
                 Page([
-                    .text(".pageForward belongs to an enum that is declared on our evaluator and which contains all the button actions relevant to this screen:"),
+                    .text(".pageForward is an enum case that lives on the evaluator, along with all the other button actions relevant to this screen:"),
                     .smallCode(
                     """
                     enum ButtonAction: EvaluatorAction {

@@ -20,7 +20,7 @@ extension Tutorial {
         let translator: Translator
         
         enum Layout {
-            static let boxSize: CGFloat = 350
+            static let boxSize: CGFloat = 354
         }
         
         init() {
@@ -92,8 +92,8 @@ extension Tutorial {
                                 .fill(
 //                                    Color.white
                                     self.touchingDownOnBox ?
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.02), Color.primary.opacity(0.026)]), startPoint: .top, endPoint: .bottom) :
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.01), Color.primary.opacity(0.012)]), startPoint: .top, endPoint: .bottom)
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.02), Color.primary.opacity(0.023)]), startPoint: .top, endPoint: .bottom) :
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.013), Color.primary.opacity(0.014)]), startPoint: .top, endPoint: .bottom)
                                 )
                             )
                                 .shadow(color: Color.black.opacity(0.03), radius: 40, x: 0, y: 2)
@@ -121,52 +121,7 @@ extension Tutorial {
                             }
                         }
                         
-                        // MARK: Page Count and Arrows
-                        
-                        Hideable(isShowing: self.translator.shouldShowPageCount, transition: .opacity) {
-                            
-                            ZStack(alignment: .topLeading) {
-                                HStack {
-                                    Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                        Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageBackward) }) {
-                                            Image(systemName: "chevron.compact.left")
-                                                .resizable()
-                                                .frame(width: 4, height: 11, alignment: .center)
-                                                .padding(EdgeInsets(top: 32, leading: 18, bottom: 32, trailing: 0))
-                                                .font(Font.system(size: 16, weight: .medium))
-                                                .opacity(0.2)
-                                        }
-                                        .layoutPriority(0)
-                                        .zIndex(4)
-                                    }
-                                    .layoutPriority(0)
-                                    Spacer().frame(width: 15)
-                                        .layoutPriority(0)
-                                    ObservingTextView(self.translator.pageXofX) // <-- observed
-                                        .font(Font.system(size: 13, weight: .medium).monospacedDigit())
-                                        .fixedSize(horizontal: true, vertical: false)
-                                        .layoutPriority(2)
-                                    Spacer().frame(width: 15)
-                                        .layoutPriority(0)
-                                    Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                        Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
-                                            Image(systemName: "chevron.compact.right")
-                                                .resizable()
-                                                .frame(width: 4, height: 11, alignment: .center)
-                                                .padding(EdgeInsets(top: 32, leading: 0, bottom: 32, trailing: 18))
-                                                .font(Font.system(size: 16, weight: .medium))
-                                                .opacity(0.2)
-                                        }
-                                        .layoutPriority(0)
-                                        .zIndex(4)
-                                    }
-                                    .layoutPriority(0)
-                                }.offset(x: 0, y: Layout.boxSize / 2.0 + 48)
-                            }
-                            .fixedSize(horizontal: true, vertical: true)
-                            .frame(width: 100, height: 100)
-                            .foregroundColor(Color.primary)
-                        }.zIndex(4)
+                        ///////
                         
                     }
                     .frame(height: Layout.boxSize)
@@ -184,7 +139,7 @@ extension Tutorial {
                             Image(systemName: "arrow.up")
                             Text("Tap me")
                         }
-                        .font(Font.caption)
+                        .font(Font.system(size: 16, weight: .regular).monospacedDigit())
                         .opacity(0.9)
                         .padding(.top, 10)
                     }
@@ -192,7 +147,7 @@ extension Tutorial {
                 }
                 .offset(x: 0, y: Layout.boxSize / 2.0 + 48)
                 
-                // Extra
+                // Supplement
                 
                 HStack {
                     Spacer()
@@ -215,7 +170,7 @@ extension Tutorial {
                     Spacer()
                 }
                 .offset(x: Layout.boxSize / 2.0 - 20, y: 0)
-                .offset(x: 0, y: -(Layout.boxSize / 2.0 + 26))
+                .offset(x: 0, y: -(Layout.boxSize / 2.0))
                 
                 // MARK: Button
                 
@@ -233,8 +188,59 @@ extension Tutorial {
                                     .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
                                     .background(Capsule().fill(Color.primary))
                         })
-                    }
-                    .padding(.bottom, 36)
+                    }.offset(x: 0, y: Layout.boxSize / 2.0 + 48)
+                    Spacer()
+                }
+                
+                // MARK: Page Count and Arrows
+                
+                VStack {
+                    Spacer()
+                    Hideable(isShowing: self.translator.shouldShowPageCount, transition: .opacity) {
+                        
+                        ZStack(alignment: .topLeading) {
+                            HStack {
+                                Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
+                                    Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageBackward) }) {
+                                        Image(systemName: "chevron.compact.left")
+                                            .resizable()
+                                            .frame(width: 7, height: 16, alignment: .center)
+                                            .padding(EdgeInsets(top: 32, leading: 18, bottom: 32, trailing: 0))
+                                            .font(Font.system(size: 16, weight: .thin))
+                                            .opacity(0.2)
+                                    }
+                                    .layoutPriority(0)
+                                    .zIndex(4)
+                                }
+                                .layoutPriority(0)
+                                Spacer().frame(width: 22)
+                                    .layoutPriority(0)
+                                ObservingTextView(self.translator.pageXofX) // <-- observed
+                                    .font(Font.system(size: 16, weight: .regular).monospacedDigit())
+                                    .fixedSize(horizontal: true, vertical: false)
+                                    .layoutPriority(2)
+                                Spacer().frame(width: 22)
+                                    .layoutPriority(0)
+                                Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
+                                    Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
+                                        Image(systemName: "chevron.compact.right")
+                                            .resizable()
+                                            .frame(width: 7, height: 16, alignment: .center)
+                                            .padding(EdgeInsets(top: 32, leading: 0, bottom: 32, trailing: 18))
+                                            .font(Font.system(size: 16, weight: .thin))
+                                            .opacity(0.2)
+                                    }
+                                    .layoutPriority(0)
+                                    .zIndex(4)
+                                }
+                                .layoutPriority(0)
+                            }
+                        }
+                        .fixedSize(horizontal: true, vertical: true)
+                        .frame(width: 100, height: 60)
+                        .foregroundColor(Color.primary)
+                    }.zIndex(4)
+                    .padding(.bottom, 6)
                 }
                 
                 // MARK: Table of Contents Button and About Button
@@ -478,7 +484,7 @@ struct TutorialBodyView: View {
                 }
             }
             Spacer()
-        }.padding(EdgeInsets(top: 26, leading: 26, bottom: -bottomPadding, trailing: 26))
+        }.padding(EdgeInsets(top: 27, leading: 27, bottom: -bottomPadding, trailing: 27))
     }
     
     func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
@@ -592,7 +598,7 @@ struct ChapterTitle: View {
                     .font(Font.system(size: 24, weight: .semibold).monospacedDigit())
                     .padding(.top, 5)
             }
-            .offset(x: 0, y: self.isFocused.bool ? 0 : -242)
+            .offset(x: 0, y: self.isFocused.bool ? 0 : -234)
         }
     }
 }
