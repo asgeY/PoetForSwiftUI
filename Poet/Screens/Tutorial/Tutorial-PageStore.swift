@@ -13,6 +13,7 @@ extension Tutorial {
         
         typealias Chapter = Evaluator.Chapter
         typealias Page = Evaluator.Page
+        typealias Supplement = Evaluator.Page.Supplement
         
         static let shared = PageStore()
         
@@ -59,7 +60,7 @@ extension Tutorial {
                     """
                     )
                     
-                ], supplement: [
+                    ], supplement: Supplement(title: "ButtonAction", body: [
                     .code(
                     """
                     enum ButtonAction: EvaluatorAction {
@@ -83,7 +84,7 @@ extension Tutorial {
                     }
                     """
                     )
-                ]),
+                ])),
                 
                 Page([
                     .text("The evaluator's ButtonAction type conforms to a more general type EvaluatorAction, so the view layer can be fully decoupled from the business layer.")
@@ -145,7 +146,7 @@ extension Tutorial {
                             pageForward()
                         """
                     )
-                ], supplement: [
+                ], supplement: Supplement(title: "buttonTapped()", body:[
                 .code(
                     """
                     extension Tutorial.Evaluator: ButtonEvaluator {
@@ -184,7 +185,7 @@ extension Tutorial {
                     }
                     """
                 )
-                ]),
+                ])),
                 
                 Page([
                     .text("Now the evaluator begins the work of reflecting on its current state and then updating it. It starts by looking at our current “step.”"),
@@ -200,7 +201,7 @@ extension Tutorial {
                         """
                         case page(PageStepConfiguration)
                         """)
-                ], supplement: [
+                ], supplement: Supplement(title: "Step", body: [
                     .code(
                     """
                     enum Step: EvaluatorStep {
@@ -211,7 +212,7 @@ extension Tutorial {
                       case page(PageStepConfiguration)
                     }
                     """)
-                ]),
+                ])),
         
                 Page([
                     .text("We should currently be in the page step. We'll check just to make sure:"),
@@ -236,7 +237,7 @@ extension Tutorial {
                           var pageData: [Chapter]
                           // etc.
                         """)
-                ], supplement: [
+                ], supplement: Supplement(title: "PageStepConfiguration", body: [
                     .code(
                     """
                     struct PageStepConfiguration {
@@ -259,7 +260,7 @@ extension Tutorial {
                       // ...
                     }
                     """)
-                ]),
+                ])),
                 
                 Page([
                     .text("We'll use the configuration's data to reason about our current business state. We've been asked to page forward, but first we need to figure out if we're in the middle of a chapter or at the end of one.")
@@ -273,7 +274,7 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("Notice that all the data we need is on the configuration itself. We haven't looked anywhere else. In strict implementations of the Poet pattern, the configuration is always the entire source of truth for the evaluator's state.")
+                    .text("Notice that all the data we need is on the configuration itself. We haven't looked anywhere else. In most implementations of the Poet pattern, the configuration is always the entire source of truth for the evaluator's state.")
                 ]),
                 
                 Page([
@@ -302,7 +303,7 @@ extension Tutorial {
                         afterWait(1000) {
                           self.showPageStep( ... )
                     """)
-                ], supplement: [
+                ], supplement: Supplement(title: "pageForward()", body: [
                     .code(
                     """
                     func pageForward() {
@@ -345,7 +346,7 @@ extension Tutorial {
                       }
                     }
                     """)
-                ]),
+                ])),
                 
                 Page([
                     .text("What does it mean to “show” a step? We just make a new configuration and save it:"),
@@ -361,7 +362,7 @@ extension Tutorial {
                           .page(configuration)
                         """
                     )
-                ], supplement: [
+                ], supplement: Supplement(title: "showPageStep()", body: [
                     .code(
                         """
                         func showPageStep(forChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
@@ -374,7 +375,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ]),
+                ])),
                 
                 Page([
                     .text("When we save the step, our Translator will hear about it. That's because the step is a “Passable” type that publishes its changes:"),
@@ -440,7 +441,7 @@ extension Tutorial {
                           translatePageStep(configuration)
                         """
                     )
-                ], supplement: [
+                ], supplement: Supplement(title: "translate()", body: [
                     .code(
                         """
                         func translate(step: Evaluator.Step) {
@@ -463,7 +464,7 @@ extension Tutorial {
                             }
                         }
                         """
-                    )]
+                    )])
                 ),
                 
                 Page([
@@ -549,7 +550,7 @@ extension Tutorial {
                         shouldShowTapMe.bool = false
                         """
                     )
-                ], supplement: [
+                ], supplement: Supplement(title: "translateInterlude()", body: [
                     .code(
                         """
                         func translateInterlude() {
@@ -573,7 +574,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ]),
+                ])),
                 
                 Page([
                     .text("When we translate the “page” step, we say yes to some of those things:"),
@@ -601,7 +602,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ], supplement: [
+                ], supplement: Supplement(title: "translatePageStep()", body: [
                     .code(
                     """
                     func translatePageStep(_ configuration: Evaluator.PageStepConfiguration) {
@@ -668,7 +669,7 @@ extension Tutorial {
                     }
                     """
                     )
-                ]),
+                ])),
                 
                 Page([
                     .text("Some steps will be simple to translate, while others will account for animations and involve what we might call display reasoning — say, formatting a string, or choosing whether or not to show a thing based on the presence of a certain value.")
@@ -713,12 +714,12 @@ extension Tutorial {
                 ]),
                 
                 Page([.text("When our evaluator hears that we've triggered a ButtonAction named “showSomething,” it says to the translator directly:"),
-                      .smallCode("translator.showSomething.please()")]),
+                      .code("translator.showSomething.please()")]),
                 
                 Page([.text("Why talk to the translator directly? We're presenting a modal, and everything on our current screen will remain unchanged underneath the modal. So it would feel superfluous to modify our own business state by changing our current step.")]),
                 
                 Page([.text("Inside the translator, saying “please” works because we hold onto a PassablePlease object:"),
-                      .extraSmallCode(
+                      .code(
                     """
                     var showSomething = PassablePlease()
                     """
@@ -739,7 +740,7 @@ extension Tutorial {
                 
                 Page(
                     [.text("Presenter is a view takes a PassablePlease and some view content as arguments. Here's its body:"),
-                     .extraSmallCode(
+                     .smallCode(
                         """
                         var body: some View {
                           Spacer()
@@ -752,7 +753,7 @@ extension Tutorial {
                         """
                         )
                     ],
-                    supplement: [
+                    supplement: Supplement(title: "Presenter", body: [
                     .code(
                         """
                         struct Presenter<Content>: View where Content : View {
@@ -777,12 +778,12 @@ extension Tutorial {
                         }
                         """
                         )
-                    ]
+                    ])
                 ),
                 
                 Page([.text("The job of a Presenter is to notice when a new “please” comes through and to toggle its own isShowing property. When that property toggles to true, the sheet will present the content.")]),
                 Page([.text("If we had needed to do some more translating before passing our please to the view layer, our evaluator could have called a method directly on the translator, something like this:"),
-                      .smallCode("translator.showSomethingScreen()")]),
+                      .code("translator.showSomethingScreen()")]),
                 Page([.text("The translator then would do whatever extra translating it had in mind before calling please() on its own property.")]),
                 Page([.text("And that's how we pass state imperatively. We keep a rigorous separation of our different layers, but we also link them up with minimal code that's easy to follow.")]),
                 Page([.text("Speaking of minimal code, let's look at another technique that saves us from being repetitive as we bridge our different layers: protocol-oriented translating.")])
@@ -791,19 +792,19 @@ extension Tutorial {
             Chapter("Protocol-Oriented Translating", pages:
                 Page([.text("A lot of user interface elements are very predictable but still require a good amount of code to implement: alerts, action sheets, bezels, toasts.")]),
                 Page([.text("iOS programmers are used to asking for these things imperatively, but in SwiftUI, we bring them about my modifying our display state.")]),
-                Page([.text("That's a little painful to do, and in simple implementations we end up coupling specific alerts to our view layer. But we can do it better by following a technique we'll call protocol-oriented translating.")]),
+                Page([.text("That's a little painful to do, and in simple implementations developers often end up coupling specific alerts to the view layer. We can do it better by following a technique we'll call protocol-oriented translating.")]),
                 Page([.text("Take this alert, for example. If you tap the button below that says “Show Alert,” you'll see it.")], action: .showAlert),
                 Page([.text("Or here's another, with two styled actions. Tap “Show Another Alert” to see it.")], action: .showAnotherAlert),
                 Page([.text("The challenge for us is to decouple the content of these alerts from the view layer, so the evaluator can imperatively trigger alerts with whatever content it likes.")]),
                 Page([.text("We'll do that by first dividing our responsibilities correctly, then streamlining the process with protocol-oriented default implementations.")]),
                 Page([.text("The view layer needs to be smart enough to show any sort of alert, and to observe the values that will inform the alert's contents. We accomplish that with AlertView:"),
-                      .smallCode(
+                      .code(
                         """
                         struct AlertView: View { ... }
                         """
                     )
                     ],
-                     supplement: [
+                     supplement: Supplement(title: "AlertView", body: [
                     .code(
                         """
                         import Combine
@@ -868,11 +869,11 @@ extension Tutorial {
                         }
                         """
                         )
-                    ]
+                    ])
                      ),
                 Page([.text("Next, the translator needs to provide observable values for title, message, and so on.")]),
                 Page([.text("We'll bundle those up in a separate AlertTranslator:"),
-                      .extraSmallCode(
+                      .smallCode(
                         """
                         struct AlertTranslator {
                           var title = ObservableString()
@@ -886,7 +887,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ], supplement: [
+                ], supplement: Supplement(title: "AlertTranslator", body: [
                     .code(
                     """
                     struct AlertTranslator {
@@ -910,21 +911,19 @@ extension Tutorial {
                     }
                     """
                     )
-                ]),
+                ])),
                 Page([.text("Our translator will hold onto that AlertTranslator. But that's as much thinking as we want to do on each screen we implement.")]),
                 Page([.text("So we'll make our translator conform to AlertTranslating to give it default implementations of some “showAlert” methods."),
                       .extraSmallCode(
                         """
                         protocol AlertTranslating {
-                          var alertTranslator:
-                            AlertTranslator { get }
-                          func showAlert(title: String,
-                            message: String)
+                          var alertTranslator: AlertTranslator { get }
+                          func showAlert(title: String, message: String)
                           // ...
                         }
                         """
                     )
-                ], supplement: [
+                ], supplement: Supplement(title: "AlertTranslating", body: [
                     .code(
                         """
                         protocol AlertTranslating {
@@ -961,9 +960,9 @@ extension Tutorial {
                         }
                         """
                     )
-                ]),
+                ])),
                 Page([.text("That's a lot, but it's written once and we never have to think about it. To use it, the evaluator just asks the translator to show an alert:"),
-                      .extraSmallCode(
+                      .code(
                         """
                         translator.showAlert(
                             title: "Alert!",
@@ -972,17 +971,17 @@ extension Tutorial {
                         """
                     )]),
                 Page([.text("The only code we added to our Translator was a declaration of conformance:"),
-                      .extraSmallCode("class Translator: AlertTranslating {"),
+                      .smallCode("class Translator: AlertTranslating {"),
                       .text("And a property to hold the AlertTranslator:"),
-                      .extraSmallCode("var alertTranslator = AlertTranslator()")
+                      .smallCode("var alertTranslator = AlertTranslator()")
                 ]),
                 Page([.text("And we added a single line to our view layer, inside a Group nested in a top-level ZStack:"),
-                      .extraSmallCode("AlertView(translator: translator)"),
+                      .code("AlertView(translator: translator)"),
                 ]),
                 Page([.text("It's never been so easy to write alerts that are responsibly decoupled from the view layer. Remember, when the evaluator asks for an alert, it can set any method it likes inside an alert action. The round trip back to the evaluator is all in one place.")]),
                 Page([.text("We can also make light work of bezels, action sheets, or anything else we'd like to trigger imperatively. Tap “Show Bezel” to see a bezel with a random emoji.")],
                      action: .showBezel,
-                     supplement: [
+                     supplement: Supplement(title: "CharacterBezerTranslating", body: [
                     .code(
                         """
                         import Combine
@@ -1075,21 +1074,21 @@ extension Tutorial {
                         }
                         """
                         )
-                ]),
+                ])),
                 Page([.text("That's enough of that. As promised, we can move on now to some example screens, each a little more complex than the last, to illustrate the Poet pattern in full. How about a simple template to start?")])
             ),
             
             Chapter("Template", pages:
                 Page([.text("If you tap “Show Template,” you'll see a screen that does almost nothing: it just shows some text set by an evaluator. Let's quickly look at the code for each layer.")], action: .showTemplate),
                 Page([.text("The evaluator has only two steps:"),
-                      .extraSmallCode(
+                      .smallCode(
                         """
                         case loading
                         case text(TextStepConfiguration)
                         """),
                       .text("Loading is just an empty step before the view has appeared.")], action: .showTemplate),
                 Page([.text("When the view appears, the evaluator shows the text step:"),
-                .extraSmallCode(
+                .smallCode(
                     """
                     func viewDidAppear() {
                         showTextStep()
@@ -1102,7 +1101,7 @@ extension Tutorial {
                     }
                     """),
                 ], action: .showTemplate,
-                   supplement: [
+                   supplement: Supplement(title: "Evaluator", body: [
                     .code(
                     """
                     import Foundation
@@ -1154,7 +1153,7 @@ extension Tutorial {
                         }
                     }
                     """
-                )]),
+                )])),
                 
                 Page([.text("The translator then sets an observable title and body:"),
                 .extraSmallCode(
@@ -1167,7 +1166,7 @@ extension Tutorial {
                     }
                     """
                 )], action: .showTemplate,
-                    supplement: [
+                    supplement: Supplement(title: "Translator", body: [
                     .code(
                         """
                         import Foundation
@@ -1217,7 +1216,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ]),
+                ])),
                 
                 Page([
                     .text("And the view layer observes the title and body:"),
@@ -1230,7 +1229,7 @@ extension Tutorial {
                         """
                     )
                 ], action: .showTemplate,
-                   supplement: [
+                   supplement: Supplement(title: "Screen", body: [
                     .code(
                         """
                         import SwiftUI
@@ -1286,7 +1285,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ]),
+                ])),
                 
                 Page([.text("That's it. You can use the template whenever you start a new screen. If you understand its flow, you should be able to follow the flow of more complicated screens, too. Let's look at one we'll call Hello World.")])
             ),
@@ -1332,7 +1331,7 @@ extension Tutorial {
                         """
                     )],
                      action: .showHelloWorld,
-                     supplement: [.code(
+                     supplement: Supplement(title: "CircularTabBar", body: [.code(
                         
                     """
                     struct CircularTabBar: View {
@@ -1387,7 +1386,7 @@ extension Tutorial {
                             }
                         }
                     }
-                    """)]
+                    """)])
                 ),
                     
                 Page([.text("The CircularTabBar also figures out which tab button should be highlighted, based on the currentTab it observes. It calculates the offset of the highlight to match the correct tab's location.")], action: .showHelloWorld),
@@ -1408,7 +1407,7 @@ extension Tutorial {
                         """
                     )],
                      action: .showHelloWorld,
-                     supplement: [
+                     supplement: Supplement(title: "translateCelestialBodyStep", body: [
                         .code(
                             """
                             func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {
@@ -1428,7 +1427,7 @@ extension Tutorial {
                             }
                             """
                         )
-                    ]
+                    ])
                 ),
                 
                 Page([.text("The end result is a well-organized screen that is flexible enough to show whatever the JSON prescribes, with clearly defined business state, display state, and view logic. Now let's move on to something more complex.")])

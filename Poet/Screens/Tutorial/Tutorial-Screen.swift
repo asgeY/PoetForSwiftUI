@@ -20,7 +20,7 @@ extension Tutorial {
         let translator: Translator
         
         enum Layout {
-            static let boxSize: CGFloat = 354
+            static let boxSize: CGFloat = 370
         }
         
         init() {
@@ -66,7 +66,7 @@ extension Tutorial {
                             {
                                 HStack {
                                     Spacer()
-                                    ChapterTitle(text: self.translator.chapterTitle, number: self.translator.chapterNumber, shouldShowNumber: self.translator.shouldShowChapterNumber, isFocused: self.translator.shouldFocusOnChapterTitle)
+                                    ChapterTitle(text: self.translator.chapterTitle, number: self.translator.chapterNumber, shouldShowNumber: self.translator.shouldShowChapterNumber, isFocused: self.translator.shouldFocusOnChapterTitle, boxSize: Layout.boxSize)
                                     Spacer()
                                 }
                                 Spacer()
@@ -92,8 +92,8 @@ extension Tutorial {
                                 .fill(
 //                                    Color.white
                                     self.touchingDownOnBox ?
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.02), Color.primary.opacity(0.023)]), startPoint: .top, endPoint: .bottom) :
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.013), Color.primary.opacity(0.014)]), startPoint: .top, endPoint: .bottom)
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.01), Color.primary.opacity(0.015)]), startPoint: .top, endPoint: .bottom) :
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.003), Color.primary.opacity(0.005)]), startPoint: .top, endPoint: .bottom)
                                 )
                             )
                                 .shadow(color: Color.black.opacity(0.03), radius: 40, x: 0, y: 2)
@@ -146,31 +146,6 @@ extension Tutorial {
                     Spacer()
                 }
                 .offset(x: 0, y: Layout.boxSize / 2.0 + 48)
-                
-                // Supplement
-                
-                HStack {
-                    Spacer()
-                    Hideable(isShowing: self.translator.shouldShowExtraButton, transition: .scale)
-                    {
-                            Button(action: {
-                                self.showingExtra.toggle()
-                            }) {
-                                Image(systemName: "text.bubble")
-                                    .font(Font.system(size: 20, weight: .medium))
-                                    .padding(30)
-                                    .zIndex(4)
-                            }.foregroundColor(.primary)
-                                .sheet(isPresented: self.$showingExtra) {
-                                    Extra(bodyElements: self.translator.supplementBody)
-                            }
-                            .zIndex(4)
-                    }
-                    .frame(width: 50, height: 50)
-                    Spacer()
-                }
-                .offset(x: Layout.boxSize / 2.0 - 20, y: 0)
-                .offset(x: 0, y: -(Layout.boxSize / 2.0))
                 
                 // MARK: Button
                 
@@ -243,9 +218,10 @@ extension Tutorial {
                     .padding(.bottom, 6)
                 }
                 
-                // MARK: Table of Contents Button and About Button
+                // MARK: Table of Contents Button
                 
                 VStack {
+                    
                     HStack {
                         Hideable(isShowing: self.translator.shouldShowTableOfContentsButton, transition: .opacity) {
                             
@@ -256,28 +232,56 @@ extension Tutorial {
                             }.sheet(isPresented: self.$showingTableOfContents) {
                                 TableOfContents(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
                             }
-                            .foregroundColor(Color.primary)
-                            .font(Font.system(size: 20, weight: .medium))
-                            .padding(EdgeInsets.init(top: 16, leading: 22, bottom: 16, trailing: 24))
+                            .foregroundColor(Color.primary.opacity(0.9))
+                            .font(Font.system(size: 20, weight: .regular))
+                            
                         }
+                        .layoutPriority(2)
+                        .frame(width: 40, height: 40)
                         
                         Spacer()
-                        
-                        Hideable(isShowing: self.translator.shouldShowAboutButton, transition: .opacity) {
+                        .layoutPriority(2)
+                    }
+                    Spacer()
+                }.padding(EdgeInsets.init(top: 10, leading: 24, bottom: 16, trailing: 24))
+                
+                // MARK: Supplement Button
+                
+                VStack(alignment: .trailing) {
+                    HStack {
+                        Spacer()
+                        Hideable(isShowing: self.translator.shouldShowExtraButton, transition: AnyTransition.opacity.combined(with: AnyTransition.offset(x: 20, y: 0))) {
                             Button(action: {
-                                self.showingAbout.toggle()
+                                self.showingExtra.toggle()
                             }) {
-                                Image(systemName: "sparkles")
-                            }.sheet(isPresented: self.$showingAbout) {
-                                About.Screen()
+                                HStack {
+                                    Spacer()
+                                    ObservingTextView(self.translator.supplementTitle)
+                                        .font(Font.subheadline)
+                                        .fixedSize(horizontal: true, vertical: false)
+                                        .frame(height:40)
+                                    
+                                    
+                                    Image(systemName: "text.bubble")
+                                        .font(Font.system(size: 20, weight: .medium))
+                                        .padding(30)
+                                        .zIndex(4)
+                                        .transition(.scale)
+                                        .frame(width: 40, height: 40)
+                                }
                             }
-                            .foregroundColor(Color.primary)
-                            .font(Font.system(size: 20, weight: .medium))
-                            .padding(EdgeInsets.init(top: 16, leading: 22, bottom: 16, trailing: 24))
+                            .sheet(isPresented: self.$showingExtra) {
+                                Extra(bodyElements: self.translator.supplementBody)
+                            }
+                            
                         }
+                        .frame(height: 40)
+                        .padding(.trailing, 24)
+                        .foregroundColor(.primary)
                     }
                     Spacer()
                 }
+                .padding(.top, 14)
                 
                 Group {
                     // MARK: Something Screen
@@ -484,7 +488,7 @@ struct TutorialBodyView: View {
                 }
             }
             Spacer()
-        }.padding(EdgeInsets(top: 27, leading: 27, bottom: -bottomPadding, trailing: 27))
+        }.padding(EdgeInsets(top: 26, leading: 26, bottom: -bottomPadding, trailing: 26))
     }
     
     func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
@@ -586,6 +590,7 @@ struct ChapterTitle: View {
     @ObservedObject var number: ObservableInt
     @ObservedObject var shouldShowNumber: ObservableBool
     @ObservedObject var isFocused: ObservableBool
+    let boxSize: CGFloat
     
     var body: some View {
         GeometryReader() { geometry in
@@ -598,7 +603,7 @@ struct ChapterTitle: View {
                     .font(Font.system(size: 24, weight: .semibold).monospacedDigit())
                     .padding(.top, 5)
             }
-            .offset(x: 0, y: self.isFocused.bool ? 0 : -234)
+            .offset(x: 0, y: self.isFocused.bool ? 0 : -((self.boxSize / 2.0) + 52))
         }
     }
 }

@@ -24,6 +24,7 @@ extension Tutorial {
         var pageXofX = ObservableString()
         var imageName = ObservableString()
         var buttonName = ObservableString()
+        var supplementTitle = ObservableString()
         
         // Arrays
         var body = ObservableArray<Evaluator.Page.Body>([])
@@ -181,12 +182,12 @@ extension Tutorial.Translator {
         }
         
         // Extra Reading button
-        if configuration.supplement != nil {
-            withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0)) {
+        if configuration.supplementBody != nil {
+            withAnimation(Animation.spring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) {
                 shouldShowExtraButton.bool = true
             }
         } else {
-            withAnimation(Animation.linear(duration: 0.2)) {
+            withAnimation(Animation.spring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) {
                 shouldShowExtraButton.bool = false
             }
         }
@@ -195,7 +196,10 @@ extension Tutorial.Translator {
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
         body.array = configuration.body
-        supplementBody.array = configuration.supplement ?? []
+        if let configurationSupplementTitle = configuration.supplementTitle {
+            supplementTitle.string = configurationSupplementTitle
+        }
+        supplementBody.array = configuration.supplementBody ?? []
         pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCountWithinChapter)"
         buttonAction.object = configuration.buttonAction
         selectableChapterTitles.array = configuration.selectableChapterTitles
