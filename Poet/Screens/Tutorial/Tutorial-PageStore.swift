@@ -51,7 +51,7 @@ extension Tutorial {
                 
                 Page([
                     .text(".pageForward is an enum case that lives on the evaluator, along with all the other button actions relevant to this screen:"),
-                    .smallCode(
+                    .code(
                     """
                     enum ButtonAction: EvaluatorAction {
                       case pageForward
@@ -111,7 +111,7 @@ extension Tutorial {
                 
                 Page([
                     .text("Even an opinionated view doesn't know what a button action really does, though. That's up to the evaluator, who conforms to ButtonEvaluator:"),
-                    .smallCode(
+                    .code(
                         """
                         protocol ButtonEvaluator: class {
                           func buttonTapped(
@@ -207,7 +207,7 @@ extension Tutorial {
                 
                 Page([
                     .text("Our evaluator has a few different steps it could be in, including a .page step:"),
-                    .smallCode(
+                    .code(
                         """
                         case page(PageStepConfiguration)
                         """)
@@ -226,20 +226,17 @@ extension Tutorial {
         
                 Page([
                     .text("We should currently be in the page step. We'll check just to make sure:"),
-                    .extraSmallCode(
+                    .code(
                         """
                         func pageForward() {
                           guard case let .page(configuration)
-                            = current.step
-                          else {
-                            return
-                          }
+                            = current.step else { return }
                         """)
                 ]),
                 
                 Page([
                     .text("Now we know our current step's state, stored as a PageStepConfiguration. That configuration has lots of data stored on it:"),
-                    .smallCode(
+                    .code(
                         """
                         struct PageStepConfiguration {
                           var chapterIndex: Int
@@ -293,7 +290,7 @@ extension Tutorial {
                 
                 Page([
                     .text("If we determine that we are in the middle of a chapter, we'll figure out the next page index and ask to show it:"),
-                    .extraSmallCode(
+                    .code(
                         """
                         showPageStep(
                           forChapterIndex: nextChapter,
@@ -305,7 +302,7 @@ extension Tutorial {
                 
                 Page([
                 .text("We'll do a little extra if we're at the end of a chapter:"),
-                .extraSmallCode(
+                .code(
                     """
                     showInterludeStep()
                       afterWait(500) {
@@ -360,16 +357,15 @@ extension Tutorial {
                 
                 Page([
                     .text("What does it mean to “show” a step? We just make a new configuration and save it:"),
-                    .smallCode(
+                    .code(
                         """
-                        let configuration =
-                          PageStepConfiguration(
-                            chapterIndex: chapterIndex,
-                            pageIndex: pageIndex,
-                            pageData: pageData
+                        let configuration = PageStepConfiguration(
+                          chapterIndex: chapterIndex,
+                          pageIndex: pageIndex,
+                          pageData: pageData
                         )
-                        current.step =
-                          .page(configuration)
+
+                        current.step = .page(configuration)
                         """
                     )
                 ], supplement: Supplement(title: "showPageStep()", body: [
@@ -381,6 +377,7 @@ extension Tutorial {
                             pageIndex: pageIndex,
                             pageData: pageData
                           )
+
                           current.step = .page(configuration)
                         }
                         """
@@ -389,15 +386,14 @@ extension Tutorial {
                 
                 Page([
                     .text("When we save the step, our Translator will hear about it. That's because the step is a “Passable” type that publishes its changes:"),
-                    .smallCode("var current = PassableStep(Step.loading)")
+                    .code("var current = PassableStep(Step.loading)")
                 ]),
                 
                 Page([.text("PassableStep is just a helpful wrapper:"),
-                      .extraSmallCode(
+                      .smallCode(
                         """
                         class PassableStep<S: EvaluatorStep> {
-                          var subject =
-                            PassthroughSubject<S, Never>()
+                          var subject = PassthroughSubject<S, Never>()
                             
                           var step: S {
                             willSet { subject.send(newValue) }
@@ -410,7 +406,7 @@ extension Tutorial {
                 ]),
                 
                 Page([.text("The translator listens to the passable step by making a sink for its published values:"),
-                      .extraSmallCode(
+                      .code(
                         """
                         init(_ step:
                           PassableStep<Evaluator.Step>) {

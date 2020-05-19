@@ -182,19 +182,19 @@ extension Tutorial {
                                             .frame(width: 7, height: 16, alignment: .center)
                                             .padding(EdgeInsets(top: 32, leading: 18, bottom: 32, trailing: 0))
                                             .font(Font.system(size: 16, weight: .thin))
-                                            .opacity(0.2)
+                                            .opacity(0.22)
                                     }
                                     .layoutPriority(0)
                                     .zIndex(4)
                                 }
                                 .layoutPriority(0)
-                                Spacer().frame(width: 22)
+                                Spacer().frame(width: 24)
                                     .layoutPriority(0)
                                 ObservingTextView(self.translator.pageXofX) // <-- observed
                                     .font(Font.system(size: 16, weight: .regular).monospacedDigit())
                                     .fixedSize(horizontal: true, vertical: false)
                                     .layoutPriority(2)
-                                Spacer().frame(width: 22)
+                                Spacer().frame(width: 24)
                                     .layoutPriority(0)
                                 Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
                                     Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
@@ -203,7 +203,7 @@ extension Tutorial {
                                             .frame(width: 7, height: 16, alignment: .center)
                                             .padding(EdgeInsets(top: 32, leading: 0, bottom: 32, trailing: 18))
                                             .font(Font.system(size: 16, weight: .thin))
-                                            .opacity(0.2)
+                                            .opacity(0.22)
                                     }
                                     .layoutPriority(0)
                                     .zIndex(4)
@@ -232,6 +232,7 @@ extension Tutorial {
                             }.sheet(isPresented: self.$showingTableOfContents) {
                                 TableOfContents(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
                             }
+                            .zIndex(5)
                             .foregroundColor(.primary)
                             .font(Font.system(size: 20, weight: .semibold))
                             
@@ -255,7 +256,6 @@ extension Tutorial {
                                 self.showingExtra.toggle()
                             }) {
                                 HStack {
-                                    Spacer()
                                     ObservingTextView(self.translator.supplementTitle)
                                         .font(Font.subheadline)
                                         .fixedSize(horizontal: true, vertical: false)
@@ -269,7 +269,7 @@ extension Tutorial {
                                         .transition(.scale)
                                         .frame(width: 40, height: 40)
                                 }
-                            }
+                                }.zIndex(4)
                             .sheet(isPresented: self.$showingExtra) {
                                 Extra(bodyElements: self.translator.supplementBody)
                             }
@@ -428,7 +428,7 @@ struct Extra: View {
                     }
                 }
             }.background(Rectangle().fill(
-                Color(UIColor(red: 41/255.0, green: 42/255.0, blue: 48/255.0, alpha: 1))
+                Color(UIColor(red: 31/255.0, green: 32/255.0, blue: 38/255.0, alpha: 1))
             ))
         }.edgesIgnoringSafeArea(.bottom)
     }
@@ -508,7 +508,7 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 13, weight: .regular, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -25))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
             
@@ -518,7 +518,7 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 12, weight: .regular, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -25))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
             
@@ -528,7 +528,7 @@ struct TutorialBodyView: View {
                     .font(Font.system(size: 11, weight: .regular, design: .monospaced))
                     .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -25))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
                     .opacity(self.isTouching ? 0.33 : 1)
             )
         }
