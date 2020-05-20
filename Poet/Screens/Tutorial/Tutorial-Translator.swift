@@ -181,15 +181,9 @@ extension Tutorial.Translator {
             }
         }
         
-        // Extra Reading button
-        if configuration.supplementBody != nil {
-            withAnimation(Animation.spring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) {
-                shouldShowExtraButton.bool = true
-            }
-        } else {
-            withAnimation(Animation.spring(response: 0.6, dampingFraction: 0.8, blendDuration: 0)) {
-                shouldShowExtraButton.bool = false
-            }
+        // Supplementary Reading button
+        withAnimation(.linear(duration: 0.2)) {
+            self.shouldShowExtraButton.bool = configuration.supplementBody != nil
         }
         
         // values

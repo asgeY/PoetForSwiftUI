@@ -49,7 +49,12 @@ extension Template.Evaluator {
     func showTextStep() {
         let configuration = TextStepConfiguration(
             title: "Template",
-            body: "You're looking at a screen made with a simple template, located in Template-Screen.swift.\n\nUse this template as the basis for new screens, or read through its code to get a better sense of the Poet pattern."
+            body:
+            """
+            You're looking at a screen made with a simple template, located in Template-Screen.swift.
+
+            Use this template as the basis for new screens, or read through its code to get a better sense of the Poet pattern.
+            """
         )
         current.step = .text(configuration)
     }
