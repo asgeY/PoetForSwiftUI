@@ -23,7 +23,7 @@ extension HelloWorld {
 
 // MARK: Button Actions
 extension HelloWorld.Evaluator {
-    enum ButtonAction: EvaluatorActionWithIcon, EvaluatorActionWithIconAndID {
+    enum ButtonAction: EvaluatorActionWithIconAndID {
         case advanceImage
         case showCelestialBody(CelestialBody)
         
@@ -109,7 +109,7 @@ extension HelloWorld.Evaluator: ViewCycleEvaluator {
                 celestialBodies: data,
                 currentCelestialBody: first,
                 currentImageIndex: 0,
-                tapAction: first.images.count > 0 ? .advanceImage : nil)
+                tapAction: first.images.count > 1 ? .advanceImage : nil)
             
             current.step = .celestialBody(configuration)
         }
@@ -145,8 +145,6 @@ extension HelloWorld.Evaluator: ButtonEvaluator {
      */
     func showCelestialBody(_ body: CelestialBody) {
         guard case let .celestialBody(configuration) = current.step else { return }
-        
-        
         
         let newConfiguration = CelestialBodyStepConfiguration(
             celestialBodies: configuration.celestialBodies,

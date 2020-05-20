@@ -33,7 +33,7 @@ extension Tutorial {
         @State var navBarHidden: Bool = true
         @State var showingAbout = false
         @State var showingTableOfContents = false
-        @State var showingExtra = false
+        @State var showingSupplement = false
         @State var showingHelloWorld = false
         
         
@@ -253,7 +253,7 @@ extension Tutorial {
                         Spacer()
                         Hideable(isShowing: self.translator.shouldShowExtraButton, transition: AnyTransition.opacity.combined(with: AnyTransition.offset(x: 20, y: 0))) {
                             Button(action: {
-                                self.showingExtra.toggle()
+                                self.showingSupplement.toggle()
                             }) {
                                 HStack {
                                     ObservingTextView(self.translator.supplementTitle)
@@ -270,8 +270,8 @@ extension Tutorial {
                                         .frame(width: 40, height: 40)
                                 }
                                 }.zIndex(4)
-                            .sheet(isPresented: self.$showingExtra) {
-                                Extra(bodyElements: self.translator.supplementBody)
+                            .sheet(isPresented: self.$showingSupplement) {
+                                Supplement(bodyElements: self.translator.supplementBody)
                             }
                             
                         }
@@ -350,7 +350,7 @@ struct Presenter<Content>: View where Content : View {
                 self.content()
             }
             .onReceive(passablePlease.subject) { _ in
-                self.isShowing.toggle()
+                self.isShowing = true
             }
     }
 }
@@ -401,16 +401,15 @@ struct TableOfContents: View {
     }
 }
 
-struct Extra: View {
+struct Supplement: View {
     @ObservedObject var bodyElements: ObservableArray<Tutorial.Evaluator.Page.Body>
     
     var body: some View {
         ZStack {
             VStack {
                 DismissButton(foregroundColor: Color.white)
-                    .zIndex(2)
                 Spacer()
-            }.zIndex(2)
+            }.zIndex(1)
             
             VStack(alignment: .leading) {
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -429,7 +428,7 @@ struct Extra: View {
                 }
             }.background(Rectangle().fill(
                 Color(UIColor(red: 31/255.0, green: 32/255.0, blue: 38/255.0, alpha: 1))
-            ))
+            )).zIndex(0)
         }.edgesIgnoringSafeArea(.bottom)
     }
     
@@ -446,7 +445,7 @@ struct Extra: View {
         case .code(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 12, weight: .semibold, design: .monospaced))
+                    .font(Font.system(size: 13, weight: .semibold, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -15))
@@ -455,7 +454,7 @@ struct Extra: View {
         case .smallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 11.5, weight: .semibold, design: .monospaced))
+                    .font(Font.system(size: 12, weight: .semibold, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
@@ -464,7 +463,7 @@ struct Extra: View {
         case .extraSmallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 10, weight: .semibold, design: .monospaced))
+                    .font(Font.system(size: 11, weight: .semibold, design: .monospaced))
                     .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))

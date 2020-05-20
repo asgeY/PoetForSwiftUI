@@ -56,8 +56,6 @@ extension Retail {
         var deliveryOptions = ObservableArray<String>([])
         var deliveryPreference = ObservableString()
         var displayableProducts: ObservableArray<DisplayableProduct> = ObservableArray<DisplayableProduct>([])
-        var products: ObservableArray<Product> = ObservableArray<Product>([])
-        var findableProducts: ObservableArray<FindableProduct> = ObservableArray<FindableProduct>([])
         var completedSummary = ObservableString()
         
         // Bottom Button
@@ -105,35 +103,35 @@ extension Retail.Translator {
         switch step {
             
         case .loading:
-            showLoading()
+            translateLoading()
             
         case .notStarted(let configuration):
-            showNotStarted(configuration)
+            translateNotStarted(configuration)
             
         case .findProducts(let configuration):
-            showFindingProducts(configuration)
+            translateFindingProducts(configuration)
             
         case .chooseDeliveryLocation(let configuration):
-            showDeliveryOptions(configuration)
+            translateDeliveryOptions(configuration)
             
         case .completed(let configuration):
-            showCompleted(configuration)
+            translateCompleted(configuration)
             
         case .canceled(let configuration):
-            showCanceled(configuration)
+            translateCanceled(configuration)
             
         }
     }
     
     // MARK: Loading Step
     
-    func showLoading() {
+    func translateLoading() {
         sections.array = []
     }
     
     // MARK: Not Started Step
     
-    func showNotStarted(_ configuration: Evaluator.NotStartedConfiguration) {
+    func translateNotStarted(_ configuration: Evaluator.NotStartedConfiguration) {
         
         let productCount = configuration.products.count
         
@@ -151,14 +149,14 @@ extension Retail.Translator {
         })
         
         // Only these things should appear in the body
-        showSections([
+        sections.array = [
             topSpace_,
             customerTitle_,
             instruction_,
             divider_,
             feedback_,
             displayableProducts_
-        ])
+        ]
         
         // Bottom button
         bottomButtonAction.action = NamedEvaluatorAction(name: "Start", action: configuration.startAction)
@@ -166,7 +164,7 @@ extension Retail.Translator {
     
     // MARK: Finding Products Step
     
-    func showFindingProducts(_ configuration: Evaluator.FindProductsConfiguration) {
+    func translateFindingProducts(_ configuration: Evaluator.FindProductsConfiguration) {
         
         let foundCount = configuration.findableProducts.filter {$0.status == .found}.count
         
@@ -176,7 +174,7 @@ extension Retail.Translator {
         instruction.string = "Mark found or not found"
         instructionNumber.int = 2
         
-        withAnimation(Animation.linear(duration: 0.3)) {
+        withAnimation(Animation.linear(duration: 0.35)) {
             displayableProducts.array = configuration.findableProducts.map({
                 return DisplayableProduct(
                     product: $0.product,
@@ -185,14 +183,14 @@ extension Retail.Translator {
             })
             
             // Only these things should appear in the body
-            showSections([
+            sections.array = [
                 topSpace_,
                 customerTitle_,
                 instruction_,
                 divider_,
                 feedback_,
                 displayableProducts_
-            ])
+            ]
         }
         
         // Bottom button
@@ -208,7 +206,7 @@ extension Retail.Translator {
     
     // MARK: Delivering Products Step
     
-    func showDeliveryOptions(_ configuration: Evaluator.ChooseDeliveryLocationConfiguration) {
+    func translateDeliveryOptions(_ configuration: Evaluator.ChooseDeliveryLocationConfiguration) {
         
         // Assign values to our observable page data
         customerTitle.string = "Order for \n\(configuration.customer)"
@@ -227,7 +225,7 @@ extension Retail.Translator {
             })
         
             // Only these things should appear in the body
-            showSections([
+            sections.array = [
                 topSpace_,
                 customerTitle_,
                 instruction_,
@@ -235,7 +233,7 @@ extension Retail.Translator {
                 divider_,
                 feedback_,
                 displayableProducts_
-            ])
+            ]
         }
         
         // Bottom button
@@ -248,7 +246,7 @@ extension Retail.Translator {
     
     // MARK: Completed Step
     
-    func showCompleted(_ configuration: Evaluator.CompletedConfiguration) {
+    func translateCompleted(_ configuration: Evaluator.CompletedConfiguration) {
         
         let productCount = configuration.products.count
         
@@ -276,7 +274,7 @@ extension Retail.Translator {
             })
         
             // Say that only these things should appear in the body
-            showSections([
+            sections.array = [
                 topSpace_,
                 completedTitle_,
                 customerTitle_,
@@ -285,7 +283,7 @@ extension Retail.Translator {
                 feedback_,
                 displayableProducts_,
                 completedSummary_
-            ])
+            ]
         }
         
         // Bottom button
@@ -294,7 +292,7 @@ extension Retail.Translator {
     
     // MARK: Canceled Step
     
-    func showCanceled(_ configuration: Evaluator.CanceledConfiguration) {
+    func translateCanceled(_ configuration: Evaluator.CanceledConfiguration) {
         
         // Assign values to our observable page data
         customerTitle.string = title(for: configuration.customer)
@@ -313,7 +311,7 @@ extension Retail.Translator {
         
         // Say that only these things should appear in the body
         withAnimation(.linear) {
-            showSections([
+            sections.array = [
                 topSpace_,
                 canceledTitle_,
                 customerTitle_,
@@ -321,7 +319,7 @@ extension Retail.Translator {
                 divider_,
                 feedback_,
                 completedSummary_
-            ])
+            ]
         }
         
         // Bottom button
@@ -344,9 +342,6 @@ extension Retail.Translator {
 // MARK: Sections
 
 extension Retail.Translator {
-    func showSections(_ newSections: [Section]) {
-        self.sections.array = newSections
-    }
     
     var canceledTitle_: Section {
         return .canceledTitle
@@ -373,7 +368,7 @@ extension Retail.Translator {
     }
     
     var displayableProducts_: Section {
-        return .displayableProducts(displayableProducts: displayableProducts, findingProductsEvaluator: evaluator)
+        return .displayableProducts(displayableProducts: self.displayableProducts, findingProductsEvaluator: evaluator)
     }
     
     var divider_: Section {

@@ -77,7 +77,7 @@ extension Retail {
                 return AnyView(
                     Divider()
                         .background(Color.primary)
-                        .frame(height: 1.75)
+                        .frame(height: 2)
                         .opacity(0.25)
                         .padding(EdgeInsets(top: 0, leading: 40, bottom: 20, trailing: 0))
                 )
@@ -336,9 +336,9 @@ extension Retail {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(.primary)
-                    .frame(width: isSelected ? 25 : 23, height: isSelected ? 25 : 23)
+                    .frame(width: isSelected ? 25.5 : 23, height: isSelected ? 25.5 : 23)
                     .animation(.spring(response: 0.25, dampingFraction: 0.25, blendDuration: 0), value: isSelected)
-                    .padding(EdgeInsets(top: isSelected ? -2 : -1, leading: isSelected ? 39 : 40, bottom: 0, trailing: 0))
+                    .padding(EdgeInsets(top: isSelected ? -2.25 : -1, leading: isSelected ? 38.75 : 40, bottom: 0, trailing: 0))
                 Text(self.option)
                     .font(Font.headline)
                     .layoutPriority(20)
@@ -350,8 +350,6 @@ extension Retail {
         }
     }
 }
-
-
 
 struct Fadeable<Content>: View where Content : View {
     @ObservedObject var isShowing: ObservableBool
@@ -372,7 +370,7 @@ struct Fadeable<Content>: View where Content : View {
                 }
         }
             .onAppear() {
-                withAnimation(Animation.linear(duration: 0.3).delay(0.3)) {
+                withAnimation(Animation.linear(duration: 0.3).delay(0.45)) {
                     self.isShowing.bool = true
                 }
         }

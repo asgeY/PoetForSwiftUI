@@ -59,8 +59,6 @@ extension Retail {
                 location: "Bin 2C"),
             ]
         )
-        
-        @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     }
 }
 
@@ -312,8 +310,8 @@ extension Retail.Evaluator: FindingProductsEvaluator {
         updateNextActionForFindableProducts()
     }
     
-    func updateFindableProduct(_ modifiedProduct: FindableProduct, on configuration: FindProductsConfiguration) {
-        var modifedConfiguration = configuration
+    private func updateFindableProduct(_ modifiedProduct: FindableProduct, on configuration: FindProductsConfiguration) {
+        var modifiedConfiguration = configuration
         let findableProducts: [FindableProduct] = configuration.findableProducts.map {
             if $0.product.upc == modifiedProduct.product.upc {
                 return modifiedProduct
@@ -321,12 +319,12 @@ extension Retail.Evaluator: FindingProductsEvaluator {
             return $0
         }
         
-        modifedConfiguration.findableProducts = findableProducts
+        modifiedConfiguration.findableProducts = findableProducts
         
-        current.step = .findProducts(modifedConfiguration)
+        current.step = .findProducts(modifiedConfiguration)
     }
     
-    func updateNextActionForFindableProducts() {
+    private func updateNextActionForFindableProducts() {
         guard case var Step.findProducts(configuration) = current.step else { return }
         
         let ready = configuration.findableProducts.allSatisfy { (findableProduct) -> Bool in

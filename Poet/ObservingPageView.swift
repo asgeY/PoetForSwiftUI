@@ -32,6 +32,8 @@ struct ObservingPageView: View {
                         ForEach(sections.array, id: \.id) { section in
                             VStack(spacing: 0) {
                                 self.viewMaker.view(for: section)
+                                
+                                // Bottom Inset
                                 if (self.sections.array.firstIndex(where: {
                                     $0.id == section.id
                                 })) == self.sections.array.count - 1 {
