@@ -51,7 +51,7 @@ extension Tutorial {
                             {
                                 HStack {
                                     Spacer()
-                                    MainTitle(text: self.translator.mainTitle)
+                                    MainTitleView(text: self.translator.mainTitle)
                                     Spacer()
                                 }
                                 Spacer()
@@ -66,7 +66,7 @@ extension Tutorial {
                             {
                                 HStack {
                                     Spacer()
-                                    ChapterTitle(text: self.translator.chapterTitle, number: self.translator.chapterNumber, shouldShowNumber: self.translator.shouldShowChapterNumber, isFocused: self.translator.shouldFocusOnChapterTitle, boxSize: Layout.boxSize)
+                                    ChapterTitleView(text: self.translator.chapterTitle, number: self.translator.chapterNumber, shouldShowNumber: self.translator.shouldShowChapterNumber, isFocused: self.translator.shouldFocusOnChapterTitle, boxSize: Layout.boxSize)
                                     Spacer()
                                 }
                                 Spacer()
@@ -78,9 +78,6 @@ extension Tutorial {
                         Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) // <-- observed
                         {
                             ZStack(alignment: .topLeading) {
-//                                RoundedRectangle(cornerRadius: 12)
-//                                    .stroke( Color.primary.opacity(0.0025))
-                                    
                                 VStack {
                                     
                                     TutorialBodyView(bodyElements: self.translator.body, isTouching: self.$touchingDownOnBox)
@@ -90,10 +87,9 @@ extension Tutorial {
                             .background(
                                 RoundedRectangle(cornerRadius: 12)
                                 .fill(
-//                                    Color.white
                                     self.touchingDownOnBox ?
                                         LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.01), Color.primary.opacity(0.015)]), startPoint: .top, endPoint: .bottom) :
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.003), Color.primary.opacity(0.005)]), startPoint: .top, endPoint: .bottom)
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.0035), Color.primary.opacity(0.005)]), startPoint: .top, endPoint: .bottom)
                                 )
                             )
                                 .shadow(color: Color.black.opacity(0.03), radius: 40, x: 0, y: 2)
@@ -230,7 +226,7 @@ extension Tutorial {
                             }) {
                                 Image(systemName: "list.bullet")
                             }.sheet(isPresented: self.$showingTableOfContents) {
-                                TableOfContents(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
+                                TableOfContentsView(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
                             }
                             .zIndex(5)
                             .foregroundColor(.primary)
@@ -271,7 +267,7 @@ extension Tutorial {
                                 }
                                 }.zIndex(4)
                             .sheet(isPresented: self.$showingSupplement) {
-                                Supplement(bodyElements: self.translator.supplementBody)
+                                SupplementaryTextBodyView(bodyElements: self.translator.supplementBody)
                             }
                             
                         }
@@ -331,335 +327,6 @@ extension Tutorial {
             .navigationBarHidden(self.navBarHidden)
             
         }
-    }
-}
-
-struct Presenter<Content>: View where Content : View {
-    let passablePlease: PassablePlease
-    var content: () -> Content
-    @State var isShowing: Bool = false
-       
-    init(_ passablePlease: PassablePlease, @ViewBuilder content: @escaping () -> Content) {
-        self.passablePlease = passablePlease
-        self.content = content
-    }
-    
-    var body: some View {
-        Spacer()
-            .sheet(isPresented: self.$isShowing) {
-                self.content()
-            }
-            .onReceive(passablePlease.subject) { _ in
-                self.isShowing = true
-            }
-    }
-}
-
-struct TableOfContents: View {
-    @ObservedObject var selectableChapterTitles: ObservableArray<NumberedNamedEvaluatorAction>
-    weak var evaluator: ButtonEvaluator?
-    
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    var body: some View {
-        ZStack {
-            VStack {
-                DismissButton()
-                    .zIndex(2)
-                Spacer()
-            }.zIndex(2)
-            
-            VStack {
-                Spacer().frame(height:42)
-                HStack {
-                    Text("Table of Contents")
-                        .multilineTextAlignment(.leading)
-                        .font(Font.system(size: 18, weight: .semibold))
-                    Spacer()
-                }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
-                Spacer().frame(height:16)
-                ScrollView {
-                    ForEach(self.selectableChapterTitles.array, id: \.id) { item in
-                        Button(action: {
-                            self.evaluator?.buttonTapped(action: item.action)
-                            self.presentationMode.wrappedValue.dismiss()
-                        }) {
-                            HStack {
-                                Text("\(item.number).   " + item.name)
-                                Spacer()
-                            }
-                            .font(Font.body.monospacedDigit())
-                            .multilineTextAlignment(.leading)
-                            
-                        }
-                        .foregroundColor(.primary)
-                        .padding(EdgeInsets(top: 13, leading: 30, bottom: 13, trailing: 30))
-                    }
-                }
-            }.background(Rectangle().fill(Color(UIColor.systemBackground)))
-        }
-    }
-}
-
-struct Supplement: View {
-    @ObservedObject var bodyElements: ObservableArray<Tutorial.Evaluator.Page.Body>
-    
-    var body: some View {
-        ZStack {
-            VStack {
-                DismissButton(foregroundColor: Color.white)
-                Spacer()
-            }.zIndex(1)
-            
-            VStack(alignment: .leading) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        Spacer().frame(height:52)
-                        ForEach(self.bodyElements.array, id: \.id) { bodyElement in
-                            HStack {
-                                self.viewForBodyElement(bodyElement)
-                                    .foregroundColor(.white)
-                                Spacer()
-                            }
-                        }
-                        .padding(EdgeInsets(top: 0, leading: 36, bottom: 30, trailing: 16))
-                        Spacer()
-                    }
-                }
-            }.background(Rectangle().fill(
-                Color(UIColor(red: 31/255.0, green: 32/255.0, blue: 38/255.0, alpha: 1))
-            )).zIndex(0)
-        }.edgesIgnoringSafeArea(.bottom)
-    }
-    
-    func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
-        switch bodyElement {
-        case .text(let text):
-            return AnyView(
-                Text(text)
-                    .font(Font.system(size: 16, weight: .medium))
-                    .lineSpacing(5)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.bottom, 14)
-            )
-        case .code(let code):
-            return AnyView(
-                Text(code)
-                    .font(Font.system(size: 13, weight: .semibold, design: .monospaced))
-                    .lineSpacing(5)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -15))
-            )
-            
-        case .smallCode(let code):
-            return AnyView(
-                Text(code)
-                    .font(Font.system(size: 12, weight: .semibold, design: .monospaced))
-                    .lineSpacing(5)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
-            )
-            
-        case .extraSmallCode(let code):
-            return AnyView(
-                Text(code)
-                    .font(Font.system(size: 11, weight: .semibold, design: .monospaced))
-                    .lineSpacing(4)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
-            )
-        }
-    }
-}
-
-struct TutorialBodyView: View {
-    @ObservedObject var bodyElements: ObservableArray<Tutorial.Evaluator.Page.Body>
-    @Binding var isTouching: Bool
-    
-    let bottomPadding: CGFloat = 16
-    
-    var body: some View {
-        VStack {
-            ForEach(bodyElements.array, id: \.id) { bodyElement in
-                HStack {
-                    self.viewForBodyElement(bodyElement)
-                    Spacer()
-                }
-            }
-            Spacer()
-        }.padding(EdgeInsets(top: 26, leading: 26, bottom: -bottomPadding, trailing: 26))
-    }
-    
-    func viewForBodyElement(_ bodyElement: Tutorial.Evaluator.Page.Body) -> AnyView {
-        switch bodyElement {
-        case .text(let text):
-            return AnyView(
-                Text(text)
-                    .font(Font.body)
-                    .lineSpacing(5)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.bottom, 16)
-                    .opacity(self.isTouching ? 0.33 : 1)
-            )
-        case .code(let code):
-            return AnyView(
-                Text(code)
-                    .font(Font.system(size: 13, weight: .regular, design: .monospaced))
-                    .lineSpacing(5)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
-                    .opacity(self.isTouching ? 0.33 : 1)
-            )
-            
-        case .smallCode(let code):
-            return AnyView(
-                Text(code)
-                    .font(Font.system(size: 12, weight: .regular, design: .monospaced))
-                    .lineSpacing(5)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
-                    .opacity(self.isTouching ? 0.33 : 1)
-            )
-            
-        case .extraSmallCode(let code):
-            return AnyView(
-                Text(code)
-                    .font(Font.system(size: 11, weight: .regular, design: .monospaced))
-                    .lineSpacing(4)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
-                    .opacity(self.isTouching ? 0.33 : 1)
-            )
-        }
-    }
-}
-
-struct Dimmable: View {
-    @ObservedObject var isShowing: ObservableBool
-    let content: AnyView
-    var body: some View {
-        return content
-            .opacity(isShowing.bool ? 1 : 0.2)
-    }
-}
-
-struct Hideable<Content>: View where Content : View {
-    @ObservedObject var isShowing: ObservableBool
-    var transition: AnyTransition?
-    var content: () -> Content
-    
-    init(isShowing: ObservableBool, transition: AnyTransition? = nil, @ViewBuilder content: @escaping () -> Content) {
-        self.isShowing = isShowing
-        self.transition = transition
-        self.content = content
-    }
-    
-    var body: some View {
-        Group {
-            if isShowing.bool {
-                Group {
-                    if transition != nil {
-                        content()
-                            .transition(transition!)
-                    } else {
-                        content()
-                    }
-                }
-            }
-        }
-    }
-}
-
-struct MainTitle: View {
-    @ObservedObject var text: ObservableString
-    
-    var body: some View {
-        GeometryReader() { geometry in
-            VStack {
-                ObservingTextView(self.text, alignment: .center, kerning: -0.05)
-                    .font(Font.system(size: 32, weight: .semibold).monospacedDigit())
-                    .padding(.top, 5)
-            }
-        }
-    }
-}
-
-struct ChapterTitle: View {
-    @ObservedObject var text: ObservableString
-    @ObservedObject var number: ObservableInt
-    @ObservedObject var shouldShowNumber: ObservableBool
-    @ObservedObject var isFocused: ObservableBool
-    let boxSize: CGFloat
-    
-    var body: some View {
-        GeometryReader() { geometry in
-            VStack {
-                Image.numberCircleFill(self.number.int)
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .opacity(self.shouldShowNumber.bool ? 1 : 0)
-                ObservingTextView(self.text, alignment: .center, kerning: -0.05)
-                    .font(Font.system(size: 24, weight: .semibold).monospacedDigit())
-                    .padding(.top, 5)
-            }
-            .offset(x: 0, y: self.isFocused.bool ? 0 : -((self.boxSize / 2.0) + 52))
-        }
-    }
-}
-
-struct SwappableText: View {
-    var text: ObservableString
-    var alignment: TextAlignment
-    var kerning: CGFloat
-    var transition: AnyTransition
-
-    private var isShowing = ObservableBool(true)
-    @State private var localText: String = ""
-    
-    init(_ text: ObservableString, alignment: TextAlignment = .leading, kerning: CGFloat = 0, transition: AnyTransition) {
-        self.text = text
-        self.alignment = alignment
-        self.kerning = kerning
-        self.transition = transition
-        self.localText = text.string
-    }
-    
-    var body: some View {
-        debugPrint("swappable text body")
-        return Hideable(isShowing: isShowing, transition: transition) {
-            Text(self.localText == "" && self.text.string != "" ? self.text.string : self.localText)
-                .kerning(self.kerning)
-                .multilineTextAlignment(self.alignment)
-                .onReceive(self.text.objectWillChange) { _ in
-                    if self.text.string != self.localText {
-                        withAnimation(.linear(duration: 0.1)) {
-                            self.isShowing.bool = false
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(150))) {
-                            withAnimation(.linear(duration: 0.1)) {
-                                self.isShowing.bool = true
-                                self.localText = self.text.string
-                            }
-                        }
-                    }
-            }
-        }
-    }
-}
-
-struct ObservingButton<Label>: View where Label : View {
-    @ObservedObject var action: Observable<EvaluatorAction?>
-    var evaluator: ButtonEvaluator?
-    var label: () -> Label
-    
-    init(action: Observable<EvaluatorAction?>, evaluator: ButtonEvaluator?, @ViewBuilder label: @escaping () -> Label) {
-        self.action = action
-        self.evaluator = evaluator
-        self.label = label
-    }
-
-    var body: some View {
-        return Button(action: { self.evaluator?.buttonTapped(action: self.action.object) }, label: label)
     }
 }
 

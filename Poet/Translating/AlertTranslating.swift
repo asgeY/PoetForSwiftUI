@@ -63,20 +63,3 @@ struct AlertAction {
         case destructive
     }
 }
-
-// Dismiss Translating
-
-protocol DismissTranslating {
-    var dismissTranslator: DismissTranslator { get }
-    func dismiss()
-}
-
-extension DismissTranslating {
-    func dismiss() {
-        dismissTranslator.dismiss.please()
-    }
-}
-
-struct DismissTranslator {
-    var dismiss = PassablePlease()
-}

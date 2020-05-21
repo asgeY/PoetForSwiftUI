@@ -11,7 +11,7 @@ import Foundation
 class AboutDataStore {
 static let shared = AboutDataStore()
 
-    let page: Page = Page(
+    let page: StaticPage = StaticPage(
         body: [
             .space(54),
             
@@ -23,7 +23,7 @@ static let shared = AboutDataStore()
             
             .space(5),
             
-            .text("The Poet pattern is a complete approach to making iOS apps with SwiftUI, one screen at a time. Poet is an acronym: Protocol-Oriented Evaluator/Translator."),
+            .text("The Poet pattern aims to be a complete approach to making iOS apps with SwiftUI, one screen at a time. Poet is an acronym: Protocol-Oriented Evaluator/Translator."),
             
             .text("The pattern follows a unidirectional flow that looks like this:"),
             

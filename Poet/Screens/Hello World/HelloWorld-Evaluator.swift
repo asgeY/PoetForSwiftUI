@@ -117,7 +117,7 @@ extension HelloWorld.Evaluator: ViewCycleEvaluator {
 }
 
 // MARK: Button Evaluating
-extension HelloWorld.Evaluator: ButtonEvaluator {
+extension HelloWorld.Evaluator: ButtonEvaluating {
     func buttonTapped(action: EvaluatorAction?) {
         guard let action = action as? ButtonAction else { return }
         

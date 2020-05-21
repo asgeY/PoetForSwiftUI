@@ -198,7 +198,7 @@ extension Tutorial.Evaluator: ViewCycleEvaluator {
 
 // MARK: Button Actions
 
-extension Tutorial.Evaluator: ButtonEvaluator {
+extension Tutorial.Evaluator: ButtonEvaluating {
     func buttonTapped(action: EvaluatorAction?) {
         guard let action = action as? ButtonAction else { return }
         switch action {

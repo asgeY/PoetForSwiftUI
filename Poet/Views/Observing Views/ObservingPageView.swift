@@ -20,6 +20,7 @@ protocol ObservingPageView_ViewMaker {
 struct ObservingPageView: View {
     @ObservedObject var sections: ObservableArray<ObservingPageViewSection>
     var viewMaker: ObservingPageView_ViewMaker
+    var margin: CGFloat = 0
     
     var body: some View {
         debugPrint("make Retail Tutorial Page View")
@@ -39,7 +40,7 @@ struct ObservingPageView: View {
                                 })) == self.sections.array.count - 1 {
                                     Spacer().frame(height:CGFloat(45))
                                 }
-                            }
+                            }.padding(EdgeInsets(top: 0, leading: self.margin, bottom: 0, trailing: self.margin))
                         }
                     }.padding(0)
                     Spacer()

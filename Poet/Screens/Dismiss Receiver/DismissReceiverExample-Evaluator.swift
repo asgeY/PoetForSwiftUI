@@ -29,18 +29,20 @@ extension DismissReceiverExample.Evaluator: ViewCycleEvaluator {
         func countDown(_ int: Int) {
             count.int = int
             if int > 0 {
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(1000))) {
+                afterWait(1000) {
                     let newValue = int - 1
                     self.count.int = newValue
                     countDown(newValue)
                 }
+                
+                
             } else {
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now().advanced(by: .milliseconds(100))) {
+                afterWait(100) {
                     self.translator.dismiss()
                 }
             }
         }
         
-        countDown(10)
+        countDown(5)
     }
 }

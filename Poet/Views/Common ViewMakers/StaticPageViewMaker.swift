@@ -8,22 +8,21 @@
 
 import SwiftUI
 
-struct PageBodyView: View {
-    @ObservedObject var pageBody: ObservableArray<Page.Element>
-    
-    init(pageBody: ObservableArray<Page.Element>) {
-        self.pageBody = pageBody
-    }
-    
-    func view(for element: Page.Element) -> AnyView {
-        switch element {
+struct StaticPageViewMaker: ObservingPageView_ViewMaker {
+
+    func view(for section: ObservingPageViewSection) -> AnyView {
+        guard let section = section as? StaticPage.Section else { return AnyView(EmptyView()) }
+        switch section {
             case .text(let string):
                 return AnyView(
-                    Text(string)
-                        .font(Font.body.monospacedDigit())
-                        .lineSpacing(4)
-                        .padding(.bottom, 20)
-                        .fixedSize(horizontal: false, vertical: true)
+                    HStack {
+                        Text(string)
+                            .font(Font.body.monospacedDigit())
+                            .lineSpacing(4)
+                            .padding(.bottom, 20)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                    }
                 )
                 
             case .code(let string):
@@ -46,11 +45,14 @@ struct PageBodyView: View {
                 
             case .quote(let string):
                 return AnyView(
-                    Text(string)
-                        .font(Font.system(size: 14, design: .monospaced))
-                        .lineSpacing(3)
-                        .padding(.bottom, 20)
-                        .fixedSize(horizontal: false, vertical: true)
+                    HStack {
+                        Text(string)
+                            .font(Font.system(size: 14, design: .monospaced))
+                            .lineSpacing(3)
+                            .padding(.bottom, 20)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                    }
                 )
             
             case .leftLargeTitle(let string):
@@ -105,10 +107,13 @@ struct PageBodyView: View {
             
             case .subtitle(let string):
                 return AnyView(
-                    Text(string)
-                        .font(Font.system(size: 17, weight: .semibold, design: .default))
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
-                        .fixedSize(horizontal: false, vertical: true)
+                    HStack {
+                        Text(string)
+                            .font(Font.system(size: 17, weight: .semibold, design: .default))
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0))
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                    }
                 )
             
             case .footnote(let string):
@@ -139,11 +144,14 @@ struct PageBodyView: View {
             
             case .signature(let string):
                 return AnyView(
-                    Text(string)
-                        .font(Font.system(size: 17, weight: .medium, design: .serif).italic())
-                        .lineSpacing(2)
-                        .padding(.bottom, 20)
-                        .fixedSize(horizontal: false, vertical: true)
+                    HStack {
+                        Text(string)
+                            .font(Font.system(size: 17, weight: .medium, design: .serif).italic())
+                            .lineSpacing(2)
+                            .padding(.bottom, 20)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                    }
                 )
             
             case .image(let string):
@@ -166,39 +174,62 @@ struct PageBodyView: View {
                 return AnyView(EmptyView())
         }
     }
+}
+
+struct StaticPage {
+    let body: [Section]
     
-    var body: some View {
-        if self.pageBody.array.isEmpty {
-            return AnyView(EmptyView())
-        } else {
-            return AnyView(
-                ScrollView {
-                    ForEach(pageBody.array, id: \.id) { element in
-                        VStack(alignment: .leading, spacing: 0) {
-                            HStack {
-                                self.view(for: element)
-                                Spacer()
-                            }
-                            if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
-                                Spacer().frame(height:44)
-                            }
-                        }.padding(EdgeInsets(top: 0, leading: 56, bottom: 0, trailing: 56))
-                    }
-                }
-//                List(pageBody.array, id: \.id) { element in
-//                    VStack {
-//                        self.view(for: element)
-//                        if self.pageBody.array.firstIndex(of: element) == self.pageBody.array.count - 1 {
-//                            Spacer().frame(height:44)
-//                        }
-//                    }
-//                }
-//                    .id(UUID()) // <-- this forces the list not to animate
-//                    .onAppear() {
-//                        UITableView.appearance().showsVerticalScrollIndicator = false
-//                        UITableView.appearance().separatorColor = .clear
-//                    }
-            )
+    enum Section: ObservingPageViewSection {
+        static func == (lhs: StaticPage.Section, rhs: StaticPage.Section) -> Bool {
+            return lhs.id == rhs.id
+        }
+
+        case text(String)
+        case code(String)
+        case quote(String)
+        case leftLargeTitle(String)
+        case leftMediumTitle(String)
+        case largeTitle(String)
+        case title(String)
+        case subtitle(String)
+        case footnote(String)
+        case fineprint(String)
+        case signature(String)
+        case image(String)
+        case space(Int)
+        case link(name: String, url: URL) // not implemented yet
+        
+        var id: String {
+            switch self {
+            case .text(let string):
+                return "text_\(string)"
+            case .code(let string):
+                return "code_\(string)"
+            case .quote(let string):
+                return "quote_\(string)"
+            case .leftLargeTitle(let string):
+                return "leftLargeTitle_\(string)"
+            case .leftMediumTitle(let string):
+                return "leftMediumTitle_\(string)"
+            case .largeTitle(let string):
+                return "largeTitle_\(string)"
+            case .title(let string):
+                return "title_\(string)"
+            case .subtitle(let string):
+                return "subtitle_\(string)"
+            case .footnote(let string):
+                return "footnote_\(string)"
+            case .fineprint(let string):
+                return "fineprint_\(string)"
+            case .signature(let string):
+            return "signature_\(string)"
+            case .image(let string):
+                return "image_\(string)"
+            case .link(let name, _):
+                return "link_\(name)"
+            case .space(let height):
+                return "space_\(height)"
+            }
         }
     }
 }

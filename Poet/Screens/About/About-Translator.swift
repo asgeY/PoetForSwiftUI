@@ -14,7 +14,7 @@ extension About {
         typealias Evaluator = About.Evaluator
         
         // Observable state
-        var pageBody = ObservableArray<Page.Element>([])
+        var sections = ObservableArray<ObservingPageViewSection>([])
     }
 }
 
@@ -22,7 +22,7 @@ extension About {
 
 extension About.Translator {
     
-    func show(page: Page) {
-        pageBody.array = page.body
+    func show(page: StaticPage) {
+        sections.array = page.body
     }
 }

@@ -17,7 +17,7 @@ extension About {
         
         // Data
         
-        private var page: Page = AboutDataStore.shared.page
+        private var page: StaticPage = AboutDataStore.shared.page
     }
 }
 

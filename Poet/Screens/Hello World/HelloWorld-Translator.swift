@@ -20,7 +20,7 @@ extension HelloWorld {
         var imageName = ObservableString()
         var foregroundColor = Observable<Color>(.clear)
         var backgroundColor = Observable<Color>(.clear)
-        var tapAction = Observable<Evaluator.ButtonAction?>(nil)
+        var tapAction = Observable<EvaluatorAction?>(nil)
         var shouldShowTapMe = ObservableBool()
         var tabs = ObservableArray<EvaluatorActionWithIconAndID>([])
         var currentTab = Observable<EvaluatorActionWithIconAndID?>(nil)

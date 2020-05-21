@@ -19,9 +19,10 @@ extension Tutorial {
         
         lazy var pageData: [Chapter] = [
             Chapter("Introduction", pages:
-                Page([.text("You're looking at a screen made with the Poet pattern. The code behind it emphasizes clarity, certainty, and flexibility.")]),
+                Page([.text("You're looking at a screen made with the Poet pattern. The code behind it emphasizes clarity, certainty, flexibility, and reusability.")]),
                 Page([.text("The process of writing Poet code is methodical but relatively quick. It follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”")]),
                 Page([.text("Poet has a rote structure but it frees you to write quickly and confidently, without the fear that your code will get tangled up over time.")]),
+                Page([.text("It achieves this through the effective decoupling of business state, display state, and view logic.")]),
                 Page([.text("We'll learn about the pattern and its benefits by thinking about how some different screens were made. But first, why is it called Poet?")])
             ),
             
@@ -288,10 +289,10 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("Even an opinionated view doesn't know what a button action really does, though. That's up to the evaluator, who conforms to ButtonEvaluator:"),
+                    .text("Even an opinionated view doesn't know what a button action really does, though. That's up to the evaluator, who conforms to ButtonEvaluating:"),
                     .code(
                         """
-                        protocol ButtonEvaluator: class {
+                        protocol ButtonEvaluating: class {
                           func buttonTapped(
                             action: EvaluatorAction?)
                         }
@@ -337,7 +338,7 @@ extension Tutorial {
                 ], supplement: Supplement(title: "buttonTapped()", body:[
                 .code(
                     """
-                    extension Tutorial.Evaluator: ButtonEvaluator {
+                    extension Tutorial.Evaluator: ButtonEvaluating {
                       func buttonTapped(action: EvaluatorAction?) {
                         guard let action = action as? ButtonAction else { return }
                         switch action {
@@ -1309,7 +1310,7 @@ extension Tutorial {
                     struct CircularTabBar: View {
                         typealias TabButtonAction = EvaluatorActionWithIconAndID
                         
-                        weak var evaluator: ButtonEvaluator?
+                        weak var evaluator: ButtonEvaluating?
                         @ObservedObject var tabs: ObservableArray<TabButtonAction>
                         @ObservedObject var currentTab: Observable<TabButtonAction?>
                         let spacing: CGFloat = 30
@@ -1347,7 +1348,7 @@ extension Tutorial {
                         }
                         
                         struct CircularTabButton: View {
-                            weak var evaluator: ButtonEvaluator?
+                            weak var evaluator: ButtonEvaluating?
                             let tab: TabButtonAction
                             var body: some View {
                                 Button(action: { self.evaluator?.buttonTapped(action: self.tab) }) {
