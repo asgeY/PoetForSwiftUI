@@ -368,7 +368,7 @@ extension Retail.Translator {
     }
     
     var displayableProducts_: Section {
-        return .displayableProducts(displayableProducts: self.displayableProducts, findingProductsEvaluator: evaluator)
+        return .displayableProducts(displayableProducts: displayableProducts, findingProductsEvaluator: evaluator)
     }
     
     var divider_: Section {

@@ -41,7 +41,7 @@ extension Retail {
                 
             case .canceledTitle:
             return AnyView(
-                Fadeable(isShowing: fadeCanceledTitle) {
+                Fadeable {
                     HStack {
                         Text("Canceled")
                             .font(Font.system(size: 32, weight: .bold))
@@ -53,7 +53,7 @@ extension Retail {
                 
             case .completedTitle:
                 return AnyView(
-                    Fadeable(isShowing: fadeCompletedTitle) {
+                    Fadeable {
                         HStack {
                             Text("Completed")
                                 .font(Font.system(size: 32, weight: .bold))
@@ -109,7 +109,7 @@ extension Retail {
                 
             case .deliveryOptions(let deliveryOptions, let deliveryPreference, let optionsEvaluator):
                 return AnyView(
-                    Fadeable(isShowing: fadeDeliveryOptions) {
+                    Fadeable {
                         OptionsView(options: deliveryOptions, preference: deliveryPreference, evaluator: optionsEvaluator)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 0))
                     }
@@ -117,7 +117,7 @@ extension Retail {
                 
             case .completedSummary(let completedSummary):
                 return AnyView(
-                    Fadeable(isShowing: fadeCompletedSummary) {
+                    Fadeable {
                         VStack {
                             Divider()
                             .background(Color.primary)
@@ -352,26 +352,24 @@ extension Retail {
 }
 
 struct Fadeable<Content>: View where Content : View {
-    @ObservedObject var isShowing: ObservableBool
+    @State var isShowing: Bool = false
     var content: () -> Content
     
-    init(isShowing: ObservableBool, @ViewBuilder content: @escaping () -> Content) {
-        debugPrint("init fadeable")
-        self.isShowing = isShowing
+    init(@ViewBuilder content: @escaping () -> Content) {
         self.content = content
     }
     
     var body: some View {
         content()
-            .opacity(isShowing.bool ? 1 : 0)
+            .opacity(isShowing ? 1 : 0)
             .onDisappear() {
                 withAnimation(Animation.linear(duration: 0.3)) {
-                    self.isShowing.bool = false
+                    self.isShowing = false
                 }
         }
             .onAppear() {
                 withAnimation(Animation.linear(duration: 0.3).delay(0.45)) {
-                    self.isShowing.bool = true
+                    self.isShowing = true
                 }
         }
     }
