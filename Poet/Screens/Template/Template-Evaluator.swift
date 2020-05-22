@@ -21,14 +21,11 @@ extension Template {
 
 // Steps and Step Configurations
 extension Template.Evaluator {
-    
-    // Steps
     enum Step: EvaluatorStep {
         case initial
         case text(TextStepConfiguration)
     }
     
-    // Configurations
     struct TextStepConfiguration {
         var title: String
         var body: String
@@ -37,7 +34,6 @@ extension Template.Evaluator {
 
 // View Cycle
 extension Template.Evaluator: ViewCycleEvaluating {
-    
     func viewDidAppear() {
         showTextStep()
     }

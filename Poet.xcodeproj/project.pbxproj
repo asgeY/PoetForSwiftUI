@@ -416,8 +416,8 @@
 				DC4C1113245DEE21009BC14D /* Template-Screen.swift */,
 				DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */,
 				DC4C1117245DEF9A009BC14D /* Template-Translator.swift */,
-				3BF669202477FF5500AE055C /* Template-Evaluator.txt */,
 				3BF669242478032F00AE055C /* Template-Screen.txt */,
+				3BF669202477FF5500AE055C /* Template-Evaluator.txt */,
 				3BF66935247820E000AE055C /* Template-Translator.txt */,
 			);
 			path = Template;
