@@ -12,8 +12,8 @@ import SwiftUI
 struct AlertView: View {
     @ObservedObject private var title: ObservableString
     @ObservedObject private var message: ObservableString
-    @ObservedObject private var primaryAlertAction: ObservableAlertAction
-    @ObservedObject private var secondaryAlertAction: ObservableAlertAction
+    @ObservedObject private var primaryAlertAction: Observable<AlertAction?>
+    @ObservedObject private var secondaryAlertAction: Observable<AlertAction?>
     @ObservedObject private var isPresented: ObservableBool
     
     init(translator: AlertTranslating) {
@@ -29,11 +29,11 @@ struct AlertView: View {
             EmptyView()
         }
         .alert(isPresented: $isPresented.bool) {
-            if let primaryAlertAction = primaryAlertAction.alertAction, let secondaryAlertAction = secondaryAlertAction.alertAction {
+            if let primaryAlertAction = primaryAlertAction.value, let secondaryAlertAction = secondaryAlertAction.value {
                 let primaryButton: Alert.Button = button(for: primaryAlertAction)
                 let secondaryButton: Alert.Button = button(for: secondaryAlertAction)
                 return Alert(title: Text(title.string), message: Text(message.string), primaryButton: primaryButton, secondaryButton: secondaryButton)
-            } else if let primaryAlertAction = primaryAlertAction.alertAction {
+            } else if let primaryAlertAction = primaryAlertAction.value {
                 let primaryButton: Alert.Button = button(for: primaryAlertAction)
                 return Alert(title: Text(title.string), message: Text(message.string), dismissButton: primaryButton)
             } else {

@@ -66,11 +66,13 @@ extension Tutorial {
             
             let body: [Body]
             let action: ButtonAction?
+            let file: String?
             let supplement: Supplement?
             
-            init(_ body: [Body], action: ButtonAction? = nil, supplement: Supplement? = nil) {
+            init(_ body: [Body], action: ButtonAction? = nil, file: String? = nil, supplement: Supplement? = nil) {
                 self.body = body
                 self.action = action
+                self.file = file
                 self.supplement = supplement
             }
             
@@ -139,9 +141,22 @@ extension Tutorial.Evaluator {
         // Computed
         var title: String { return pageData[chapterIndex].title }
         var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
-        var supplementShortTitle: String? { return pageData[chapterIndex].pages[pageIndex].supplement?.shortTitle }
-        var supplementFullTitle: String? { return pageData[chapterIndex].pages[pageIndex].supplement?.fullTitle }
-        var supplementBody: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].supplement?.body }
+        var fileName: String? { return pageData[chapterIndex].pages[pageIndex].file }
+        var fileText: String? {
+            if let fileName = fileName {
+                if let filepath = Bundle.main.path(forResource: fileName, ofType: "txt") {
+                    do {
+                        let contents = try String(contentsOfFile: filepath)
+                        return contents
+                    } catch {
+                        debugPrint("file error: \(error)")
+                    }
+                } else {
+                    debugPrint("no file of name: \(fileName) and type: txt")
+                }
+            }
+            return nil
+        }
         var chapterNumber: Int { return chapterIndex + 1 }
         var pageNumber: Int { return pageIndex + 1 }
         var pageCountWithinChapter: Int { return pageData[chapterIndex].pages.count }

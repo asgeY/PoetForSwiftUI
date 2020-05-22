@@ -259,7 +259,7 @@ extension Tutorial {
                                 self.showingSupplement.toggle()
                             }) {
                                 HStack {
-                                    ObservingTextView(self.translator.supplementShortTitle)
+                                    ObservingTextView(self.translator.supplementTitle)
                                         .font(Font.subheadline)
                                         .fixedSize(horizontal: true, vertical: false)
                                         .frame(height:40)
@@ -275,7 +275,7 @@ extension Tutorial {
                                 }.zIndex(4)
                             .sheet(isPresented: self.$showingSupplement) {
                                 VStack {
-                                    SupplementaryTextBodyView(title: self.translator.supplementFullTitle, bodyElements: self.translator.supplementBody)
+                                    SupplementaryTextBodyView(title: self.translator.supplementTitle, bodyElements: self.translator.supplementBody)
                                 }
                             }
                             

@@ -20,10 +20,10 @@ struct TappableImage: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.primary.opacity(0.026))
             Circle()
-                .fill(self.backgroundColor.object)
+                .fill(self.backgroundColor.value)
                 .frame(width: 130, height: 130)
             Circle()
-                .fill(self.foregroundColor.object)
+                .fill(self.foregroundColor.value)
                 .frame(width: 130, height: 130)
                 .mask(
                     Image(self.image.string)
@@ -32,7 +32,7 @@ struct TappableImage: View {
         }
         .frame(width: 200, height: 200)
         .onTapGesture {
-            if let action = self.tapAction.object {
+            if let action = self.tapAction.value {
                 self.evaluator?.buttonTapped(action: action)
             }
         }

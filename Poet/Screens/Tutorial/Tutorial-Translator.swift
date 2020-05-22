@@ -24,8 +24,7 @@ extension Tutorial {
         var pageXofX = ObservableString()
         var imageName = ObservableString()
         var buttonName = ObservableString()
-        var supplementShortTitle = ObservableString()
-        var supplementFullTitle = ObservableString()
+        var supplementTitle = ObservableString()
         
         // Arrays
         var body = ObservableArray<Evaluator.Page.Body>([])
@@ -180,20 +179,23 @@ extension Tutorial.Translator {
         
         // Supplementary Reading button
         withAnimation(.linear(duration: 0.2)) {
-            self.shouldShowExtraButton.bool = configuration.supplementBody != nil
+            self.shouldShowExtraButton.bool = configuration.fileText != nil
         }
         
-        // values
+        if let fileName = configuration.fileName {
+            supplementTitle.string = fileName + ".swift"
+        }
+        
+        if let fileText = configuration.fileText {
+            supplementBody.array = [.code(fileText)]
+        }
+        
+        // Other values
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
         body.array = configuration.body
-        if let configurationSupplementShortTitle = configuration.supplementShortTitle {
-            supplementShortTitle.string = configurationSupplementShortTitle
-        }
-        supplementFullTitle.string = configuration.supplementFullTitle ?? ""
-        supplementBody.array = configuration.supplementBody ?? []
         pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCountWithinChapter)"
-        buttonAction.object = configuration.buttonAction
+        buttonAction.value = configuration.buttonAction
         selectableChapterTitles.array = configuration.selectableChapterTitles
         
         if let actionName = configuration.buttonAction?.name {

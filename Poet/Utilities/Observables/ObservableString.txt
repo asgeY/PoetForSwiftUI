@@ -1,0 +1,15 @@
+//
+//  ObservableString.swift
+//  Poet
+//
+
+import Combine
+
+class ObservableString: ObservableObject {
+    @Published var string: String
+    
+    init(_ string: String = "") {
+        self.string = string
+    }
+}
+

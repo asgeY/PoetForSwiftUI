@@ -30,8 +30,8 @@ extension Tutorial {
                 Page([.text("Poet is an acronym that stands for Protocol-Oriented Evaluator/Translator. The evaluator and translator are a pair that work together.")]),
                 Page([.text("You can think of the evaluator and translator as two different layers in the pattern, or as two different phases of reasoning that the programmer will undertake.")]),
                 Page([.text("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”"),
-                      .text("The translator interprets the intent of the evaluator and turns it into observable and passable “display state.”"),
-                      .text("And the view layer — a screen made up of SwiftUI View structs — is the part that observes or is passed the translator's display state.")]),
+                      .text("The translator interprets the intent of the evaluator and turns it into observable “display state.”"),
+                      .text("And the view layer — a screen made up of SwiftUI View structs — is the part that observes the translator's display state.")]),
                 Page([.text("A given user flow requires participation from all three layers — evaluator, translator, and view. Sometimes we need to be deliberate about each layer and spell out their work step by step."),
                       .text("Other times, we already know what each layer should do, and protocol-oriented programming can bridge them all with default protocol implementations.")]),
                 Page([.text("There's one more feature of the Poet pattern that's pretty fundamental: “steps.” The evaluator's business state is always encapsulated in a single step, a distinct unit of state. We'll talk a lot more about that soon.")]),
@@ -42,7 +42,7 @@ extension Tutorial {
                 Page([.text("If you tap the button that says “Show Template,” you'll see a screen that does almost nothing: it just shows a title and a body of text. We could accomplish this without any pattern at all, just a view. But we'll prepare ourselves to understand more complex screens by using an evaluator and translator here, too.")], action: .showTemplate),
                     
                 Page([.text("Our goal is to show a title and some body text, so our evaluator only has one job: define some business state that contains our title and body."),
-                      .text("The evaluator won't do anything without being nudged by the view layer. It begins with an empty “initial” state and then responds to prompts from the view layer by creating and holding onto new state. At a high level, that's all an evaluator will ever do."),
+                      .text("The evaluator won't do anything without being nudged by the view layer. It begins with an empty initial state and then responds to prompts from the view layer by creating and holding onto new state. At a high level, that's all an evaluator will ever do."),
                 ], action: .showTemplate),
                 
                 Page([.text("The state of an evaluator always resides within a type called a Step. All the possible state for the Template evaluator is contained within two steps:"),
@@ -55,10 +55,8 @@ extension Tutorial {
                       """),
                       .text("You'll notice that the .initial step has no associated values, whereas the .text step knows about a configuration particular to it."),
                 ], action: .showTemplate,
-                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
-                    .code(
-                   templateEvaluator()
-                )])),
+                   file: "Template-Evaluator"
+                ),
                 
                 // We will assign our current step like this:
                 
@@ -70,14 +68,12 @@ extension Tutorial {
                           var body: String
                       }
                       """),
-                      .text("As long as our current step is .initial, these values don't exist. It's only when we create our .text step that we set the values for its configuration."),
+                      .text("As long as our current step is .initial, we don't care about these values. It's only when we create our .text step that we set the values for its configuration."),
                 ], action: .showTemplate,
-                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
-                    .code(
-                   templateEvaluator()
-                )])),
+                   file: "Template-Evaluator"
+                ),
                 
-                Page([.text("The evaluator has promised to notice the moment our view comes on screen by conforming to a simple protocol, ViewCycleEvaluating:"),
+                Page([.text("Our evaluator has promised to notice the moment our view comes on screen by conforming to ViewCycleEvaluating:"),
                       .code(
                         """
                         protocol ViewCycleEvaluating {
@@ -93,12 +89,28 @@ extension Tutorial {
                         """
                         ),
                 ], action: .showTemplate,
-                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
-                    .code(
-                   templateEvaluator()
-                )])),
+                   file: "Template-Evaluator"
+                ),
                 
-                Page([.text("SwiftUI gives us an onAppear method for our views, so we'll use that to talk to the evaluator from the view layer, calling the evaluator's viewDidAppear method:"),
+                Page([
+                    .text("The implementation of showTextStep is as straightforward as you might hope. We create a configuration and assign a .text step that contains it:"),
+                    .smallCode(
+                        """
+                        func showTextStep() {
+                          let configuration = TextStepConfiguration(
+                            title: "Template",
+                            body: "..."
+                          )
+                          current.step = .text(configuration)
+                        }
+                        """)
+                    ],
+                     action: .showTemplate,
+                     file: "Template-Evaluator"
+                ),
+                
+                Page([.text("There's more to say about that assignment to current.step."),
+                      .text("But what led to viewDidAppear being called in the first place? SwiftUI gives us an onAppear method for our views, so we've used that method to talk to the evaluator from the view layer:"),
                       .code(
                         """
                         .onAppear {
@@ -107,180 +119,182 @@ extension Tutorial {
                         """
                     )
                 ], action: .showTemplate,
-                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
-                    .code(
-                   templateEvaluator()
-                )])),
+                   file: "Template-Screen"
+               ),
                 
-                Page([.text("Notice the word “Evaluator” in the top right corner? You can tap it to see the entire code of Template-Evaluator.swift."),
-                ], action: .showTemplate,
-                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
-                    .code(
-                   templateEvaluator()
-                )])),
+                Page(
+                    [.text("Back to that assignment. What did it mean when we wrote this?"),
+                     .code("current.step = .text(configuration)"),
+                     .text("The evaluator holds onto its current step as a special type, PassableStep. The Combine framework makes it relatively simple to publish and listen to values, but PassableStep offers a helpful wrapper around that functionality."),
+                    ],
+                    action: .showTemplate,
+                    file: "PassableStep"
+                ),
                 
-                Page([.text("The dynamic behavior starts when the view appears. The evaluator receives a call to viewDidAppear() and decides to show the .text step:"),
-                .smallCode(
-                    """
-                    func viewDidAppear() {
-                        showTextStep()
-                    }
-
-                    func showTextStep() {
-                        let configuration = TextStepConfiguration(
-                            title: "Template",
-                            body: "..."
-                        )
-                        current.step = .text(configuration)
-                    }
-                    """),
-                ], action: .showTemplate,
-                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
-                    .code(
-                    templateEvaluator()
-                )])),
+                Page(
+                    [.text("Whenever it's time to assign a new current step, we don't replace the entire PassableStep object, which we've named “current.” Instead, we assign to the value it contains:"),
+                     .code("current.step = ..."),
+                     .text("That way, our wrapper persists and publishes its new value.")
+                    ],
+                    action: .showTemplate
+                ),
                 
-                Page([.text("The translator then sets an observable title and body:"),
-                .smallCode(
-                    """
-                    func translateTextStep(_ configuration:
-                      Evaluator.TextStepConfiguration) {
-                        title.string = configuration.title
-                        body.string = configuration.body
-                    }
-                    """
-                )], action: .showTemplate,
-                    supplement: Supplement(shortTitle: "Translator", fullTitle: "Template-Translator.swift", body: [
-                    .code(
+                Page(
+                    [.text("Under the hood, the publishing happens because of this property observer in PassableStep:"),
+                     .code(
                         """
-                        import Foundation
-
-                        extension Template {
-
-                            class Translator {
-                                
-                                typealias Evaluator = Template.Evaluator
-                                
-                                // Observable Display State
-                                var title = ObservableString()
-                                var body = ObservableString()
-                                
-                                // Passthrough Behavior
-                                private var behavior: Behavior?
-                                
-                                init(_ step: PassableStep<Evaluator.Step>) {
-                                    behavior = step.subject.sink { value in
-                                        self.translate(step: value)
-                                    }
-                                }
+                        var step: S {
+                            willSet {
+                                subject.send(newValue)
                             }
                         }
-
-                        extension Template.Translator {
-                            func translate(step: Evaluator.Step) {
-                                switch step {
-                                    
-                                case .initial:
-                                    break // no initial setup needed
-                                    
-                                case .text(let configuration):
-                                    translateTextStep(configuration)
-                                }
-                            }
-                            
-                            func translateTextStep(_ configuration: Evaluator.TextStepConfiguration) {
-                                // Set observable display state
-                                title.string = configuration.title
-                                body.string = configuration.body
-                            }
-                        }
-                        """
-                    )
-                ])),
+                        """),
+                    ],
+                    action: .showTemplate,
+                    file: "PassableStep"
+                ),
+                
+                Page(
+                    [.text("Why are we publishing the step? The evaluator isn't the only thing interested in its own state. Another layer, the translator, will respond every time a new step is assigned."),
+                     .text("Its role will be to interpret the business state and turn it into display state.")
+                    ],
+                    action: .showTemplate
+                ),
                 
                 Page([
-                    .text("And the view layer observes the title and body:"),
-                    .smallCode(
+                    .text("The translator can pay attention to the step because, upon its intialization, it created a “sink” (another Combine concept) that receives new values and responds:"),
+                    .code(
+                        """
+                        init(_ step: PassableStep<Evaluator.Step>) {
+                          behavior = step.subject.sink { value in
+                            self.translate(step: value)
+                          }
+                        }
+                        """),
+                    ],
+                     action: .showTemplate,
+                     file: "Template-Translator"
+                ),
+                
+                Page([
+                    .text("The method translate(step:) will unwrap a step's configuration and redirect into another method to translate the step. Notice we don't need to translate the empty initial step:"),
+                    .code(
+                        """
+                        func translate(step: Evaluator.Step) {
+                            switch step {
+                            case .initial:
+                                break // no initial setup needed
+                            case .text(let configuration):
+                                translateTextStep(configuration)
+                            }
+                        }
+                        """),
+                    ],
+                     action: .showTemplate,
+                     file: "Template-Translator"
+                ),
+                
+                Page([
+                    .text("And now we face the work of creating display state. It turns out that's just a matter of assigning basic value types like strings, integers, bools, and arrays. Occasionally, we also choose an animation."),
+                    .text("Our view layer will observe these values and respond according to its own logic.")
+                    ],
+                     action: .showTemplate
+                ),
+                
+                Page([
+                    .text("The Template translator holds onto two properties that make up its entire display state:"),
+                    .code(
+                        """
+                        var title = ObservableString()
+                        var body = ObservableString()
+                        """
+                    ),
+                    .text("The title and body aren't simple strings. They are a special wrapping type called ObservableString."),
+                    ],
+                     action: .showTemplate
+                ),
+                
+                Page([
+                    .text("Observable types contain a value that has been complemented with the @Published property wrapper, which creates a publisher. Inside ObservableString, for instance, we see this:"),
+                    .code(
+                        """
+                        @Published var string: String
+                        """
+                    ),
+                    .text("Because our translator holds onto two ObservableStrings, our view layer will be able to respond whenever their wrapped values change."),
+                    ],
+                     action: .showTemplate,
+                     file: "ObservableString"
+                ),
+                
+                Page([
+                    .text("We translate our step by assigning to those two observable strings:"),
+                    .code(
+                        """
+                        func translateTextStep(_ configuration:
+                          Evaluator.TextStepConfiguration) {
+                            title.string = configuration.title
+                            body.string = configuration.body
+                        }
+                        """
+                    ),
+                    .text("We're just mapping our step's configuration values to observable values."),
+                    ],
+                     action: .showTemplate,
+                     file: "Template-Translator"
+                ),
+                
+                Page([
+                    .text("Because of that very slight translation effort, the view layer can now observe the title and body:"),
+                    .code(
                         """
                         VStack {
                           ObservingTextView(translator.title)
                           ObservingTextView(translator.body)
                         }
                         """
-                    )
-                ], action: .showTemplate,
-                   supplement: Supplement(shortTitle: "Screen", fullTitle: "Template-Screen.swift", body: [
+                    ),
+                    ], action: .showTemplate,
+                       file: "Template-Screen"
+                ),
+                
+                Page([
+                    .text("ObservingTextView is a view that holds onto an @ObservedObject, which happens to be an ObservableString. It responds to changes automatically:"),
                     .code(
                         """
-                        import SwiftUI
+                        @ObservedObject var text: ObservableString
 
-                        struct Template {}
-
-                        extension Template {
-                            struct Screen: View {
-                                
-                                let _evaluator: Evaluator
-                                weak var evaluator: Evaluator?
-                                let translator: Translator
-                                
-                                init() {
-                                    _evaluator = Evaluator()
-                                    evaluator = _evaluator
-                                    translator = _evaluator.translator
-                                }
-                                
-                                @State var navBarHidden: Bool = true
-                                
-                                var body: some View {
-                                    ZStack {
-                                        
-                                        VStack {
-                                            ObservingTextView(translator.title)
-                                                .font(Font.headline)
-                                                .fixedSize(horizontal: false, vertical: true)
-
-                                            ObservingTextView(translator.body)
-                                                .font(Font.body)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                                .padding(EdgeInsets(top: 30, leading: 50, bottom: 50, trailing: 50))
-                                        }
-                                        
-                                        VStack {
-                                            DismissButton()
-                                            Spacer()
-                                        }
-                                    }.onAppear {
-                                        self.evaluator?.viewDidAppear()
-                                        self.navBarHidden = true
-                                    }
-                                        
-                                    // MARK: Hide Navigation Bar
-                                    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                                        self.navBarHidden = true
-                                    }
-                                    .navigationBarTitle("", displayMode: .inline)
-                                    .navigationBarHidden(self.navBarHidden)
-                                }
-                            }
+                        var body: some View {
+                            Text(text.string)
                         }
                         """
                     )
-                ])),
+                    ], action: .showTemplate,
+                       file: "ObservingTextView"
+                ),
                 
-                Page([.text("That's it. You can use the template whenever you start a new screen. If you understand its flow, you should be able to follow the flow of more complicated screens, too. Let's look at one we'll call Hello World.")])
+                Page([
+                    .text("A view like ObservingTextView contains view logic — the rules for how it should respond to changes in display state. It's aware of a general observable type (in this case ObservableString), but it's unaware of any particular business purpose. Our layers are fully decoupled, which makes this view (and any other) reusable throughout the app for different purposes."),
+                    ], action: .showTemplate
+                ),
+                
+                Page([
+                    .text("And that's it. We've followed the whole round trip of the pattern, starting with the view's .onAppear method and passing through the evaluator, the translator, and then back to the view layer."),
+                    .text("On a screen that only shows text, the three layers may seem excessive. But if you understand the flow here, you should be able to follow the flow of more complicated screens, too. Speaking of which, let's make things a tiny bit more complicated by adding a button to our Template.")
+                    ]
+                )
             ),
             
             Chapter("Interacting with a View", pages:
-                Page([.text("In Poet, whenever you interact with a view on screen, the view tells its evaluator about it.")]),
-                
-                Page([
-                    .text("When you tap this text, for instance, it says to the evaluator:"),
-                    .code(
-                        """
-                        buttonTapped(action:
-                          ButtonAction.pageForward)
-                        """
-                    )]),
+                Page([.text("In Poet, whenever you interact with a view on screen, the view tells its evaluator about it."),
+                      .text("When you tap a button, for instance, the view says to its evaluator:"),
+                      .code(
+                          """
+                          self.evaluator?.buttonTapped(action:
+                            ButtonAction.pageForward)
+                          """
+                      )
+                ]),
                 
                 Page([
                     .text(".pageForward is an enum case that lives on the evaluator, along with all the other button actions relevant to this screen:"),

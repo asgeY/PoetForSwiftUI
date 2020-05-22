@@ -17,30 +17,16 @@ struct SupplementaryTextBodyView: View {
     
     var body: some View {
         ZStack {
-            GeometryReader() {geometry in
-                VStack {
-                    Text(self.title.string)
-                        .foregroundColor(Color(UIColor.systemBackground))
-                        .font(Font.caption.bold())
-                        .frame(width: geometry.size.width, height: 54)
-                        .padding(.top, 4)
-                        .background(self.barColor)
-                    Spacer()
-                }
-            }
-            .zIndex(1)
-            
             VStack {
                 DismissButton(foregroundColor: Color.white)
                 Spacer()
             }.background(Color.clear)
-                .padding(.top, -2)
             .zIndex(2)
             
             VStack(alignment: .leading) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     ScrollView(.vertical, showsIndicators: false) {
-                        Spacer().frame(height:90)
+                        Spacer().frame(height:26)
                         ForEach(self.bodyElements.array, id: \.id) { bodyElement in
                             HStack {
                                 self.viewForBodyElement(bodyElement)
@@ -71,7 +57,7 @@ struct SupplementaryTextBodyView: View {
         case .code(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 12.5, weight: .semibold, design: .monospaced))
+                    .font(Font.system(size: 12.5, weight: .medium, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -15))
@@ -80,7 +66,7 @@ struct SupplementaryTextBodyView: View {
         case .smallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 11.5, weight: .semibold, design: .monospaced))
+                    .font(Font.system(size: 11.5, weight: .medium, design: .monospaced))
                     .lineSpacing(5)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))
@@ -89,7 +75,7 @@ struct SupplementaryTextBodyView: View {
         case .extraSmallCode(let code):
             return AnyView(
                 Text(code)
-                    .font(Font.system(size: 10.5, weight: .semibold, design: .monospaced))
+                    .font(Font.system(size: 10.5, weight: .medium, design: .monospaced))
                     .lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 14, trailing: -20))

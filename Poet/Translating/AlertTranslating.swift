@@ -23,23 +23,23 @@ extension AlertTranslating {
         alertTranslator.title.string = title
         alertTranslator.message.string = message
         alertTranslator.isAlertPresented.bool = true
-        alertTranslator.primaryAlertAction.alertAction = nil
-        alertTranslator.secondaryAlertAction.alertAction = nil
+        alertTranslator.primaryAlertAction.value = nil
+        alertTranslator.secondaryAlertAction.value = nil
     }
     
     func showAlert(title: String, message: String, alertAction: AlertAction) {
         alertTranslator.title.string = title
         alertTranslator.message.string = message
-        alertTranslator.primaryAlertAction.alertAction = alertAction
-        alertTranslator.secondaryAlertAction.alertAction = nil
+        alertTranslator.primaryAlertAction.value = alertAction
+        alertTranslator.secondaryAlertAction.value = nil
         alertTranslator.isAlertPresented.bool = true
     }
     
     func showAlert(title: String, message: String, primaryAlertAction: AlertAction, secondaryAlertAction: AlertAction) {
         alertTranslator.title.string = title
         alertTranslator.message.string = message
-        alertTranslator.primaryAlertAction.alertAction = primaryAlertAction
-        alertTranslator.secondaryAlertAction.alertAction = secondaryAlertAction
+        alertTranslator.primaryAlertAction.value = primaryAlertAction
+        alertTranslator.secondaryAlertAction.value = secondaryAlertAction
         alertTranslator.isAlertPresented.bool = true
     }
 }
@@ -47,8 +47,8 @@ extension AlertTranslating {
 struct AlertTranslator {
     var title = ObservableString()
     var message = ObservableString()
-    var primaryAlertAction = ObservableAlertAction()
-    var secondaryAlertAction = ObservableAlertAction()
+    var primaryAlertAction = Observable<AlertAction?>(nil)
+    var secondaryAlertAction = Observable<AlertAction?>(nil)
     var isAlertPresented = ObservableBool(false)
 }
 

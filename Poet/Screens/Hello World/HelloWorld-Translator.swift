@@ -52,15 +52,15 @@ extension HelloWorld.Translator {
         // Set observable display state
         title.string = "Hello \(configuration.currentCelestialBody.name)!"
         imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
-        foregroundColor.object = configuration.currentCelestialBody.foreground.color
-        backgroundColor.object = configuration.currentCelestialBody.background.color
-        tapAction.object = configuration.tapAction
+        foregroundColor.value = configuration.currentCelestialBody.foreground.color
+        backgroundColor.value = configuration.currentCelestialBody.background.color
+        tapAction.value = configuration.tapAction
         tabs.array = configuration.celestialBodies.map { ButtonAction.showCelestialBody($0) }
         withAnimation(.linear) {
             shouldShowTapMe.bool = configuration.tapAction != nil
         }
         withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
-            currentTab.object = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
+            currentTab.value = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
         }
         
     }

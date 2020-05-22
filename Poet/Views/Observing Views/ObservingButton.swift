@@ -20,6 +20,6 @@ struct ObservingButton<Label>: View where Label : View {
     }
 
     var body: some View {
-        return Button(action: { self.evaluator?.buttonTapped(action: self.action.object) }, label: label)
+        return Button(action: { self.evaluator?.buttonTapped(action: self.action.value) }, label: label)
     }
 }

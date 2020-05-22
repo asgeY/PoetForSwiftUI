@@ -40,7 +40,7 @@ struct CircularTabBar: View {
     }
     
     func indexOfCurrentTab() -> Int? {
-        if let currentTabObject = currentTab.object {
+        if let currentTabObject = currentTab.value {
             return self.tabs.array.firstIndex { tab in
                 tab.id == currentTabObject.id
             }
