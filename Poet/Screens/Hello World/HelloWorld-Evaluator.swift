@@ -17,7 +17,7 @@ extension HelloWorld {
         lazy var translator: Translator = Translator(current)
         
         // Current Step
-        var current = PassableStep(Step.loading)
+        var current = PassableStep(Step.initial)
     }
 }
 
@@ -62,7 +62,7 @@ extension HelloWorld.Evaluator {
 extension HelloWorld.Evaluator {
     
     enum Step: EvaluatorStep {
-        case loading
+        case initial
         case celestialBody(CelestialBodyStepConfiguration)
     }
     
@@ -93,7 +93,7 @@ extension HelloWorld.Evaluator {
 }
 
 // MARK: View Cycle
-extension HelloWorld.Evaluator: ViewCycleEvaluator {
+extension HelloWorld.Evaluator: ViewCycleEvaluating {
     
     /**
      On viewDidAppear(), we fetch data from a Store. Then we make (and assign) a CelestialBodyStepConfiguration that contains our fetched data.

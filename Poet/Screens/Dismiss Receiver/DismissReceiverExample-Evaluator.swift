@@ -20,7 +20,7 @@ extension DismissReceiverExample {
     }
 }
 
-extension DismissReceiverExample.Evaluator: ViewCycleEvaluator {
+extension DismissReceiverExample.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
         countDownToDismiss()
     }

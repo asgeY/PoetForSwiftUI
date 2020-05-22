@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ViewCycleEvaluator {
+protocol ViewCycleEvaluating {
     func viewDidAppear()
 }

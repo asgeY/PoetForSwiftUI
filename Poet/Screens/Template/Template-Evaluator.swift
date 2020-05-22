@@ -15,7 +15,7 @@ extension Template {
         lazy var translator: Translator = Translator(current)
         
         // Current Step
-        var current = PassableStep(Step.loading)
+        var current = PassableStep(Step.initial)
         
     }
 }
@@ -25,7 +25,7 @@ extension Template.Evaluator {
     
     // Steps
     enum Step: EvaluatorStep {
-        case loading
+        case initial
         case text(TextStepConfiguration)
     }
     
@@ -37,7 +37,7 @@ extension Template.Evaluator {
 }
 
 // View Cycle
-extension Template.Evaluator: ViewCycleEvaluator {
+extension Template.Evaluator: ViewCycleEvaluating {
     
     func viewDidAppear() {
         showTextStep()

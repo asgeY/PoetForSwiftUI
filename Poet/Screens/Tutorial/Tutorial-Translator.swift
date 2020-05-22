@@ -24,7 +24,8 @@ extension Tutorial {
         var pageXofX = ObservableString()
         var imageName = ObservableString()
         var buttonName = ObservableString()
-        var supplementTitle = ObservableString()
+        var supplementShortTitle = ObservableString()
+        var supplementFullTitle = ObservableString()
         
         // Arrays
         var body = ObservableArray<Evaluator.Page.Body>([])
@@ -78,8 +79,8 @@ extension Tutorial.Translator {
     func translate(step: Evaluator.Step) {
         switch step {
             
-        case .loading:
-            translateLoading()
+        case .initial:
+            break // no initial setup needed
             
         case .mainTitle(let configuration):
             translateMainTitleStep(configuration)
@@ -93,10 +94,6 @@ extension Tutorial.Translator {
         case .interlude:
             translateInterlude()
         }
-    }
-    
-    func translateLoading() {
-        // do nothing. no initial setup necessary.
     }
     
     func translateMainTitleStep(_ configuration: Evaluator.MainTitleStepConfiguration) {
@@ -190,9 +187,10 @@ extension Tutorial.Translator {
         chapterNumber.int = configuration.chapterNumber
         chapterTitle.string = configuration.title
         body.array = configuration.body
-        if let configurationSupplementTitle = configuration.supplementTitle {
-            supplementTitle.string = configurationSupplementTitle
+        if let configurationSupplementShortTitle = configuration.supplementShortTitle {
+            supplementShortTitle.string = configurationSupplementShortTitle
         }
+        supplementFullTitle.string = configuration.supplementFullTitle ?? ""
         supplementBody.array = configuration.supplementBody ?? []
         pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCountWithinChapter)"
         buttonAction.object = configuration.buttonAction

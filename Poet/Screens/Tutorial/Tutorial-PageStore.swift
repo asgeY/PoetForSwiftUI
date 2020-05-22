@@ -40,22 +40,51 @@ extension Tutorial {
             
             Chapter("Template", pages:
                 Page([.text("If you tap “Show Template,” you'll see a screen that does almost nothing: it just shows some text set by an evaluator. Let's establish the basic pattern by looking at the code for each layer.")], action: .showTemplate),
-                Page([.text("On such a basic screen, the evaluator only has one job: when the view appears, move from a “loading” step to a step that actually shows something on screen."),
+                    
+                Page([.text("On such a simple screen, the evaluator only has one job: put some text on screen when the view appears."),
+                      .text("The evaluator hears about the view's appearance by conforming to a simple protocol, ViewCycleEvaluating:"),
+                      .code(
+                        """
+                        protocol ViewCycleEvaluating {
+                            func viewDidAppear()
+                        }
+                        """)
+                ], action: .showTemplate,
+                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
+                    .code(
+                   templateEvaluator()
+                )])),
+                
+                Page([.text("SwiftUI gives us an onAppear method for our views, so we'll use that to call the evaluator's viewDidAppear() method from the view layer:"),
+                      .code(
+                        """
+                        .onAppear {
+                            self.evaluator?.viewDidAppear()
+                        }
+                        """
+                    )
+                ], action: .showTemplate,
+                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
+                    .code(
+                   templateEvaluator()
+                )])),
+                    
+                Page([.text("On such a basic screen, the evaluator only has one job: put some text on screen when the view appears."),
                       .text("So the evaluator only has two steps:"),
                       .code(
                       """
-                      case loading
+                      case initial
                       case text(TextStepConfiguration)
                       """),
                 ], action: .showTemplate,
-                   supplement: Supplement(title: "Evaluator", body: [
+                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
                     .code(
                    templateEvaluator()
                 )])),
                 
                 Page([.text("Notice the word “Evaluator” in the top right corner? You can tap it to see the entire code of Template-Evaluator.swift."),
                 ], action: .showTemplate,
-                   supplement: Supplement(title: "Evaluator", body: [
+                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
                     .code(
                    templateEvaluator()
                 )])),
@@ -76,7 +105,7 @@ extension Tutorial {
                     }
                     """),
                 ], action: .showTemplate,
-                   supplement: Supplement(title: "Evaluator", body: [
+                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
                     .code(
                     templateEvaluator()
                 )])),
@@ -92,7 +121,7 @@ extension Tutorial {
                     }
                     """
                 )], action: .showTemplate,
-                    supplement: Supplement(title: "Translator", body: [
+                    supplement: Supplement(shortTitle: "Translator", fullTitle: "Template-Translator.swift", body: [
                     .code(
                         """
                         import Foundation
@@ -122,16 +151,12 @@ extension Tutorial {
                             func translate(step: Evaluator.Step) {
                                 switch step {
                                     
-                                case .loading:
-                                    translateLoadingStep()
+                                case .initial:
+                                    break // no initial setup needed
                                     
                                 case .text(let configuration):
                                     translateTextStep(configuration)
                                 }
-                            }
-                            
-                            func translateLoadingStep() {
-                                // nothing to see here
                             }
                             
                             func translateTextStep(_ configuration: Evaluator.TextStepConfiguration) {
@@ -155,7 +180,7 @@ extension Tutorial {
                         """
                     )
                 ], action: .showTemplate,
-                   supplement: Supplement(title: "Screen", body: [
+                   supplement: Supplement(shortTitle: "Screen", fullTitle: "Template-Screen.swift", body: [
                     .code(
                         """
                         import SwiftUI
@@ -239,7 +264,7 @@ extension Tutorial {
                     """
                     )
                     
-                    ], supplement: Supplement(title: "ButtonAction", body: [
+                    ], supplement: Supplement(shortTitle: "ButtonAction", fullTitle: "ButtonAction in Tutorial-Evaluator.swift", body: [
                     .code(
                     """
                     enum ButtonAction: EvaluatorAction {
@@ -335,7 +360,7 @@ extension Tutorial {
                             pageForward()
                         """
                     )
-                ], supplement: Supplement(title: "buttonTapped()", body:[
+                ], supplement: Supplement(shortTitle: "buttonTapped()", fullTitle: "", body:[
                 .code(
                     """
                     extension Tutorial.Evaluator: ButtonEvaluating {
@@ -390,11 +415,11 @@ extension Tutorial {
                         """
                         case page(PageStepConfiguration)
                         """)
-                ], supplement: Supplement(title: "Step", body: [
+                ], supplement: Supplement(shortTitle: "Step", fullTitle: "", body: [
                     .code(
                     """
                     enum Step: EvaluatorStep {
-                      case loading
+                      case initial
                       case interlude
                       case mainTitle(MainTitleStepConfiguration)
                       case chapterTitle(ChapterTitleStepConfiguration)
@@ -423,7 +448,7 @@ extension Tutorial {
                           var pageData: [Chapter]
                           // etc.
                         """)
-                ], supplement: Supplement(title: "PageStepConfiguration", body: [
+                ], supplement: Supplement(shortTitle: "PageStepConfiguration", fullTitle: "", body: [
                     .code(
                     """
                     struct PageStepConfiguration {
@@ -489,7 +514,7 @@ extension Tutorial {
                         afterWait(1000) {
                           self.showPageStep( ... )
                     """)
-                ], supplement: Supplement(title: "pageForward()", body: [
+                ], supplement: Supplement(shortTitle: "pageForward()", fullTitle: "", body: [
                     .code(
                     """
                     func pageForward() {
@@ -547,7 +572,7 @@ extension Tutorial {
                         current.step = .page(configuration)
                         """
                     )
-                ], supplement: Supplement(title: "showPageStep()", body: [
+                ], supplement: Supplement(shortTitle: "showPageStep()", fullTitle: "", body: [
                     .code(
                         """
                         func showPageStep(forChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
@@ -565,7 +590,7 @@ extension Tutorial {
                 
                 Page([
                     .text("When we save the step, our Translator will hear about it. That's because the step is a “Passable” type that publishes its changes:"),
-                    .code("var current = PassableStep(Step.loading)")
+                    .code("var current = PassableStep(Step.initial)")
                 ]),
                 
                 Page([.text("PassableStep is just a helpful wrapper:"),
@@ -627,14 +652,14 @@ extension Tutorial {
                           // …
                         """
                     )
-                ], supplement: Supplement(title: "translate()", body: [
+                ], supplement: Supplement(shortTitle: "translate()", fullTitle: "", body: [
                     .code(
                         """
                         func translate(step: Evaluator.Step) {
                             switch step {
                                 
-                            case .loading:
-                                translateLoading()
+                            case .initial:
+                                break // no initial setup needed
                                 
                             case .mainTitle(let configuration):
                                 translateMainTitleStep(configuration)
@@ -735,7 +760,7 @@ extension Tutorial {
                         shouldShowTapMe.bool = false
                         """
                     )
-                ], supplement: Supplement(title: "translateInterlude()", body: [
+                ], supplement: Supplement(shortTitle: "translateInterlude()", fullTitle: "", body: [
                     .code(
                         """
                         func translateInterlude() {
@@ -787,7 +812,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ], supplement: Supplement(title: "translatePageStep()", body: [
+                ], supplement: Supplement(shortTitle: "translatePageStep()", fullTitle: "", body: [
                     .code(
                     """
                     func translatePageStep(_ configuration: Evaluator.PageStepConfiguration) {
@@ -938,7 +963,7 @@ extension Tutorial {
                         """
                         )
                     ],
-                    supplement: Supplement(title: "Presenter", body: [
+                    supplement: Supplement(shortTitle: "Presenter", fullTitle: "", body: [
                     .code(
                         """
                         struct Presenter<Content>: View where Content : View {
@@ -989,7 +1014,7 @@ extension Tutorial {
                         """
                     )
                     ],
-                     supplement: Supplement(title: "AlertView", body: [
+                     supplement: Supplement(shortTitle: "AlertView", fullTitle: "", body: [
                     .code(
                         """
                         import Combine
@@ -1072,7 +1097,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ], supplement: Supplement(title: "AlertTranslator", body: [
+                ], supplement: Supplement(shortTitle: "AlertTranslator", fullTitle: "", body: [
                     .code(
                     """
                     struct AlertTranslator {
@@ -1108,7 +1133,7 @@ extension Tutorial {
                         }
                         """
                     )
-                ], supplement: Supplement(title: "AlertTranslating", body: [
+                ], supplement: Supplement(shortTitle: "AlertTranslating", fullTitle: "", body: [
                     .code(
                         """
                         protocol AlertTranslating {
@@ -1166,7 +1191,7 @@ extension Tutorial {
                 Page([.text("It's never been so easy to write alerts that are responsibly decoupled from the view layer. Remember, when the evaluator asks for an alert, it can set any method it likes inside an alert action. The round trip back to the evaluator is all in one place.")]),
                 Page([.text("We can also make light work of bezels, action sheets, or anything else we'd like to trigger imperatively. Tap “Show Bezel” to see a bezel with a random emoji.")],
                      action: .showBezel,
-                     supplement: Supplement(title: "CharacterBezerTranslating", body: [
+                     supplement: Supplement(shortTitle: "CharacterBezerTranslating", fullTitle: "", body: [
                     .code(
                         """
                         import Combine
@@ -1304,7 +1329,7 @@ extension Tutorial {
                         """
                     )],
                      action: .showHelloWorld,
-                     supplement: Supplement(title: "CircularTabBar", body: [.code(
+                     supplement: Supplement(shortTitle: "CircularTabBar", fullTitle: "", body: [.code(
                         
                     """
                     struct CircularTabBar: View {
@@ -1380,7 +1405,7 @@ extension Tutorial {
                         """
                     )],
                      action: .showHelloWorld,
-                     supplement: Supplement(title: "translateCelestialBodyStep", body: [
+                     supplement: Supplement(shortTitle: "translateCelestialBodyStep", fullTitle: "", body: [
                         .code(
                             """
                             func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {
@@ -1538,7 +1563,7 @@ extension Tutorial {
                     lazy var translator: Translator = Translator(current)
                     
                     // Current Step
-                    var current = PassableStep(Step.loading)
+                    var current = PassableStep(Step.initial)
                     
                 }
             }
@@ -1548,7 +1573,7 @@ extension Tutorial {
                 
                 // Steps
                 enum Step: EvaluatorStep {
-                    case loading
+                    case initial
                     case text(TextStepConfiguration)
                 }
                 
@@ -1560,7 +1585,7 @@ extension Tutorial {
             }
 
             // View Cycle
-            extension Template.Evaluator: ViewCycleEvaluator {
+            extension Template.Evaluator: ViewCycleEvaluating {
                 
                 func viewDidAppear() {
                     showTextStep()

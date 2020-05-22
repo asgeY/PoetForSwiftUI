@@ -102,8 +102,8 @@ extension Retail.Translator {
     func translate(step: Evaluator.Step) {
         switch step {
             
-        case .loading:
-            translateLoading()
+        case .initial:
+            break
             
         case .notStarted(let configuration):
             translateNotStarted(configuration)
@@ -121,12 +121,6 @@ extension Retail.Translator {
             translateCanceled(configuration)
             
         }
-    }
-    
-    // MARK: Loading Step
-    
-    func translateLoading() {
-        sections.array = []
     }
     
     // MARK: Not Started Step

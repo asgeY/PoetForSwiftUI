@@ -18,7 +18,7 @@ extension Retail {
         
         // Step
         
-        var current = PassableStep(Step.loading)
+        var current = PassableStep(Step.initial)
         
         // ButtonAction
         
@@ -90,7 +90,7 @@ struct FindableProduct {
 extension Retail.Evaluator {
     
     enum Step: EvaluatorStep {
-        case loading
+        case initial
         case notStarted(NotStartedConfiguration)
         case findProducts(FindProductsConfiguration)
         case chooseDeliveryLocation(ChooseDeliveryLocationConfiguration)
@@ -148,9 +148,9 @@ extension Retail.Evaluator {
 
 // View Cycle
 
-extension Retail.Evaluator: ViewCycleEvaluator {
+extension Retail.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
-        if case .loading = current.step {
+        if case .initial = current.step {
             current.step = .notStarted(
                 NotStartedConfiguration(
                     customer: "Bob Dobalina",

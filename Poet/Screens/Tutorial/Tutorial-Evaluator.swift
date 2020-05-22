@@ -15,7 +15,7 @@ extension Tutorial {
         lazy var translator: Translator = Translator(current)
         
         // Step       
-        var current = PassableStep(Step.loading)
+        var current = PassableStep(Step.initial)
         
         // Button Actions
         enum ButtonAction: EvaluatorAction {
@@ -95,7 +95,8 @@ extension Tutorial {
             }
             
             struct Supplement {
-                let title: String
+                let shortTitle: String
+                let fullTitle: String
                 let body: [Body]
             }
         }
@@ -111,7 +112,7 @@ extension Tutorial.Evaluator {
     // MARK: Steps
     
     enum Step: EvaluatorStep {
-        case loading
+        case initial
         case interlude
         case mainTitle(MainTitleStepConfiguration)
         case chapterTitle(ChapterTitleStepConfiguration)
@@ -138,7 +139,8 @@ extension Tutorial.Evaluator {
         // Computed
         var title: String { return pageData[chapterIndex].title }
         var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
-        var supplementTitle: String? { return pageData[chapterIndex].pages[pageIndex].supplement?.title }
+        var supplementShortTitle: String? { return pageData[chapterIndex].pages[pageIndex].supplement?.shortTitle }
+        var supplementFullTitle: String? { return pageData[chapterIndex].pages[pageIndex].supplement?.fullTitle }
         var supplementBody: [Page.Body]? { return pageData[chapterIndex].pages[pageIndex].supplement?.body }
         var chapterNumber: Int { return chapterIndex + 1 }
         var pageNumber: Int { return pageIndex + 1 }
@@ -167,7 +169,7 @@ extension Tutorial.Evaluator {
 
 // MARK: View Cycle
 
-extension Tutorial.Evaluator: ViewCycleEvaluator {
+extension Tutorial.Evaluator: ViewCycleEvaluating {
     
     func viewDidAppear() {
         

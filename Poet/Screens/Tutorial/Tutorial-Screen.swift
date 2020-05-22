@@ -240,7 +240,7 @@ extension Tutorial {
                         .layoutPriority(2)
                     }
                     Spacer()
-                }.padding(EdgeInsets.init(top: 10, leading: 24, bottom: 16, trailing: 24))
+                }.padding(EdgeInsets.init(top: 10, leading: 20, bottom: 16, trailing: 24))
                 
                 // MARK: Supplement Button
                 
@@ -252,7 +252,7 @@ extension Tutorial {
                                 self.showingSupplement.toggle()
                             }) {
                                 HStack {
-                                    ObservingTextView(self.translator.supplementTitle)
+                                    ObservingTextView(self.translator.supplementShortTitle)
                                         .font(Font.subheadline)
                                         .fixedSize(horizontal: true, vertical: false)
                                         .frame(height:40)
@@ -267,7 +267,9 @@ extension Tutorial {
                                 }
                                 }.zIndex(4)
                             .sheet(isPresented: self.$showingSupplement) {
-                                SupplementaryTextBodyView(bodyElements: self.translator.supplementBody)
+                                VStack {
+                                    SupplementaryTextBodyView(title: self.translator.supplementFullTitle, bodyElements: self.translator.supplementBody)
+                                }
                             }
                             
                         }

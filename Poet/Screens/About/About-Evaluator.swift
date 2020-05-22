@@ -23,7 +23,7 @@ extension About {
 
 // MARK: View Cycle
 
-extension About.Evaluator: ViewCycleEvaluator {
+extension About.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
         translator.show(page: page) // <-- quick and dirty. not real state-based Poet
     }

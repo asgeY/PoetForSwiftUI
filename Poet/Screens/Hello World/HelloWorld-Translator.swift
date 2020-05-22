@@ -40,16 +40,12 @@ extension HelloWorld.Translator {
     func translate(step: Evaluator.Step) {
         switch step {
             
-        case .loading:
-            translateLoadingStep()
+        case .initial:
+            break // no initial setup needed
             
         case .celestialBody(let configuration):
             translateCelestialBodyStep(configuration)
         }
-    }
-    
-    func translateLoadingStep() {
-        // nothing to see here
     }
     
     func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {

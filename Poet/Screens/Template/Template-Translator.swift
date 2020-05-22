@@ -33,16 +33,12 @@ extension Template.Translator {
     func translate(step: Evaluator.Step) {
         switch step {
             
-        case .loading:
-            translateLoadingStep()
+        case .initial:
+            break // no initial setup needed
             
         case .text(let configuration):
             translateTextStep(configuration)
         }
-    }
-    
-    func translateLoadingStep() {
-        // nothing to see here
     }
     
     func translateTextStep(_ configuration: Evaluator.TextStepConfiguration) {

@@ -24,7 +24,7 @@ extension Menu {
 
 // MARK: View Cycle
 
-extension Menu.Evaluator: ViewCycleEvaluator {
+extension Menu.Evaluator: ViewCycleEvaluating {
     
     func viewDidAppear() {
         typealias Link = Menu.Link
