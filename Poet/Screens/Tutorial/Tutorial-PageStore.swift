@@ -30,7 +30,7 @@ extension Tutorial {
                 Page([.text("Poet is an acronym that stands for Protocol-Oriented Evaluator/Translator. The evaluator and translator are a pair that work together.")]),
                 Page([.text("You can think of the evaluator and translator as two different layers in the pattern, or as two different phases of reasoning that the programmer will undertake.")]),
                 Page([.text("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”"),
-                      .text("The translator interprets the intent of the evaluator and turns it into observable “display state.”"),
+                      .text("The translator interprets the business state of the evaluator and turns it into observable “display state.”"),
                       .text("And the view layer — a screen made up of SwiftUI View structs — is the part that observes the translator's display state.")]),
                 Page([.text("A given user flow requires participation from all three layers — evaluator, translator, and view. Sometimes we need to be deliberate about each layer and spell out their work step by step."),
                       .text("Other times, we already know what each layer should do, and protocol-oriented programming can bridge them all with default protocol implementations.")]),
@@ -57,8 +57,6 @@ extension Tutorial {
                 ], action: .showTemplate,
                    file: "Template-Evaluator"
                 ),
-                
-                // We will assign our current step like this:
                 
                 Page([.text("The TextStepConfiguration exists to contain the values we care about, our title and body. And that's all it contains:"),
                       .code(
@@ -123,9 +121,11 @@ extension Tutorial {
                ),
                 
                 Page(
-                    [.text("Back to that assignment. What did it mean when we wrote this?"),
+                    [.text("Back to that assignment. This syntax was a little unexpected:"),
                      .code("current.step = .text(configuration)"),
-                     .text("The evaluator holds onto its current step as a special type, PassableStep. The Combine framework makes it relatively simple to publish and listen to values, but PassableStep offers a helpful wrapper around that functionality."),
+                     .text("It works because the evaluator wraps its step inside a special type, PassableStep:"),
+                     .code("var current = PassableStep(Step.initial)"),
+                     .text("The Combine framework makes it fairly easy to publish and listen to values, but PassableStep offers a helpful wrapper around that functionality."),
                     ],
                     action: .showTemplate,
                     file: "PassableStep"
@@ -140,7 +140,7 @@ extension Tutorial {
                 ),
                 
                 Page(
-                    [.text("Under the hood, the publishing happens because of this property observer in PassableStep:"),
+                    [.text("Under the hood, the publishing happens because of a property observer inside PassableStep:"),
                      .code(
                         """
                         var step: S {
