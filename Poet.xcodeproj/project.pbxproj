@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E8D392462A9CD005D033C /* AfterWait.swift */; };
+		3BF6691C2477CFAA00AE055C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691B2477CFAA00AE055C /* Device.swift */; };
+		3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691D2477D1F700AE055C /* FontSystem.swift */; };
 		875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562B3244C253200DB49C4 /* AppDelegate.swift */; };
 		875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562B5244C253200DB49C4 /* SceneDelegate.swift */; };
 		875562BA244C253500DB49C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 875562B9244C253500DB49C4 /* Assets.xcassets */; };
@@ -94,6 +96,8 @@
 
 /* Begin PBXFileReference section */
 		3B1E8D392462A9CD005D033C /* AfterWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterWait.swift; sourceTree = "<group>"; };
+		3BF6691B2477CFAA00AE055C /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		3BF6691D2477D1F700AE055C /* FontSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSystem.swift; sourceTree = "<group>"; };
 		875562B0244C253200DB49C4 /* Poet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		875562B3244C253200DB49C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		875562B5244C253200DB49C4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -261,8 +265,10 @@
 		875562EB244D142E00DB49C4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				87AC827E2454CDE90090E443 /* Behavior.swift */,
 				3B1E8D392462A9CD005D033C /* AfterWait.swift */,
+				87AC827E2454CDE90090E443 /* Behavior.swift */,
+				3BF6691B2477CFAA00AE055C /* Device.swift */,
+				3BF6691D2477D1F700AE055C /* FontSystem.swift */,
 				87AC827C2454C3EA0090E443 /* Numbers.swift */,
 				875562EC244D144600DB49C4 /* Observables.swift */,
 				875562F4244D5FDB00DB49C4 /* Passables.swift */,
@@ -587,6 +593,7 @@
 				DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */,
 				3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */,
 				DC656560246F07230048A848 /* HelloWorld-Screen.swift in Sources */,
+				3BF6691C2477CFAA00AE055C /* Device.swift in Sources */,
 				DC4C6C782476D3DB0014A34C /* DismissButton.swift in Sources */,
 				DC4C6C562476C8060014A34C /* Fadeable.swift in Sources */,
 				8794A5FA245C343400D41E4F /* Retail-PageViewMaker.swift in Sources */,
@@ -628,6 +635,7 @@
 				DC4C6C672476CF120014A34C /* Presenter.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
 				DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */,
+				3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */,
 				DC4C6C6B2476D02B0014A34C /* TableOfContentsView.swift in Sources */,
 				87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */,
 				DC4C6C4A2476C59A0014A34C /* ProductView.swift in Sources */,
@@ -788,14 +796,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Poet/Preview Content\"";
-				DEVELOPMENT_TEAM = XBV79M6D9G;
+				DEVELOPMENT_TEAM = Y9G957Y75J;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Poet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.Poet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.nkmchne.Poet;
 				PRODUCT_NAME = Poet;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -808,14 +816,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Poet/Preview Content\"";
-				DEVELOPMENT_TEAM = XBV79M6D9G;
+				DEVELOPMENT_TEAM = Y9G957Y75J;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Poet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.Poet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.nkmchne.Poet;
 				PRODUCT_NAME = Poet;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -23,7 +23,7 @@ struct ChapterTitleView: View {
                     .frame(width: 30, height: 30)
                     .opacity(self.shouldShowNumber.bool ? 1 : 0)
                 ObservingTextView(self.text, alignment: .center, kerning: -0.05)
-                    .font(Font.system(size: 24, weight: .semibold).monospacedDigit())
+                    .font(FontSystem.title.monospacedDigit())
                     .padding(.top, 5)
             }
             .offset(x: 0, y: self.isFocused.bool ? 0 : -((self.boxSize / 2.0) + 52))

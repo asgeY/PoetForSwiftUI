@@ -20,7 +20,14 @@ extension Tutorial {
         let translator: Translator
         
         enum Layout {
-            static let boxSize: CGFloat = 370
+            static let boxSize: CGFloat = {
+                switch Device.current {
+                case .small, .medium:
+                    return 370
+                case .big:
+                    return 480
+                }
+            }()
         }
         
         init() {

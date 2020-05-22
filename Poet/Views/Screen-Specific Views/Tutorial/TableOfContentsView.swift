@@ -61,7 +61,7 @@ struct TableOfContentsView: View {
                     }
                     .foregroundColor(Color.primary)
                         .background(Color(UIColor.systemBackground))
-                        .padding(EdgeInsets(top: 16, leading: 30, bottom: 16, trailing: 30))
+                        .padding(EdgeInsets(top: 24, leading: 30, bottom: 26, trailing: 30))
                         .sheet(isPresented: self.$isShowingAbout) {
                             About.Screen()
                         }

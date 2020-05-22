@@ -161,7 +161,7 @@ struct StaticPageViewMaker: ObservingPageView_ViewMaker {
                         Image(string)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .padding(.bottom, 20)
+                            .padding(EdgeInsets(top: 0, leading: 30, bottom: 20, trailing: 30))
                     }
                 )
             

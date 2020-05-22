@@ -13,7 +13,7 @@ struct SupplementaryTextBodyView: View {
     @ObservedObject var bodyElements: ObservableArray<Tutorial.Evaluator.Page.Body>
     
     let backgroundColor = Color(UIColor(red: 31/255.0, green: 32/255.0, blue: 38/255.0, alpha: 1))
-    let barColor = Color(UIColor(red: 47/255.0, green: 50/255.0, blue: 57/255.0, alpha: 1))
+    let barColor = Color(UIColor(red: 37/255.0, green: 40/255.0, blue: 47/255.0, alpha: 0.98))
     
     var body: some View {
         ZStack {

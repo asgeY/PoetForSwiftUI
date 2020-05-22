@@ -21,21 +21,15 @@ static let shared = AboutDataStore()
                 for SwiftUI
                 """),
             
-            .space(5),
+            .space(12),
             
-            .text("The Poet pattern aims to be a complete approach to making iOS apps with SwiftUI, one screen at a time. Poet is an acronym: Protocol-Oriented Evaluator/Translator."),
-            
-            .text("The pattern follows a unidirectional flow that looks like this:"),
+            .text("Poet was developed by Steve Cotner at a shoe company in Portland, Oregon from 2018 to 2020."),
             
             .image("poet-intro-small"),
-                
-            .text("Poet began before SwiftUI, but there was a lot more plumbing involved. Now, it's smaller and easier to follow."),
             
-            .text("The benefits of Poet emerge as screens get more and more complex. No matter what you make, Poet code should remain readable, refactorable, composable, and testable."),
+            .text("It began before SwiftUI (and shared some convergent concepts around diffable data sources), but there was a lot more plumbing involved. Now, it's smaller and easier to follow."),
             
-            .text("Poet was developed by Steve Cotner at a shoe company in Portland, Oregon from 2018 to 2020.  It began with some early encouragement from colleagues Dave Camp, Zach Heusinkveld, Ranjith Ramachandran, and Pete Salvo."),
-            
-            .text("Since then it has benefited from the feedback of many talented developers, including Steve Milano, Kevin Thornton, Josh Kneedler, Sam Lobue, Tanya Ganley, Eric Sheppard, and Jason Furgison."),
+            .text("The first work on Poet started with some early encouragement from colleagues Dave Camp, Zach Heusinkveld, Ranjith Ramachandran, and Pete Salvo. Since then it has benefited from the feedback of many talented developers, including Steve Milano, Kevin Thornton, Josh Kneedler, Sam Lobue, Tanya Ganley, Eric Sheppard, and Jason Furgison."),
             
             .text("The writing and development of this tutorial began April 26, 2020. Thanks for reading."),
                 

@@ -21,41 +21,84 @@ extension Tutorial {
             Chapter("Introduction", pages:
                 Page([.text("You're looking at a screen made with the Poet pattern. The code behind it emphasizes clarity, certainty, flexibility, and reusability.")]),
                 Page([.text("The process of writing Poet code is methodical but relatively quick. It follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”")]),
-                Page([.text("Poet has a rote structure but it frees you to write quickly and confidently, without the fear that your code will get tangled up over time.")]),
-                Page([.text("It achieves this through the effective decoupling of business state, display state, and view logic.")]),
+                Page([.text("Poet has a rote structure but it frees you to write with confidence, without fearing that your code will get tangled up over time."),
+                      .text("It achieves this through the effective decoupling of business state, display state, and view logic.")]),
                 Page([.text("We'll learn about the pattern and its benefits by thinking about how some different screens were made. But first, why is it called Poet?")])
             ),
             
             Chapter("Why Poet?", pages:
                 Page([.text("Poet is an acronym that stands for Protocol-Oriented Evaluator/Translator. The evaluator and translator are a pair that work together.")]),
                 Page([.text("You can think of the evaluator and translator as two different layers in the pattern, or as two different phases of reasoning that the programmer will undertake.")]),
-                Page([.text("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”")]),
-                Page([.text("The translator interprets the intent of the evaluator and turns it into observable and passable “display state.”")]),
-                Page([.text("And the view layer — a screen made up of SwiftUI View structs — is the part that observes or is passed the translator's display state.")]),
-                Page([.text("A given user flow requires participation from all three layers — evaluator, translator, and view. Sometimes we need to be deliberate about each layer and spell out their work step by step.")]),
-                Page([.text("Other times, we already know what each layer should do, and protocol-oriented programming can bridge them all with default protocol implementations.")]),
+                Page([.text("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”"),
+                      .text("The translator interprets the intent of the evaluator and turns it into observable and passable “display state.”"),
+                      .text("And the view layer — a screen made up of SwiftUI View structs — is the part that observes or is passed the translator's display state.")]),
+                Page([.text("A given user flow requires participation from all three layers — evaluator, translator, and view. Sometimes we need to be deliberate about each layer and spell out their work step by step."),
+                      .text("Other times, we already know what each layer should do, and protocol-oriented programming can bridge them all with default protocol implementations.")]),
                 Page([.text("There's one more feature of the Poet pattern that's pretty fundamental: “steps.” The evaluator's business state is always encapsulated in a single step, a distinct unit of state. We'll talk a lot more about that soon.")]),
                 Page([.text("That's enough of a high-level overview. We'll jump into the pattern by looking at a basic template.")])
                 ),
             
             Chapter("Template", pages:
-                Page([.text("If you tap “Show Template,” you'll see a screen that does almost nothing: it just shows some text set by an evaluator. Let's establish the basic pattern by looking at the code for each layer.")], action: .showTemplate),
+                Page([.text("If you tap the button that says “Show Template,” you'll see a screen that does almost nothing: it just shows a title and a body of text. We could accomplish this without any pattern at all, just a view. But we'll prepare ourselves to understand more complex screens by using an evaluator and translator here, too.")], action: .showTemplate),
                     
-                Page([.text("On such a simple screen, the evaluator only has one job: put some text on screen when the view appears."),
-                      .text("The evaluator hears about the view's appearance by conforming to a simple protocol, ViewCycleEvaluating:"),
+                Page([.text("Our goal is to show a title and some body text, so our evaluator only has one job: define some business state that contains our title and body."),
+                      .text("The evaluator won't do anything without being nudged by the view layer. It begins with an empty “initial” state and then responds to prompts from the view layer by creating and holding onto new state. At a high level, that's all an evaluator will ever do."),
+                ], action: .showTemplate),
+                
+                Page([.text("The state of an evaluator always resides within a type called a Step. All the possible state for the Template evaluator is contained within two steps:"),
                       .code(
-                        """
-                        protocol ViewCycleEvaluating {
-                            func viewDidAppear()
-                        }
-                        """)
+                      """
+                      enum Step: EvaluatorStep {
+                          case initial
+                          case text(TextStepConfiguration)
+                      }
+                      """),
+                      .text("You'll notice that the .initial step has no associated values, whereas the .text step knows about a configuration particular to it."),
                 ], action: .showTemplate,
                    supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
                     .code(
                    templateEvaluator()
                 )])),
                 
-                Page([.text("SwiftUI gives us an onAppear method for our views, so we'll use that to call the evaluator's viewDidAppear() method from the view layer:"),
+                // We will assign our current step like this:
+                
+                Page([.text("The TextStepConfiguration exists to contain the values we care about, our title and body. And that's all it contains:"),
+                      .code(
+                      """
+                      struct TextStepConfiguration {
+                          var title: String
+                          var body: String
+                      }
+                      """),
+                      .text("As long as our current step is .initial, these values don't exist. It's only when we create our .text step that we set the values for its configuration."),
+                ], action: .showTemplate,
+                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
+                    .code(
+                   templateEvaluator()
+                )])),
+                
+                Page([.text("The evaluator has promised to notice the moment our view comes on screen by conforming to a simple protocol, ViewCycleEvaluating:"),
+                      .code(
+                        """
+                        protocol ViewCycleEvaluating {
+                            func viewDidAppear()
+                        }
+                        """),
+                      .text("That's when we'll ask to show the .text step:"),
+                      .code(
+                        """
+                        func viewDidAppear() {
+                            showTextStep()
+                        }
+                        """
+                        ),
+                ], action: .showTemplate,
+                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
+                    .code(
+                   templateEvaluator()
+                )])),
+                
+                Page([.text("SwiftUI gives us an onAppear method for our views, so we'll use that to talk to the evaluator from the view layer, calling the evaluator's viewDidAppear method:"),
                       .code(
                         """
                         .onAppear {
@@ -63,19 +106,6 @@ extension Tutorial {
                         }
                         """
                     )
-                ], action: .showTemplate,
-                   supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
-                    .code(
-                   templateEvaluator()
-                )])),
-                    
-                Page([.text("On such a basic screen, the evaluator only has one job: put some text on screen when the view appears."),
-                      .text("So the evaluator only has two steps:"),
-                      .code(
-                      """
-                      case initial
-                      case text(TextStepConfiguration)
-                      """),
                 ], action: .showTemplate,
                    supplement: Supplement(shortTitle: "Evaluator", fullTitle: "Template-Evaluator.swift", body: [
                     .code(
@@ -111,10 +141,9 @@ extension Tutorial {
                 )])),
                 
                 Page([.text("The translator then sets an observable title and body:"),
-                .extraSmallCode(
+                .smallCode(
                     """
-                    func translateTextStep(
-                      _ configuration:
+                    func translateTextStep(_ configuration:
                       Evaluator.TextStepConfiguration) {
                         title.string = configuration.title
                         body.string = configuration.body
@@ -171,7 +200,7 @@ extension Tutorial {
                 
                 Page([
                     .text("And the view layer observes the title and body:"),
-                    .extraSmallCode(
+                    .smallCode(
                         """
                         VStack {
                           ObservingTextView(translator.title)
