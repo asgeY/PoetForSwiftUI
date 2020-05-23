@@ -95,7 +95,7 @@ extension Tutorial {
                                 RoundedRectangle(cornerRadius: 12)
                                 .fill(
                                     self.touchingDownOnBox ?
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.01), Color.primary.opacity(0.015)]), startPoint: .top, endPoint: .bottom) :
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.0125), Color.primary.opacity(0.02)]), startPoint: .top, endPoint: .bottom) :
                                         LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.0035), Color.primary.opacity(0.005)]), startPoint: .top, endPoint: .bottom)
                                 )
                             )
@@ -254,41 +254,40 @@ extension Tutorial {
                 VStack(alignment: .trailing) {
                     HStack {
                         Spacer()
-                        Hideable(isShowing: self.translator.shouldShowExtraButton, transition: AnyTransition.opacity.combined(with: AnyTransition.offset(x: 20, y: 0))) {
-                            Button(action: {
-                                self.showingSupplement.toggle()
-                            }) {
-                                HStack {
-                                    ObservingTextView(self.translator.supplementTitle)
-                                        .font(Font.subheadline)
-                                        .fixedSize(horizontal: true, vertical: false)
-                                        .frame(height:40)
-                                    
-                                    
-                                    Image(systemName: "text.bubble")
-                                        .font(Font.system(size: 20, weight: .medium))
-                                        .padding(30)
-                                        .zIndex(4)
-                                        .transition(.scale)
-                                        .frame(width: 40, height: 40)
-                                }
-                                }.zIndex(4)
-                            .sheet(isPresented: self.$showingSupplement) {
-                                VStack {
-                                    SupplementaryTextBodyView(title: self.translator.supplementTitle, bodyElements: self.translator.supplementBody)
-                                }
-                            }
-                            
+                        FileOfInterestButton(
+                            title: self.translator.fileOfInterestName,
+                            isShowing: self.translator.shouldShowFileOfInterestButton,
+                            transition: AnyTransition.opacity.combined(with: AnyTransition.offset(x: 20, y: 0)),
+                            evaluator: evaluator,
+                            action: ButtonAction.showFileOfInterest)
+                        
+                        Hideable(isShowing: self.translator.shouldShowFileOfInterestButton, transition: .opacity) {
+                            Divider()
                         }
-                        .frame(height: 40)
-                        .padding(.trailing, 24)
-                        .foregroundColor(.primary)
+                        
+                        FileTrayButton(
+                            isShowing: self.translator.shouldShowFilesButton,
+                            transition: .opacity,
+                            evaluator: evaluator,
+                            action: ButtonAction.showChapterFiles)
                     }
+                    .frame(height: 40)
                     Spacer()
                 }
                 .padding(.top, 14)
                 
                 Group {
+                    
+                    // MARK: Files
+                    PresenterWithPassedValue(self.translator.showChapterFileMenu) { fileTitlesAndBodies in
+                        FileMenuView(title: "Files", fileTitlesAndBodies: fileTitlesAndBodies)
+                    }
+                    
+                    // MARK: File of Interest
+                    PresenterWithString(self.translator.showFile) { text in
+                        SupplementaryCodeView(code: text)
+                    }
+                    
                     // MARK: Something Screen
                     Presenter(self.translator.showSomething) {
                         Text("Something")

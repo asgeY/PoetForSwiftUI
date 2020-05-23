@@ -27,7 +27,7 @@ extension Tutorial {
             ),
             
             Chapter("Why Poet?", pages:
-                Page([.text("Poet is an acronym that stands for Protocol-Oriented Evaluator/Translator. The evaluator and translator are a pair that work together.")]),
+                Page([.text("Poet is an acronym that stands for Passing/Observing Evaluator/Translator. The evaluator and translator are a pair that work together.")]),
                 Page([.text("You can think of the evaluator and translator as two different layers in the pattern, or as two different phases of reasoning that the programmer will undertake.")]),
                 Page([.text("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”"),
                       .text("The translator interprets the business state of the evaluator and turns it into observable “display state.”"),
@@ -38,7 +38,16 @@ extension Tutorial {
                 Page([.text("That's enough of a high-level overview. We'll jump into the pattern by looking at a basic template.")])
                 ),
             
-            Chapter("Template", pages:
+            Chapter("Template",
+                    files: [
+                        "Template-Evaluator",
+                        "Template-Translator",
+                        "Template-Screen",
+                        "ObservableString",
+                        "ObservingTextView",
+                        "PassableStep",
+                ],
+                    pages:
                 Page([.text("If you tap the button that says “Show Template,” you'll see a screen that does almost nothing: it just shows a title and a body of text. We could accomplish this without any pattern at all, just a view. But we'll prepare ourselves to understand more complex screens by using an evaluator and translator here, too.")
                     ],
                      action: .showTemplate
@@ -60,6 +69,7 @@ extension Tutorial {
                       """),
                       .text("You'll notice that the .initial step has no associated values, whereas the .text step knows about a configuration particular to it."),
                     ],
+                     action: .showTemplate,
                      file: "Template-Evaluator"
                 ),
                 
@@ -73,6 +83,7 @@ extension Tutorial {
                       """),
                       .text("As long as our current step is .initial, we don't care about these values. It's only when we create our .text step that we set the values for its configuration."),
                     ],
+                     action: .showTemplate,
                      file: "Template-Evaluator"
                 ),
                 
@@ -92,6 +103,7 @@ extension Tutorial {
                         """
                         ),
                     ],
+                     action: .showTemplate,
                      file: "Template-Evaluator"
                 ),
                 
@@ -108,6 +120,7 @@ extension Tutorial {
                         }
                         """)
                     ],
+                     action: .showTemplate,
                      file: "Template-Evaluator"
                 ),
                 
@@ -120,24 +133,27 @@ extension Tutorial {
                         }
                         """)
                     ],
+                     action: .showTemplate,
                      file: "Template-Screen"
                ),
                 
                 Page(
-                    [.text("Back to that assignment. This syntax was a little unexpected:"),
+                    [.text("Back to that assignment in the evaluator. This syntax might have been a little unexpected:"),
                      .code("current.step = .text(configuration)"),
                      .text("It works because the evaluator wraps its step inside a special type, PassableStep:"),
                      .code("var current = PassableStep(Step.initial)"),
                      .text("The Combine framework makes it fairly easy to publish and listen to values, but PassableStep offers a helpful wrapper around that functionality."),
                     ],
-                    file: "PassableStep"
+                    action: .showTemplate,
+                    file: "Template-Evaluator"
                 ),
                 
                 Page(
                     [.text("Whenever it's time to assign a new current step, we don't replace the entire PassableStep object, which we've named “current.” Instead, we assign to the value it contains:"),
                      .code("current.step = ..."),
                      .text("That way, our wrapper persists and publishes its new value.")
-                    ]
+                    ],
+                    action: .showTemplate
                 ),
                 
                 Page(
@@ -151,6 +167,7 @@ extension Tutorial {
                         }
                         """),
                     ],
+                    action: .showTemplate,
                     file: "PassableStep"
                 ),
                 
@@ -171,12 +188,14 @@ extension Tutorial {
                         }
                         """),
                     ],
+                     action: .showTemplate,
                      file: "Template-Translator"
                 ),
                 
                 Page([
                     .text("You'll notice that the evaluator doesn't say anything to the translator directly. The translator just hears about the changes because of its sink.")
-                    ]
+                    ],
+                     action: .showTemplate
                 ),
                 
                 Page([
@@ -187,6 +206,7 @@ extension Tutorial {
                         """),
                     .text("In later examples, you'll see the evaluator talk to the translator imperatively using that property. But in illustrating the basic flow here, we need never access it.")
                     ],
+                     action: .showTemplate,
                      file: "Template-Evaluator"
                 ),
                 
@@ -204,13 +224,15 @@ extension Tutorial {
                         }
                         """),
                     ],
+                     action: .showTemplate,
                      file: "Template-Translator"
                 ),
                 
                 Page([
                     .text("And now we face the work of creating display state. It turns out that's just a matter of assigning basic value types like strings, integers, bools, and arrays. Occasionally, we also choose an animation."),
                     .text("Our view layer will observe these values and respond according to its own logic.")
-                    ]
+                    ],
+                     action: .showTemplate
                 ),
                 
                 Page([
@@ -222,7 +244,8 @@ extension Tutorial {
                         """
                     ),
                     .text("The title and body aren't simple strings. They are a special wrapping type called ObservableString."),
-                    ]
+                    ],
+                     action: .showTemplate
                 ),
                 
                 Page([
@@ -234,6 +257,7 @@ extension Tutorial {
                     ),
                     .text("Because our translator holds onto two ObservableStrings, our view layer will be able to respond whenever their wrapped values change."),
                     ],
+                     action: .showTemplate,
                      file: "ObservableString"
                 ),
                 
@@ -250,6 +274,7 @@ extension Tutorial {
                     ),
                     .text("We're just mapping our step's configuration values to observable values."),
                     ],
+                     action: .showTemplate,
                      file: "Template-Translator"
                 ),
                 
@@ -263,6 +288,7 @@ extension Tutorial {
                         }
                         """),
                     ],
+                     action: .showTemplate,
                      file: "Template-Screen"
                 ),
                 
@@ -277,12 +303,14 @@ extension Tutorial {
                         }
                         """)
                     ],
+                     action: .showTemplate,
                      file: "ObservingTextView"
                 ),
                 
                 Page([
                     .text("A view like ObservingTextView contains view logic — the rules for how it should respond to changes in display state. It's aware of a general observable type (in this case ObservableString), but it's unaware of any particular business purpose. Our layers are fully decoupled, which makes this view (and any other) reusable throughout the app for different purposes."),
-                    ]
+                    ],
+                     action: .showTemplate
                 ),
                 
                 Page([

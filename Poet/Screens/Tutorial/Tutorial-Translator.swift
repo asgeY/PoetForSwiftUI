@@ -24,11 +24,10 @@ extension Tutorial {
         var pageXofX = ObservableString()
         var imageName = ObservableString()
         var buttonName = ObservableString()
-        var supplementTitle = ObservableString()
+        var fileOfInterestName = ObservableString()
         
         // Arrays
         var body = ObservableArray<Evaluator.Page.Body>([])
-        var supplementBody = ObservableArray<Evaluator.Page.Body>([])
         var selectableChapterTitles = ObservableArray<NumberedNamedEvaluatorAction>([])
         
         // Bools
@@ -47,9 +46,13 @@ extension Tutorial {
         var shouldShowTableOfContentsButton = ObservableBool()
         var shouldShowTableOfContents = ObservableBool()
         var shouldShowAboutButton = ObservableBool()
-        var shouldShowExtraButton = ObservableBool()
+        var shouldShowFilesButton = ObservableBool()
+        var shouldShowFileOfInterestButton = ObservableBool()
         
         // Passable
+        var showChapterFileMenu = Passable<[Evaluator.FileTitleAndBody]>()
+        var showFile = PassableString()
+        var showSupplement = PassablePlease()
         var showSomething = PassablePlease()
         var showTemplate = PassablePlease()
         var showHelloWorld = PassablePlease()
@@ -110,7 +113,8 @@ extension Tutorial.Translator {
         shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
         shouldShowAboutButton.bool = false
-        shouldShowExtraButton.bool = false
+        shouldShowFilesButton.bool = false
+        shouldShowFileOfInterestButton.bool = false
         shouldShowPageCount.bool = false
     }
     
@@ -131,7 +135,8 @@ extension Tutorial.Translator {
         shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
         shouldShowAboutButton.bool = false
-        shouldShowExtraButton.bool = false
+        shouldShowFilesButton.bool = false
+        shouldShowFileOfInterestButton.bool = false
         shouldShowPageCount.bool = false
         
         chapterNumber.int = configuration.chapterNumber
@@ -177,17 +182,14 @@ extension Tutorial.Translator {
             }
         }
         
-        // Supplementary Reading button
+        // Files
+        if let fileOfInterest = configuration.fileOfInterest {
+            fileOfInterestName.string = fileOfInterest.title + ".swift"
+        }
+
         withAnimation(.linear(duration: 0.2)) {
-            self.shouldShowExtraButton.bool = configuration.fileText != nil
-        }
-        
-        if let fileName = configuration.fileName {
-            supplementTitle.string = fileName + ".swift"
-        }
-        
-        if let fileText = configuration.fileText {
-            supplementBody.array = [.code(fileText)]
+            self.shouldShowFilesButton.bool = configuration.chapterFileTitlesAndBodies.notEmpty
+            self.shouldShowFileOfInterestButton.bool = configuration.fileOfInterest != nil
         }
         
         // Other values
@@ -219,7 +221,8 @@ extension Tutorial.Translator {
             shouldShowTableOfContentsButton.bool = false
             shouldShowTableOfContents.bool = false
             shouldShowAboutButton.bool = false
-            shouldShowExtraButton.bool = false
+            shouldShowFilesButton.bool = false
+            shouldShowFileOfInterestButton.bool = false
             shouldShowPageCount.bool = false
         }
     }

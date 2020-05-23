@@ -15,4 +15,8 @@ class PassableString {
             subject.send(newValue)
         }
     }
+    
+    func withString(_ string: String) {
+        self.string = string
+    }
 }

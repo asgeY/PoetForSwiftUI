@@ -22,6 +22,9 @@ extension Tutorial {
             case pageForward
             case pageBackward
             case showChapter(chapterIndex: Int, pageData: [Chapter])
+            case showChapterFiles
+            case showFileOfInterest
+            case showFile(String)
             case showSomething
             case showAlert
             case showAnotherAlert
@@ -54,10 +57,12 @@ extension Tutorial {
         
         struct Chapter {
             let title: String
+            let files: [String]
             let pages: [Page]
             
-            init(_ title: String, pages: Page...) {
+            init(_ title: String, files: [String] = [], pages: Page...) {
                 self.title = title
+                self.files = files
                 self.pages = pages
             }
         }
@@ -103,6 +108,28 @@ extension Tutorial {
             }
         }
         
+        struct FileTitleAndBody {
+            let title: String
+            let body: String
+            let id: UUID = UUID()
+            
+            static func fromFileName(_ fileName: String?) -> FileTitleAndBody? {
+                if let fileName = fileName {
+                    if let filepath = Bundle.main.path(forResource: fileName, ofType: "txt") {
+                        do {
+                            let contents = try String(contentsOfFile: filepath)
+                            return FileTitleAndBody(title: fileName, body: contents)
+                        } catch {
+                            debugPrint("file error: \(error)")
+                        }
+                    } else {
+                        debugPrint("no file of name: \(fileName) and type: txt")
+                    }
+                }
+                return nil
+            }
+        }
+        
         let pageStore = PageStore.shared
     }
 }
@@ -141,28 +168,23 @@ extension Tutorial.Evaluator {
         // Computed
         var title: String { return pageData[chapterIndex].title }
         var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
-        var fileName: String? { return pageData[chapterIndex].pages[pageIndex].file }
-        var fileText: String? {
-            if let fileName = fileName {
-                if let filepath = Bundle.main.path(forResource: fileName, ofType: "txt") {
-                    do {
-                        let contents = try String(contentsOfFile: filepath)
-                        return contents
-                    } catch {
-                        debugPrint("file error: \(error)")
-                    }
-                } else {
-                    debugPrint("no file of name: \(fileName) and type: txt")
-                }
-            }
-            return nil
-        }
         var chapterNumber: Int { return chapterIndex + 1 }
         var pageNumber: Int { return pageIndex + 1 }
         var pageCountWithinChapter: Int { return pageData[chapterIndex].pages.count }
         var chapterCount: Int { return pageData.count }
         var buttonAction: ButtonAction? { return pageData[chapterIndex].pages[pageIndex].action }
         var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
+        
+        // Files
+        var chapterFileTitlesAndBodies: [FileTitleAndBody] {
+            return pageData[chapterIndex].files.compactMap { fileName in
+                return FileTitleAndBody.fromFileName(fileName)
+            }
+        }
+        
+        var fileOfInterest: FileTitleAndBody? {
+            return FileTitleAndBody.fromFileName(pageData[chapterIndex].pages[pageIndex].file)
+        }
         
         // Helper methods
         func selectableChapterTitles(for pageData: [Chapter]) -> [NumberedNamedEvaluatorAction] {
@@ -231,6 +253,15 @@ extension Tutorial.Evaluator: ButtonEvaluating {
                 forChapterIndex: chapterIndex,
                 pageIndex: 0,
                 pageData: pageData)
+            
+        case .showChapterFiles:
+            showChapterFiles()
+            
+        case .showFileOfInterest:
+            showFileOfInterest()
+            
+        case .showFile(let text):
+            showFile(text)
             
         case .showSomething:
             translator.showSomething.please()
@@ -350,7 +381,6 @@ extension Tutorial.Evaluator {
         // Must be in Page step
         guard case let .page(configuration) = current.step else { return }
         
-        
         let (chapter, page): (Int, Int) = {
             if configuration.pageIndex > 0 {
                 return (configuration.chapterIndex, configuration.pageIndex - 1)
@@ -366,5 +396,23 @@ extension Tutorial.Evaluator {
         }()
         
         showPageStep(forChapterIndex: chapter, pageIndex: page, pageData: configuration.pageData)
+    }
+    
+    func showChapterFiles() {
+        guard case let .page(configuration) = current.step else { return }
+        
+        translator.showChapterFileMenu.withValue(configuration.chapterFileTitlesAndBodies)
+    }
+    
+    func showFileOfInterest() {
+        guard case let .page(configuration) = current.step else { return }
+        
+        if let fileOfInterest = configuration.fileOfInterest {
+            translator.showFile.withString(fileOfInterest.body)
+        }
+    }
+    
+    func showFile(_ text: String) {
+        translator.showFile.withString(text)
     }
 }
