@@ -27,9 +27,9 @@ static let shared = AboutDataStore()
             
             .image("poet-intro-small"),
             
-            .text("It began before SwiftUI (and shared some convergent concepts around diffable data sources), but there was a lot more plumbing involved. Now, it's smaller and easier to follow."),
+            .text("It began before SwiftUI but shared some convergent concepts, like declarative table views (and even collection views) based on diffable data sources. Back then there was a lot more plumbing involved, though. Now, it's smaller and easier to follow, and SwiftUI has opened up ground for some intuitive new techniques within the pattern."),
             
-            .text("The first work on Poet started with some early encouragement from colleagues Dave Camp, Zach Heusinkveld, Ranjith Ramachandran, and Pete Salvo. Since then it has benefited from the feedback of many talented developers, including Steve Milano, Kevin Thornton, Josh Kneedler, Sam Lobue, Tanya Ganley, Eric Sheppard, and Jason Furgison."),
+            .text("Poet started with some early encouragement from colleagues Dave Camp, Zach Heusinkveld, Ranjith Ramachandran, and Pete Salvo. Since then it has benefited from the feedback of many talented developers, including Steve Milano, Kevin Thornton, Josh Kneedler, Sam Lobue, Tanya Ganley, Eric Sheppard, and Jason Furgison."),
             
             .text("The writing and development of this tutorial began April 26, 2020. Thanks for reading."),
                 

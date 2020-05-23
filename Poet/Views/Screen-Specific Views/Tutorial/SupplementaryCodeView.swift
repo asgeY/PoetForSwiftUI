@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SupplementaryCodeView: View {
     let code: String
-    let textColor = Color(UIColor(red: 244/255.0, green: 244/255.0, blue: 246/255.0, alpha: 1))
+    let textColor = Color(UIColor(red: 244/255.0, green: 244/255.0, blue: 245/255.0, alpha: 1))
     let backgroundColor = Color(UIColor(red: 31/255.0, green: 32/255.0, blue: 38/255.0, alpha: 1))
     let barColor = Color(UIColor(red: 37/255.0, green: 40/255.0, blue: 47/255.0, alpha: 0.98))
     
