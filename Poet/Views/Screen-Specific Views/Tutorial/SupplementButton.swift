@@ -22,14 +22,14 @@ struct FileOfInterestButton: View {
             }) {
                 HStack {
                     ObservingTextView(self.title)
-                        .font(Font.subheadline)
+                        .font(Font.system(size: 13, weight: .medium))
                         .fixedSize(horizontal: true, vertical: false)
                         .frame(height:40)
                     
                     
                     Image(systemName: "doc.plaintext")
                         .font(Font.system(size: 20, weight: .medium))
-                        .padding(20)
+                        .padding(EdgeInsets(top: 20, leading: 14, bottom: 20, trailing: 20))
                         .zIndex(4)
                         .transition(.scale)
                         .frame(width: 40, height: 40)

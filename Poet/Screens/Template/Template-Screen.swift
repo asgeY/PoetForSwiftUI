@@ -41,7 +41,7 @@ extension Template {
                 }
                 
                 VStack {
-                    DismissButton()
+                    DismissButton(orientation: .right)
                     Spacer()
                 }
             }.onAppear {

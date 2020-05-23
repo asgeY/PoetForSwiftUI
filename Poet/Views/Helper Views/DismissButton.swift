@@ -10,15 +10,25 @@ import SwiftUI
 
 struct DismissButton: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    let orientation: Orientation
     let foregroundColor: Color?
+
+    enum Orientation {
+        case left
+        case right
+        case none
+    }
     
-    init(foregroundColor: Color? = nil) {
+    init(orientation: Orientation, foregroundColor: Color? = nil) {
+        self.orientation = orientation
         self.foregroundColor = foregroundColor
     }
     
     var body: some View {
         HStack {
-            Spacer()
+            if orientation == .right {
+                Spacer()
+            }
             Button(
                 action: {
                     self.presentationMode.wrappedValue.dismiss()
@@ -29,6 +39,10 @@ struct DismissButton: View {
                     .padding(EdgeInsets(top: 26, leading: 24, bottom: 24, trailing: 24))
                     .font(Font.system(size: 18, weight: .medium))
             }
+            if orientation == .left {
+                Spacer()
+            }
         }
     }
+    
 }

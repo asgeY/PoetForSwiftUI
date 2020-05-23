@@ -295,7 +295,7 @@ extension Tutorial.Evaluator: ButtonEvaluating {
             
         case .showBezel:
             let emojis = ["🐥", "🦈", "🐄", "🐟", "🐙", "🦕", "🦉", "🐯", "🐢", "🐘", "🦔", "🐆", "🐛", "🐌", "🐞", "🐴", "👨🏻‍💻"]
-            translator.showBezel(character: emojis.randomElement() ?? "")
+            translator.showBezel(text: emojis.randomElement() ?? "", textSize: .big)
         }
     }
 }

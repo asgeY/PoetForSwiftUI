@@ -18,7 +18,7 @@ struct TableOfContentsView: View {
     var body: some View {
         ZStack {
             VStack {
-                DismissButton()
+                DismissButton(orientation: .right)
                     .zIndex(2)
                 Spacer()
             }.zIndex(2)

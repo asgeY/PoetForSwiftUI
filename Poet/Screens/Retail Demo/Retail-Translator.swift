@@ -11,7 +11,7 @@ import SwiftUI
 
 extension Retail {
 
-    class Translator: AlertTranslating, CharacterBezelTranslating, DismissTranslating {
+    class Translator: AlertTranslating, BezelTranslating, DismissTranslating {
         
         typealias Evaluator = Retail.Evaluator
         weak var evaluator: Evaluator?
@@ -63,7 +63,7 @@ extension Retail {
         
         // Composed Translating
         var alertTranslator = AlertTranslator()
-        var characterBezelTranslator = CharacterBezelTranslator()
+        var bezelTranslator = BezelTranslator()
         var dismissTranslator = DismissTranslator()
         
         // Passthrough Behavior

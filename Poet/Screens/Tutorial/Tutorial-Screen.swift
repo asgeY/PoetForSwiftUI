@@ -247,9 +247,9 @@ extension Tutorial {
                         .layoutPriority(2)
                     }
                     Spacer()
-                }.padding(EdgeInsets.init(top: 10, leading: 20, bottom: 16, trailing: 24))
+                }.padding(EdgeInsets(top: 14, leading: (Device.current == .small ? 16 : 20), bottom: 16, trailing: 24))
                 
-                // MARK: Supplement Button
+                // MARK: File Buttons
                 
                 VStack(alignment: .trailing) {
                     HStack {
@@ -312,7 +312,7 @@ extension Tutorial {
                     AlertView(translator: translator)
                     
                     // MARK: Character Bezel
-                    CharacterBezelView(translator: translator)
+                    BezelView(translator: translator)
                 }
             }
             .background(

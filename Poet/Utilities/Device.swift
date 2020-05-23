@@ -17,17 +17,17 @@ enum Device {
         let bounds = UIScreen.main.bounds
         let width = min(bounds.width, bounds.height)
         
-        // SE is 320 (small). iPhone 7, 8, X, and Xs are 375 (medium)
-        if width < 375 {
+        // iPhone SE, 7, 8, and X are 375 (small).
+        if width < 376 {
             return .small
         }
         
-        // iPhone 7 Plus, 8 Plus, Xs Max, XR are 414 (medium). Smallest iPad size begins at 768 (big)
+        // iPhone 7 Plus, 8 Plus, Xs Max, XR are 414 (medium).
         else if width < 600 {
             return .medium
         }
         
-        // iPad begins at 768
+        // Smallest iPad begins at 768. We'll cover anything from 600 up.
         else {
             return .big
         }

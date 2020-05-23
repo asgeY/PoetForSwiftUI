@@ -37,7 +37,7 @@
 		875562CB244C253500DB49C4 /* PoetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562CA244C253500DB49C4 /* PoetTests.swift */; };
 		875562ED244D144600DB49C4 /* ObservableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562EC244D144600DB49C4 /* ObservableString.swift */; };
 		875562F5244D5FDB00DB49C4 /* PassableInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875562F4244D5FDB00DB49C4 /* PassableInt.swift */; };
-		878B3A472453472300ACADE4 /* CharacterBezelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A462453472300ACADE4 /* CharacterBezelView.swift */; };
+		878B3A472453472300ACADE4 /* BezelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A462453472300ACADE4 /* BezelView.swift */; };
 		878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */; };
 		878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */; };
 		878B3A4F245378CF00ACADE4 /* AlertTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A4E245378CF00ACADE4 /* AlertTranslating.swift */; };
@@ -154,7 +154,7 @@
 		875562CC244C253500DB49C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		875562EC244D144600DB49C4 /* ObservableString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableString.swift; sourceTree = "<group>"; };
 		875562F4244D5FDB00DB49C4 /* PassableInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassableInt.swift; sourceTree = "<group>"; };
-		878B3A462453472300ACADE4 /* CharacterBezelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezelView.swift; sourceTree = "<group>"; };
+		878B3A462453472300ACADE4 /* BezelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezelView.swift; sourceTree = "<group>"; };
 		878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCycleEvaluating.swift; sourceTree = "<group>"; };
 		878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservingTextView.swift; sourceTree = "<group>"; };
 		878B3A4E245378CF00ACADE4 /* AlertTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertTranslating.swift; sourceTree = "<group>"; };
@@ -524,7 +524,7 @@
 			children = (
 				878B3A50245378E300ACADE4 /* AlertView.swift */,
 				DC4C6C752476D3B60014A34C /* BackButton.swift */,
-				878B3A462453472300ACADE4 /* CharacterBezelView.swift */,
+				878B3A462453472300ACADE4 /* BezelView.swift */,
 				DC4C6C772476D3DA0014A34C /* DismissButton.swift */,
 				DC4C6C572476C8590014A34C /* DismissReceiver.swift */,
 			);
@@ -731,7 +731,7 @@
 				DC4C6C6F2476D14D0014A34C /* TutorialBodyView.swift in Sources */,
 				DC4C6C4C2476C5A40014A34C /* DisplayableProductsView.swift in Sources */,
 				DC4C1120245DFF21009BC14D /* Tutorial-Translator.swift in Sources */,
-				878B3A472453472300ACADE4 /* CharacterBezelView.swift in Sources */,
+				878B3A472453472300ACADE4 /* BezelView.swift in Sources */,
 				878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */,
 				3BF6693224781AD100AE055C /* PassableDouble.swift in Sources */,
 				3BF6692C24781A7100AE055C /* PassablePlease.swift in Sources */,
@@ -919,7 +919,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.nkmchne.Poet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.Poet;
 				PRODUCT_NAME = Poet;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -939,7 +939,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.nkmchne.Poet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.Poet;
 				PRODUCT_NAME = Poet;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

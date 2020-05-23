@@ -1,5 +1,5 @@
 //
-//  CharacterBezel.swift
+//  BezelView.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/24/20.
@@ -9,27 +9,42 @@
 import Combine
 import SwiftUI
 
-struct CharacterBezelView: View {
+struct BezelView: View {
     
     @State private var character: String = ""
     @State private var opacity: Double = 0
     
-    private var passableCharacter: PassableString
+    // Observed
+    @ObservedObject var textSize: Observable<TextSize>
     
-    init(translator: CharacterBezelTranslating) {
-        self.passableCharacter = translator.characterBezelTranslator.character
+    // Passed
+    private var passableText: PassableString
+    
+    init(translator: BezelTranslating) {
+        self.passableText = translator.bezelTranslator.text
+        self.textSize = translator.bezelTranslator.textSize
+    }
+    
+    init(passableCharacter: PassableString, textSize: Observable<TextSize>) {
+        self.passableText = passableCharacter
+        self.textSize = textSize
+    }
+    
+    enum TextSize: CGFloat {
+        case small = 20
+        case medium = 32
+        case big = 128
     }
     
     enum Layout {
         static var fullOpacity = 1.0
         static var zeroOpacity = 0.0
         static var fadeInDuration = 0.125
-        static var fadeOutWaitInMilliseconds = Int(fadeInDuration * 1000.0) + 500
-        static var fadeOutDuration = 0.7
+        static var fadeOutWaitInMilliseconds = Int(fadeInDuration * 1000.0) + 700
+        static var fadeOutDuration = 0.75
         
         static var verticalPadding: CGFloat = 30
         static var horizontalPadding: CGFloat = 38
-        static var characterFontSize: CGFloat = 128
         static var bezelCornerRadius: CGFloat = 10
         static var bezelBlurRadius: CGFloat = 12
     }
@@ -37,13 +52,18 @@ struct CharacterBezelView: View {
     var body: some View {
         VStack {
             VStack {
+                
+                // Note: this will only display text on a single line unless the text contains line breaks
+                
                 Text(character)
-                    .font(Font.system(size: Layout.characterFontSize))
+                    .font(Font.system(size: textSize.value.rawValue))
                     .padding(EdgeInsets(
                         top: Layout.verticalPadding,
                         leading: Layout.horizontalPadding,
                         bottom: Layout.verticalPadding,
                         trailing: Layout.horizontalPadding))
+                    .frame(minWidth: .zero, maxWidth: 340, minHeight: .zero, maxHeight: 340)
+                    .fixedSize(horizontal: true, vertical: true)
             }
             .background(
                 ZStack {
@@ -63,7 +83,7 @@ struct CharacterBezelView: View {
             )
         }
         .opacity(opacity)
-            .onReceive(passableCharacter.subject) { (newValue) in
+            .onReceive(passableText.subject) { (newValue) in
                 if let newValue = newValue {
                     self.character = newValue
                     withAnimation(.linear(duration: Layout.fadeInDuration)) {
@@ -80,13 +100,13 @@ struct CharacterBezelView: View {
     }
 }
 
-struct CharacterBezelView_Previews: PreviewProvider {
-    class Translator: CharacterBezelTranslating {
-        var characterBezelTranslator = CharacterBezelTranslator()
+struct BezelView_Previews: PreviewProvider {
+    class Translator: BezelTranslating {
+        var bezelTranslator = BezelTranslator()
     }
     
     static var previews: some View {
-        CharacterBezelView(translator: Translator())
+        BezelView(translator: Translator())
     }
 }
 

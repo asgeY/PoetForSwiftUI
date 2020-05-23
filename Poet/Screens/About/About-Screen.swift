@@ -29,7 +29,7 @@ extension About {
             return GeometryReader() { geometry in
                 ZStack {
                     VStack {
-                        DismissButton()
+                        DismissButton(orientation: .right)
                             .zIndex(2)
                         Spacer()
                     }.zIndex(2)

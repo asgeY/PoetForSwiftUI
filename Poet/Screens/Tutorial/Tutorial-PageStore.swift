@@ -314,7 +314,12 @@ extension Tutorial {
                 ),
                 
                 Page([
-                    .text("And that's it. We've followed the whole round trip of the pattern, starting with the view's .onAppear method and passing through the evaluator, the translator, and then back to the view layer."),
+                    .text("And that's it. We've followed the whole round trip of the pattern, starting with the view's .onAppear method and passing through the evaluator, the translator, and then back to the view layer.")
+                    ],
+                     action: .showTemplate
+                ),
+                
+                Page([
                     .text("On a screen that only shows text, the three layers may seem excessive. But if you understand the flow here, you should be able to follow the flow of more complicated screens, too. Speaking of which, let's make things a tiny bit more complicated by adding a button to our Template.")
                     ],
                      action: .showTemplate
@@ -1276,30 +1281,30 @@ extension Tutorial {
                         import Combine
                         import SwiftUI
 
-                        protocol CharacterBezelTranslating {
-                            var characterBezelTranslator: CharacterBezelTranslator { get }
-                            func showBezel(character: String)
+                        protocol BezelTranslating {
+                            var bezelTranslator: BezelTranslator { get }
+                            func showBezel(text: String)
                         }
 
-                        extension CharacterBezelTranslating {
-                            func showBezel(character: String) {
-                                characterBezelTranslator.character.string = character
+                        extension BezelTranslating {
+                            func showBezel(text: String) {
+                                BezelTranslator.character.string = character
                             }
                         }
 
-                        struct CharacterBezelTranslator {
+                        struct BezelTranslator {
                             var character = PassableString()
                         }
 
-                        struct CharacterBezelView: View {
+                        struct BezelView: View {
                             
                             @State private var character: String = ""
                             @State private var opacity: Double = 0
                             
                             private var passableCharacter: PassableString
                             
-                            init(translator: CharacterBezelTranslating) {
-                                self.passableCharacter = translator.characterBezelTranslator.character
+                            init(translator: BezelTranslating) {
+                                self.passableCharacter = translator.bezelTranslator.character
                             }
                             
                             enum Layout {

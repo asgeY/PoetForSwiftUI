@@ -11,7 +11,7 @@ import SwiftUI
 
 extension Tutorial {
 
-    class Translator: AlertTranslating, CharacterBezelTranslating {
+    class Translator: AlertTranslating, BezelTranslating {
         
         typealias Evaluator = Tutorial.Evaluator
         
@@ -64,7 +64,7 @@ extension Tutorial {
         
         // Protocol-Oriented Translating
         var alertTranslator = AlertTranslator()
-        var characterBezelTranslator = CharacterBezelTranslator()
+        var bezelTranslator = BezelTranslator()
         
         // Passthrough Behavior
         var behavior: Behavior?

@@ -26,7 +26,7 @@ struct ChapterTitleView: View {
                     .font(FontSystem.title.monospacedDigit())
                     .padding(.top, 5)
             }
-            .offset(x: 0, y: self.isFocused.bool ? 0 : -((self.boxSize / 2.0) + 52))
+            .offset(x: 0, y: self.isFocused.bool ? 0 : -((self.boxSize / 2.0) + (Device.current == .small ? 32 : 52)))
         }
     }
 }

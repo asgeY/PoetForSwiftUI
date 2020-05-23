@@ -54,7 +54,7 @@ struct TutorialBodyView: View {
                         .font(FontSystem.code)
                         .lineSpacing(FontSystem.Spacing.code)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -35))
                         .opacity(self.isTouching ? 0.33 : 1)
                     Spacer().frame(height: bottomPadding)
                 }
@@ -67,7 +67,7 @@ struct TutorialBodyView: View {
                         .font(FontSystem.codeSmall)
                         .lineSpacing(FontSystem.Spacing.code)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -35))
                         .opacity(self.isTouching ? 0.33 : 1)
                     Spacer().frame(height: bottomPadding)
                 }
@@ -80,7 +80,7 @@ struct TutorialBodyView: View {
                         .font(FontSystem.codeExtraSmall)
                         .lineSpacing(FontSystem.Spacing.codeExtraSmall)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -40))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -35))
                         .opacity(self.isTouching ? 0.33 : 1)
                     Spacer().frame(height: bottomPadding)
                 }

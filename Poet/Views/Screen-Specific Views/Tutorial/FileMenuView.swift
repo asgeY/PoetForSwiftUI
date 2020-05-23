@@ -19,7 +19,7 @@ struct FileMenuView: View {
     var body: some View {
         ZStack {
             VStack {
-                DismissButton()
+                DismissButton(orientation: .right)
                     .zIndex(2)
                 Spacer()
             }.zIndex(2)
@@ -43,13 +43,14 @@ struct FileMenuView: View {
                             VStack(spacing: 0) {
                                 HStack {
                                     Image(systemName: "doc.plaintext")
-                                    Spacer().frame(width: 10)
+                                    Spacer().frame(width: 14)
                                     Text(fileTitleAndBody.title + ".swift")
+                                        .font(Font.system(size: 15, weight: .medium))
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                         .foregroundColor(Color.primary.opacity(0.3))
+                                        .font(.body)
                                 }
-                                .font(Font.body.monospacedDigit())
                                 .multilineTextAlignment(.leading)
                                 .foregroundColor(.primary)
                                 .padding(EdgeInsets(top: 12, leading: 0, bottom: 16, trailing: 30))

@@ -35,7 +35,7 @@ extension HelloWorld {
                     // MARK: Dismiss Button
                     
                     VStack {
-                        DismissButton()
+                        DismissButton(orientation: .right)
                             .zIndex(2)
                         Spacer()
                     }.zIndex(2)

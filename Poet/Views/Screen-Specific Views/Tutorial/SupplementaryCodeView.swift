@@ -13,11 +13,24 @@ struct SupplementaryCodeView: View {
     let textColor = Color(UIColor(red: 244/255.0, green: 244/255.0, blue: 245/255.0, alpha: 1))
     let backgroundColor = Color(UIColor(red: 31/255.0, green: 32/255.0, blue: 38/255.0, alpha: 1))
     let barColor = Color(UIColor(red: 37/255.0, green: 40/255.0, blue: 47/255.0, alpha: 0.98))
+    let showBezel = PassableString()
+    var bezelTextSize = Observable<BezelView.TextSize>(BezelView.TextSize.small)
     
     var body: some View {
         ZStack {
             VStack {
-                DismissButton(foregroundColor: textColor)
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        self.copy()
+                    }) {
+                        Image(systemName: "scissors")
+                            .padding(EdgeInsets(top: 14, leading: 20, bottom: 14, trailing: 20))
+                            .foregroundColor(textColor)
+                        .zIndex(10)
+                    }
+                    DismissButton(orientation: .none, foregroundColor: textColor)
+                }
                 Spacer()
             }.background(Color.clear)
             .zIndex(2)
@@ -38,6 +51,15 @@ struct SupplementaryCodeView: View {
             }.background(Rectangle().fill(
                 backgroundColor
             )).zIndex(0)
+            
+            BezelView(passableCharacter: showBezel, textSize: bezelTextSize)
+            
         }.edgesIgnoringSafeArea(.bottom)
+    }
+    
+    func copy() {
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = code
+        showBezel.withString("✂️ Copied")
     }
 }
