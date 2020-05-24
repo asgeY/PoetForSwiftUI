@@ -138,14 +138,14 @@ extension Tutorial {
                ),
                 
                 Page(
-                    [.text("Back to that assignment in the evaluator. This syntax might have been a little unexpected:"),
+                    [.text("Back to showTextStep. This syntax might have been a little unexpected:"),
                      .code("current.step = .text(configuration)"),
                      .text("It works because the evaluator wraps its step inside a special type, PassableStep:"),
                      .code("var current = PassableStep(Step.initial)"),
                      .text("The Combine framework makes it fairly easy to publish and listen to values, but PassableStep offers a helpful wrapper around that functionality."),
                     ],
                     action: .showTemplate,
-                    file: "Template-Evaluator"
+                    file: "PassableStep"
                 ),
                 
                 Page(
@@ -250,7 +250,7 @@ extension Tutorial {
                 ),
                 
                 Page([
-                    .text("Observable types contain a value that has been complemented with the @Published property wrapper, which creates a publisher. Inside ObservableString, for instance, we see this:"),
+                    .text("Observable types conform to Combine's ObservableObject protocol and contain a value that has been complemented with the @Published property wrapper, which creates a publisher. Inside ObservableString, for instance, we see:"),
                     .code(
                         """
                         @Published var string: String
@@ -284,8 +284,8 @@ extension Tutorial {
                     .code(
                         """
                         VStack {
-                          ObservingTextView(translator.title)
-                          ObservingTextView(translator.body)
+                            ObservingTextView(translator.title)
+                            ObservingTextView(translator.body)
                         }
                         """),
                     ],
@@ -294,7 +294,7 @@ extension Tutorial {
                 ),
                 
                 Page([
-                    .text("ObservingTextView is a view that holds onto an @ObservedObject, which happens to be an ObservableString. It responds to changes automatically:"),
+                    .text("ObservingTextView is a view that holds onto an ObservableString as an @ObservedObject. It responds to changes automatically:"),
                     .code(
                         """
                         @ObservedObject var text: ObservableString
@@ -309,7 +309,7 @@ extension Tutorial {
                 ),
                 
                 Page([
-                    .text("A view like ObservingTextView contains view logic — the rules for how it should respond to changes in display state. It's aware of a general observable type (in this case ObservableString), but it's unaware of any particular business purpose. Our layers are fully decoupled, which makes this view (and any other) reusable throughout the app for different purposes."),
+                    .text("A view like ObservingTextView contains view logic — the rules for how it should respond to changes in display state. It's aware of a general observable type (in this case ObservableString), but it's unaware of any particular business purpose. Our layers are fully decoupled, which makes this view (and potentially any other) reusable throughout the app for different purposes."),
                     ],
                      action: .showTemplate
                 ),
@@ -321,7 +321,15 @@ extension Tutorial {
                 ),
                 
                 Page([
-                    .text("On a screen that only shows text, the three layers may seem excessive. But if you understand the flow here, you should be able to follow the flow of more complicated screens, too. Speaking of which, let's make things a tiny bit more complicated by adding a button to our Template.")
+                    .text("On a screen that only shows text, the three layers are excessive. You'll notice, for instance, that the translator merely extracted the step's values without applying any new logic. Display state was an exact mirror of business state."),
+                    
+                    .text("But the moment we make our business state more dynamic, or use one property of business state to modify several properties of display state, the split between evaluator and translator justifies itself.")
+                    ],
+                     action: .showTemplate
+                ),
+                
+                Page([
+                    .text("If you have understood the flow here, you should be able to follow the flow of more complicated screens, too. Speaking of which, let's make things a tiny bit more complicated by adding some user interaction to our Template.")
                     ],
                      action: .showTemplate
                 )
@@ -329,65 +337,26 @@ extension Tutorial {
             
             Chapter("Interacting with a View", pages:
                 Page([.text("In Poet, whenever you interact with a view on screen, the view tells its evaluator about it."),
-                      .text("When you tap a button, for instance, the view says to its evaluator:"),
+                      .text("When you tap a button, for instance, the view might say to its evaluator:"),
                       .code(
                           """
                           self.evaluator?.buttonTapped(action:
-                            ButtonAction.pageForward)
+                            ButtonAction.doSomething)
                           """
-                      )
+                      ),
+                      .text("In that case, “doSomething” is the name of a specific action.")
                 ]),
                 
                 Page([
-                    .text(".pageForward is an enum case that lives on the evaluator, along with all the other button actions relevant to this screen:"),
+                    .text("To be more precise, .doSomething would be an enum case that lives on the evaluator, along with all the other button actions relevant to its screen:"),
                     .code(
                     """
                     enum ButtonAction: EvaluatorAction {
-                      case pageForward
-                      case pageBackward
+                      case doSomething
                       // etc.
                     """
                     )
-                    
-                    ], supplement: Supplement(shortTitle: "ButtonAction", fullTitle: "ButtonAction in Tutorial-Evaluator.swift", body: [
-                    .code(
-                    """
-                    enum ButtonAction: EvaluatorAction {
-                        case pageForward
-                        case pageBackward
-                        case showChapter(chapterIndex: Int, pageData: [Chapter])
-                        case showSomething
-                        case showAlert
-                        case showAnotherAlert
-                        case showBezel
-                        case showTemplate
-                        case showHelloWorld
-                        case showRetailDemo
-                        
-                        var name: String {
-                            switch self {
-                            case .showSomething:
-                                return "Show Something"
-                            case .showAlert:
-                                return "Show Alert"
-                            case .showAnotherAlert:
-                                return "Show Another Alert"
-                            case .showBezel:
-                                return "Show Bezel"
-                            case .showTemplate:
-                                return "Show Template"
-                            case .showHelloWorld:
-                                return "Show Hello World"
-                            case .showRetailDemo:
-                                return "Show Retail Demo"
-                            default:
-                                return ""
-                            }
-                        }
-                    }
-                    """
-                    )
-                ])),
+                ]),
                 
                 Page([
                     .text("The view layer can be fully decoupled from the business layer by only knowing an action as the general type EvaluatorAction. But in our case, our view is a little opinionated and does know our action by its specific type:"),
@@ -711,6 +680,21 @@ extension Tutorial {
                 Page([.text("So, with the translator already set up properly, the evaluator completes its work simply by saving a new step.")])
                 
 //                Page([.text("Soon we'll talk about why it's handy to have these two different types of state, business and display, after a brief discussion of state in general.")])
+            ),
+            
+            Chapter("A Note on Combine", pages:
+                Page([.text("Compared to some other approaches that use the Combine framework, Poet is a conservative pattern. It favors a clear structure with properly decoupled layers, instead of chaining publishers throughout an implementation and directly assigning values at the end of publisher streams.")]),
+                Page([.text("Combine's ability to apply multiple transformations to a stream, creating a single chain of logic from the start of a flow to its end in the view layer, is very powerful. But for many programmers at this early stage in Combine's history, that approach seems likely to encourage tightly coupled business and view logic and to prevent a more flexible relationship between business state and display state.")]),
+                Page([.text("As programmers develop their skills at Combine, it will be worth revisiting what approaches can fit well into a fully decoupled, unidirectional pattern. The Performer layer already shows how we can use chaining to transform business state with certainty. Everywhere else, Poet uses ObservableObject and PassthroughSubject comprehensively but relies on its own structure for the transformation of business state into display state.")]),
+                Page([.text("The difference in approaches isn't exactly six of one, half a dozen of the other. Often we want to apply several display state transformations in response to a single change in business state, or conversely to take into account several properties of business state in order to change a single property of display state. It's a little difficult to have it both ways unless we do all our thinking in one place.")]),
+                Page([.text("Combine could accomplish this by combining several inputs into a single publisher. You could imagine a different Poet pattern where, instead of listening for a new step, the translator listens to these agglomerated publishers, which could ultimately deliver a single struct containing all relevant values — something like a step, but smaller and built with a certain transformation in mind.")]),
+                Page([.text("That could work well enough, but its application would be uneven and a little taxing on the reader: some publishers would promise a single property, while other publishers would deliver a combination. The layer that performs the transformations into display state would have an uneven, scattered look.")]),
+                Page([.text("Poet gets ahead of that problem by choosing instead to make steps a first class member of the pattern. The programmer always considers all of a step's transformations within a single method. The cognitive overhead of considering an entire step is minimal, as it improves readability and creates a flexible structure that suits all the transformations we might apply.")]),
+                Page([.text("Is there a cost? Yes, a little. Every time a Poet evaluator creates new business state, it must explicitly create a new step configuration. If it moves from one step to another, it will need to explicitly unwrap the old step's configuration and reuse any values needed in the new step's configuration.")]),
+                Page([.text("Even in complicated scenarios, that's not so bad. For instance, say we want to be able to enter a certain step from several different steps, each containing different values. We don't want to inspect all those steps individually, and we don't have to. The steps could all conform to a protocol which promises the same property names for certain values. Our new step could unwrap the values it needs without caring which previous step they belonged to.")]),
+                Page([.text("Depending on the nature of the problem being solved, the inspection of a previous step to make a new one might seem like unnecessary overhead. On complicated screens, however, it helps. The steps create an explicit boundary around possible states, preventing us from inadvertently straddling an incoherent combination of states.")]),
+                Page([.text("Whenever we define a full step, we promise to have accounted for all business state. Each time we translate it, we promise to have accounted for all of our display state. If the programmer has made a mistake, it can be easily located and fixed. Poet's steps are not the only viable solution, but they are obvious and easy to reason about.")]),
+                Page([.text("In its relatively conservative approach, Poet errs on the side of readable and decoupled code, freeing the developer to think clearly and quickly. Business state is always stored in a single struct. Display state transformations always happen in a single place. The programmer gains speed, certainty, and the ability to create flexible, reusable code that is suprisingly powerful.")])
             ),
             
             // Translating

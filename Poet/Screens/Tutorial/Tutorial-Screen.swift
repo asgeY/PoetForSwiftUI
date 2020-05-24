@@ -162,9 +162,9 @@ extension Tutorial {
                             label: {
                                 ObservingTextView(self.translator.buttonName)
                                     .font(Font.headline)
-                                    .foregroundColor(Color(UIColor.systemBackground))
+                                    .foregroundColor(Color.primary)
                                     .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
-                                    .background(Capsule().fill(Color.primary))
+                                    .background(Capsule().fill(Color.primary.opacity(0.045)))
                         })
                     }.offset(x: 0, y: Layout.boxSize / 2.0 + 48)
                     Spacer()
