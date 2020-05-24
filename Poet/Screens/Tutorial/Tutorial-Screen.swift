@@ -317,7 +317,6 @@ extension Tutorial {
                     BezelView(translator: translator)
                 }
             }
-        .prefers
             .background(
                 LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.00), Color.primary.opacity(0.01)]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
