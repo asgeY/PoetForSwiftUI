@@ -18,54 +18,74 @@ struct TableOfContentsView: View {
     var body: some View {
         ZStack {
             VStack {
+                
+                Spacer()
+            }.zIndex(2)
+            
+            VStack {
                 DismissButton(orientation: .right)
                     .zIndex(2)
                 Spacer()
             }.zIndex(2)
             
-            VStack {
-                Spacer().frame(height:42)
+            VStack(spacing: 0) {
+                Spacer().frame(height:30)
                 HStack {
                     Text("Table of Contents")
                         .multilineTextAlignment(.leading)
                         .font(Font.system(size: 18, weight: .semibold))
                     Spacer()
                 }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
-                Spacer().frame(height:16)
+                Spacer().frame(height:15)
+                
                 ScrollView {
+                    
+                    // Chapters
+                    
                     ForEach(self.selectableChapterTitles.array, id: \.id) { item in
                         Button(action: {
                             self.evaluator?.buttonTapped(action: item.action)
                             self.presentationMode.wrappedValue.dismiss()
                         }) {
-                            HStack {
-                                Text("\(item.number).   " + item.name)
-                                Spacer()
+                            VStack(spacing: 0) {
+                                Spacer().frame(height: 16)
+                                
+                                HStack {
+                                    Text("\(item.number).   " + item.name)
+                                    Spacer()
+                                }
+                                .font(Font.body.monospacedDigit())
+                                .multilineTextAlignment(.leading)
+                                
+                                Spacer().frame(height: 16)
+                                
+                                Divider()
+                                    .opacity(0.4)
                             }
-                            .font(Font.body.monospacedDigit())
-                            .multilineTextAlignment(.leading)
-                            
                         }
                         .foregroundColor(.primary)
-                        .padding(EdgeInsets(top: 13, leading: 30, bottom: 13, trailing: 30))
+                        .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+                    }
+                    
+                    // About
+                    
+                    Button(action: { self.isShowingAbout.toggle() }) {
+                        HStack(spacing: 0) {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                            Spacer().frame(width: 20)
+                            Text("About Poet")
+                            Spacer()
+                        }
+                        .foregroundColor(Color.primary)
+                            .padding(EdgeInsets(top: 14, leading: 30, bottom: 16, trailing: 30))
+                            .sheet(isPresented: self.$isShowingAbout) {
+                                About.Screen()
+                            }
                     }
                 }
                 
-                Button(action: { self.isShowingAbout.toggle() }) {
-                    HStack {
-                        Image(systemName: "questionmark.circle")
-                            .resizable()
-                            .frame(width: 22, height: 22)
-                        Text("About")
-                        Spacer()
-                    }
-                    .foregroundColor(Color.primary)
-                        .background(Color(UIColor.systemBackground))
-                        .padding(EdgeInsets(top: 24, leading: 30, bottom: 26, trailing: 30))
-                        .sheet(isPresented: self.$isShowingAbout) {
-                            About.Screen()
-                        }
-                }
                 
             }.background(Rectangle().fill(Color(UIColor.systemBackground)))
         }

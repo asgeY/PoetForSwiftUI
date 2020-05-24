@@ -153,7 +153,7 @@ extension Tutorial.Translator {
             shouldFocusOnChapterTitle.bool = false
             shouldShowImage.bool = false
             shouldShowTableOfContents.bool = false
-            shouldShowTableOfContentsButton.bool = !firstPage
+            shouldShowTableOfContentsButton.bool = true
             shouldShowAboutButton.bool = !firstPage
             shouldShowPageCount.bool = !firstPage
         }

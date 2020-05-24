@@ -59,7 +59,7 @@ extension About {
                 }
                 .navigationBarTitle("Pager", displayMode: .inline)
                     .navigationBarHidden(self.navBarHidden)
-            }
+            }.edgesIgnoringSafeArea(.bottom)
         }
     }
 }

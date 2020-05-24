@@ -95,8 +95,8 @@ extension Tutorial {
                                 RoundedRectangle(cornerRadius: 12)
                                 .fill(
                                     self.touchingDownOnBox ?
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.0125), Color.primary.opacity(0.02)]), startPoint: .top, endPoint: .bottom) :
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.0035), Color.primary.opacity(0.005)]), startPoint: .top, endPoint: .bottom)
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.005), Color.primary.opacity(0.01)]), startPoint: .top, endPoint: .bottom) :
+                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.0025), Color.primary.opacity(0.004)]), startPoint: .top, endPoint: .bottom)
                                 )
                             )
                                 .shadow(color: Color.black.opacity(0.03), radius: 40, x: 0, y: 2)
@@ -317,6 +317,7 @@ extension Tutorial {
                     BezelView(translator: translator)
                 }
             }
+        .prefers
             .background(
                 LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.00), Color.primary.opacity(0.01)]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)

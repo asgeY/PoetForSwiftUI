@@ -25,17 +25,20 @@ struct FileMenuView: View {
             }.zIndex(2)
             
             VStack(spacing: 0) {
-                Spacer().frame(height:24)
+                Spacer().frame(height:23)
                 HStack {
+                    Spacer()
                     Text(title)
                         .multilineTextAlignment(.leading)
                         .font(Font.system(size: 18, weight: .semibold))
                     Spacer()
                 }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
-                Spacer().frame(height:16)
+                Spacer().frame(height:15)
                 Divider()
+                    .opacity(0.3)
+                
                 ScrollView {
-                    Spacer().frame(height:6)
+                    Spacer().frame(height:8)
                     ForEach(self.fileTitlesAndBodies, id: \.id) { fileTitleAndBody in
                         Button(action: {
                             self.showFile.withString(fileTitleAndBody.body)
@@ -55,6 +58,7 @@ struct FileMenuView: View {
                                 .foregroundColor(.primary)
                                 .padding(EdgeInsets(top: 12, leading: 0, bottom: 16, trailing: 30))
                                 Divider()
+                                    .opacity(0.4)
                             }
                             .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                         }
