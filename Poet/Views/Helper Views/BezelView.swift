@@ -25,8 +25,8 @@ struct BezelView: View {
         self.textSize = translator.bezelTranslator.textSize
     }
     
-    init(passableCharacter: PassableString, textSize: Observable<TextSize>) {
-        self.passableText = passableCharacter
+    init(passableText: PassableString, textSize: Observable<TextSize>) {
+        self.passableText = passableText
         self.textSize = textSize
     }
     

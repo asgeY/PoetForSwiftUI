@@ -52,7 +52,7 @@ struct SupplementaryCodeView: View {
                 backgroundColor
             )).zIndex(0)
             
-            BezelView(passableCharacter: showBezel, textSize: bezelTextSize)
+            BezelView(passableText: showBezel, textSize: bezelTextSize)
             
         }.edgesIgnoringSafeArea(.bottom)
     }
