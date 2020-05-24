@@ -68,7 +68,6 @@ struct TableOfContentsView: View {
                     }
                     
                     // About
-                    
                     Button(action: { self.isShowingAbout.toggle() }) {
                         HStack(spacing: 0) {
                             Image(systemName: "person.circle.fill")
@@ -79,7 +78,33 @@ struct TableOfContentsView: View {
                             Spacer()
                         }
                         .foregroundColor(Color.primary)
-                            .padding(EdgeInsets(top: 14, leading: 30, bottom: 16, trailing: 30))
+                            .padding(EdgeInsets(top: 10, leading: 30, bottom: 8, trailing: 30))
+                            .sheet(isPresented: self.$isShowingAbout) {
+                                About.Screen()
+                            }
+                    }
+                        
+                    Divider()
+                        .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
+                        .opacity(0.4)
+                    
+                    // Github
+                    
+                    Button(action: {
+                        if let url = URL(string: "https://github.com/stevecotner/PoetForSwiftUI") {
+                            UIApplication.shared.open(url as URL)
+                        }
+                    }) {
+                        HStack(spacing: 0) {
+                            Image(systemName: "cursor.rays")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                            Spacer().frame(width: 20)
+                            Text("Github: PoetForSwiftUI")
+                            Spacer()
+                        }
+                        .foregroundColor(Color.primary)
+                            .padding(EdgeInsets(top: 10, leading: 30, bottom: 8, trailing: 30))
                             .sheet(isPresented: self.$isShowingAbout) {
                                 About.Screen()
                             }
