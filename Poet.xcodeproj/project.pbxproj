@@ -69,6 +69,8 @@
 		DC31CC6E2479C90400002075 /* PresenterWithPassedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */; };
 		DC31CC702479C9EC00002075 /* FileOfInterestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6F2479C9EC00002075 /* FileOfInterestButton.swift */; };
 		DC31CC722479CA2100002075 /* FileTrayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC712479CA2100002075 /* FileTrayButton.swift */; };
+		DC31CC75247B367000002075 /* ObservingButton.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC31CC74247B367000002075 /* ObservingButton.txt */; };
+		DC31CC78247B393600002075 /* ButtonEvaluating.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC31CC77247B393600002075 /* ButtonEvaluating.txt */; };
 		DC4C1114245DEE21009BC14D /* Template-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1113245DEE21009BC14D /* Template-Screen.swift */; };
 		DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */; };
 		DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1117245DEF9A009BC14D /* Template-Translator.swift */; };
@@ -186,6 +188,8 @@
 		DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithPassedValue.swift; sourceTree = "<group>"; };
 		DC31CC6F2479C9EC00002075 /* FileOfInterestButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOfInterestButton.swift; sourceTree = "<group>"; };
 		DC31CC712479CA2100002075 /* FileTrayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTrayButton.swift; sourceTree = "<group>"; };
+		DC31CC74247B367000002075 /* ObservingButton.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ObservingButton.txt; sourceTree = "<group>"; };
+		DC31CC77247B393600002075 /* ButtonEvaluating.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ButtonEvaluating.txt; sourceTree = "<group>"; };
 		DC4C1113245DEE21009BC14D /* Template-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Screen.swift"; sourceTree = "<group>"; };
 		DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Evaluator.swift"; sourceTree = "<group>"; };
 		DC4C1117245DEF9A009BC14D /* Template-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Translator.swift"; sourceTree = "<group>"; };
@@ -412,6 +416,23 @@
 			path = "Retail Demo";
 			sourceTree = "<group>";
 		};
+		DC31CC73247B363C00002075 /* Files as text */ = {
+			isa = PBXGroup;
+			children = (
+				3BF6694A2478316600AE055C /* ObservingTextView.txt */,
+				DC31CC74247B367000002075 /* ObservingButton.txt */,
+			);
+			path = "Files as text";
+			sourceTree = "<group>";
+		};
+		DC31CC76247B392500002075 /* Files as text */ = {
+			isa = PBXGroup;
+			children = (
+				DC31CC77247B393600002075 /* ButtonEvaluating.txt */,
+			);
+			path = "Files as text";
+			sourceTree = "<group>";
+		};
 		DC4C1111245DEDE5009BC14D /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +486,7 @@
 				DC6565692470AA530048A848 /* EvaluatorStep.swift */,
 				878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */,
 				DC4C6C452471054E0014A34C /* ButtonEvaluating.swift */,
+				DC31CC76247B392500002075 /* Files as text */,
 			);
 			path = Evaluating;
 			sourceTree = "<group>";
@@ -501,7 +523,7 @@
 				DC4C6C5A2476CBA90014A34C /* ObservingBottomButton.swift */,
 				87E7E43A24595FF100047253 /* ObservingPageView.swift */,
 				878B3A4B24535B1E00ACADE4 /* ObservingTextView.swift */,
-				3BF6694A2478316600AE055C /* ObservingTextView.txt */,
+				DC31CC73247B363C00002075 /* Files as text */,
 			);
 			path = "Observing Views";
 			sourceTree = "<group>";
@@ -647,8 +669,10 @@
 				3BF6693424781B3100AE055C /* PassableStep.txt in Resources */,
 				875562C0244C253500DB49C4 /* LaunchScreen.storyboard in Resources */,
 				3BF6694B2478316600AE055C /* ObservingTextView.txt in Resources */,
+				DC31CC78247B393600002075 /* ButtonEvaluating.txt in Resources */,
 				3BF66936247820E000AE055C /* Template-Translator.txt in Resources */,
 				875562BD244C253500DB49C4 /* Preview Assets.xcassets in Resources */,
+				DC31CC75247B367000002075 /* ObservingButton.txt in Resources */,
 				3BF669252478032F00AE055C /* Template-Screen.txt in Resources */,
 				3BF6694924782B7600AE055C /* ObservableString.txt in Resources */,
 				875562BA244C253500DB49C4 /* Assets.xcassets in Resources */,

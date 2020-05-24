@@ -1,0 +1,10 @@
+//
+//  ButtonEvaluating.swift
+//  Poet
+//
+
+import Foundation
+
+protocol ButtonEvaluating: class {
+    func buttonTapped(action: EvaluatorAction?)
+}

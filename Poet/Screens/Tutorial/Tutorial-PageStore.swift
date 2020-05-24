@@ -321,21 +321,26 @@ extension Tutorial {
                 ),
                 
                 Page([
-                    .text("On a screen that only shows text, the three layers are excessive. You'll notice, for instance, that the translator merely extracted the step's values without applying any new logic. Display state was an exact mirror of business state."),
+                    .text("On a screen that only shows text, the three layers are excessive. The translator merely extracted the step's values without applying any new logic. Display state exactly mirrored business state."),
                     
-                    .text("But the moment we make our business state more dynamic, or use one property of business state to modify several properties of display state, the split between evaluator and translator justifies itself.")
+                    .text("But the moment we make our display state more dynamic, or use one property of business state to modify several properties of display state (or the converse: several to one), the evaluator/translator split justifies itself.")
                     ],
                      action: .showTemplate
                 ),
                 
                 Page([
-                    .text("If you have understood the flow here, you should be able to follow the flow of more complicated screens, too. Speaking of which, let's make things a tiny bit more complicated by adding some user interaction to our Template.")
+                    .text("If you have understood the flow here, you should be able to follow the flow of more complicated screens, too. Speaking of which, let's make things a tiny bit more complicated by thinking about user interaction.")
                     ],
                      action: .showTemplate
                 )
             ),
             
-            Chapter("Interacting with a View", pages:
+            Chapter("Interacting with a View",
+                    files: [
+                        "ButtonEvaluating",
+                        "ObservingButton"
+                    ],
+                    pages:
                 Page([.text("In Poet, whenever you interact with a view on screen, the view tells its evaluator about it."),
                       .text("When you tap a button, for instance, the view might say to its evaluator:"),
                       .code(
@@ -352,23 +357,15 @@ extension Tutorial {
                     .code(
                     """
                     enum ButtonAction: EvaluatorAction {
-                      case doSomething
-                      // etc.
+                        case doSomething
+                        // etc.
+                    }
                     """
                     )
                 ]),
                 
                 Page([
-                    .text("The view layer can be fully decoupled from the business layer by only knowing an action as the general type EvaluatorAction. But in our case, our view is a little opinionated and does know our action by its specific type:"),
-                      .code(
-                        """
-                        Tutorial.Evaluator.ButtonAction
-                        """
-                    )
-                ]),
-                
-                Page([
-                    .text("Even an opinionated view doesn't know what a button action really does, though. That's up to the evaluator, who conforms to ButtonEvaluating:"),
+                    .text("Any button that wants to evaluate a user tap can do so without knowing who its real evaluator is, only that it conforms to the protocol ButtonEvaluating:"),
                     .code(
                         """
                         protocol ButtonEvaluating: class {
@@ -377,11 +374,29 @@ extension Tutorial {
                         }
                         """
                     )
+                ],
+                     file: "ButtonEvaluating"
+                ),
+                
+                Page([
+                    .text("In this way, our view layer can be fully decoupled from particular business purposes. Because ButtonEvaluating knows all actions as a general type, EvaluatorAction, we can also inject a button with an action, according to whatever choices a translator makes when translating a certain step.")
                 ]),
                 
-                Page([.text("Upon receiving an action, the evaluator will make decisions about business state. Then the translator will interpret that state and create its own display state. And the view layer will respond any time display state changes.")]),
+                Page([
+                    .text("To do that, we would use an ObservingButton, which observes an EvaluatorAction:"),
+                    .code(
+                        """
+                        @ObservedObject var action:
+                          Observable<EvaluatorAction?>
+                        """
+                    )
+                ],
+                     file: "ObservingButton"
+                ),
                 
-                Page([.text("The evaluator and translator are two different stops along a route that rolls toward the view layer.")])
+                Page([.text("Upon receiving an action in the evaluator, we'll embark on the regular flow of the pattern: the evaluator will make decisions about business state. Then the translator will interpret that state and create its own display state. And the view layer will respond any time display state changes.")]),
+                
+                Page([.text("Let's see what that looks like with a real example.")])
                 ),
                 
             Chapter("Updating Business State", pages:
