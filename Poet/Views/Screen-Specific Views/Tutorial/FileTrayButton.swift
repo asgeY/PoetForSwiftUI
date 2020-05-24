@@ -30,7 +30,7 @@ struct FileTrayButton: View {
             }.zIndex(4)
         }
         .frame(height: 40)
-        .padding(.trailing, Device.current == .small ? 16 : 24)
+        .padding(.trailing, Device.current == .small ? 16 : 20)
         .foregroundColor(.primary)
     }
 }

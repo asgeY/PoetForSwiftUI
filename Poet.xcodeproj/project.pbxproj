@@ -67,7 +67,7 @@
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
 		DC31CC6E2479C90400002075 /* PresenterWithPassedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */; };
-		DC31CC702479C9EC00002075 /* SupplementButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6F2479C9EC00002075 /* SupplementButton.swift */; };
+		DC31CC702479C9EC00002075 /* FileOfInterestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6F2479C9EC00002075 /* FileOfInterestButton.swift */; };
 		DC31CC722479CA2100002075 /* FileTrayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC712479CA2100002075 /* FileTrayButton.swift */; };
 		DC4C1114245DEE21009BC14D /* Template-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1113245DEE21009BC14D /* Template-Screen.swift */; };
 		DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */; };
@@ -184,7 +184,7 @@
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
 		DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithPassedValue.swift; sourceTree = "<group>"; };
-		DC31CC6F2479C9EC00002075 /* SupplementButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementButton.swift; sourceTree = "<group>"; };
+		DC31CC6F2479C9EC00002075 /* FileOfInterestButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOfInterestButton.swift; sourceTree = "<group>"; };
 		DC31CC712479CA2100002075 /* FileTrayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTrayButton.swift; sourceTree = "<group>"; };
 		DC4C1113245DEE21009BC14D /* Template-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Screen.swift"; sourceTree = "<group>"; };
 		DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Evaluator.swift"; sourceTree = "<group>"; };
@@ -478,7 +478,7 @@
 				DC4C6C6A2476D02B0014A34C /* TableOfContentsView.swift */,
 				DC31CC692479BDF500002075 /* FileMenuView.swift */,
 				DC4C6C6E2476D14D0014A34C /* TutorialBodyView.swift */,
-				DC31CC6F2479C9EC00002075 /* SupplementButton.swift */,
+				DC31CC6F2479C9EC00002075 /* FileOfInterestButton.swift */,
 				DC31CC712479CA2100002075 /* FileTrayButton.swift */,
 			);
 			path = Tutorial;
@@ -703,7 +703,7 @@
 				3BF6694724782B3700AE055C /* Observable.swift in Sources */,
 				DC65656D2470F4FB0048A848 /* CharacterBezelTranslating.swift in Sources */,
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
-				DC31CC702479C9EC00002075 /* SupplementButton.swift in Sources */,
+				DC31CC702479C9EC00002075 /* FileOfInterestButton.swift in Sources */,
 				DC4C111F245DFF21009BC14D /* Tutorial-Evaluator.swift in Sources */,
 				878B3A51245378E300ACADE4 /* AlertView.swift in Sources */,
 				8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */,
@@ -912,7 +912,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Poet/Preview Content\"";
-				DEVELOPMENT_TEAM = Y9G957Y75J;
+				DEVELOPMENT_TEAM = XBV79M6D9G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Poet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -932,7 +932,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Poet/Preview Content\"";
-				DEVELOPMENT_TEAM = Y9G957Y75J;
+				DEVELOPMENT_TEAM = XBV79M6D9G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Poet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

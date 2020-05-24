@@ -24,8 +24,8 @@ struct SupplementaryCodeView: View {
                     Button(action: {
                         self.copy()
                     }) {
-                        Image(systemName: "scissors")
-                            .padding(EdgeInsets(top: 14, leading: 20, bottom: 14, trailing: 20))
+                        Image(systemName: "doc.on.clipboard")
+                            .padding(EdgeInsets(top: 14, leading: 20, bottom: 14, trailing: 10))
                             .foregroundColor(textColor)
                         .zIndex(10)
                     }
@@ -60,6 +60,6 @@ struct SupplementaryCodeView: View {
     func copy() {
         let pasteboard = UIPasteboard.general
         pasteboard.string = code
-        showBezel.withString("✂️ Copied")
+        showBezel.withString("Copied")
     }
 }
