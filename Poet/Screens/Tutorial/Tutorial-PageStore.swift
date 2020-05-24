@@ -315,7 +315,7 @@ extension Tutorial {
                 ),
                 
                 Page([
-                    .text("And that's it. We've followed the whole round trip of the pattern, starting with the view's .onAppear method and passing through the evaluator, the translator, and then back to the view layer.")
+                    .text("And that's it. We've followed the whole round trip of the pattern, starting with the view's onAppear method and passing through the evaluator, the translator, and then back to the view layer.")
                     ],
                      action: .showTemplate
                 ),
