@@ -45,7 +45,7 @@ struct FileMenuView: View {
                                     Image(systemName: "doc.plaintext")
                                     Spacer().frame(width: 14)
                                     Text(fileTitleAndBody.title + ".swift")
-                                        .font(Font.system(size: 15, weight: .medium))
+                                        .font(Font.system(size: 16, weight: .regular))
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                         .foregroundColor(Color.primary.opacity(0.3))

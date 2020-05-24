@@ -27,7 +27,7 @@ struct FileOfInterestButton: View {
                         .padding(.top, 1)
                         .frame(height:39)
                     
-                    Spacer().frame(width: 2)
+                    Spacer().frame(width: 3)
                     
                     Image(systemName: "doc.plaintext")
                         .font(Font.system(size: 20, weight: .medium))
