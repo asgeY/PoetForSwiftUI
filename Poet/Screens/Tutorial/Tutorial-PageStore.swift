@@ -341,7 +341,7 @@ extension Tutorial {
                         "ObservingButton"
                     ],
                     pages:
-                Page([.text("In Poet, whenever you interact with a view on screen, the view tells its evaluator about it."),
+                Page([.text("With few exceptions, whenever you interact with a view on screen, the view tells its evaluator about it."),
                       .text("When you tap a button, for instance, the view might say to its evaluator:"),
                       .code(
                           """
@@ -379,7 +379,8 @@ extension Tutorial {
                 ),
                 
                 Page([
-                    .text("In this way, our view layer can be fully decoupled from particular business purposes. Because ButtonEvaluating knows all actions as a general type, EvaluatorAction, we can also inject a button with an action, according to whatever choices a translator makes when translating a certain step.")
+                    .text("In this way, our view layer can be fully decoupled from particular business purposes."),
+                    .text("Because ButtonEvaluating knows all actions as a general type, EvaluatorAction, we can also inject a button with an action, according to whatever choices a translator makes when translating a certain step.")
                 ]),
                 
                 Page([
@@ -389,7 +390,8 @@ extension Tutorial {
                         @ObservedObject var action:
                           Observable<EvaluatorAction?>
                         """
-                    )
+                    ),
+                    .text("We could make that button's label observe a value, as well. So the view layer can be relatively decoupled from our display state, too."),
                 ],
                      file: "ObservingButton"
                 ),
