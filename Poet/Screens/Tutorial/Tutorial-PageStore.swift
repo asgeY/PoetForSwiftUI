@@ -27,7 +27,7 @@ extension Tutorial {
             ),
             
             Chapter("Why Poet?", pages:
-                Page([.text("Poet is an acronym that stands for Passing/Observing Evaluator/Translator. The evaluator and translator are a pair that work together.")]),
+                Page([.text("Poet is an acronym that stands for Passable Observable Evaluator/Translator. The evaluator and translator are a pair that work together. Passing and Observing are the two main techniques that guide their work.")]),
                 Page([.text("You can think of the evaluator and translator as two different layers in the pattern, or as two different phases of reasoning that the programmer will undertake.")]),
                 Page([.text("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”"),
                       .text("The translator interprets the business state of the evaluator and turns it into observable “display state.”"),
