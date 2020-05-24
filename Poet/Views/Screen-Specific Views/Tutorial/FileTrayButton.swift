@@ -22,7 +22,6 @@ struct FileTrayButton: View {
                 HStack {
                     Image(systemName: "tray.full")
                         .font(Font.system(size: 20, weight: .medium))
-                        .padding(20)
                         .zIndex(4)
                         .transition(.scale)
                         .frame(width: 40, height: 40)

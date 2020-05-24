@@ -174,7 +174,8 @@ extension Tutorial {
                 Page(
                     [.text("Why are we publishing the step? The evaluator isn't the only thing interested in its own state. Another layer, the translator, will respond every time a new step is assigned."),
                      .text("Its role will be to interpret the business state and turn it into display state.")
-                    ]
+                    ],
+                    action: .showTemplate
                 ),
                 
                 Page([

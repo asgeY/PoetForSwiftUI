@@ -263,6 +263,8 @@ extension Tutorial {
                         
                         Hideable(isShowing: self.translator.shouldShowFileOfInterestButton, transition: .opacity) {
                             Divider()
+                                .padding(.leading, 4)
+                                .padding(.trailing, 4)
                         }
                         
                         FileTrayButton(
