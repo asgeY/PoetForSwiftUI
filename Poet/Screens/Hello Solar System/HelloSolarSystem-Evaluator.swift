@@ -21,14 +21,14 @@ extension HelloSolarSystem {
     }
 }
 
-// MARK: Button Actions
+// MARK: Actions
 extension HelloSolarSystem.Evaluator {
-    enum ButtonAction: EvaluatorActionWithIconAndID {
+    enum Action: EvaluatorActionWithIconAndID {
         case advanceImage
         case showCelestialBody(CelestialBody)
         
         /*
-         Our ButtonActions conform to TabButtonConfiguration,
+         Our Actions conform to TabButtonConfiguration,
          which requires an icon and a unique id,
          so each Celestial Body button can be treated as a tab on screen.
          We can just ignore these properties for any button actions that don't want to be a tab.
@@ -70,7 +70,7 @@ extension HelloSolarSystem.Evaluator {
         let celestialBodies: [CelestialBody]
         let currentCelestialBody: CelestialBody
         let currentImageIndex: Int
-        let tapAction: ButtonAction?
+        let tapAction: Action?
         
         func configurationForNextImage() -> CelestialBodyStepConfiguration {
             let newIndex: Int = {
@@ -116,10 +116,10 @@ extension HelloSolarSystem.Evaluator: ViewCycleEvaluating {
     }
 }
 
-// MARK: Button Evaluating
-extension HelloSolarSystem.Evaluator: ButtonEvaluating {
-    func buttonTapped(action: EvaluatorAction?) {
-        guard let action = action as? ButtonAction else { return }
+// MARK: Action Evaluating
+extension HelloSolarSystem.Evaluator: ActionEvaluating {
+    func evaluate(_ action: EvaluatorAction?) {
+        guard let action = action as? Action else { return }
         
         switch action {
             

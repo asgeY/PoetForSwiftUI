@@ -21,13 +21,16 @@ extension Tutorial {
             Chapter("Introduction", pages:
                 Page([.text("You're looking at a screen made with the Poet pattern. The code behind it emphasizes clarity, certainty, flexibility, and reusability.")]),
                 Page([.text("The process of writing Poet code is methodical but relatively quick. It follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”")]),
-                Page([.text("Poet has a rote structure but it frees you to write with confidence, without fearing that your code will get tangled up over time."),
-                      .text("It achieves this through the effective decoupling of business state, display state, and view logic.")]),
+                Page([.text("Poet has a rote structure but it frees you to write with confidence, without fearing that your code will get tangled up over time.")]),
+                Page([
+                    .text("It achieves this through the effective decoupling of business state, display state, and view logic."),
+                    .text("At its most fundamental, Poet is a pattern that formalizes the distinction between these three layers of reasoning, where most patterns only formalize a distinction between a business layer and a view layer.")
+                    ]),
                 Page([.text("We'll learn about the pattern and its benefits by thinking about how some different screens were made. But first, why is it called Poet?")])
             ),
             
             Chapter("Why Poet?", pages:
-                Page([.text("Poet is an acronym that stands for Passable Observable Evaluator/Translator. The evaluator and translator are a pair that work together. Passing and Observing are the two main techniques that guide their work.")]),
+                Page([.text("Poet is an acronym that stands for Passable Observable Evaluator/Translator. The evaluator and translator are a pair that work together. Passing and Observing state are the two main techniques that guide their work.")]),
                 Page([.text("You can think of the evaluator and translator as two different layers in the pattern, or as two different phases of reasoning that the programmer will undertake.")]),
                 Page([.text("The evaluator is the business logic decision-maker. It maintains what we might call “business state.”"),
                       .text("The translator interprets the business state of the evaluator and turns it into observable “display state.”"),
@@ -337,7 +340,7 @@ extension Tutorial {
             
             Chapter("Interacting with a View",
                     files: [
-                        "ButtonEvaluating",
+                        "ActionEvaluating",
                         "ObservingButton"
                     ],
                     pages:
@@ -345,8 +348,7 @@ extension Tutorial {
                       .text("When you tap a button, for instance, the view might say to its evaluator:"),
                       .code(
                           """
-                          self.evaluator?.buttonTapped(action:
-                            ButtonAction.doSomething)
+                          self.evaluator?.evaluate(Action.doSomething)
                           """
                       ),
                       .text("In that case, “doSomething” is the name of a specific action.")
@@ -356,7 +358,7 @@ extension Tutorial {
                     .text("To be more precise, .doSomething would be an enum case that lives on the evaluator, along with all the other button actions relevant to its screen:"),
                     .code(
                     """
-                    enum ButtonAction: EvaluatorAction {
+                    enum Action: EvaluatorAction {
                         case doSomething
                         // etc.
                     }
@@ -365,22 +367,22 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("Any button that wants to evaluate a user tap can do so without knowing who its real evaluator is, only that it will conform to the protocol ButtonEvaluating:"),
+                    .text("Any button that wants to evaluate a user tap can do so without knowing who its real evaluator is, only that it will conform to the protocol ActionEvaluating:"),
                     .code(
                         """
-                        protocol ButtonEvaluating: class {
+                        protocol ActionEvaluating: class {
                           func buttonTapped(
                             action: EvaluatorAction?)
                         }
                         """
                     )
                 ],
-                     file: "ButtonEvaluating"
+                     file: "ActionEvaluating"
                 ),
                 
                 Page([
                     .text("In this way, our view layer can be fully decoupled from particular business purposes."),
-                    .text("A button can be decoupled even further — not just from the evaluator that handles its action, but from the choice of which action it carries. Because ButtonEvaluating only knows actions as a general type, EvaluatorAction, we can inject a button with whatever action we like.")
+                    .text("A button can be decoupled even further — not just from the evaluator that handles its action, but from the choice of which action it carries. Because ActionEvaluating only knows actions as a general type, EvaluatorAction, we can inject a button with whatever action we like.")
                 ]),
                 
                 Page([
@@ -388,7 +390,7 @@ extension Tutorial {
                     .code(
                         """
                         @ObservedObject var action:
-                          Observable<EvaluatorAction?>
+                          ObservableEvaluatorAction
                         """
                     ),
                 ],
@@ -424,7 +426,7 @@ extension Tutorial {
                      action: .showHelloWorld
                 ),
                 
-                Page([.text("In its structure, Hello World isn't too different from the Template we've already seen. Its evaluator includes one step (besides initial) named “sayStuff” and two ButtonActions named “sayHello” and “sayNothing.”")],
+                Page([.text("In its structure, Hello World isn't too different from the Template we've already seen. Its evaluator includes one step (besides initial) named “sayStuff” and two Actions named “sayHello” and “sayNothing.”")],
                      action: .showHelloWorld
                 ),
                 
@@ -443,7 +445,7 @@ extension Tutorial {
                     .text("In the evaluator, our buttonTapped(:) method is where we first hear that a button was tapped."),
                     .smallCode(
                         """
-                        func buttonTapped(action: EvaluatorAction?) {
+                        func evaluate(_ action: EvaluatorAction?) {
                             // …
                         }
                         """
@@ -471,8 +473,8 @@ extension Tutorial {
                 ], supplement: Supplement(shortTitle: "buttonTapped()", fullTitle: "", body:[
                 .code(
                     """
-                    extension Tutorial.Evaluator: ButtonEvaluating {
-                      func buttonTapped(action: EvaluatorAction?) {
+                    extension Tutorial.Evaluator: ActionEvaluating {
+                      func evaluate(_ action: EvaluatorAction?) {
                         guard let action = action as? ButtonAction else { return }
                         switch action {
                                 
@@ -1029,12 +1031,12 @@ extension Tutorial {
                 Page([.text("The evaluator only thinks about three things: what are all the celestial bodies? Which one is currently showing? And which image is currently showing for that body?")], action: .showHelloSolarSystem),
                 Page([.text("As our screens get more complex, display state gets more interesting. Our translator interprets the business state by doing some rote extraction (names, images), but also by creating an array of tabs to show on screen.")], action: .showHelloSolarSystem),
                 
-                Page([.text("Each tab is just a ButtonAction, which on this screen conforms to a protocol promising an icon and ID for each action:"),
+                Page([.text("Each tab is just an Action, which on this screen conforms to a protocol promising an icon and ID for each action:"),
                   .extraSmallCode(
                     """
                     tabs.array =
                      configuration.celestialBodies.map {
-                      ButtonAction.showCelestialBody($0) }
+                      Action.showCelestialBody($0) }
                     """
                 )], action: .showHelloSolarSystem),
                 
@@ -1042,7 +1044,7 @@ extension Tutorial {
                       .extraSmallCode(
                         """
                         currentTab.object =
-                         ButtonAction.showCelestialBody(
+                         Action.showCelestialBody(
                           configuration.currentCelestialBody)
                         """
                     )], action: .showHelloSolarSystem),
@@ -1068,7 +1070,7 @@ extension Tutorial {
                     struct CircularTabBar: View {
                         typealias TabButtonAction = EvaluatorActionWithIconAndID
                         
-                        weak var evaluator: ButtonEvaluating?
+                        weak var evaluator: ActionEvaluating?
                         @ObservedObject var tabs: ObservableArray<TabButtonAction>
                         @ObservedObject var currentTab: Observable<TabButtonAction?>
                         let spacing: CGFloat = 30
@@ -1106,10 +1108,10 @@ extension Tutorial {
                         }
                         
                         struct CircularTabButton: View {
-                            weak var evaluator: ButtonEvaluating?
+                            weak var evaluator: ActionEvaluating?
                             let tab: TabButtonAction
                             var body: some View {
-                                Button(action: { self.evaluator?.buttonTapped(action: self.tab) }) {
+                                Button(action: { evaluate(self.tab) }) {
                                     Image(self.tab.icon)
                                     .resizable()
                                     .frame(width: 30, height: 30)
@@ -1132,7 +1134,7 @@ extension Tutorial {
                                 dampingFraction: 0.65,
                                 blendDuration: 0)) {
                           currentTab.object =
-                           ButtonAction.showCelestialBody(
+                           Action.showCelestialBody(
                            configuration.currentCelestialBody)
                         }
                         """
@@ -1148,12 +1150,12 @@ extension Tutorial {
                                 foregroundColor.object = configuration.currentCelestialBody.foreground.color
                                 backgroundColor.object = configuration.currentCelestialBody.background.color
                                 tapAction.object = configuration.tapAction
-                                tabs.array = configuration.celestialBodies.map { ButtonAction.showCelestialBody($0) }
+                                tabs.array = configuration.celestialBodies.map { Action.showCelestialBody($0) }
                                 withAnimation(.linear) {
                                     shouldShowTapMe.bool = configuration.tapAction != nil
                                 }
                                 withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
-                                    currentTab.object = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
+                                    currentTab.object = Action.showCelestialBody(configuration.currentCelestialBody)
                                 }
                             }
                             """
@@ -1188,7 +1190,7 @@ extension Tutorial {
                     )
                 ]),
                 
-                Page([.text("When our evaluator hears that we've triggered a ButtonAction named “showSomething,” it says to the translator directly:"),
+                Page([.text("When our evaluator hears that we've triggered a Action named “showSomething,” it says to the translator directly:"),
                       .code("translator.showSomething.please()")]),
                 
                 Page([.text("Why talk to the translator directly? We're presenting a modal, and everything on our current screen will remain unchanged underneath the modal. So it would feel superfluous to modify our own business state by changing our current step.")]),

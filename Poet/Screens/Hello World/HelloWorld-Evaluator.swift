@@ -30,13 +30,13 @@ extension HelloWorld.Evaluator {
     struct SayStuffStepConfiguration {
         var helloCount: Int
         var bubbleText: String?
-        var buttonAction: ButtonAction
+        var buttonAction: Action
     }
 }
 
-// MARK: Button Actions
-extension HelloWorld.Evaluator: ButtonEvaluating {
-    enum ButtonAction: EvaluatorAction {
+// MARK: Actions
+extension HelloWorld.Evaluator: ActionEvaluating {
+    enum Action: EvaluatorAction {
         case sayHello
         case sayNothing
         
@@ -48,8 +48,8 @@ extension HelloWorld.Evaluator: ButtonEvaluating {
         }
     }
     
-    func buttonTapped(action: EvaluatorAction?) {
-        guard let action = action as? ButtonAction else { return }
+    func evaluate(_ action: EvaluatorAction?) {
+        guard let action = action as? Action else { return }
         
         switch action {
             
@@ -78,7 +78,7 @@ extension HelloWorld.Evaluator {
         let configuration = SayStuffStepConfiguration(
             helloCount: 0,
             bubbleText: nil,
-            buttonAction: ButtonAction.sayHello
+            buttonAction: Action.sayHello
         )
         current.step = .sayStuff(configuration)
     }

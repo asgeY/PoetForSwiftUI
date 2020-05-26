@@ -13,7 +13,7 @@ struct Tutorial {}
 extension Tutorial {
     struct Screen: View {
         
-        typealias ButtonAction = Evaluator.ButtonAction
+        typealias Action = Evaluator.Action
         
         let _evaluator: Evaluator
         weak var evaluator: Evaluator?
@@ -120,7 +120,7 @@ extension Tutorial {
                                 withAnimation(.linear(duration: 0.15)) {
                                     self.touchingDownOnBox = false
                                 }
-                                self.evaluator?.buttonTapped(action: ButtonAction.pageForward)
+                                self.evaluator?.evaluate(Action.pageForward)
                             }
                         }
                         
@@ -179,7 +179,7 @@ extension Tutorial {
                         ZStack(alignment: .topLeading) {
                             HStack {
                                 Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                    Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageBackward) }) {
+                                    Button(action: { self.evaluator?.evaluate(Action.pageBackward) }) {
                                         Image(systemName: "chevron.compact.left")
                                             .resizable()
                                             .frame(width: 7, height: 16, alignment: .center)
@@ -200,7 +200,7 @@ extension Tutorial {
                                 Spacer().frame(width: 24)
                                     .layoutPriority(0)
                                 Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                    Button(action: { self.evaluator?.buttonTapped(action: ButtonAction.pageForward) }) {
+                                    Button(action: { self.evaluator?.evaluate(Action.pageForward) }) {
                                         Image(systemName: "chevron.compact.right")
                                             .resizable()
                                             .frame(width: 7, height: 16, alignment: .center)
@@ -259,7 +259,7 @@ extension Tutorial {
                             isShowing: self.translator.shouldShowFileOfInterestButton,
                             transition: AnyTransition.opacity.combined(with: AnyTransition.offset(x: 20, y: 0)),
                             evaluator: evaluator,
-                            action: ButtonAction.showFileOfInterest)
+                            action: Action.showFileOfInterest)
                         
                         Hideable(isShowing: self.translator.shouldShowFileOfInterestButton, transition: .opacity) {
                             Divider()
@@ -271,7 +271,7 @@ extension Tutorial {
                             isShowing: self.translator.shouldShowFilesButton,
                             transition: .opacity,
                             evaluator: evaluator,
-                            action: ButtonAction.showChapterFiles)
+                            action: Action.showChapterFiles)
                     }
                     .frame(height: 40)
                     Spacer()

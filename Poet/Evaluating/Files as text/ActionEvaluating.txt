@@ -1,0 +1,10 @@
+//
+//  ActionEvaluating.swift
+//  Poet
+//
+
+import Foundation
+
+protocol ActionEvaluating: class {
+    func evaluate(_ action: EvaluatorAction?)
+}

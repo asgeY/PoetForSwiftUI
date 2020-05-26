@@ -14,8 +14,6 @@ struct HelloSolarSystem {}
 extension HelloSolarSystem {
     struct Screen: View {
         
-        typealias ButtonAction = Evaluator.ButtonAction
-        
         private let _evaluator: Evaluator
         weak var evaluator: Evaluator?
         let translator: Translator

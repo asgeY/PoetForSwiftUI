@@ -1,5 +1,5 @@
 //
-//  ButtonEvaluating.swift
+//  ActionEvaluating.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 5/16/20.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ButtonEvaluating: class {
-    func buttonTapped(action: EvaluatorAction?)
+protocol ActionEvaluating: class {
+    func evaluate(_ action: EvaluatorAction?)
 }

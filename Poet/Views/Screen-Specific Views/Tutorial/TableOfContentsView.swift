@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TableOfContentsView: View {
     @ObservedObject var selectableChapterTitles: ObservableArray<NumberedNamedEvaluatorAction>
-    weak var evaluator: ButtonEvaluating?
+    weak var evaluator: ActionEvaluating?
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var isShowingAbout = false
@@ -44,7 +44,7 @@ struct TableOfContentsView: View {
                     
                     ForEach(self.selectableChapterTitles.array, id: \.id) { item in
                         Button(action: {
-                            self.evaluator?.buttonTapped(action: item.action)
+                            self.evaluator?.evaluate(item.action)
                             self.presentationMode.wrappedValue.dismiss()
                         }) {
                             VStack(spacing: 0) {

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E8D392462A9CD005D033C /* AfterWait.swift */; };
+		3B687617247DCA31005F2FBA /* ObservableEvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687616247DCA31005F2FBA /* ObservableEvaluatorAction.swift */; };
 		3BF6691C2477CFAA00AE055C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691B2477CFAA00AE055C /* Device.swift */; };
 		3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691D2477D1F700AE055C /* FontSystem.swift */; };
 		3BF669232478014400AE055C /* Template-Evaluator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BF669202477FF5500AE055C /* Template-Evaluator.txt */; };
@@ -71,7 +72,7 @@
 		DC31CC702479C9EC00002075 /* FileOfInterestButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6F2479C9EC00002075 /* FileOfInterestButton.swift */; };
 		DC31CC722479CA2100002075 /* FileTrayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC712479CA2100002075 /* FileTrayButton.swift */; };
 		DC31CC75247B367000002075 /* ObservingButton.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC31CC74247B367000002075 /* ObservingButton.txt */; };
-		DC31CC78247B393600002075 /* ButtonEvaluating.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC31CC77247B393600002075 /* ButtonEvaluating.txt */; };
+		DC31CC78247B393600002075 /* ActionEvaluating.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC31CC77247B393600002075 /* ActionEvaluating.txt */; };
 		DC31CC7B247C381400002075 /* HelloWorld-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC7A247C37F500002075 /* HelloWorld-Screen.swift */; };
 		DC31CC7D247C383E00002075 /* HelloWorld-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC7C247C383E00002075 /* HelloWorld-Evaluator.swift */; };
 		DC31CC7F247C384000002075 /* HelloWorld-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC7E247C384000002075 /* HelloWorld-Translator.swift */; };
@@ -82,7 +83,7 @@
 		DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111D245DF9AA009BC14D /* Tutorial-Screen.swift */; };
 		DC4C111F245DFF21009BC14D /* Tutorial-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111B245DF9AA009BC14D /* Tutorial-Evaluator.swift */; };
 		DC4C1120245DFF21009BC14D /* Tutorial-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111C245DF9AA009BC14D /* Tutorial-Translator.swift */; };
-		DC4C6C462471054E0014A34C /* ButtonEvaluating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C452471054E0014A34C /* ButtonEvaluating.swift */; };
+		DC4C6C462471054E0014A34C /* ActionEvaluating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C452471054E0014A34C /* ActionEvaluating.swift */; };
 		DC4C6C482476C5660014A34C /* InstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C472476C5660014A34C /* InstructionView.swift */; };
 		DC4C6C4A2476C59A0014A34C /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C492476C59A0014A34C /* ProductView.swift */; };
 		DC4C6C4C2476C5A40014A34C /* DisplayableProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C4B2476C5A40014A34C /* DisplayableProductsView.swift */; };
@@ -127,6 +128,7 @@
 
 /* Begin PBXFileReference section */
 		3B1E8D392462A9CD005D033C /* AfterWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterWait.swift; sourceTree = "<group>"; };
+		3B687616247DCA31005F2FBA /* ObservableEvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableEvaluatorAction.swift; sourceTree = "<group>"; };
 		3BF6691B2477CFAA00AE055C /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		3BF6691D2477D1F700AE055C /* FontSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSystem.swift; sourceTree = "<group>"; };
 		3BF669202477FF5500AE055C /* Template-Evaluator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Template-Evaluator.txt"; sourceTree = "<group>"; };
@@ -194,7 +196,7 @@
 		DC31CC6F2479C9EC00002075 /* FileOfInterestButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOfInterestButton.swift; sourceTree = "<group>"; };
 		DC31CC712479CA2100002075 /* FileTrayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTrayButton.swift; sourceTree = "<group>"; };
 		DC31CC74247B367000002075 /* ObservingButton.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ObservingButton.txt; sourceTree = "<group>"; };
-		DC31CC77247B393600002075 /* ButtonEvaluating.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ButtonEvaluating.txt; sourceTree = "<group>"; };
+		DC31CC77247B393600002075 /* ActionEvaluating.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ActionEvaluating.txt; sourceTree = "<group>"; };
 		DC31CC7A247C37F500002075 /* HelloWorld-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Screen.swift"; sourceTree = "<group>"; };
 		DC31CC7C247C383E00002075 /* HelloWorld-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Evaluator.swift"; sourceTree = "<group>"; };
 		DC31CC7E247C384000002075 /* HelloWorld-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Translator.swift"; sourceTree = "<group>"; };
@@ -205,7 +207,7 @@
 		DC4C111B245DF9AA009BC14D /* Tutorial-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-Evaluator.swift"; sourceTree = "<group>"; };
 		DC4C111C245DF9AA009BC14D /* Tutorial-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-Translator.swift"; sourceTree = "<group>"; };
 		DC4C111D245DF9AA009BC14D /* Tutorial-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-Screen.swift"; sourceTree = "<group>"; };
-		DC4C6C452471054E0014A34C /* ButtonEvaluating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonEvaluating.swift; sourceTree = "<group>"; };
+		DC4C6C452471054E0014A34C /* ActionEvaluating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionEvaluating.swift; sourceTree = "<group>"; };
 		DC4C6C472476C5660014A34C /* InstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionView.swift; sourceTree = "<group>"; };
 		DC4C6C492476C59A0014A34C /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		DC4C6C4B2476C5A40014A34C /* DisplayableProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableProductsView.swift; sourceTree = "<group>"; };
@@ -279,6 +281,7 @@
 				3BF6693A2478286800AE055C /* ObservableBool.swift */,
 				3BF6693C247828B500AE055C /* ObservableDouble.swift */,
 				3BF6693E247828CA00AE055C /* ObservableInt.swift */,
+				3B687616247DCA31005F2FBA /* ObservableEvaluatorAction.swift */,
 				3BF6694424782B1800AE055C /* ObservableNamedEvaluatorAction.swift */,
 				875562EC244D144600DB49C4 /* ObservableString.swift */,
 				3BF66940247828E900AE055C /* ObservableURL.swift */,
@@ -438,7 +441,7 @@
 		DC31CC76247B392500002075 /* Files as text */ = {
 			isa = PBXGroup;
 			children = (
-				DC31CC77247B393600002075 /* ButtonEvaluating.txt */,
+				DC31CC77247B393600002075 /* ActionEvaluating.txt */,
 			);
 			path = "Files as text";
 			sourceTree = "<group>";
@@ -505,7 +508,7 @@
 				DC65656724709D570048A848 /* EvaluatorAction.swift */,
 				DC6565692470AA530048A848 /* EvaluatorStep.swift */,
 				878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */,
-				DC4C6C452471054E0014A34C /* ButtonEvaluating.swift */,
+				DC4C6C452471054E0014A34C /* ActionEvaluating.swift */,
 				DC31CC76247B392500002075 /* Files as text */,
 			);
 			path = Evaluating;
@@ -689,7 +692,7 @@
 				3BF6693424781B3100AE055C /* PassableStep.txt in Resources */,
 				875562C0244C253500DB49C4 /* LaunchScreen.storyboard in Resources */,
 				3BF6694B2478316600AE055C /* ObservingTextView.txt in Resources */,
-				DC31CC78247B393600002075 /* ButtonEvaluating.txt in Resources */,
+				DC31CC78247B393600002075 /* ActionEvaluating.txt in Resources */,
 				3BF66936247820E000AE055C /* Template-Translator.txt in Resources */,
 				875562BD244C253500DB49C4 /* Preview Assets.xcassets in Resources */,
 				DC31CC75247B367000002075 /* ObservingButton.txt in Resources */,
@@ -733,8 +736,9 @@
 				87AC827A2453BB3C0090E443 /* Menu-Evaluator.swift in Sources */,
 				DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */,
 				DC4C6C5D2476CC090014A34C /* CircularTabBar.swift in Sources */,
-				DC4C6C462471054E0014A34C /* ButtonEvaluating.swift in Sources */,
+				DC4C6C462471054E0014A34C /* ActionEvaluating.swift in Sources */,
 				DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */,
+				3B687617247DCA31005F2FBA /* ObservableEvaluatorAction.swift in Sources */,
 				875562F5244D5FDB00DB49C4 /* PassableInt.swift in Sources */,
 				DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */,
 				3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */,
@@ -960,14 +964,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Poet/Preview Content\"";
-				DEVELOPMENT_TEAM = XBV79M6D9G;
+				DEVELOPMENT_TEAM = Y9G957Y75J;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Poet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.Poet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.newbundle.Poet;
 				PRODUCT_NAME = Poet;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -980,14 +984,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Poet/Preview Content\"";
-				DEVELOPMENT_TEAM = XBV79M6D9G;
+				DEVELOPMENT_TEAM = Y9G957Y75J;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Poet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.Poet;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cotner.steve.newbundle.Poet;
 				PRODUCT_NAME = Poet;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

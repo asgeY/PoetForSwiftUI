@@ -20,9 +20,9 @@ extension Retail {
         
         var current = PassableStep(Step.initial)
         
-        // ButtonAction
+        // Actions
         
-        enum ButtonAction: EvaluatorAction {
+        enum Action: EvaluatorAction {
             case startOrder
             case advanceToDeliveryStep
             case advanceToCompletedStep
@@ -104,7 +104,7 @@ extension Retail.Evaluator {
         var customer: String
         var orderID: String
         var products: [Product]
-        var startAction: ButtonAction
+        var startAction: Action
     }
     
     struct FindProductsConfiguration {
@@ -112,7 +112,7 @@ extension Retail.Evaluator {
         var orderID: String
         var findableProducts: [FindableProduct]
         var startTime: Date
-        var nextAction: ButtonAction?
+        var nextAction: Action?
     }
     
     struct ChooseDeliveryLocationConfiguration {
@@ -123,7 +123,7 @@ extension Retail.Evaluator {
         var deliveryLocationChoices: [String]
         var deliveryLocationPreference: String?
         var startTime: Date
-        var nextAction: ButtonAction?
+        var nextAction: Action?
     }
     
     struct CompletedConfiguration {
@@ -134,7 +134,7 @@ extension Retail.Evaluator {
         var numberOfProductsRequested: Int
         var timeCompleted: Date
         var elapsedTime: TimeInterval
-        var doneAction: ButtonAction
+        var doneAction: Action
     }
     
     struct CanceledConfiguration {
@@ -142,7 +142,7 @@ extension Retail.Evaluator {
         var orderID: String
         var timeCompleted: Date
         var elapsedTime: TimeInterval
-        var doneAction: ButtonAction
+        var doneAction: Action
     }
 }
 
@@ -156,7 +156,7 @@ extension Retail.Evaluator: ViewCycleEvaluating {
                     customer: "Bob Dobalina",
                     orderID: order.id,
                     products: order.products,
-                    startAction: ButtonAction.startOrder)
+                    startAction: Action.startOrder)
             )
         }
     }
@@ -164,10 +164,10 @@ extension Retail.Evaluator: ViewCycleEvaluating {
 
 // Actions
 
-extension Retail.Evaluator: ButtonEvaluating {
+extension Retail.Evaluator: ActionEvaluating {
     
-    func buttonTapped(action: EvaluatorAction?) {
-        guard let action = action as? ButtonAction else { return }
+    func evaluate(_ action: EvaluatorAction?) {
+        guard let action = action as? Action else { return }
         
         switch action {
         case .startOrder:

@@ -32,11 +32,11 @@ extension Tutorial {
         struct Page {
             
             let body: [Body]
-            let action: ButtonAction?
+            let action: Action?
             let file: String?
             let supplement: Supplement?
             
-            init(_ body: [Body], action: ButtonAction? = nil, file: String? = nil, supplement: Supplement? = nil) {
+            init(_ body: [Body], action: Action? = nil, file: String? = nil, supplement: Supplement? = nil) {
                 self.body = body
                 self.action = action
                 self.file = file
@@ -112,7 +112,7 @@ extension Tutorial.Evaluator {
         var pageNumber: Int { return pageIndex + 1 }
         var pageCountWithinChapter: Int { return pageData[chapterIndex].pages.count }
         var chapterCount: Int { return pageData.count }
-        var buttonAction: ButtonAction? { return pageData[chapterIndex].pages[pageIndex].action }
+        var buttonAction: Action? { return pageData[chapterIndex].pages[pageIndex].action }
         var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
         
         // Files
@@ -134,7 +134,7 @@ extension Tutorial.Evaluator {
                 let selectableChapterTitle = NumberedNamedEvaluatorAction(
                     number: i + 1,
                     name: chapter.title,
-                    action: ButtonAction.showChapter(chapterIndex: i, pageData: pageData)
+                    action: Action.showChapter(chapterIndex: i, pageData: pageData)
                 )
                 selectableChapterTitles.append(selectableChapterTitle)
             }
@@ -175,12 +175,12 @@ extension Tutorial.Evaluator: ViewCycleEvaluating {
     }
 }
 
-// MARK: Button Actions
+// MARK: Actions
 
-extension Tutorial.Evaluator: ButtonEvaluating {
+extension Tutorial.Evaluator: ActionEvaluating {
     
-    // Button Actions
-    enum ButtonAction: EvaluatorAction {
+    // Actions
+    enum Action: EvaluatorAction {
         case pageForward
         case pageBackward
         case showChapter(chapterIndex: Int, pageData: [Chapter])
@@ -220,8 +220,8 @@ extension Tutorial.Evaluator: ButtonEvaluating {
         }
     }
     
-    func buttonTapped(action: EvaluatorAction?) {
-        guard let action = action as? ButtonAction else { return }
+    func evaluate(_ action: EvaluatorAction?) {
+        guard let action = action as? Action else { return }
         switch action {
             
         case .pageForward:

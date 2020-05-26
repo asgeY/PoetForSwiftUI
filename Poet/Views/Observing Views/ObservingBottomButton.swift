@@ -10,14 +10,14 @@ import SwiftUI
 
 struct ObservingBottomButton: View {
     @ObservedObject var obsevableNamedAction: ObservableNamedEvaluatorAction
-    weak var evaluator: ButtonEvaluating?
+    weak var evaluator: ActionEvaluating?
     
     var body: some View {
         GeometryReader() { geometry in
             VStack {
                 Spacer()
                 Button(action: {
-                    self.evaluator?.buttonTapped(action: self.obsevableNamedAction.namedAction?.action)
+                    self.evaluator?.evaluate(self.obsevableNamedAction.namedAction?.action)
                 }) {
                         
                     Text(

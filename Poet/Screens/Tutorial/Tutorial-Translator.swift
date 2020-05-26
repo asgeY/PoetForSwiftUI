@@ -60,8 +60,8 @@ extension Tutorial {
         var showRetailDemo = PassablePlease()
         
         // Actions
-        var buttonAction = Observable<EvaluatorAction?>(nil)
-        var tableOfContentsAction = Observable<EvaluatorAction?>(nil)
+        var buttonAction = ObservableEvaluatorAction()
+        var tableOfContentsAction = ObservableEvaluatorAction()
         
         // Protocol-Oriented Translating
         var alertTranslator = AlertTranslator()
@@ -198,7 +198,7 @@ extension Tutorial.Translator {
         chapterTitle.string = configuration.title
         body.array = configuration.body
         pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCountWithinChapter)"
-        buttonAction.value = configuration.buttonAction
+        buttonAction.action = configuration.buttonAction
         selectableChapterTitles.array = configuration.selectableChapterTitles
         
         if let actionName = configuration.buttonAction?.name {

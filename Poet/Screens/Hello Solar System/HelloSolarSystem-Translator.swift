@@ -13,14 +13,14 @@ extension HelloSolarSystem {
     class Translator {
         
         typealias Evaluator = HelloSolarSystem.Evaluator
-        typealias ButtonAction = Evaluator.ButtonAction
+        typealias Action = Evaluator.Action
         
         // Observable Display State
         var title = ObservableString()
         var imageName = ObservableString()
         var foregroundColor = Observable<Color>(.clear)
         var backgroundColor = Observable<Color>(.clear)
-        var tapAction = Observable<EvaluatorAction?>(nil)
+        var tapAction = ObservableEvaluatorAction()
         var shouldShowTapMe = ObservableBool()
         var tabs = ObservableArray<EvaluatorActionWithIconAndID>([])
         var currentTab = Observable<EvaluatorActionWithIconAndID?>(nil)
@@ -54,13 +54,13 @@ extension HelloSolarSystem.Translator {
         imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
         foregroundColor.value = configuration.currentCelestialBody.foreground.color
         backgroundColor.value = configuration.currentCelestialBody.background.color
-        tapAction.value = configuration.tapAction
-        tabs.array = configuration.celestialBodies.map { ButtonAction.showCelestialBody($0) }
+        tapAction.action = configuration.tapAction
+        tabs.array = configuration.celestialBodies.map { Action.showCelestialBody($0) }
         withAnimation(.linear) {
             shouldShowTapMe.bool = configuration.tapAction != nil
         }
         withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
-            currentTab.value = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
+            currentTab.value = Action.showCelestialBody(configuration.currentCelestialBody)
         }
         
     }
