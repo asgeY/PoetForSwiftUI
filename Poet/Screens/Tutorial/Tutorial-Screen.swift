@@ -281,8 +281,8 @@ extension Tutorial {
                 Group {
                     
                     // MARK: Files
-                    PresenterWithPassedValue(self.translator.showChapterFileMenu) { fileTitlesAndBodies in
-                        FileMenuView(title: "Files", fileTitlesAndBodies: fileTitlesAndBodies)
+                    PresenterWithPassedValue(self.translator.showChapterFileMenu) { textFiles in
+                        FileMenuView(title: "Files", textFiles: textFiles)
                     }
                     
                     // MARK: File of Interest

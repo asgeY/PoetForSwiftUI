@@ -50,7 +50,7 @@ extension Tutorial {
         var shouldShowFileOfInterestButton = ObservableBool()
         
         // Passable
-        var showChapterFileMenu = Passable<[Evaluator.FileTitleAndBody]>()
+        var showChapterFileMenu = Passable<[TextFile]>()
         var showFile = PassableString()
         var showSupplement = PassablePlease()
         var showSomething = PassablePlease()
@@ -189,7 +189,7 @@ extension Tutorial.Translator {
         }
 
         withAnimation(.linear(duration: 0.2)) {
-            self.shouldShowFilesButton.bool = configuration.chapterFileTitlesAndBodies.notEmpty
+            self.shouldShowFilesButton.bool = configuration.chapterTextFiles.notEmpty
             self.shouldShowFileOfInterestButton.bool = configuration.fileOfInterest != nil
         }
         

@@ -11,7 +11,7 @@ import SwiftUI
 
 struct FileMenuView: View {
     let title: String
-    let fileTitlesAndBodies: [Tutorial.Evaluator.FileTitleAndBody]
+    let textFiles: [TextFile]
     var showFile = PassableString()
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -37,7 +37,7 @@ struct FileMenuView: View {
                 
                 ScrollView {
                     Spacer().frame(height:4)
-                    ForEach(self.fileTitlesAndBodies, id: \.id) { fileTitleAndBody in
+                    ForEach(self.textFiles, id: \.id) { fileTitleAndBody in
                         Button(action: {
                             self.showFile.withString(fileTitleAndBody.body)
                         }) {

@@ -70,28 +70,6 @@ extension Tutorial {
             }
         }
         
-        struct FileTitleAndBody {
-            let title: String
-            let body: String
-            let id: UUID = UUID()
-            
-            static func fromFileName(_ fileName: String?) -> FileTitleAndBody? {
-                if let fileName = fileName {
-                    if let filepath = Bundle.main.path(forResource: fileName, ofType: "txt") {
-                        do {
-                            let contents = try String(contentsOfFile: filepath)
-                            return FileTitleAndBody(title: fileName, body: contents)
-                        } catch {
-                            debugPrint("file error: \(error)")
-                        }
-                    } else {
-                        debugPrint("no file of name: \(fileName) and type: txt")
-                    }
-                }
-                return nil
-            }
-        }
-        
         let pageStore = PageStore.shared
     }
 }
@@ -138,14 +116,14 @@ extension Tutorial.Evaluator {
         var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
         
         // Files
-        var chapterFileTitlesAndBodies: [FileTitleAndBody] {
+        var chapterTextFiles: [TextFile] {
             return pageData[chapterIndex].files.compactMap { fileName in
-                return FileTitleAndBody.fromFileName(fileName)
+                return TextFile.fromFileName(fileName)
             }
         }
         
-        var fileOfInterest: FileTitleAndBody? {
-            return FileTitleAndBody.fromFileName(pageData[chapterIndex].pages[pageIndex].file)
+        var fileOfInterest: TextFile? {
+            return TextFile.fromFileName(pageData[chapterIndex].pages[pageIndex].file)
         }
         
         // Helper methods
@@ -408,7 +386,7 @@ extension Tutorial.Evaluator {
     func showChapterFiles() {
         guard case let .page(configuration) = current.step else { return }
         
-        translator.showChapterFileMenu.withValue(configuration.chapterFileTitlesAndBodies)
+        translator.showChapterFileMenu.withValue(configuration.chapterTextFiles)
     }
     
     func showFileOfInterest() {
