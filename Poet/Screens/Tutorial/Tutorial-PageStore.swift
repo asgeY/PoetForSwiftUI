@@ -414,13 +414,21 @@ extension Tutorial {
                 Page([.text("Let's see what that looks like with a real example.")])
                 ),
                 
-            Chapter("Updating Business State",
+            Chapter("Business State (In Progress)",
                     files: [
                         "SayHelloWorld-Evaluator"
                     ],
                 pages:
                 
-                Page([.text("If you tap the button that says “Show Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to business state.")],
+                Page([.text("A cleanly separated business state doesn't mean much to us unless we can update it. If you tap the button that says “Show Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to business state.")],
+                     action: .showHelloWorld
+                ),
+                
+                Page([.text("In its structure, Hello World isn't too different from the Template we've already seen. Its evaluator includes one step (besides initial) named “sayStuff” and two ButtonActions named “sayHello” and “sayNothing.”")],
+                     action: .showHelloWorld
+                ),
+                
+                Page([.text("...")],
                      action: .showHelloWorld
                 ),
                     
@@ -1010,7 +1018,7 @@ extension Tutorial {
             
             // Add a performer to this example
             
-            Chapter("Hello Solar System", pages:
+            Chapter("Business State, Part 2 (In Progress)", pages:
                 Page([.text("In this chapter, we build on familiar concepts and run through a quick example of an evaluator/translator/screen working together in a new scenario."),
                       .text("Tap the button that says “Show Hello Solar System” to see a new screen. Play around for a bit and come back when you're done.")
                 ],
@@ -1156,7 +1164,7 @@ extension Tutorial {
                 Page([.text("The end result is a well-organized screen that is flexible enough to show whatever the JSON prescribes, with clearly defined business state, display state, and view logic. Now let's move on to something more complex.")])
             ),
             
-            Chapter("Asynchronous Work", pages:
+            Chapter("Asynchronous Work (Coming soon)", pages:
                 Page([.text("Coming soon...")])
             ),
             
@@ -1252,9 +1260,14 @@ extension Tutorial {
                 Page([.text("If we had needed to do some more translating before passing our please to the view layer, our evaluator could have called a method directly on the translator, something like this:"),
                       .code("translator.showSomethingScreen()")]),
                 Page([.text("The translator then would do whatever extra translating it had in mind before calling please() on its own property.")]),
-                Page([.text("And that's how we pass state imperatively. We keep a rigorous separation of our different layers, but we also link them up with minimal code that's easy to follow.")]),
-                Page([.text("Speaking of minimal code, let's look at another technique that saves us from being repetitive as we bridge our different layers: protocol-oriented translating.")])
+                Page([.text("And that's how we pass state imperatively. We keep a rigorous separation of our different layers, but we also link them up with minimal code that's easy to follow.")])
             ),
+            
+            Chapter("Passable State, Part 2 (In Progress)", pages:
+                Page([.text("(Coming soon)\n\nThis chapter will cover PresenterWithString and PresenterWithPassableValue.")])
+            ),
+            
+            // Page([.text("Speaking of minimal code, let's look at another technique that saves us from being repetitive as we bridge our different layers: protocol-oriented translating.")])
             
             Chapter("Protocol-Oriented Translating", pages:
                 Page([.text("A lot of user interface elements are very predictable but still require a good amount of code to implement: alerts, action sheets, bezels, toasts.")]),
@@ -1680,66 +1693,11 @@ extension Tutorial {
             )
             
         ]
-        
-        func templateEvaluator() -> String {
-            """
-            import Foundation
-
-            extension Template {
-                class Evaluator {
-                    
-                    // Translator
-                    lazy var translator: Translator = Translator(current)
-                    
-                    // Current Step
-                    var current = PassableStep(Step.initial)
-                    
-                }
-            }
-
-            // Steps and Step Configurations
-            extension Template.Evaluator {
-                
-                // Steps
-                enum Step: EvaluatorStep {
-                    case initial
-                    case text(TextStepConfiguration)
-                }
-                
-                // Configurations
-                struct TextStepConfiguration {
-                    var title: String
-                    var body: String
-                }
-            }
-
-            // View Cycle
-            extension Template.Evaluator: ViewCycleEvaluating {
-                
-                func viewDidAppear() {
-                    showTextStep()
-                }
-            }
-
-            // Advancing Between Steps
-            extension Template.Evaluator {
-                func showTextStep() {
-                    let configuration = TextStepConfiguration(
-                        title: "Template",
-                        body:
-                        \"""
-                        You're looking at a screen made with a simple template, located in Template-Screen.swift.
-            
-                        Use this template as the basis for new screens, or read through its code to get a better sense of the Poet pattern.
-                        \"""
-                    )
-                    current.step = .text(configuration)
-                }
-            }
-
-            """
-        }
     }
-    
 }
 
+/*
+ Screen demos to make:
+ * a list with an indeterminate number of sections, based on the data pulled down
+ * text entry
+ */
