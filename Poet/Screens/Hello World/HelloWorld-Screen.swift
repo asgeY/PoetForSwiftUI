@@ -2,21 +2,18 @@
 //  HelloWorld-Screen.swift
 //  Poet
 //
-//  Created by Stephen E. Cotner on 5/15/20.
+//  Created by Stephen E. Cotner on 5/25/20.
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
 import SwiftUI
-import Combine
 
 struct HelloWorld {}
 
 extension HelloWorld {
     struct Screen: View {
         
-        typealias ButtonAction = Evaluator.ButtonAction
-        
-        private let _evaluator: Evaluator
+        let _evaluator: Evaluator
         weak var evaluator: Evaluator?
         let translator: Translator
         
@@ -29,78 +26,51 @@ extension HelloWorld {
         @State var navBarHidden: Bool = true
         
         var body: some View {
-            return GeometryReader() { geometry in
-                ZStack {
+            ZStack {
+                VStack(spacing: 0) {
                     
-                    // MARK: Dismiss Button
+                    // Count
+                    ObservingTextView(translator.helloCount)
+                        .font(Font.body.bold().monospacedDigit())
+                       .fixedSize(horizontal: false, vertical: true)
+                       .padding(EdgeInsets(top: 23, leading: 30, bottom: 50, trailing: 30))
                     
-                    VStack {
-                        DismissButton(orientation: .right)
-                            .zIndex(2)
-                        Spacer()
-                    }.zIndex(2)
-                    
-                    // MARK: Title and Image
-                    
-                    VStack {
-                        Spacer()
-                        
-                        // MARK: Title
-                        
-                        ObservingTextView(self.translator.title)
-                            .font(Font.headline)
-                        
-                        Spacer().frame(height:20)
-                        
-                        // MARK: Tappable Image
-                        
-                        TappableImage(
-                            evaluator: self.evaluator,
-                            tapAction: self.translator.tapAction,
-                            image: self.translator.imageName,
-                            foregroundColor: self.translator.foregroundColor,
-                            backgroundColor: self.translator.backgroundColor
-                        )
-                        
+                    // Bubble
+                    Hideable(isShowing: translator.shouldShowBubble, transition: AnyTransition.scale(scale: 0.5, anchor: .center).combined(with: AnyTransition.opacity)) {
                         ZStack {
-                            Hideable(isShowing: self.translator.shouldShowTapMe) {
-                                VStack {
-                                    Image(systemName: "arrow.up")
-                                    Text("Tap me")
-                                }
-                                .font(Font.caption)
-                                .opacity(0.9)
-                                .padding(.top, 10)
-                            }
-                        }.frame(height: 50)
-
-                        Spacer()
-                    }.zIndex(1)
+                            Image(systemName: "bubble.right")
+                                .resizable()
+                                .font(Font.system(size: 12, weight: .light))
+                                .frame(width: 170, height: 170)
+                            
+                            ObservingTextView(self.translator.bubbleText, kerning: -0.5)
+                                .font(Font.system(size: 22, weight: .semibold))
+                                .offset(y: -12)
+                        }
+                    }
                     
-                    // MARK: Our Different Image Choices
-                    
-                    VStack {
-                        Spacer()
-                        CircularTabBar(evaluator: self.evaluator, tabs: self.translator.tabs, currentTab: self.translator.currentTab)
-                            .foregroundColor(.primary)
-                        Spacer().frame(height: 30)
-                    }.zIndex(2)
+                    Spacer()
                 }
                 
-                // MARK: ViewCycle
-                .onAppear {
-                    self.navBarHidden = true
-                    self.evaluator?.viewDidAppear()
-                    UITableView.appearance().separatorColor = .clear
+                // Bottom Button
+                ObservingBottomButton(obsevableNamedAction: translator.buttonAction, evaluator: evaluator)
+                
+                // Dismiss Button
+                VStack {
+                    DismissButton(orientation: .right)
+                    Spacer()
                 }
-                    
-                // MARK: Hide Navigation Bar
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                    self.navBarHidden = true
-                }
-                .navigationBarTitle("Pager", displayMode: .inline)
-                    .navigationBarHidden(self.navBarHidden)
+            }.onAppear {
+                self.evaluator?.viewDidAppear()
+                self.navBarHidden = true
             }
+                
+            // MARK: Hide Navigation Bar
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                self.navBarHidden = true
+            }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarHidden(self.navBarHidden)
         }
     }
 }

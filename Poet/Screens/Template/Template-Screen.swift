@@ -27,11 +27,11 @@ extension Template {
         
         var body: some View {
             ZStack {
-                VStack {
+                VStack(spacing: 0) {
                     ObservingTextView(translator.title)
                         .font(Font.headline)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(.top, 50)
+                        .padding(.top, 22)
 
                     ObservingTextView(translator.body)
                         .font(Font.body)

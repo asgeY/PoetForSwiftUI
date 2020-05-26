@@ -2,7 +2,7 @@
 //  HelloWorld-Translator.swift
 //  Poet
 //
-//  Created by Stephen E. Cotner on 5/15/20.
+//  Created by Stephen E. Cotner on 5/25/20.
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
@@ -13,17 +13,12 @@ extension HelloWorld {
     class Translator {
         
         typealias Evaluator = HelloWorld.Evaluator
-        typealias ButtonAction = Evaluator.ButtonAction
         
         // Observable Display State
-        var title = ObservableString()
-        var imageName = ObservableString()
-        var foregroundColor = Observable<Color>(.clear)
-        var backgroundColor = Observable<Color>(.clear)
-        var tapAction = Observable<EvaluatorAction?>(nil)
-        var shouldShowTapMe = ObservableBool()
-        var tabs = ObservableArray<EvaluatorActionWithIconAndID>([])
-        var currentTab = Observable<EvaluatorActionWithIconAndID?>(nil)
+        var helloCount = ObservableString()
+        var buttonAction = ObservableNamedEvaluatorAction()
+        var bubbleText = ObservableString()
+        var shouldShowBubble = ObservableBool()
         
         // Passthrough Behavior
         private var behavior: Behavior?
@@ -41,27 +36,29 @@ extension HelloWorld.Translator {
         switch step {
             
         case .initial:
-            break // no initial setup needed
+            break
             
-        case .celestialBody(let configuration):
-            translateCelestialBodyStep(configuration)
+        case .sayStuff(let configuration):
+            translateSayStuffStep(configuration)
         }
     }
     
-    func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {
-        // Set observable display state
-        title.string = "Hello \(configuration.currentCelestialBody.name)!"
-        imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
-        foregroundColor.value = configuration.currentCelestialBody.foreground.color
-        backgroundColor.value = configuration.currentCelestialBody.background.color
-        tapAction.value = configuration.tapAction
-        tabs.array = configuration.celestialBodies.map { ButtonAction.showCelestialBody($0) }
-        withAnimation(.linear) {
-            shouldShowTapMe.bool = configuration.tapAction != nil
-        }
-        withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
-            currentTab.value = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
+    func translateSayStuffStep(_ configuration: Evaluator.SayStuffStepConfiguration) {
+        helloCount.string = "Hello count: \(configuration.helloCount)"
+        
+        buttonAction.namedAction = nil
+        afterWait(800) {
+            self.buttonAction.namedAction = NamedEvaluatorAction(
+                name: configuration.buttonAction.name,
+                action: configuration.buttonAction
+            )
         }
         
+        if let bubbleText = configuration.bubbleText {
+            self.bubbleText.string = bubbleText
+        }
+        withAnimation(.spring(response: 0.45, dampingFraction: 0.6, blendDuration: 0)) {
+            shouldShowBubble.bool = configuration.bubbleText != nil
+        }
     }
 }

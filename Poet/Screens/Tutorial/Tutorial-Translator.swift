@@ -56,6 +56,7 @@ extension Tutorial {
         var showSomething = PassablePlease()
         var showTemplate = PassablePlease()
         var showHelloWorld = PassablePlease()
+        var showHelloSolarSystem = PassablePlease()
         var showRetailDemo = PassablePlease()
         
         // Actions

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ObservingBottomButton: View {
-    @ObservedObject var bottomButtonAction: ObservableNamedEvaluatorAction
+    @ObservedObject var obsevableNamedAction: ObservableNamedEvaluatorAction
     weak var evaluator: ButtonEvaluating?
     
     var body: some View {
@@ -17,11 +17,11 @@ struct ObservingBottomButton: View {
             VStack {
                 Spacer()
                 Button(action: {
-                    self.evaluator?.buttonTapped(action: self.bottomButtonAction.action?.action)
+                    self.evaluator?.buttonTapped(action: self.obsevableNamedAction.namedAction?.action)
                 }) {
                         
                     Text(
-                        self.bottomButtonAction.action?.name ?? "")
+                        self.obsevableNamedAction.namedAction?.name ?? "")
                         .animation(.none)
                         .font(Font.headline)
                         .foregroundColor(Color(UIColor.systemBackground))
@@ -37,15 +37,14 @@ struct ObservingBottomButton: View {
                                 Capsule()
                             )
                     )
-                    
                 }
             }
             
             .opacity(
-                self.bottomButtonAction.action?.action == nil ? 0 : 1
+                self.obsevableNamedAction.namedAction?.action == nil ? 0 : 1
             )
-            .offset(x: 0, y: self.bottomButtonAction.action?.action == nil ? 150 : 0)
-                .animation(.spring(response: 0.35, dampingFraction: 0.7, blendDuration: 0), value: self.bottomButtonAction.action?.action == nil)
+            .offset(x: 0, y: self.obsevableNamedAction.namedAction?.action == nil ? 150 : 0)
+                .animation(.spring(response: 0.35, dampingFraction: 0.7, blendDuration: 0), value: self.obsevableNamedAction.namedAction?.action == nil)
         }
     }
 }

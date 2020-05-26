@@ -47,7 +47,7 @@ extension Retail {
                 
                 VStack {
                     Spacer()
-                    ObservingBottomButton(bottomButtonAction: self.translator.bottomButtonAction, evaluator: evaluator)
+                    ObservingBottomButton(obsevableNamedAction: self.translator.bottomButtonAction, evaluator: evaluator)
                 }
             }.onAppear() {
                 self.navBarHidden = false

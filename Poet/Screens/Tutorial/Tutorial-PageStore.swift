@@ -365,7 +365,7 @@ extension Tutorial {
                 ]),
                 
                 Page([
-                    .text("Any button that wants to evaluate a user tap can do so without knowing who its real evaluator is, only that it conforms to the protocol ButtonEvaluating:"),
+                    .text("Any button that wants to evaluate a user tap can do so without knowing who its real evaluator is, only that it will conform to the protocol ButtonEvaluating:"),
                     .code(
                         """
                         protocol ButtonEvaluating: class {
@@ -380,28 +380,57 @@ extension Tutorial {
                 
                 Page([
                     .text("In this way, our view layer can be fully decoupled from particular business purposes."),
-                    .text("Because ButtonEvaluating knows all actions as a general type, EvaluatorAction, we can also inject a button with an action, according to whatever choices a translator makes when translating a certain step.")
+                    .text("A button can be decoupled even further — not just from the evaluator that handles its action, but from the choice of which action it carries. Because ButtonEvaluating only knows actions as a general type, EvaluatorAction, we can inject a button with whatever action we like.")
                 ]),
                 
                 Page([
-                    .text("To do that, we would use an ObservingButton, which observes an EvaluatorAction:"),
+                    .text("To do that, we could use an ObservingButton, for instance, which observes an EvaluatorAction:"),
                     .code(
                         """
                         @ObservedObject var action:
                           Observable<EvaluatorAction?>
                         """
                     ),
-                    .text("We could make that button's label observe a value, as well. So the view layer can be relatively decoupled from our display state, too."),
                 ],
                      file: "ObservingButton"
                 ),
                 
-                Page([.text("Upon receiving an action in the evaluator, we'll embark on the regular flow of the pattern: the evaluator will make decisions about business state. Then the translator will interpret that state and create its own display state. And the view layer will respond any time display state changes.")]),
+                Page([
+                    .text("An ObservingButton takes any label we give it, thanks to an initializer that accepts a ViewBuilder closure:"),
+                    .code(
+                        """
+                        @ViewBuilder label: @escaping () -> Label
+                        """
+                    ),
+                    .text("If we wanted, we could make that button's label observe a value, too, using an ObservingTextView (which we've already seen)."),
+                    
+                ],
+                     file: "ObservingButton"
+                ),
+                
+                Page([.text("With all of these choices available to us, a button can be decoupled in every meaningful way from the dynamic choices we might make when setting business and display state."),
+                    .text("Upon receiving an action in the evaluator, we would embark on the regular flow of the pattern: the evaluator reasons about business state, the translator creates display state, and the view layer responds.")]),
                 
                 Page([.text("Let's see what that looks like with a real example.")])
                 ),
                 
-            Chapter("Updating Business State", pages:
+            Chapter("Updating Business State",
+                    files: [
+                        "SayHelloWorld-Evaluator"
+                    ],
+                pages:
+                
+                Page([.text("If you tap the button that says “Show Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to business state.")],
+                     action: .showHelloWorld
+                ),
+                    
+                Page([.text("...")],
+                     action: .showHelloWorld
+                )
+                
+                // ////////////////////////////////////
+                
+                /*
                 Page([
                     .text("In the evaluator, our buttonTapped(:) method is where we first hear that a button was tapped."),
                     .smallCode(
@@ -695,25 +724,14 @@ extension Tutorial {
                 ]),
                 
                 Page([.text("So, with the translator already set up properly, the evaluator completes its work simply by saving a new step.")])
-                
-//                Page([.text("Soon we'll talk about why it's handy to have these two different types of state, business and display, after a brief discussion of state in general.")])
+                */
             ),
             
-            Chapter("A Note on Combine", pages:
-                Page([.text("Compared to some other approaches that use the Combine framework, Poet is a conservative pattern. It favors a clear structure with properly decoupled layers, instead of chaining publishers throughout an implementation and directly assigning values at the end of publisher streams.")]),
-                Page([.text("Combine's ability to apply multiple transformations to a stream, creating a single chain of logic from the start of a flow to its end in the view layer, is very powerful. But for many programmers at this early stage in Combine's history, that approach seems likely to encourage tightly coupled business and view logic and to prevent a more flexible relationship between business state and display state.")]),
-                Page([.text("As programmers develop their skills at Combine, it will be worth revisiting what approaches can fit well into a fully decoupled, unidirectional pattern. The Performer layer already shows how we can use chaining to transform business state with certainty. Everywhere else, Poet uses ObservableObject and PassthroughSubject comprehensively but relies on its own structure for the transformation of business state into display state.")]),
-                Page([.text("The difference in approaches isn't exactly six of one, half a dozen of the other. Often we want to apply several display state transformations in response to a single change in business state, or conversely to take into account several properties of business state in order to change a single property of display state. It's a little difficult to have it both ways unless we do all our thinking in one place.")]),
-                Page([.text("Combine could accomplish this by combining several inputs into a single publisher. You could imagine a different Poet pattern where, instead of listening for a new step, the translator listens to these agglomerated publishers, which could ultimately deliver a single struct containing all relevant values — something like a step, but smaller and built with a certain transformation in mind.")]),
-                Page([.text("That could work well enough, but its application would be uneven and a little taxing on the reader: some publishers would promise a single property, while other publishers would deliver a combination. The layer that performs the transformations into display state would be at once dense and scattered, and individual choices would be hard to track down.")]),
-                Page([.text("Poet gets ahead of that problem by choosing instead to make steps a first class member of the pattern. The programmer always considers all of a step's transformations within a single method. The cognitive overhead of considering an entire step is minimal, as it improves readability and creates a flexible structure that suits all the transformations we might apply.")]),
-                Page([.text("Is there a cost? Yes, a little. Every time a Poet evaluator creates new business state, it must explicitly create a new step configuration. If it moves from one step to another, it will need to explicitly unwrap the old step's configuration and reuse any values needed in the new step's configuration.")]),
-                Page([.text("Even in complicated scenarios, that's not so bad. For instance, say we want to enter a certain step from several different steps, each containing a different set of values. We don't want to inspect all those steps individually, and we don't have to. The steps could conform to a protocol which promises the same names for certain properties. Our new step could unwrap the values it needs without caring which previous step they belonged to.")]),
-                Page([.text("Depending on the nature of the problem being solved, the inspection of a previous step to make a new one might seem like unnecessary overhead. On complicated screens, however, it helps. The steps create an explicit boundary around possible states, preventing us from inadvertently straddling an incoherent combination of states.")]),
-                Page([.text("Whenever we define a full step, we promise to have accounted for all business state. Each time we translate it, we promise to have accounted for all of our display state. If the programmer has made a mistake, it can be easily located and fixed. Poet's steps are not the only viable solution, but they are obvious and easy to reason about.")]),
-                Page([.text("In its relatively conservative approach, Poet errs on the side of readable and decoupled code, freeing the developer to think clearly and quickly. Business state is always stored in a single struct. Display state transformations always happen in a single place. The programmer gains speed, certainty, and the ability to create flexible, reusable code that is suprisingly powerful.")])
-            ),
+            // Hello Solar System example -- add performer
             
+
+            
+            /*
             // Translating
             Chapter("Translating", pages:
                 
@@ -987,6 +1005,159 @@ extension Tutorial {
                     .text("Some user flows will be complicated enough that we'll really appreciate the clarity of a step-based approach. We'll look at such an example soon.")]),
                 
                 Page([.text("But first, let's take a brief detour and think about another sort of translating involving passable state.")])
+            ),
+            */
+            
+            // Add a performer to this example
+            
+            Chapter("Hello Solar System", pages:
+                Page([.text("In this chapter, we build on familiar concepts and run through a quick example of an evaluator/translator/screen working together in a new scenario."),
+                      .text("Tap the button that says “Show Hello Solar System” to see a new screen. Play around for a bit and come back when you're done.")
+                ],
+                     action: .showHelloSolarSystem),
+                Page([.text("The Hello Solar System example demonstrates how a good pattern actually simplifies our logic even as the problem grows more complex. Our Evaluator does most of its thinking using two types:"),
+                      .smallCode("CelestialBody\nCelestialBodyStepConfiguration")], action: .showHelloSolarSystem),
+                Page([.text("In viewDidAppear(), we map instances of CelestialBody from JSON data. We then make a step configuration to store that data and select the first CelestialBody as our “currentCelestialBody.”")], action: .showHelloSolarSystem),
+                Page([.text("The evaluator only thinks about three things: what are all the celestial bodies? Which one is currently showing? And which image is currently showing for that body?")], action: .showHelloSolarSystem),
+                Page([.text("As our screens get more complex, display state gets more interesting. Our translator interprets the business state by doing some rote extraction (names, images), but also by creating an array of tabs to show on screen.")], action: .showHelloSolarSystem),
+                
+                Page([.text("Each tab is just a ButtonAction, which on this screen conforms to a protocol promising an icon and ID for each action:"),
+                  .extraSmallCode(
+                    """
+                    tabs.array =
+                     configuration.celestialBodies.map {
+                      ButtonAction.showCelestialBody($0) }
+                    """
+                )], action: .showHelloSolarSystem),
+                
+                Page([.text("Whichever body is designated as the currentCelestialBody will inform which tab is selected:"),
+                      .extraSmallCode(
+                        """
+                        currentTab.object =
+                         ButtonAction.showCelestialBody(
+                          configuration.currentCelestialBody)
+                        """
+                    )], action: .showHelloSolarSystem),
+                
+                Page([.text("These are only slight transformations, but they justify the translator as a separate layer. Our business and display logic are cleanly separated and we don't repeat ourselves.")], action: .showHelloSolarSystem),
+                Page([.text("Such a clean division between evaluator and translator is possible because the view layer does its part, too.")], action: .showHelloSolarSystem),
+                
+                Page([.text("The screen features a custom view that observes the translator's tabs and creates a CircularTabButton for each one:"),
+                      .extraSmallCode(
+                        """
+                        ForEach(self.tabs.array, id: \\.id) {
+                          tab in
+                          CircularTabButton(
+                            evaluator:self.evaluator, tab: tab
+                          )
+                        }
+                        """
+                    )],
+                     action: .showHelloSolarSystem,
+                     supplement: Supplement(shortTitle: "CircularTabBar", fullTitle: "", body: [.code(
+                        
+                    """
+                    struct CircularTabBar: View {
+                        typealias TabButtonAction = EvaluatorActionWithIconAndID
+                        
+                        weak var evaluator: ButtonEvaluating?
+                        @ObservedObject var tabs: ObservableArray<TabButtonAction>
+                        @ObservedObject var currentTab: Observable<TabButtonAction?>
+                        let spacing: CGFloat = 30
+                        
+                        var body: some View {
+                            ZStack {
+                                HStack(spacing: spacing) {
+                                    // MARK: World Button
+                                    ForEach(self.tabs.array, id: \\.id) { tab in
+                                        CircularTabButton(evaluator: self.evaluator, tab: tab)
+                                    }
+                                }.overlay(
+                                    GeometryReader() { geometry in
+                                        Capsule()
+                                            .fill(Color.primary.opacity(0.06))
+                                            .frame(width: geometry.size.width / CGFloat(self.tabs.array.count), height: 48)
+                                            .opacity(self.indexOfCurrentTab() != nil ? 1 : 0)
+                                            .offset(x: {
+                                                let divided = CGFloat((geometry.size.width + self.spacing) / CGFloat(self.tabs.array.count))
+                                                return divided * CGFloat(self.indexOfCurrentTab() ?? 0) + (self.spacing / 2.0) - (geometry.size.width / 2.0)
+                                            }(), y: 0)
+                                            .allowsHitTesting(false)
+                                    }
+                                )
+                            }
+                        }
+                        
+                        func indexOfCurrentTab() -> Int? {
+                            if let currentTabObject = currentTab.object {
+                                return self.tabs.array.firstIndex { tab in
+                                    tab.id == currentTabObject.id
+                                }
+                            }
+                            return nil
+                        }
+                        
+                        struct CircularTabButton: View {
+                            weak var evaluator: ButtonEvaluating?
+                            let tab: TabButtonAction
+                            var body: some View {
+                                Button(action: { self.evaluator?.buttonTapped(action: self.tab) }) {
+                                    Image(self.tab.icon)
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                }
+                            }
+                        }
+                    }
+                    """)])
+                ),
+                    
+                Page([.text("The CircularTabBar also figures out which tab button should be highlighted, based on the currentTab it observes. It calculates the offset of the highlight to match the correct tab's location.")], action: .showHelloSolarSystem),
+                
+                Page([.text("So the view is smart about view logic but unopinionated about its content, which is determined by business and display state.")], action: .showHelloSolarSystem),
+                
+                Page([.text("This separation of concerns makes it easy for the translator to animate its changes:"),
+                      .extraSmallCode(
+                        """
+                        withAnimation(
+                        .spring(response: 0.45,
+                                dampingFraction: 0.65,
+                                blendDuration: 0)) {
+                          currentTab.object =
+                           ButtonAction.showCelestialBody(
+                           configuration.currentCelestialBody)
+                        }
+                        """
+                    )],
+                     action: .showHelloSolarSystem,
+                     supplement: Supplement(shortTitle: "translateCelestialBodyStep", fullTitle: "", body: [
+                        .code(
+                            """
+                            func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {
+                                // Set observable display state
+                                title.string = "Hello \\(configuration.currentCelestialBody.name)!"
+                                imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
+                                foregroundColor.object = configuration.currentCelestialBody.foreground.color
+                                backgroundColor.object = configuration.currentCelestialBody.background.color
+                                tapAction.object = configuration.tapAction
+                                tabs.array = configuration.celestialBodies.map { ButtonAction.showCelestialBody($0) }
+                                withAnimation(.linear) {
+                                    shouldShowTapMe.bool = configuration.tapAction != nil
+                                }
+                                withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
+                                    currentTab.object = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
+                                }
+                            }
+                            """
+                        )
+                    ])
+                ),
+                
+                Page([.text("The end result is a well-organized screen that is flexible enough to show whatever the JSON prescribes, with clearly defined business state, display state, and view logic. Now let's move on to something more complex.")])
+            ),
+            
+            Chapter("Asynchronous Work", pages:
+                Page([.text("Coming soon...")])
             ),
             
             Chapter("Passable State", pages:
@@ -1374,147 +1545,19 @@ extension Tutorial {
                 Page([.text("That's enough of that. As promised, we can move on now to some example screens, each a little more complex than the last, to illustrate the Poet pattern in full. How about a simple template to start?")])
             ),
             
-            Chapter("Hello World", pages:
-                Page([.text("Tap the button that says “Show Hello World” to see another new screen. Play around for a bit and come back when you're done.")], action: .showHelloWorld),
-                Page([.text("The Hello World example demonstrates how a good pattern actually simplifies our logic even as the problem grows more complex. Our Evaluator does most of its thinking using two types:"),
-                      .smallCode("CelestialBody\nCelestialBodyStepConfiguration")], action: .showHelloWorld),
-                Page([.text("In viewDidAppear(), we map instances of CelestialBody from JSON data. We then make a step configuration to store that data and select the first CelestialBody as our “currentCelestialBody.”")], action: .showHelloWorld),
-                Page([.text("The evaluator only thinks about three things: what are all the celestial bodies? Which one is currently showing? And which image is currently showing for that body?")], action: .showHelloWorld),
-                Page([.text("As our screens get more complex, display state gets more interesting. Our translator interprets the business state by doing some rote extraction (names, images), but also by creating an array of tabs to show on screen.")], action: .showHelloWorld),
-                
-                Page([.text("Each tab is just a ButtonAction, which on this screen conforms to a protocol promising an icon and ID for each action:"),
-                  .extraSmallCode(
-                    """
-                    tabs.array =
-                     configuration.celestialBodies.map {
-                      ButtonAction.showCelestialBody($0) }
-                    """
-                )], action: .showHelloWorld),
-                
-                Page([.text("Whichever body is designated as the currentCelestialBody will inform which tab is selected:"),
-                      .extraSmallCode(
-                        """
-                        currentTab.object =
-                         ButtonAction.showCelestialBody(
-                          configuration.currentCelestialBody)
-                        """
-                    )], action: .showHelloWorld),
-                
-                Page([.text("These are only slight transformations, but they justify the translator as a separate layer. Our business and display logic are cleanly separated and we don't repeat ourselves.")], action: .showHelloWorld),
-                Page([.text("Such a clean division between evaluator and translator is possible because the view layer does its part, too.")], action: .showHelloWorld),
-                
-                Page([.text("The screen features a custom view that observes the translator's tabs and creates a CircularTabButton for each one:"),
-                      .extraSmallCode(
-                        """
-                        ForEach(self.tabs.array, id: \\.id) {
-                          tab in
-                          CircularTabButton(
-                            evaluator:self.evaluator, tab: tab
-                          )
-                        }
-                        """
-                    )],
-                     action: .showHelloWorld,
-                     supplement: Supplement(shortTitle: "CircularTabBar", fullTitle: "", body: [.code(
-                        
-                    """
-                    struct CircularTabBar: View {
-                        typealias TabButtonAction = EvaluatorActionWithIconAndID
-                        
-                        weak var evaluator: ButtonEvaluating?
-                        @ObservedObject var tabs: ObservableArray<TabButtonAction>
-                        @ObservedObject var currentTab: Observable<TabButtonAction?>
-                        let spacing: CGFloat = 30
-                        
-                        var body: some View {
-                            ZStack {
-                                HStack(spacing: spacing) {
-                                    // MARK: World Button
-                                    ForEach(self.tabs.array, id: \\.id) { tab in
-                                        CircularTabButton(evaluator: self.evaluator, tab: tab)
-                                    }
-                                }.overlay(
-                                    GeometryReader() { geometry in
-                                        Capsule()
-                                            .fill(Color.primary.opacity(0.06))
-                                            .frame(width: geometry.size.width / CGFloat(self.tabs.array.count), height: 48)
-                                            .opacity(self.indexOfCurrentTab() != nil ? 1 : 0)
-                                            .offset(x: {
-                                                let divided = CGFloat((geometry.size.width + self.spacing) / CGFloat(self.tabs.array.count))
-                                                return divided * CGFloat(self.indexOfCurrentTab() ?? 0) + (self.spacing / 2.0) - (geometry.size.width / 2.0)
-                                            }(), y: 0)
-                                            .allowsHitTesting(false)
-                                    }
-                                )
-                            }
-                        }
-                        
-                        func indexOfCurrentTab() -> Int? {
-                            if let currentTabObject = currentTab.object {
-                                return self.tabs.array.firstIndex { tab in
-                                    tab.id == currentTabObject.id
-                                }
-                            }
-                            return nil
-                        }
-                        
-                        struct CircularTabButton: View {
-                            weak var evaluator: ButtonEvaluating?
-                            let tab: TabButtonAction
-                            var body: some View {
-                                Button(action: { self.evaluator?.buttonTapped(action: self.tab) }) {
-                                    Image(self.tab.icon)
-                                    .resizable()
-                                    .frame(width: 30, height: 30)
-                                }
-                            }
-                        }
-                    }
-                    """)])
-                ),
-                    
-                Page([.text("The CircularTabBar also figures out which tab button should be highlighted, based on the currentTab it observes. It calculates the offset of the highlight to match the correct tab's location.")], action: .showHelloWorld),
-                
-                Page([.text("So the view is smart about view logic but unopinionated about its content, which is determined by business and display state.")], action: .showHelloWorld),
-                
-                Page([.text("This separation of concerns makes it easy for the translator to animate its changes:"),
-                      .extraSmallCode(
-                        """
-                        withAnimation(
-                        .spring(response: 0.45,
-                                dampingFraction: 0.65,
-                                blendDuration: 0)) {
-                          currentTab.object =
-                           ButtonAction.showCelestialBody(
-                           configuration.currentCelestialBody)
-                        }
-                        """
-                    )],
-                     action: .showHelloWorld,
-                     supplement: Supplement(shortTitle: "translateCelestialBodyStep", fullTitle: "", body: [
-                        .code(
-                            """
-                            func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {
-                                // Set observable display state
-                                title.string = "Hello \\(configuration.currentCelestialBody.name)!"
-                                imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
-                                foregroundColor.object = configuration.currentCelestialBody.foreground.color
-                                backgroundColor.object = configuration.currentCelestialBody.background.color
-                                tapAction.object = configuration.tapAction
-                                tabs.array = configuration.celestialBodies.map { ButtonAction.showCelestialBody($0) }
-                                withAnimation(.linear) {
-                                    shouldShowTapMe.bool = configuration.tapAction != nil
-                                }
-                                withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
-                                    currentTab.object = ButtonAction.showCelestialBody(configuration.currentCelestialBody)
-                                }
-                            }
-                            """
-                        )
-                    ])
-                ),
-                
-                Page([.text("The end result is a well-organized screen that is flexible enough to show whatever the JSON prescribes, with clearly defined business state, display state, and view logic. Now let's move on to something more complex.")])
+            Chapter("A Note on Combine", pages:
+                Page([.text("Compared to some other approaches that use the Combine framework, Poet is a conservative pattern. It favors a clear structure with properly decoupled layers, instead of chaining publishers throughout an implementation and directly assigning values at the end of publisher streams.")]),
+                Page([.text("Combine's ability to apply multiple transformations to a stream, creating a single chain of logic from the start of a flow to its end in the view layer, is very powerful. But for many programmers at this early stage in Combine's history, that approach seems likely to encourage tightly coupled business and view logic and to prevent a more flexible relationship between business state and display state.")]),
+                Page([.text("As programmers develop their skills at Combine, it will be worth revisiting what approaches can fit well into a fully decoupled, unidirectional pattern. The Performer layer already shows how we can use chaining to transform business state with certainty. Everywhere else, Poet uses ObservableObject and PassthroughSubject comprehensively but relies on its own structure for the transformation of business state into display state.")]),
+                Page([.text("The difference in approaches isn't exactly six of one, half a dozen of the other. Often we want to apply several display state transformations in response to a single change in business state, or conversely to take into account several properties of business state in order to change a single property of display state. It's a little difficult to have it both ways unless we do all our thinking in one place.")]),
+                Page([.text("Combine could accomplish this by combining several inputs into a single publisher. You could imagine a different pattern where, instead of listening for a new step, an object listens to these agglomerated publishers, which could ultimately deliver multiple values in one fell swoop — a little like a step, but smaller and built with a certain use in mind.")]),
+                Page([.text("That could work well enough, but its application could be uneven and a little taxing on the reader: some publishers would promise a single property, while other publishers would deliver a combination. The layer that performs the transformations into display state would be at once dense and scattered, and individual choices would be hard to track down.")]),
+                Page([.text("Poet gets ahead of that problem by choosing instead to make steps a first class member of the pattern. The programmer always considers all of a step's transformations within a single method. The cognitive overhead of considering an entire step is minimal, as it improves readability and creates a flexible structure that suits all the transformations we might apply.")]),
+                Page([.text("Is there a cost? Yes, a little. Every time a Poet evaluator creates new business state, it must explicitly create a new step configuration. If it moves from one step to another, it will need to explicitly unwrap the old step's configuration and reuse any values needed in the new step's configuration.")]),
+                Page([.text("Even in complicated scenarios, that's not so bad. For instance, say we want to enter a certain step from several different steps, each containing a different set of values. We don't want to inspect all those steps individually, and we don't have to. The steps could conform to a protocol which promises the same names for certain properties. Our new step could unwrap the values it needs without caring which previous step they belonged to.")]),
+                Page([.text("Depending on the nature of the problem being solved, the inspection of a previous step to make a new one might seem like unnecessary overhead. On complicated screens, however, it helps. The steps create an explicit boundary around possible states, preventing us from inadvertently straddling an incoherent combination of states.")]),
+                Page([.text("Whenever we define a full step, we promise to have accounted for all business state. Each time we translate it, we promise to have accounted for all of our display state. If the programmer has made a mistake, it can be easily located and fixed. Poet's steps are not the only viable solution, but they are obvious and easy to reason about.")]),
+                Page([.text("In its relatively conservative approach, Poet errs on the side of readable and decoupled code, freeing the developer to think clearly and quickly. Business state is always stored in a single struct. Display state transformations always happen in a single place. The programmer gains speed, certainty, and the ability to create flexible, reusable code that is suprisingly powerful.")])
             ),
             
             Chapter("Retail Demo", pages:

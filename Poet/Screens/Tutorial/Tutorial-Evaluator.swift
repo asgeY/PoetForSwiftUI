@@ -17,44 +17,6 @@ extension Tutorial {
         // Step       
         var current = PassableStep(Step.initial)
         
-        // Button Actions
-        enum ButtonAction: EvaluatorAction {
-            case pageForward
-            case pageBackward
-            case showChapter(chapterIndex: Int, pageData: [Chapter])
-            case showChapterFiles
-            case showFileOfInterest
-            case showFile(String)
-            case showSomething
-            case showAlert
-            case showAnotherAlert
-            case showBezel
-            case showTemplate
-            case showHelloWorld
-            case showRetailDemo
-            
-            var name: String {
-                switch self {
-                case .showSomething:
-                    return "Show Something"
-                case .showAlert:
-                    return "Show Alert"
-                case .showAnotherAlert:
-                    return "Show Another Alert"
-                case .showBezel:
-                    return "Show Bezel"
-                case .showTemplate:
-                    return "Show Template"
-                case .showHelloWorld:
-                    return "Show Hello World"
-                case .showRetailDemo:
-                    return "Show Retail Demo"
-                default:
-                    return ""
-                }
-            }
-        }
-        
         struct Chapter {
             let title: String
             let files: [String]
@@ -134,7 +96,7 @@ extension Tutorial {
     }
 }
 
-// MARK: Steps and Step Configurations
+// MARK: Steps
 
 extension Tutorial.Evaluator {
     
@@ -238,6 +200,48 @@ extension Tutorial.Evaluator: ViewCycleEvaluating {
 // MARK: Button Actions
 
 extension Tutorial.Evaluator: ButtonEvaluating {
+    
+    // Button Actions
+    enum ButtonAction: EvaluatorAction {
+        case pageForward
+        case pageBackward
+        case showChapter(chapterIndex: Int, pageData: [Chapter])
+        case showChapterFiles
+        case showFileOfInterest
+        case showFile(String)
+        case showSomething
+        case showAlert
+        case showAnotherAlert
+        case showBezel
+        case showTemplate
+        case showHelloWorld
+        case showHelloSolarSystem
+        case showRetailDemo
+        
+        var name: String {
+            switch self {
+            case .showSomething:
+                return "Show Something"
+            case .showAlert:
+                return "Show Alert"
+            case .showAnotherAlert:
+                return "Show Another Alert"
+            case .showBezel:
+                return "Show Bezel"
+            case .showTemplate:
+                return "Show Template"
+            case .showHelloWorld:
+                return "Show Hello World"
+            case .showHelloSolarSystem:
+                return "Show Hello Solar System"
+            case .showRetailDemo:
+                return "Show Retail Demo"
+            default:
+                return ""
+            }
+        }
+    }
+    
     func buttonTapped(action: EvaluatorAction?) {
         guard let action = action as? ButtonAction else { return }
         switch action {
@@ -271,6 +275,9 @@ extension Tutorial.Evaluator: ButtonEvaluating {
             
         case .showHelloWorld:
             translator.showHelloWorld.please()
+            
+        case .showHelloSolarSystem:
+            translator.showHelloSolarSystem.please()
             
         case .showRetailDemo:
             translator.showRetailDemo.please()

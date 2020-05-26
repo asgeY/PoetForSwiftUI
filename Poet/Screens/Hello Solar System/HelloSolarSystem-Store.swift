@@ -1,5 +1,5 @@
 //
-//  HelloWorld-Store.swift
+//  HelloSolarSystem-Store.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 5/16/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-extension HelloWorld {
+extension HelloSolarSystem {
     
     // Types
     

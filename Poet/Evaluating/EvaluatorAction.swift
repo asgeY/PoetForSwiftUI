@@ -10,6 +10,10 @@ import Foundation
 
 protocol EvaluatorAction {}
 
+protocol EvaluatorActionWithName: EvaluatorAction {
+    var name: String { get }
+}
+
 protocol EvaluatorActionWithIcon: EvaluatorAction {
     var icon: String { get }
 }

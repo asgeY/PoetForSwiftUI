@@ -153,7 +153,7 @@ extension Retail.Translator {
         ]
         
         // Bottom button
-        bottomButtonAction.action = NamedEvaluatorAction(name: "Start", action: configuration.startAction)
+        bottomButtonAction.namedAction = NamedEvaluatorAction(name: "Start", action: configuration.startAction)
     }
     
     // MARK: Finding Products Step
@@ -192,9 +192,9 @@ extension Retail.Translator {
             let name = {
                 nextAction == .advanceToCanceledStep ? "Cancel Order" : "Next"
             }()
-            bottomButtonAction.action = NamedEvaluatorAction(name: name, action: nextAction)
+            bottomButtonAction.namedAction = NamedEvaluatorAction(name: name, action: nextAction)
         } else {
-            bottomButtonAction.action = nil
+            bottomButtonAction.namedAction = nil
         }
     }
     
@@ -232,9 +232,9 @@ extension Retail.Translator {
         
         // Bottom button
         if let nextAction = configuration.nextAction {
-            bottomButtonAction.action = NamedEvaluatorAction(name: "Deliver and Notify Customer", action: nextAction)
+            bottomButtonAction.namedAction = NamedEvaluatorAction(name: "Deliver and Notify Customer", action: nextAction)
         } else {
-            bottomButtonAction.action = nil
+            bottomButtonAction.namedAction = nil
         }
     }
     
@@ -281,7 +281,7 @@ extension Retail.Translator {
         }
         
         // Bottom button
-        bottomButtonAction.action = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
+        bottomButtonAction.namedAction = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
     }
     
     // MARK: Canceled Step
@@ -317,7 +317,7 @@ extension Retail.Translator {
         }
         
         // Bottom button
-        bottomButtonAction.action = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
+        bottomButtonAction.namedAction = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
     }
 }
 

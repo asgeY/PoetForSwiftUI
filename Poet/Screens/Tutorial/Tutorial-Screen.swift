@@ -305,6 +305,11 @@ extension Tutorial {
                         HelloWorld.Screen()
                     }
                     
+                    // MARK: Hello Solar System Screen
+                    Presenter(self.translator.showHelloSolarSystem) {
+                        HelloSolarSystem.Screen()
+                    }
+                    
                     // MARK: Retail Demo
                     Presenter(self.translator.showRetailDemo) {
                         Retail.Screen()

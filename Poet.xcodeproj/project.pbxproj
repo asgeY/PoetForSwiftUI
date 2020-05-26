@@ -71,6 +71,9 @@
 		DC31CC722479CA2100002075 /* FileTrayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC712479CA2100002075 /* FileTrayButton.swift */; };
 		DC31CC75247B367000002075 /* ObservingButton.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC31CC74247B367000002075 /* ObservingButton.txt */; };
 		DC31CC78247B393600002075 /* ButtonEvaluating.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC31CC77247B393600002075 /* ButtonEvaluating.txt */; };
+		DC31CC7B247C381400002075 /* HelloWorld-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC7A247C37F500002075 /* HelloWorld-Screen.swift */; };
+		DC31CC7D247C383E00002075 /* HelloWorld-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC7C247C383E00002075 /* HelloWorld-Evaluator.swift */; };
+		DC31CC7F247C384000002075 /* HelloWorld-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC7E247C384000002075 /* HelloWorld-Translator.swift */; };
 		DC4C1114245DEE21009BC14D /* Template-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1113245DEE21009BC14D /* Template-Screen.swift */; };
 		DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */; };
 		DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C1117245DEF9A009BC14D /* Template-Translator.swift */; };
@@ -102,10 +105,10 @@
 		DC4C6C782476D3DB0014A34C /* DismissButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C772476D3DA0014A34C /* DismissButton.swift */; };
 		DC4C6C7B2476D4AE0014A34C /* DismissTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C7A2476D4AE0014A34C /* DismissTranslating.swift */; };
 		DC4C6C80247984120014A34C /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C7F247984120014A34C /* ArrayExtensions.swift */; };
-		DC656560246F07230048A848 /* HelloWorld-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65655F246F07230048A848 /* HelloWorld-Screen.swift */; };
-		DC656562246F08C80048A848 /* HelloWorld-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656561246F08C80048A848 /* HelloWorld-Evaluator.swift */; };
-		DC656564246F08D60048A848 /* HelloWorld-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656563246F08D60048A848 /* HelloWorld-Translator.swift */; };
-		DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656524705E7C0048A848 /* HelloWorld-Store.swift */; };
+		DC656560246F07230048A848 /* HelloSolarSystem-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65655F246F07230048A848 /* HelloSolarSystem-Screen.swift */; };
+		DC656562246F08C80048A848 /* HelloSolarSystem-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656561246F08C80048A848 /* HelloSolarSystem-Evaluator.swift */; };
+		DC656564246F08D60048A848 /* HelloSolarSystem-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656563246F08D60048A848 /* HelloSolarSystem-Translator.swift */; };
+		DC65656624705E7C0048A848 /* HelloSolarSystem-Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656524705E7C0048A848 /* HelloSolarSystem-Store.swift */; };
 		DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656724709D570048A848 /* EvaluatorAction.swift */; };
 		DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6565692470AA530048A848 /* EvaluatorStep.swift */; };
 		DC65656D2470F4FB0048A848 /* CharacterBezelTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */; };
@@ -190,6 +193,9 @@
 		DC31CC712479CA2100002075 /* FileTrayButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTrayButton.swift; sourceTree = "<group>"; };
 		DC31CC74247B367000002075 /* ObservingButton.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ObservingButton.txt; sourceTree = "<group>"; };
 		DC31CC77247B393600002075 /* ButtonEvaluating.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ButtonEvaluating.txt; sourceTree = "<group>"; };
+		DC31CC7A247C37F500002075 /* HelloWorld-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Screen.swift"; sourceTree = "<group>"; };
+		DC31CC7C247C383E00002075 /* HelloWorld-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Evaluator.swift"; sourceTree = "<group>"; };
+		DC31CC7E247C384000002075 /* HelloWorld-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Translator.swift"; sourceTree = "<group>"; };
 		DC4C1113245DEE21009BC14D /* Template-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Screen.swift"; sourceTree = "<group>"; };
 		DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Evaluator.swift"; sourceTree = "<group>"; };
 		DC4C1117245DEF9A009BC14D /* Template-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Template-Translator.swift"; sourceTree = "<group>"; };
@@ -221,10 +227,10 @@
 		DC4C6C772476D3DA0014A34C /* DismissButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissButton.swift; sourceTree = "<group>"; };
 		DC4C6C7A2476D4AE0014A34C /* DismissTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissTranslating.swift; sourceTree = "<group>"; };
 		DC4C6C7F247984120014A34C /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
-		DC65655F246F07230048A848 /* HelloWorld-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Screen.swift"; sourceTree = "<group>"; };
-		DC656561246F08C80048A848 /* HelloWorld-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Evaluator.swift"; sourceTree = "<group>"; };
-		DC656563246F08D60048A848 /* HelloWorld-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Translator.swift"; sourceTree = "<group>"; };
-		DC65656524705E7C0048A848 /* HelloWorld-Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloWorld-Store.swift"; sourceTree = "<group>"; };
+		DC65655F246F07230048A848 /* HelloSolarSystem-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloSolarSystem-Screen.swift"; sourceTree = "<group>"; };
+		DC656561246F08C80048A848 /* HelloSolarSystem-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloSolarSystem-Evaluator.swift"; sourceTree = "<group>"; };
+		DC656563246F08D60048A848 /* HelloSolarSystem-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloSolarSystem-Translator.swift"; sourceTree = "<group>"; };
+		DC65656524705E7C0048A848 /* HelloSolarSystem-Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloSolarSystem-Store.swift"; sourceTree = "<group>"; };
 		DC65656724709D570048A848 /* EvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorAction.swift; sourceTree = "<group>"; };
 		DC6565692470AA530048A848 /* EvaluatorStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorStep.swift; sourceTree = "<group>"; };
 		DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezelTranslating.swift; sourceTree = "<group>"; };
@@ -340,8 +346,9 @@
 				87D299D32455162A003959C3 /* About */,
 				DC4C1111245DEDE5009BC14D /* Tutorial */,
 				DC4C1112245DEDF8009BC14D /* Template */,
+				DC31CC79247C37DC00002075 /* Hello World */,
 				8794A5FE245CB88400D41E4F /* Dismiss Receiver */,
-				DC65655E246F05660048A848 /* Hello World */,
+				DC65655E246F05660048A848 /* Hello Solar System */,
 				87E7E43724595C6300047253 /* Retail Demo */,
 			);
 			path = Screens;
@@ -431,6 +438,16 @@
 				DC31CC77247B393600002075 /* ButtonEvaluating.txt */,
 			);
 			path = "Files as text";
+			sourceTree = "<group>";
+		};
+		DC31CC79247C37DC00002075 /* Hello World */ = {
+			isa = PBXGroup;
+			children = (
+				DC31CC7A247C37F500002075 /* HelloWorld-Screen.swift */,
+				DC31CC7C247C383E00002075 /* HelloWorld-Evaluator.swift */,
+				DC31CC7E247C384000002075 /* HelloWorld-Translator.swift */,
+			);
+			path = "Hello World";
 			sourceTree = "<group>";
 		};
 		DC4C1111245DEDE5009BC14D /* Tutorial */ = {
@@ -573,15 +590,15 @@
 			path = "Common ViewMakers";
 			sourceTree = "<group>";
 		};
-		DC65655E246F05660048A848 /* Hello World */ = {
+		DC65655E246F05660048A848 /* Hello Solar System */ = {
 			isa = PBXGroup;
 			children = (
-				DC65655F246F07230048A848 /* HelloWorld-Screen.swift */,
-				DC656561246F08C80048A848 /* HelloWorld-Evaluator.swift */,
-				DC656563246F08D60048A848 /* HelloWorld-Translator.swift */,
-				DC65656524705E7C0048A848 /* HelloWorld-Store.swift */,
+				DC65655F246F07230048A848 /* HelloSolarSystem-Screen.swift */,
+				DC656561246F08C80048A848 /* HelloSolarSystem-Evaluator.swift */,
+				DC656563246F08D60048A848 /* HelloSolarSystem-Translator.swift */,
+				DC65656524705E7C0048A848 /* HelloSolarSystem-Store.swift */,
 			);
-			path = "Hello World";
+			path = "Hello Solar System";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -718,7 +735,7 @@
 				875562F5244D5FDB00DB49C4 /* PassableInt.swift in Sources */,
 				DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */,
 				3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */,
-				DC656560246F07230048A848 /* HelloWorld-Screen.swift in Sources */,
+				DC656560246F07230048A848 /* HelloSolarSystem-Screen.swift in Sources */,
 				3BF6691C2477CFAA00AE055C /* Device.swift in Sources */,
 				DC4C6C782476D3DB0014A34C /* DismissButton.swift in Sources */,
 				DC4C6C562476C8060014A34C /* Fadeable.swift in Sources */,
@@ -734,11 +751,12 @@
 				8794A5FC245C9FF200D41E4F /* Menu-Data.swift in Sources */,
 				DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */,
 				875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */,
-				DC656562246F08C80048A848 /* HelloWorld-Evaluator.swift in Sources */,
+				DC656562246F08C80048A848 /* HelloSolarSystem-Evaluator.swift in Sources */,
 				DC4C111A245DF73B009BC14D /* ObservingImageView.swift in Sources */,
 				3BF66941247828E900AE055C /* ObservableURL.swift in Sources */,
 				3BF669432478290D00AE055C /* ObservableArray.swift in Sources */,
 				87AC82792453BB3A0090E443 /* Menu-Screen.swift in Sources */,
+				DC31CC7D247C383E00002075 /* HelloWorld-Evaluator.swift in Sources */,
 				87AC827F2454CDE90090E443 /* Behavior.swift in Sources */,
 				DC4C6C482476C5660014A34C /* InstructionView.swift in Sources */,
 				87D299DF24561B9B003959C3 /* About-Data.swift in Sources */,
@@ -764,7 +782,8 @@
 				DC4C6C7B2476D4AE0014A34C /* DismissTranslating.swift in Sources */,
 				DC4C6C5B2476CBAA0014A34C /* ObservingBottomButton.swift in Sources */,
 				DC4C6C522476C6E00014A34C /* OptionsView.swift in Sources */,
-				DC656564246F08D60048A848 /* HelloWorld-Translator.swift in Sources */,
+				DC656564246F08D60048A848 /* HelloSolarSystem-Translator.swift in Sources */,
+				DC31CC7B247C381400002075 /* HelloWorld-Screen.swift in Sources */,
 				87D299D7245518C1003959C3 /* About-Evaluator.swift in Sources */,
 				878B3A4F245378CF00ACADE4 /* AlertTranslating.swift in Sources */,
 				3BF6692E24781A9F00AE055C /* PassableArray.swift in Sources */,
@@ -773,7 +792,7 @@
 				87AC827B2453BB400090E443 /* Menu-Translator.swift in Sources */,
 				DC4C6C672476CF120014A34C /* Presenter.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
-				DC65656624705E7C0048A848 /* HelloWorld-Store.swift in Sources */,
+				DC65656624705E7C0048A848 /* HelloSolarSystem-Store.swift in Sources */,
 				3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */,
 				DC4C6C6B2476D02B0014A34C /* TableOfContentsView.swift in Sources */,
 				87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */,
@@ -782,6 +801,7 @@
 				DC4C6C612476CD5B0014A34C /* ObservingButton.swift in Sources */,
 				DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */,
 				878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */,
+				DC31CC7F247C384000002075 /* HelloWorld-Translator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

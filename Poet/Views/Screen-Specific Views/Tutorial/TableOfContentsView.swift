@@ -54,17 +54,18 @@ struct TableOfContentsView: View {
                                     Text("\(item.number).   " + item.name)
                                     Spacer()
                                 }
+                                .padding(.trailing, 30)
                                 .font(Font.body.monospacedDigit())
                                 .multilineTextAlignment(.leading)
                                 
                                 Spacer().frame(height: 16)
                                 
                                 Divider()
-                                    .opacity(0.4)
+                                    .opacity(0.45)
                             }
                         }
                         .foregroundColor(.primary)
-                        .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
+                        .padding(.leading, 30)
                     }
                     
                     // About
@@ -86,7 +87,7 @@ struct TableOfContentsView: View {
                         
                     Divider()
                         .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
-                        .opacity(0.4)
+                        .opacity(0.45)
                     
                     // Github
                     

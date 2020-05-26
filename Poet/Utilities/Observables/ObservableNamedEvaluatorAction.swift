@@ -9,9 +9,9 @@
 import Combine
 
 class ObservableNamedEvaluatorAction: ObservableObject {
-    @Published var action: NamedEvaluatorAction?
+    @Published var namedAction: NamedEvaluatorAction?
     
     init(_ action: NamedEvaluatorAction? = nil) {
-        self.action = action
+        self.namedAction = action
     }
 }

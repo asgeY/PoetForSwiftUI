@@ -58,7 +58,7 @@ struct FileMenuView: View {
                                 .foregroundColor(.primary)
                                 .padding(EdgeInsets(top: 12, leading: 0, bottom: 16, trailing: 30))
                                 Divider()
-                                    .opacity(0.4)
+                                    .opacity(0.45)
                             }
                             .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                         }
