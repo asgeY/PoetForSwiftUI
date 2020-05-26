@@ -34,8 +34,6 @@ struct FileMenuView: View {
                     Spacer()
                 }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
                 Spacer().frame(height:15)
-//                Divider()
-//                    .opacity(0.3)
                 
                 ScrollView {
                     Spacer().frame(height:4)
