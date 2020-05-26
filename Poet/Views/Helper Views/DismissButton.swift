@@ -36,7 +36,7 @@ struct DismissButton: View {
             {
                 Image(systemName: "xmark")
                     .foregroundColor(foregroundColor ?? Color.primary)
-                    .padding(EdgeInsets(top: 26, leading: 24, bottom: 24, trailing: 24))
+                    .padding(EdgeInsets(top: 26, leading: 14, bottom: 24, trailing: 24))
                     .font(Font.system(size: 18, weight: .medium))
             }
             if orientation == .left {
