@@ -34,11 +34,11 @@ struct FileMenuView: View {
                     Spacer()
                 }.padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
                 Spacer().frame(height:15)
-                Divider()
-                    .opacity(0.3)
+//                Divider()
+//                    .opacity(0.3)
                 
                 ScrollView {
-                    Spacer().frame(height:8)
+                    Spacer().frame(height:4)
                     ForEach(self.fileTitlesAndBodies, id: \.id) { fileTitleAndBody in
                         Button(action: {
                             self.showFile.withString(fileTitleAndBody.body)
