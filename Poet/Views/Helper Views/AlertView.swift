@@ -24,6 +24,19 @@ struct AlertView: View {
         isPresented = translator.alertTranslator.isAlertPresented
     }
     
+    init(title: ObservableString,
+         message: ObservableString,
+         primaryAlertAction: Observable<AlertAction?>,
+         secondaryAlertAction: Observable<AlertAction?>,
+         isPresented: ObservableBool)
+    {
+        self.title = title
+        self.message = message
+        self.primaryAlertAction = primaryAlertAction
+        self.secondaryAlertAction = secondaryAlertAction
+        self.isPresented = isPresented
+    }
+    
     var body: some View {
         VStack {
             EmptyView()

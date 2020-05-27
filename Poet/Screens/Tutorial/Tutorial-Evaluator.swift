@@ -190,6 +190,7 @@ extension Tutorial.Evaluator: ActionEvaluating {
         case showSomething
         case showAlert
         case showAnotherAlert
+        case showPassableAlert
         case showBezel
         case showTemplate
         case showHelloWorld
@@ -204,6 +205,8 @@ extension Tutorial.Evaluator: ActionEvaluating {
                 return "Show Alert"
             case .showAnotherAlert:
                 return "Show Another Alert"
+            case .showPassableAlert:
+                return "Show Passable Alert"
             case .showBezel:
                 return "Show Bezel"
             case .showTemplate:
@@ -277,6 +280,9 @@ extension Tutorial.Evaluator: ActionEvaluating {
                     action: {
                         self.translator.showAlert(title: "What?", message: "There's nothing to delete.")
                 }))
+            
+        case .showPassableAlert:
+            translator.showAlert.withConfiguration(title: "Alert!", message: "You did it again.")
             
         case .showBezel:
             let emojis = ["🐥", "🦈", "🐄", "🐟", "🐙", "🦕", "🦉", "🐯", "🐢", "🐘", "🦔", "🐆", "🐛", "🐌", "🐞", "🐴", "👨🏻‍💻"]

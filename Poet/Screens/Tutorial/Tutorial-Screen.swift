@@ -318,6 +318,9 @@ extension Tutorial {
                     // MARK: Alert
                     AlertView(translator: translator)
                     
+                    // MARK: AlertPresenter
+                    AlertPresenter(self.translator.showAlert)
+                    
                     // MARK: Character Bezel
                     BezelView(translator: translator)
                 }

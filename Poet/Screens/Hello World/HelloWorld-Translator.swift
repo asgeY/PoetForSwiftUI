@@ -57,7 +57,7 @@ extension HelloWorld.Translator {
         if let bubbleText = configuration.bubbleText {
             self.bubbleText.string = bubbleText
         }
-        withAnimation(.spring(response: 0.45, dampingFraction: 0.6, blendDuration: 0)) {
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.65, blendDuration: 0)) {
             shouldShowBubble.bool = configuration.bubbleText != nil
         }
     }

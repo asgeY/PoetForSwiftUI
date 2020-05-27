@@ -27,27 +27,62 @@ extension HelloWorld {
         
         var body: some View {
             ZStack {
-                VStack(spacing: 0) {
+                
+                // Bubble and person
+                GeometryReader() { geometry in
+                    ZStack {
+                        Rectangle()
+                            .fill(Color(UIColor.systemTeal))
+                            .frame(width: geometry.size.width, height: geometry.size.height / 2.0)
+                            .offset(x: 0, y: -geometry.size.height / 4.0)
+                        
+                        Rectangle()
+                            .fill(Color(UIColor.systemGreen))
+                            .frame(width: geometry.size.width, height: geometry.size.height / 2.0)
+                            .offset(x: 0, y: geometry.size.height / 4.0)
+                        
+                        Rectangle()
+                            .fill(Color.black)
+                            .frame(width: geometry.size.width, height: 8)
+                        
+                        Image(systemName: "person.fill")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .offset(x: 80, y: -23)
+                        
+                        ZStack {
+                            Hideable(isShowing: self.translator.shouldShowBubble, transition: AnyTransition.scale(scale: 0, anchor: .init(x: 0.85, y: 1.2)).combined(with: AnyTransition.opacity)) {
+                                ZStack {
+                                    Rectangle()
+                                        .fill(Color.white)
+                                        .mask(
+                                            Image(systemName: "bubble.right.fill")
+                                            .resizable()
+                                            .font(Font.system(size: 12, weight: .light))
+                                            .frame(width: 168, height: 168)
+                                    ).frame(width: 168, height: 168)
+                                    
+                                    Image(systemName: "bubble.right")
+                                        .resizable()
+                                        .font(Font.system(size: 12, weight: .light))
+                                        .frame(width: 170, height: 170)
+                                    
+                                    ObservingTextView(self.translator.bubbleText, kerning: -0.5)
+                                        .font(Font.system(size: 22, weight: .semibold))
+                                        .offset(y: -12)
+                                }
+                            }
+                        }.offset(x: 0, y: -144)
+                    }
+                }.edgesIgnoringSafeArea([.bottom, .top])
+                
+                // Count
+                VStack(alignment: .leading, spacing: 0) {
+                    Spacer().frame(height: 23)
                     
-                    // Count
                     ObservingTextView(translator.helloCount)
                         .font(Font.body.bold().monospacedDigit())
-                       .fixedSize(horizontal: false, vertical: true)
-                       .padding(EdgeInsets(top: 23, leading: 30, bottom: 50, trailing: 30))
-                    
-                    // Bubble
-                    Hideable(isShowing: translator.shouldShowBubble, transition: AnyTransition.scale(scale: 0.5, anchor: .center).combined(with: AnyTransition.opacity)) {
-                        ZStack {
-                            Image(systemName: "bubble.right")
-                                .resizable()
-                                .font(Font.system(size: 12, weight: .light))
-                                .frame(width: 170, height: 170)
-                            
-                            ObservingTextView(self.translator.bubbleText, kerning: -0.5)
-                                .font(Font.system(size: 22, weight: .semibold))
-                                .offset(y: -12)
-                        }
-                    }
+                        .fixedSize(horizontal: false, vertical: true)
                     
                     Spacer()
                 }
