@@ -52,9 +52,10 @@ struct TutorialBodyView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(code)
                         .font(FontSystem.code)
+                        .kerning(FontSystem.Kerning.code)
                         .lineSpacing(FontSystem.Spacing.code)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -35))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -45))
                         .opacity(self.isTouching ? 0.33 : 1)
                     Spacer().frame(height: bottomPadding)
                 }
@@ -65,9 +66,10 @@ struct TutorialBodyView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(code)
                         .font(FontSystem.codeSmall)
+                        .kerning(FontSystem.Kerning.codeSmall)
                         .lineSpacing(FontSystem.Spacing.code)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -35))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -45))
                         .opacity(self.isTouching ? 0.33 : 1)
                     Spacer().frame(height: bottomPadding)
                 }
@@ -78,9 +80,10 @@ struct TutorialBodyView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(code)
                         .font(FontSystem.codeExtraSmall)
+                        .kerning(FontSystem.Kerning.codeSmall)
                         .lineSpacing(FontSystem.Spacing.codeExtraSmall)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -35))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: bottomPadding, trailing: -45))
                         .opacity(self.isTouching ? 0.33 : 1)
                     Spacer().frame(height: bottomPadding)
                 }

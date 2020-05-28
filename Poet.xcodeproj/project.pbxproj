@@ -13,7 +13,7 @@
 		3B68761C247DE256005F2FBA /* Chapter_WhyPoet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */; };
 		3B68761E247DE310005F2FBA /* Chapter_Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68761D247DE310005F2FBA /* Chapter_Template.swift */; };
 		3B687620247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68761F247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift */; };
-		3B687622247DE488005F2FBA /* Chapter_BusinessState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687621247DE488005F2FBA /* Chapter_BusinessState.swift */; };
+		3B687622247DE488005F2FBA /* Chapter_UpdatingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687621247DE488005F2FBA /* Chapter_UpdatingState.swift */; };
 		3B687624247DE497005F2FBA /* Chapter_BusinessStatePart2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687623247DE497005F2FBA /* Chapter_BusinessStatePart2.swift */; };
 		3B687626247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687625247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift */; };
 		3B687628247DE4BB005F2FBA /* Chapter_PassableState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687627247DE4BB005F2FBA /* Chapter_PassableState.swift */; };
@@ -23,6 +23,11 @@
 		3B687632247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687631247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift */; };
 		3B687634247ECCF0005F2FBA /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687633247ECCF0005F2FBA /* AlertPresenter.swift */; };
 		3B687636247ECDB9005F2FBA /* PassableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687635247ECDB9005F2FBA /* PassableAlert.swift */; };
+		3B72548D247FF7ED00E27551 /* NamedEvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72548C247FF7EC00E27551 /* NamedEvaluatorAction.swift */; };
+		3B72548F247FF87300E27551 /* EvaluatorAction.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3B72548E247FF87300E27551 /* EvaluatorAction.txt */; };
+		3B725493248017B200E27551 /* HelloWorld-Screen.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3B7254912480175E00E27551 /* HelloWorld-Screen.txt */; };
+		3B725494248017B200E27551 /* HelloWorld-Evaluator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3B7254922480178D00E27551 /* HelloWorld-Evaluator.txt */; };
+		3B72549724802C2100E27551 /* HelloWorld-Translator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3B725495248017DE00E27551 /* HelloWorld-Translator.txt */; };
 		3BF6691C2477CFAA00AE055C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691B2477CFAA00AE055C /* Device.swift */; };
 		3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691D2477D1F700AE055C /* FontSystem.swift */; };
 		3BF669232478014400AE055C /* Template-Evaluator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BF669202477FF5500AE055C /* Template-Evaluator.txt */; };
@@ -147,7 +152,7 @@
 		3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_WhyPoet.swift; sourceTree = "<group>"; };
 		3B68761D247DE310005F2FBA /* Chapter_Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_Template.swift; sourceTree = "<group>"; };
 		3B68761F247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_InteractingWithAView.swift; sourceTree = "<group>"; };
-		3B687621247DE488005F2FBA /* Chapter_BusinessState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_BusinessState.swift; sourceTree = "<group>"; };
+		3B687621247DE488005F2FBA /* Chapter_UpdatingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_UpdatingState.swift; sourceTree = "<group>"; };
 		3B687623247DE497005F2FBA /* Chapter_BusinessStatePart2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_BusinessStatePart2.swift; sourceTree = "<group>"; };
 		3B687625247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_AsynchronousWork.swift; sourceTree = "<group>"; };
 		3B687627247DE4BB005F2FBA /* Chapter_PassableState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_PassableState.swift; sourceTree = "<group>"; };
@@ -157,6 +162,11 @@
 		3B687631247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_ProtocolOrientedTranslating.swift; sourceTree = "<group>"; };
 		3B687633247ECCF0005F2FBA /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		3B687635247ECDB9005F2FBA /* PassableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassableAlert.swift; sourceTree = "<group>"; };
+		3B72548C247FF7EC00E27551 /* NamedEvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedEvaluatorAction.swift; sourceTree = "<group>"; };
+		3B72548E247FF87300E27551 /* EvaluatorAction.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = EvaluatorAction.txt; sourceTree = "<group>"; };
+		3B7254912480175E00E27551 /* HelloWorld-Screen.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "HelloWorld-Screen.txt"; sourceTree = "<group>"; };
+		3B7254922480178D00E27551 /* HelloWorld-Evaluator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "HelloWorld-Evaluator.txt"; sourceTree = "<group>"; };
+		3B725495248017DE00E27551 /* HelloWorld-Translator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "HelloWorld-Translator.txt"; sourceTree = "<group>"; };
 		3BF6691B2477CFAA00AE055C /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		3BF6691D2477D1F700AE055C /* FontSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSystem.swift; sourceTree = "<group>"; };
 		3BF669202477FF5500AE055C /* Template-Evaluator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Template-Evaluator.txt"; sourceTree = "<group>"; };
@@ -293,16 +303,26 @@
 				3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */,
 				3B68761D247DE310005F2FBA /* Chapter_Template.swift */,
 				3B68761F247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift */,
-				3B687621247DE488005F2FBA /* Chapter_BusinessState.swift */,
+				3B687621247DE488005F2FBA /* Chapter_UpdatingState.swift */,
 				3B687623247DE497005F2FBA /* Chapter_BusinessStatePart2.swift */,
 				3B687625247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift */,
 				3B687627247DE4BB005F2FBA /* Chapter_PassableState.swift */,
 				3B687629247DE4CA005F2FBA /* Chapter_PassableStatePart2.swift */,
 				3B687631247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift */,
-				3B68762D247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift */,
 				3B68762F247DE4EE005F2FBA /* Chapter_RetailDemo.swift */,
+				3B68762D247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift */,
 			);
 			path = Chapters;
+			sourceTree = "<group>";
+		};
+		3B7254902480175300E27551 /* Files as text */ = {
+			isa = PBXGroup;
+			children = (
+				3B7254912480175E00E27551 /* HelloWorld-Screen.txt */,
+				3B7254922480178D00E27551 /* HelloWorld-Evaluator.txt */,
+				3B725495248017DE00E27551 /* HelloWorld-Translator.txt */,
+			);
+			path = "Files as text";
 			sourceTree = "<group>";
 		};
 		3BF6692624781A0100AE055C /* Passables */ = {
@@ -490,6 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				DC31CC77247B393600002075 /* ActionEvaluating.txt */,
+				3B72548E247FF87300E27551 /* EvaluatorAction.txt */,
 			);
 			path = "Files as text";
 			sourceTree = "<group>";
@@ -500,6 +521,7 @@
 				DC31CC7A247C37F500002075 /* HelloWorld-Screen.swift */,
 				DC31CC7C247C383E00002075 /* HelloWorld-Evaluator.swift */,
 				DC31CC7E247C384000002075 /* HelloWorld-Translator.swift */,
+				3B7254902480175300E27551 /* Files as text */,
 			);
 			path = "Hello World";
 			sourceTree = "<group>";
@@ -559,6 +581,7 @@
 				DC6565692470AA530048A848 /* EvaluatorStep.swift */,
 				878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */,
 				DC4C6C452471054E0014A34C /* ActionEvaluating.swift */,
+				3B72548C247FF7EC00E27551 /* NamedEvaluatorAction.swift */,
 				DC31CC76247B392500002075 /* Files as text */,
 			);
 			path = Evaluating;
@@ -742,6 +765,10 @@
 				3BF6693424781B3100AE055C /* PassableStep.txt in Resources */,
 				875562C0244C253500DB49C4 /* LaunchScreen.storyboard in Resources */,
 				3BF6694B2478316600AE055C /* ObservingTextView.txt in Resources */,
+				3B725494248017B200E27551 /* HelloWorld-Evaluator.txt in Resources */,
+				3B72549724802C2100E27551 /* HelloWorld-Translator.txt in Resources */,
+				3B72548F247FF87300E27551 /* EvaluatorAction.txt in Resources */,
+				3B725493248017B200E27551 /* HelloWorld-Screen.txt in Resources */,
 				DC31CC78247B393600002075 /* ActionEvaluating.txt in Resources */,
 				3BF66936247820E000AE055C /* Template-Translator.txt in Resources */,
 				875562BD244C253500DB49C4 /* Preview Assets.xcassets in Resources */,
@@ -793,7 +820,7 @@
 				DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */,
 				DC4C6C5D2476CC090014A34C /* CircularTabBar.swift in Sources */,
 				DC4C6C462471054E0014A34C /* ActionEvaluating.swift in Sources */,
-				3B687622247DE488005F2FBA /* Chapter_BusinessState.swift in Sources */,
+				3B687622247DE488005F2FBA /* Chapter_UpdatingState.swift in Sources */,
 				DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */,
 				3B687617247DCA31005F2FBA /* ObservableEvaluatorAction.swift in Sources */,
 				875562F5244D5FDB00DB49C4 /* PassableInt.swift in Sources */,
@@ -847,6 +874,7 @@
 				3BF6692C24781A7100AE055C /* PassablePlease.swift in Sources */,
 				8794A604245CB98600D41E4F /* DismissReceiverExample-Translator.swift in Sources */,
 				DC4C6C652476CE620014A34C /* MainTitleView.swift in Sources */,
+				3B72548D247FF7ED00E27551 /* NamedEvaluatorAction.swift in Sources */,
 				DC4C6C7B2476D4AE0014A34C /* DismissTranslating.swift in Sources */,
 				DC4C6C5B2476CBAA0014A34C /* ObservingBottomButton.swift in Sources */,
 				DC4C6C522476C6E00014A34C /* OptionsView.swift in Sources */,

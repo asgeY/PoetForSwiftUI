@@ -41,12 +41,17 @@ extension Tutorial.PageStore {
             ]),
             
             Page([
+                .text("An evaluator's Action type should conform to an empty protocol named EvaluatorAction:"),
+                .code("protocol EvaluatorAction {}"),
+                .text("The empty protocol allows us to use actions throughout a screen's views without tying them to a specific evaluator (and therefore a specific business purpose).")
+            ]),
+            
+            Page([
                 .text("Any button that wants to evaluate a user tap can do so without knowing who its real evaluator is, only that it will conform to the protocol ActionEvaluating:"),
-                .code(
+                .smallCode(
                     """
                     protocol ActionEvaluating: class {
-                      func buttonTapped(
-                        action: EvaluatorAction?)
+                        func evaluate(_ action: EvaluatorAction?)
                     }
                     """
                 )

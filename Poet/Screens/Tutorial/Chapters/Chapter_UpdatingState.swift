@@ -9,27 +9,74 @@
 import Foundation
 
 extension Tutorial.PageStore {
-    var chapter_BusinessState: Chapter {
+    var chapter_UpdatingState: Chapter {
         return Chapter(
-            "Business State (In Progress)",
+            "Updating State",
             files: [
-                        "SayHelloWorld-Evaluator"
+                "HelloWorld-Screen",
+                "HelloWorld-Evaluator",
+                "HelloWorld-Translator"
             ],
             pages:
-            Page([.text("A cleanly separated business state doesn't mean much to us unless we can update it. If you tap the button that says “Show Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to business state.")],
+            Page([.text("A clean separation of business state, display state, and view logic don't mean much to us unless we can perform updates easily."),
+                .text("If you tap the button that says “Show Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to state.")],
                  action: .showHelloWorld
             ),
             
-            Page([.text("In its structure, Hello World isn't too different from the Template we've already seen. That previous screen's evaluator only included one step (besides initial), named “text.” Likewise, Hello World's evaluator only includes a single step, which it calls “sayStuff.”"),
+            Page([.text("In its structure, Hello World isn't too different from the Template we've already seen. That previous screen's evaluator only included one meaningful step, named “text.” Similarly, Hello World's evaluator includes a step it calls “sayStuff.”"),
                   .text("But this evaluator also knows about two Actions, named “sayHello” and “sayNothing.”")],
+                 action: .showHelloWorld,
+                 file: "HelloWorld-Evaluator"
+            ),
+            
+            Page([.text("To do its job, Hello World's evaluator needs to configure its sayStuff step, and it also needs to respond to — or evaluate — the actions sayHello and sayNothing whenever the view layer asks."),
+                .text("It turns out all of this work — both setting the initial step and performing updates — are a matter of setting state.")],
+                 action: .showHelloWorld,
+                 file: "HelloWorld-Evaluator"
+            ),
+            
+            Page([.text("After the view appears, the evaluator calls its showSayStuffStep method, which configures the sayStuff step for the first time:"),
+                  .code(
+                    """
+                    let configuration = SayStuffStepConfiguration(
+                        helloCount: 0,
+                        bubbleText: nil,
+                        buttonAction: Action.sayHello
+                    )
+                    current.step = .sayStuff(configuration)
+                    """
+                )
+                ],
+                 action: .showHelloWorld,
+                 file: "HelloWorld-Evaluator"
+            ),
+            
+            Page([.text("We can see in the configuration that we keep track of how many times we've said “hello,” using an integer value. And we answer two other questions:"),
+                  .text(
+                  """
+                  * Does our bubble say anything?
+                  * What action will our button have?
+                  """),
+                  .text("The bubble text can be nil, whereas an action will always be present for this particular step.")
+                ],
                  action: .showHelloWorld
             ),
             
-            Page([.text("...")],
+            Page([.text("It's fundamental to Poet that the sayStuff step contains all information needed to perform any sort of logic, both behind the scenes and on screen."),
+                  .text("We don't store helloCount as a property of our evaluator, for instance. If we did that, more complex screens with multiple steps would become difficult to manage, as we would have a long list of properties which don't properly belong alongside each other.")
+                ],
                  action: .showHelloWorld
             ),
             
-            Page([.text("...")],
+            Page([.text("Why do we store an action in the configuration?"),
+                  .text("We wouldn't need to do that if the action didn't change over time. It would be fine to name a specific action in HelloWorld-Screen, for instance, where the screen knows its evaluator concretely.")
+                ],
+                 action: .showHelloWorld
+            ),
+            
+            Page([
+                .text("In our case, though, we choose a different action at different times: sometimes sayHello, and sometimes sayNothing. Our configuration lets us make that choice explicitly.")
+                ],
                  action: .showHelloWorld
             )
             

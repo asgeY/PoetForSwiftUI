@@ -19,7 +19,7 @@ extension Tutorial.PageStore {
             Page([.text("This speeds development by decoupling our layers in all the right ways. We still have fine-grained control over animated transitions, but we don't have to waste effort thinking about all the possible permutations of views on screen.")], action: .showRetailDemo),
             
             Page([.text("We just make our choices on the fly. Here's how we show the “Not Started” step:"),
-                  .extraSmallCode(
+                  .code(
                     """
                         showSections([
                             topSpace_,
@@ -40,91 +40,83 @@ extension Tutorial.PageStore {
             Page([.text("To allow for the greatest possible dynamism, some of our Retail.Translator.Section cases are handed observable associated types when they are created.")], action: .showRetailDemo),
             
             Page([.text("For instance, the “feedback” section knows what string it should observe:"),
-                  .smallCode(
+                  .code(
                     """
-                        case feedback(
-                          feedback: ObservableString)
+                        case feedback(feedback: ObservableString)
                         """)
             ], action: .showRetailDemo),
             
             
             Page([.text("Whenever we create that case, we just assign it the “feedback” property:"),
-                  .smallCode(
-                    """
-                        return .feedback(
-                            feedback: feedback)
-                        """),
+                  .code("return .feedback(feedback: feedback)"),
                   .text("And that property is just an observable string the Translator holds onto:"),
-                  .smallCode(
-                    """
-                        var feedback = ObservableString()
-                        """),
+                  .code("var feedback = ObservableString()"),
             ], action: .showRetailDemo),
             
             Page([.text("So when we're translating a step, we just need to do two things to see feedback on screen. First, we set our observable string:"),
-                  .smallCode(
+                  .code(
                     """
-                      feedback.string = "The customer
+                    feedback.string = "The customer
                         has been notified that their
                         order cannot be fulfilled."
-                      """),
+                    """),
             ], action: .showRetailDemo),
             
             Page([.text("And second, we ensure that “feedback” is one of the sections we ask to show:"),
-                  .smallCode(
+                  .code(
                     """
-                      showSections([
-                          ...
-                          feedback_,
-                          ...
-                      ])
-                      """),
+                    showSections([
+                        ...
+                        feedback_,
+                        ...
+                    ])
+                    """),
             ], action: .showRetailDemo),
             
             Page([.text("showSections(:) is just a method that assigns Section cases to the Translator's sections array, which our ObservingPageView observes."),
-                  .smallCode(
+                  .code(
                     """
-                      func showSections(_ newSections:
-                        [Section]) {
-                          self.sections.array = newSections
-                      }
-                      """),
+                    func showSections(_ newSections:
+                      [Section]) {
+                        self.sections.array = newSections
+                    }
+                    """),
             ], action: .showRetailDemo),
             
             Page([.text("If it looks a little funny that we write “feedback_” with an underscore, that's just the name of a computed property that builds the enum with its observable data:"),
-                  .smallCode(
+                  .code(
                     """
-                      var feedback_: Section {
-                        return .feedback(feedback: feedback)
-                      }
-                      """),
+                    var feedback_: Section {
+                      return .feedback(feedback: feedback)
+                    }
+                    """),
             ], action: .showRetailDemo),
             
             
             Page([.text("In the “Find Products” step, we show the same sections, but we add a FindableProduct to each DisplayableProduct:"),
-                  .extraSmallCode(
+                  .code(
                     """
-                        displayableProducts.array =
-                          configuration.findableProducts.map({
-                            return DisplayableProduct(
-                                product: $0.product,
-                                findableProduct: $0
-                            )
-                        })
-                        """
+                    displayableProducts.array =
+                      configuration.findableProducts.map({
+                        return DisplayableProduct(
+                            product: $0.product,
+                            findableProduct: $0
+                        )
+                    })
+                    """
                 )
             ], action: .showRetailDemo),
             
             Page([.text("DisplayableProductsView shows “Found” and ”Not Found” for the FindableProduct:"),
-                  .extraSmallCode(
+                  .code(
                     """
-                        if displayableProduct.findableProduct
-                          != nil {
-                        FoundNotFoundButtons(findableProduct:
-                          displayableProduct.findableProduct!,
-                          evaluator: self.evaluator)
-                        }
-                        """
+                    if displayableProduct.findableProduct
+                      != nil {
+                      FoundNotFoundButtons(findableProduct:
+                        displayableProduct.findableProduct!,
+                        evaluator: self.evaluator)
+                    }
+                    """
                 )
             ], action: .showRetailDemo)
         )

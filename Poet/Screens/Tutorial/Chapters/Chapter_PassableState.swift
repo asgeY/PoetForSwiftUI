@@ -19,7 +19,7 @@ extension Tutorial.PageStore {
                   .text("They relied on what we can call passable state. More specifically, they made use of a PassthroughSubject to publish (and receive) our intent to show the screen.")]),
             
             Page([.text("PassthroughSubjects are a tiny bit demanding to think about, so we've wrapped one inside a type we call PassablePlease:"),
-                  .extraSmallCode(
+                  .code(
                     """
                     class PassablePlease {
                       var subject =
@@ -47,7 +47,7 @@ extension Tutorial.PageStore {
             Page([.text("The view layer is listening for that word. Whenever it hears please, it shows the screen by toggling a @State property that a sheet (or modal) holds onto as a binding. But we've made that something that's easy to think about, too.")]),
             
             Page([.text("In the view layer, the entire code for presenting the Something screen looks like this:"),
-              .extraSmallCode(
+              .smallCode(
                 """
                 Presenter(self.translator.showSomething) {
                     Text("Something")

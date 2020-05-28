@@ -24,7 +24,7 @@ extension Tutorial.PageStore {
             Page([.text("As our screens get more complex, display state gets more interesting. Our translator interprets the business state by doing some rote extraction (names, images), but also by creating an array of tabs to show on screen.")], action: .showHelloSolarSystem),
             
             Page([.text("Each tab is just an Action, which on this screen conforms to a protocol promising an icon and ID for each action:"),
-              .extraSmallCode(
+              .code(
                 """
                 tabs.array =
                  configuration.celestialBodies.map {
@@ -33,9 +33,9 @@ extension Tutorial.PageStore {
             )], action: .showHelloSolarSystem),
             
             Page([.text("Whichever body is designated as the currentCelestialBody will inform which tab is selected:"),
-                  .extraSmallCode(
+                  .code(
                     """
-                    currentTab.object =
+                    currentTab.value =
                      Action.showCelestialBody(
                       configuration.currentCelestialBody)
                     """
@@ -45,7 +45,7 @@ extension Tutorial.PageStore {
             Page([.text("Such a clean division between evaluator and translator is possible because the view layer does its part, too.")], action: .showHelloSolarSystem),
             
             Page([.text("The screen features a custom view that observes the translator's tabs and creates a CircularTabButton for each one:"),
-                  .extraSmallCode(
+                  .code(
                     """
                     ForEach(self.tabs.array, id: \\.id) {
                       tab in
@@ -91,9 +91,9 @@ extension Tutorial.PageStore {
                     }
                     
                     func indexOfCurrentTab() -> Int? {
-                        if let currentTabObject = currentTab.object {
+                        if let currentTabValue = currentTab.value {
                             return self.tabs.array.firstIndex { tab in
-                                tab.id == currentTabObject.id
+                                tab.id == currentTabValue.id
                             }
                         }
                         return nil
@@ -119,13 +119,13 @@ extension Tutorial.PageStore {
             Page([.text("So the view is smart about view logic but unopinionated about its content, which is determined by business and display state.")], action: .showHelloSolarSystem),
             
             Page([.text("This separation of concerns makes it easy for the translator to animate its changes:"),
-                  .extraSmallCode(
+                  .code(
                     """
                     withAnimation(
                     .spring(response: 0.45,
                             dampingFraction: 0.65,
                             blendDuration: 0)) {
-                      currentTab.object =
+                      currentTab.value =
                        Action.showCelestialBody(
                        configuration.currentCelestialBody)
                     }
@@ -139,15 +139,15 @@ extension Tutorial.PageStore {
                             // Set observable display state
                             title.string = "Hello \\(configuration.currentCelestialBody.name)!"
                             imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
-                            foregroundColor.object = configuration.currentCelestialBody.foreground.color
-                            backgroundColor.object = configuration.currentCelestialBody.background.color
-                            tapAction.object = configuration.tapAction
+                            foregroundColor.value = configuration.currentCelestialBody.foreground.color
+                            backgroundColor.value = configuration.currentCelestialBody.background.color
+                            tapAction.value = configuration.tapAction
                             tabs.array = configuration.celestialBodies.map { Action.showCelestialBody($0) }
                             withAnimation(.linear) {
                                 shouldShowTapMe.bool = configuration.tapAction != nil
                             }
                             withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
-                                currentTab.object = Action.showCelestialBody(configuration.currentCelestialBody)
+                                currentTab.value = Action.showCelestialBody(configuration.currentCelestialBody)
                             }
                         }
                         """

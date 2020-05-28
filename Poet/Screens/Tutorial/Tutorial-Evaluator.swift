@@ -156,7 +156,7 @@ extension Tutorial.Evaluator: ViewCycleEvaluating {
         // Opening animation
         showInterludeStep()
         afterWait(500) {
-            self.showMainTitleStep("The Poet Pattern")
+            self.showMainTitleStep("Poet")
             afterWait(1000) {
                 self.showInterludeStep()
                 afterWait(1000) {

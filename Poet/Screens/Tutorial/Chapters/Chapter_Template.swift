@@ -13,15 +13,27 @@ extension Tutorial.PageStore {
         return Chapter(
             "Template",
             files: [
+                "Template-Screen",
                 "Template-Evaluator",
                 "Template-Translator",
-                "Template-Screen",
                 "ObservableString",
                 "ObservingTextView",
                 "PassableStep",
             ],
             pages:
             Page([.text("If you tap the button that says “Show Template,” you'll see a screen that does almost nothing: it just shows a title and a body of text. We could accomplish this without any pattern at all, just a view. But we'll prepare ourselves to understand more complex screens by using an evaluator and translator here, too.")
+                ],
+                 action: .showTemplate
+            ),
+            
+            Page([.text("The Template is created using three files:"),
+                  .code(
+                    """
+                    Template-Screen.swift
+                    Template-Evaluator.swift
+                    Template-Translator.swift
+                    """),
+                  .text("The Screen is our top-level View. It's just like any other view, except that it knows a specific evaluator and translator concretely. Most other views don't know a translator at all, and they are decoupled from a specific evaluator, knowing it only by a protocol."),
                 ],
                  action: .showTemplate
             ),

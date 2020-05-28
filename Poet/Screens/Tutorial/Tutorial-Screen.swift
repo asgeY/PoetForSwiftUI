@@ -22,7 +22,9 @@ extension Tutorial {
         enum Layout {
             static let boxSize: CGFloat = {
                 switch Device.current {
-                case .small, .medium:
+                case .small:
+                    return 358
+                case .medium:
                     return 370
                 case .big:
                     return 480
