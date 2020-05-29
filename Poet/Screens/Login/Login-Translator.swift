@@ -20,12 +20,10 @@ extension Login {
         
         // Text Field values
         var usernameText = ObservableString()
-        var isUsernameValid = ObservableBool()
-        var usernameValidationMessage = ObservableString()
+        var usernameValidation = ObservableValidation()
         
         var passwordText = ObservableString()
-        var isPasswordValid = ObservableBool()
-        var passwordValidationMessage = ObservableString()
+        var passwordValidation = ObservableValidation()
         
         // Bottom button value
         var bottomButtonAction = ObservableNamedEnabledEvaluatorAction()
@@ -60,14 +58,15 @@ extension Login.Translator {
         title.string = "Sign In"
         
         usernameText.string = configuration.enteredUsername
-        isUsernameValid.bool = configuration.isEnteredUsernameValid
-        usernameValidationMessage.string = configuration.usernameValidationMessage
+        usernameValidation.isValid.bool = configuration.usernameValidation.isValid
+        usernameValidation.message.string = configuration.usernameValidation.message
         
         passwordText.string = configuration.enteredPassword
-        isPasswordValid.bool = configuration.isEnteredPasswordValid
-        passwordValidationMessage.string = configuration.passwordValidationMessage
+        passwordValidation.isValid.bool = configuration.passwordValidation.isValid
+        passwordValidation.message.string = configuration.passwordValidation.message
         
-        let enabled = configuration.isEnteredUsernameValid && configuration.isEnteredPasswordValid
+        let enabled = configuration.usernameValidation.isValid && configuration.passwordValidation.isValid
+        
         withAnimation(Animation.linear.delay(0.25)) {
             bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Sign in", enabled: enabled, action: Action.login)
         }

@@ -12,12 +12,32 @@ protocol TextFieldEvaluating: class {
     func textFieldDidChange(text: String, elementName: EvaluatorElement)
 }
 
+struct TextValidation {
+    var isValid = false
+    var message: String
+    var validationClosure: (String) -> Bool
+    
+    init(message: String, validationClosure: @escaping (String) -> Bool) {
+        self.message = message
+        self.validationClosure = validationClosure
+    }
+    
+    mutating func validate(text: String) {
+        self.isValid = validationClosure(text)
+    }
+}
+
+struct ObservableValidation {
+    var isValid = ObservableBool()
+    var message = ObservableString()
+}
+
 struct ObservingTextField: View {
     let placeholder: String
     @ObservedObject var text: ObservableString
-    @ObservedObject var isValid: ObservableBool
-    @ObservedObject var validationMessage: ObservableString
-    let shouldShowValidation: Bool
+    @ObservedObject var isValid = ObservableBool()
+    @ObservedObject var validationMessage = ObservableString()
+    var shouldShowValidation: Bool = false
     let elementName: EvaluatorElement
     let isSecure: Bool
     @State var fieldText = ObservableString()
@@ -30,6 +50,20 @@ struct ObservingTextField: View {
     @State private var validationImageColor: Color = Color.clear
     @State private var shouldShowValidationMessage = false
     @State private var shouldShowValidationMark = false
+    
+    init(placeholder: String, text: ObservableString, elementName: EvaluatorElement, isSecure: Bool, evaluator: TextFieldEvaluating?, validation: ObservableValidation? = nil) {
+        self.placeholder = placeholder
+        self.text = text
+        self.elementName = elementName
+        self.isSecure = isSecure
+        self.evaluator = evaluator
+        
+        if let validation = validation {
+            self.isValid = validation.isValid
+            self.validationMessage = validation.message
+            self.shouldShowValidation = true
+        }
+    }
     
     var body: some View {
         VStack(spacing: 0) {

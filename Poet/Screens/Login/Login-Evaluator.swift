@@ -33,11 +33,9 @@ extension Login.Evaluator {
     
     struct LoginStepConfiguration {
         var enteredUsername: String
-        var isEnteredUsernameValid: Bool
-        var usernameValidationMessage: String
+        var usernameValidation: TextValidation
         var enteredPassword: String
-        var isEnteredPasswordValid: Bool
-        var passwordValidationMessage: String
+        var passwordValidation: TextValidation
     }
 }
 
@@ -53,11 +51,9 @@ extension Login.Evaluator {
     func showLoginStep() {
         let configuration = LoginStepConfiguration(
             enteredUsername: "",
-            isEnteredUsernameValid: false,
-            usernameValidationMessage: "Must be at least 5 characters long",
+            usernameValidation: usernameValidation(),
             enteredPassword: "",
-            isEnteredPasswordValid: false,
-            passwordValidationMessage: "Must be at least 6 characters long"
+            passwordValidation: passwordValidation()
         )
         current.step = .login(configuration)
     }
@@ -88,22 +84,28 @@ extension Login.Evaluator: TextFieldEvaluating {
             switch elementName {
             case .usernameTextField:
                 configuration.enteredUsername = text
-                configuration.isEnteredUsernameValid = validateUsername(text)
+                configuration.usernameValidation.validate(text: text)
             case .passwordTextField:
                 configuration.enteredPassword = text
-                configuration.isEnteredPasswordValid = validatePassword(text)
+                configuration.passwordValidation.validate(text: text)
             }
             
             current.step = .login(configuration)
         }
     }
     
-    func validateUsername(_ string: String) -> Bool {
-        return string.count >= 5
+    func usernameValidation() -> TextValidation {
+        return TextValidation(
+        message: "Must be at least 5 characters long") {
+            return $0.count >= 5
+        }
     }
     
-    func validatePassword(_ string: String) -> Bool {
-        return string.count >= 6
+    func passwordValidation() -> TextValidation {
+        return TextValidation(
+        message: "Must be at least 6 characters long") {
+            return $0.count >= 6
+        }
     }
 }
 

@@ -40,24 +40,20 @@ extension Login {
                         ObservingTextField(
                             placeholder: "Username",
                             text: self.translator.usernameText,
-                            isValid: self.translator.isUsernameValid,
-                            validationMessage: self.translator.usernameValidationMessage,
-                            shouldShowValidation: true,
                             elementName: Evaluator.Element.usernameTextField,
                             isSecure: false,
-                            evaluator: evaluator
+                            evaluator: evaluator,
+                            validation: translator.usernameValidation
                         )
                         
                         // Password Text Field
                         ObservingTextField(
                             placeholder: "Password",
                             text: self.translator.passwordText,
-                            isValid: self.translator.isPasswordValid,
-                            validationMessage: self.translator.passwordValidationMessage,
-                            shouldShowValidation: true,
                             elementName: Evaluator.Element.passwordTextField,
                             isSecure: true,
-                            evaluator: evaluator
+                            evaluator: evaluator,
+                            validation: translator.passwordValidation
                         )
                     }.animation(.linear)
                     
