@@ -18,7 +18,7 @@ extension TextEntry {
         var title = ObservableString()
         var body = ObservableString()
         
-        var textFieldTitle = ObservableString()
+        var textFieldPlaceholder = ObservableString()
         var textFieldText = ObservableString()
         
         // Passthrough Behavior
@@ -48,6 +48,7 @@ extension TextEntry.Translator {
         // Set observable display state
         title.string = configuration.title
         body.string = configuration.typedText
+        textFieldPlaceholder.string = "Type here!"
         textFieldText.string = configuration.typedText
     }
 }

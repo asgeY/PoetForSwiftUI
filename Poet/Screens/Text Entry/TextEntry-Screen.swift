@@ -34,7 +34,7 @@ extension TextEntry {
                         .padding(.top, 22)
 
                     ObservingTextField(
-                        title: self.translator.textFieldTitle,
+                        placeholder: self.translator.textFieldPlaceholder,
                         text: self.translator.textFieldText,
                         elementName: Evaluator.Element.textField,
                         evaluator: evaluator)

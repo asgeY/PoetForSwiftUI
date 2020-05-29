@@ -13,21 +13,21 @@ protocol TextFieldEvaluating: class {
 }
 
 struct ObservingTextField: View {
-    @ObservedObject var title: ObservableString
+    @ObservedObject var placeholder: ObservableString
     @ObservedObject var text: ObservableString
     let elementName: EvaluatorElement
     @State var fieldText = ObservableString()
     weak var evaluator: TextFieldEvaluating?
     
-    init(title: ObservableString, text: ObservableString, elementName: EvaluatorElement, evaluator: TextFieldEvaluating?) {
-        self.title = title
+    init(placeholder: ObservableString, text: ObservableString, elementName: EvaluatorElement, evaluator: TextFieldEvaluating?) {
+        self.placeholder = placeholder
         self.text = text
         self.elementName = elementName
         self.evaluator = evaluator
     }
     
     var body: some View {
-        TextField(title.string, text: self.$fieldText.string)
+        TextField(placeholder.string, text: self.$fieldText.string)
             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
             .background(
                 RoundedRectangle(cornerRadius: 10)
