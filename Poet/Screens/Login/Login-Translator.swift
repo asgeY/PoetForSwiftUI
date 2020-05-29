@@ -30,6 +30,8 @@ extension Login {
         // Bottom button value
         var bottomButtonAction = ObservableNamedEnabledEvaluatorAction()
         
+        var alert = PassableAlert()
+        
         // Passthrough Behavior
         private var behavior: Behavior?
         

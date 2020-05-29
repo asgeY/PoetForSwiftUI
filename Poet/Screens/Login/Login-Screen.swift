@@ -70,6 +70,8 @@ extension Login {
                     DismissButton(orientation: .right)
                     Spacer()
                 }
+                
+                AlertPresenter(translator.alert)
             }.onAppear {
                 self.evaluator?.viewDidAppear()
                 self.navBarHidden = true

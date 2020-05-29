@@ -54,16 +54,32 @@ extension Login.Evaluator {
         let configuration = LoginStepConfiguration(
             enteredUsername: "",
             isEnteredUsernameValid: false,
-            usernameValidationMessage: "Must be at least 3 characters long",
+            usernameValidationMessage: "Must be at least 5 characters long",
             enteredPassword: "",
             isEnteredPasswordValid: false,
-            passwordValidationMessage: "Must be at least 5 characters long"
+            passwordValidationMessage: "Must be at least 6 characters long"
         )
         current.step = .login(configuration)
     }
 }
 
-// MARK: Text Entry
+// MARK: Actions
+extension Login.Evaluator: ActionEvaluating {
+    enum Action: EvaluatorAction {
+        case login
+    }
+    
+    func evaluate(_ action: EvaluatorAction?) {
+        guard let action = action as? Action else { return }
+        
+        switch action {
+        case .login:
+            translator.alert.withConfiguration(title: "Login", message: "We won't actually log in now. This was just a demonstration of text fields!")
+        }
+    }
+}
+
+// MARK: Text Field Evaluating
 extension Login.Evaluator: TextFieldEvaluating {
     func textFieldDidChange(text: String, elementName: EvaluatorElement) {
         guard case var .login(configuration) = current.step else { return }
@@ -83,26 +99,11 @@ extension Login.Evaluator: TextFieldEvaluating {
     }
     
     func validateUsername(_ string: String) -> Bool {
-        return string.count >= 3
+        return string.count >= 5
     }
     
     func validatePassword(_ string: String) -> Bool {
-        return string.count >= 5
+        return string.count >= 6
     }
 }
 
-// MARK: Actions
-extension Login.Evaluator: ActionEvaluating {
-    enum Action: EvaluatorAction {
-        case login
-    }
-    
-    func evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
-        
-        switch action {
-        case .login:
-            debugPrint("login")
-        }
-    }
-}

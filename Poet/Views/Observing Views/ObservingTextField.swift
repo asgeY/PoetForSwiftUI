@@ -109,9 +109,17 @@ struct ObservingTextField: View {
     func textField(isSecure: Bool) -> AnyView {
         switch isSecure {
         case true:
-            return AnyView(SecureField(placeholder, text: self.$fieldText.string))
+            return AnyView(
+                SecureField(placeholder, text: self.$fieldText.string)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+            )
         case false:
-            return AnyView(TextField(placeholder, text: self.$fieldText.string))
+            return AnyView(
+                TextField(placeholder, text: self.$fieldText.string)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+            )
         }
     }
 }
