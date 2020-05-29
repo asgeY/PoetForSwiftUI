@@ -9,7 +9,13 @@
 import Combine
 
 class ObservableString: ObservableObject {
-    @Published var string: String
+    let objectDidChange = ObservableObjectPublisher()
+    
+    @Published var string: String {
+        didSet {
+            objectDidChange.send()
+        }
+    }
     
     init(_ string: String = "") {
         self.string = string

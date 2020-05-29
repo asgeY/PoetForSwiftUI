@@ -14,8 +14,6 @@ struct FileMenuView: View {
     let textFiles: [TextFile]
     var showFile = PassableString()
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     var body: some View {
         ZStack {
             VStack {
@@ -37,15 +35,15 @@ struct FileMenuView: View {
                 
                 ScrollView {
                     Spacer().frame(height:4)
-                    ForEach(self.textFiles, id: \.id) { fileTitleAndBody in
+                    ForEach(self.textFiles, id: \.id) { textFile in
                         Button(action: {
-                            self.showFile.withString(fileTitleAndBody.body)
+                            self.showFile.withString(textFile.body)
                         }) {
                             VStack(spacing: 0) {
                                 HStack {
                                     Image(systemName: "doc.plaintext")
                                     Spacer().frame(width: 14)
-                                    Text(fileTitleAndBody.title + ".swift")
+                                    Text(textFile.title + ".swift")
                                         .font(Font.system(size: 16, weight: .regular))
                                     Spacer()
                                     Image(systemName: "chevron.right")
@@ -60,7 +58,6 @@ struct FileMenuView: View {
                             }
                             .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 0))
                         }
-                        
                     }
                 }
             }.background(Rectangle().fill(Color(UIColor.systemBackground)))
