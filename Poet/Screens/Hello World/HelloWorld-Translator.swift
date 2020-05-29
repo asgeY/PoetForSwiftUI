@@ -16,7 +16,7 @@ extension HelloWorld {
         
         // Observable Display State
         var helloCount = ObservableString()
-        var buttonAction = ObservableNamedEvaluatorAction()
+        var buttonAction = ObservableNamedEnabledEvaluatorAction()
         var bubbleText = ObservableString()
         var shouldShowBubble = ObservableBool()
         
@@ -46,10 +46,11 @@ extension HelloWorld.Translator {
     func translateSayStuffStep(_ configuration: Evaluator.SayStuffStepConfiguration) {
         helloCount.string = "Hello count: \(configuration.helloCount)"
         
-        buttonAction.namedAction = nil
+        buttonAction.namedEnabledAction = nil
         afterWait(800) {
-            self.buttonAction.namedAction = NamedEvaluatorAction(
+            self.buttonAction.namedEnabledAction = NamedEnabledEvaluatorAction(
                 name: configuration.buttonAction.name,
+                enabled: true,
                 action: configuration.buttonAction
             )
         }

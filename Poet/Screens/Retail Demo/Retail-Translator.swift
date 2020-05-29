@@ -59,7 +59,7 @@ extension Retail {
         var completedSummary = ObservableString()
         
         // Bottom Button
-        var bottomButtonAction: ObservableNamedEvaluatorAction = ObservableNamedEvaluatorAction()
+        var bottomButtonAction: ObservableNamedEnabledEvaluatorAction = ObservableNamedEnabledEvaluatorAction()
         
         // Composed Translating
         var alertTranslator = AlertTranslator()
@@ -153,7 +153,7 @@ extension Retail.Translator {
         ]
         
         // Bottom button
-        bottomButtonAction.namedAction = NamedEvaluatorAction(name: "Start", action: configuration.startAction)
+        bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Start", enabled: true, action: configuration.startAction)
     }
     
     // MARK: Finding Products Step
@@ -192,9 +192,9 @@ extension Retail.Translator {
             let name = {
                 nextAction == .advanceToCanceledStep ? "Cancel Order" : "Next"
             }()
-            bottomButtonAction.namedAction = NamedEvaluatorAction(name: name, action: nextAction)
+            bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: name, enabled: true, action: nextAction)
         } else {
-            bottomButtonAction.namedAction = nil
+            bottomButtonAction.namedEnabledAction = nil
         }
     }
     
@@ -232,9 +232,9 @@ extension Retail.Translator {
         
         // Bottom button
         if let nextAction = configuration.nextAction {
-            bottomButtonAction.namedAction = NamedEvaluatorAction(name: "Deliver and Notify Customer", action: nextAction)
+            bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Deliver and Notify Customer", enabled: true, action: nextAction)
         } else {
-            bottomButtonAction.namedAction = nil
+            bottomButtonAction.namedEnabledAction = nil
         }
     }
     
@@ -281,7 +281,7 @@ extension Retail.Translator {
         }
         
         // Bottom button
-        bottomButtonAction.namedAction = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
+        bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Done", enabled: true, action: configuration.doneAction)
     }
     
     // MARK: Canceled Step
@@ -317,7 +317,7 @@ extension Retail.Translator {
         }
         
         // Bottom button
-        bottomButtonAction.namedAction = NamedEvaluatorAction(name: "Done", action: configuration.doneAction)
+        bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Done", enabled: true, action: configuration.doneAction)
     }
 }
 

@@ -9,19 +9,21 @@
 import SwiftUI
 
 struct ObservingBottomButton: View {
-    @ObservedObject var obsevableNamedAction: ObservableNamedEvaluatorAction
+    @ObservedObject var observableNamedEnabledAction: ObservableNamedEnabledEvaluatorAction
     weak var evaluator: ActionEvaluating?
+    
+    @ObservedObject private var keyboard = KeyboardResponder()
     
     var body: some View {
         GeometryReader() { geometry in
             VStack {
                 Spacer()
                 Button(action: {
-                    self.evaluator?.evaluate(self.obsevableNamedAction.namedAction?.action)
+                    self.evaluator?.evaluate(self.observableNamedEnabledAction.namedEnabledAction?.action)
                 }) {
                         
                     Text(
-                        self.obsevableNamedAction.namedAction?.name ?? "")
+                        self.observableNamedEnabledAction.namedEnabledAction?.name ?? "")
                         .animation(.none)
                         .font(Font.headline)
                         .foregroundColor(Color(UIColor.systemBackground))
@@ -38,13 +40,16 @@ struct ObservingBottomButton: View {
                             )
                     )
                 }
+                .disabled(self.observableNamedEnabledAction.namedEnabledAction?.enabled == false)
             }
             
             .opacity(
-                self.obsevableNamedAction.namedAction?.action == nil ? 0 : 1
+                self.observableNamedEnabledAction.namedEnabledAction?.action == nil ? 0 : 1
             )
-            .offset(x: 0, y: self.obsevableNamedAction.namedAction?.action == nil ? 150 : 0)
-                .animation(.spring(response: 0.35, dampingFraction: 0.7, blendDuration: 0), value: self.obsevableNamedAction.namedAction?.action == nil)
+            .offset(x: 0, y: self.observableNamedEnabledAction.namedEnabledAction?.action == nil ? 150 : 0)
+                .offset(x: 0, y: -self.keyboard.currentHeight)
+                .animation(.spring(response: 0.35, dampingFraction: 0.7, blendDuration: 0), value: self.observableNamedEnabledAction.namedEnabledAction?.action == nil)
+                .animation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0), value: self.keyboard.currentHeight == 0)
         }
     }
 }

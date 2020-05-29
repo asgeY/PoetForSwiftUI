@@ -81,7 +81,7 @@ extension HelloWorld {
                 }
                 
                 // Bottom Button
-                ObservingBottomButton(obsevableNamedAction: translator.buttonAction, evaluator: evaluator)
+                ObservingBottomButton(observableNamedAction: translator.buttonAction, evaluator: evaluator)
                 
                 // Dismiss Button
                 VStack {

@@ -28,9 +28,9 @@
 		3B725493248017B200E27551 /* HelloWorld-Screen.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3B7254912480175E00E27551 /* HelloWorld-Screen.txt */; };
 		3B725494248017B200E27551 /* HelloWorld-Evaluator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3B7254922480178D00E27551 /* HelloWorld-Evaluator.txt */; };
 		3B72549724802C2100E27551 /* HelloWorld-Translator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3B725495248017DE00E27551 /* HelloWorld-Translator.txt */; };
-		3B72549D2480702100E27551 /* TextEntry-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72549A24806FDB00E27551 /* TextEntry-Screen.swift */; };
-		3B72549E2480702100E27551 /* TextEntry-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72549924806FDB00E27551 /* TextEntry-Evaluator.swift */; };
-		3B72549F2480702100E27551 /* TextEntry-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72549B24806FDB00E27551 /* TextEntry-Translator.swift */; };
+		3B72549D2480702100E27551 /* Login-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72549A24806FDB00E27551 /* Login-Screen.swift */; };
+		3B72549E2480702100E27551 /* Login-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72549924806FDB00E27551 /* Login-Evaluator.swift */; };
+		3B72549F2480702100E27551 /* Login-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72549B24806FDB00E27551 /* Login-Translator.swift */; };
 		3B7254A124808AE300E27551 /* EvaluatorElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7254A024808AE300E27551 /* EvaluatorElement.swift */; };
 		3B7254A324808B0F00E27551 /* ObservingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7254A224808B0F00E27551 /* ObservingTextField.swift */; };
 		3BF6691C2477CFAA00AE055C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691B2477CFAA00AE055C /* Device.swift */; };
@@ -89,6 +89,7 @@
 		87E7E43F2459637900047253 /* Retail-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E7E43E2459637900047253 /* Retail-Translator.swift */; };
 		87E9E9AB246748D600CF2E1E /* Tutorial-PageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E9E9AA246748D600CF2E1E /* Tutorial-PageStore.swift */; };
 		DC00E229247D984900A9F503 /* TextFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E228247D984900A9F503 /* TextFile.swift */; };
+		DC00E22B2480CD0F00A9F503 /* ObservableNamedEnabledEvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E22A2480CD0F00A9F503 /* ObservableNamedEnabledEvaluatorAction.swift */; };
 		DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04F6F024661C1400F49E00 /* ImageExtensions.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
@@ -172,9 +173,9 @@
 		3B7254912480175E00E27551 /* HelloWorld-Screen.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "HelloWorld-Screen.txt"; sourceTree = "<group>"; };
 		3B7254922480178D00E27551 /* HelloWorld-Evaluator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "HelloWorld-Evaluator.txt"; sourceTree = "<group>"; };
 		3B725495248017DE00E27551 /* HelloWorld-Translator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "HelloWorld-Translator.txt"; sourceTree = "<group>"; };
-		3B72549924806FDB00E27551 /* TextEntry-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextEntry-Evaluator.swift"; sourceTree = "<group>"; };
-		3B72549A24806FDB00E27551 /* TextEntry-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextEntry-Screen.swift"; sourceTree = "<group>"; };
-		3B72549B24806FDB00E27551 /* TextEntry-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextEntry-Translator.swift"; sourceTree = "<group>"; };
+		3B72549924806FDB00E27551 /* Login-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Login-Evaluator.swift"; sourceTree = "<group>"; };
+		3B72549A24806FDB00E27551 /* Login-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Login-Screen.swift"; sourceTree = "<group>"; };
+		3B72549B24806FDB00E27551 /* Login-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Login-Translator.swift"; sourceTree = "<group>"; };
 		3B7254A024808AE300E27551 /* EvaluatorElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorElement.swift; sourceTree = "<group>"; };
 		3B7254A224808B0F00E27551 /* ObservingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservingTextField.swift; sourceTree = "<group>"; };
 		3BF6691B2477CFAA00AE055C /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
@@ -237,6 +238,7 @@
 		87E7E43E2459637900047253 /* Retail-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Retail-Translator.swift"; sourceTree = "<group>"; };
 		87E9E9AA246748D600CF2E1E /* Tutorial-PageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-PageStore.swift"; sourceTree = "<group>"; };
 		DC00E228247D984900A9F503 /* TextFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFile.swift; sourceTree = "<group>"; };
+		DC00E22A2480CD0F00A9F503 /* ObservableNamedEnabledEvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableNamedEnabledEvaluatorAction.swift; sourceTree = "<group>"; };
 		DC04F6F024661C1400F49E00 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
@@ -335,14 +337,14 @@
 			path = "Files as text";
 			sourceTree = "<group>";
 		};
-		3B72549824806FC300E27551 /* Text Entry */ = {
+		3B72549824806FC300E27551 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				3B72549A24806FDB00E27551 /* TextEntry-Screen.swift */,
-				3B72549924806FDB00E27551 /* TextEntry-Evaluator.swift */,
-				3B72549B24806FDB00E27551 /* TextEntry-Translator.swift */,
+				3B72549A24806FDB00E27551 /* Login-Screen.swift */,
+				3B72549924806FDB00E27551 /* Login-Evaluator.swift */,
+				3B72549B24806FDB00E27551 /* Login-Translator.swift */,
 			);
-			path = "Text Entry";
+			path = Login;
 			sourceTree = "<group>";
 		};
 		3BF6692624781A0100AE055C /* Passables */ = {
@@ -371,6 +373,7 @@
 				3BF6693E247828CA00AE055C /* ObservableInt.swift */,
 				3B687616247DCA31005F2FBA /* ObservableEvaluatorAction.swift */,
 				3BF6694424782B1800AE055C /* ObservableNamedEvaluatorAction.swift */,
+				DC00E22A2480CD0F00A9F503 /* ObservableNamedEnabledEvaluatorAction.swift */,
 				875562EC244D144600DB49C4 /* ObservableString.swift */,
 				3BF66940247828E900AE055C /* ObservableURL.swift */,
 				3BF6694824782B7600AE055C /* ObservableString.txt */,
@@ -443,7 +446,7 @@
 				8794A5FE245CB88400D41E4F /* Dismiss Receiver */,
 				DC65655E246F05660048A848 /* Hello Solar System */,
 				87E7E43724595C6300047253 /* Retail Demo */,
-				3B72549824806FC300E27551 /* Text Entry */,
+				3B72549824806FC300E27551 /* Login */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -833,9 +836,9 @@
 				875562ED244D144600DB49C4 /* ObservableString.swift in Sources */,
 				3B68762E247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift in Sources */,
 				3B687628247DE4BB005F2FBA /* Chapter_PassableState.swift in Sources */,
-				3B72549E2480702100E27551 /* TextEntry-Evaluator.swift in Sources */,
+				3B72549E2480702100E27551 /* Login-Evaluator.swift in Sources */,
 				87D299D8245518C1003959C3 /* About-Translator.swift in Sources */,
-				3B72549F2480702100E27551 /* TextEntry-Translator.swift in Sources */,
+				3B72549F2480702100E27551 /* Login-Translator.swift in Sources */,
 				8794A606245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift in Sources */,
 				DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */,
 				DC4C6C6D2476D0DA0014A34C /* SupplementaryCodeView.swift in Sources */,
@@ -859,6 +862,7 @@
 				8794A5FA245C343400D41E4F /* Retail-PageViewMaker.swift in Sources */,
 				3BF6694724782B3700AE055C /* Observable.swift in Sources */,
 				3B687634247ECCF0005F2FBA /* AlertPresenter.swift in Sources */,
+				DC00E22B2480CD0F00A9F503 /* ObservableNamedEnabledEvaluatorAction.swift in Sources */,
 				DC65656D2470F4FB0048A848 /* CharacterBezelTranslating.swift in Sources */,
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
 				DC31CC702479C9EC00002075 /* FileOfInterestButton.swift in Sources */,
@@ -876,7 +880,7 @@
 				3BF66941247828E900AE055C /* ObservableURL.swift in Sources */,
 				3BF669432478290D00AE055C /* ObservableArray.swift in Sources */,
 				87AC82792453BB3A0090E443 /* Menu-Screen.swift in Sources */,
-				3B72549D2480702100E27551 /* TextEntry-Screen.swift in Sources */,
+				3B72549D2480702100E27551 /* Login-Screen.swift in Sources */,
 				DC31CC7D247C383E00002075 /* HelloWorld-Evaluator.swift in Sources */,
 				87AC827F2454CDE90090E443 /* Behavior.swift in Sources */,
 				DC4C6C482476C5660014A34C /* InstructionView.swift in Sources */,
