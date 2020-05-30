@@ -11,19 +11,17 @@ import Combine
 import XCTest
 
 class LoginMockPerformer: LoginPerforming {
-    struct MockError: Error {}
-    
     let shouldSucceed: Bool
     
     init(shouldSucceed: Bool) {
         self.shouldSucceed = shouldSucceed
     }
     
-    func login(username: String, password: String) -> AnyPublisher<AuthenticationResult, AuthenticationError>? {
+    func login(username: String, password: String) -> AnyPublisher<AuthenticationResult, NetworkingError>? {
         if shouldSucceed {
             return Result.Publisher(AuthenticationResult(authenticated: true)).eraseToAnyPublisher()
         } else {
-            return Result.Publisher(AuthenticationError(error: MockError())).eraseToAnyPublisher()
+            return Result.Publisher(NetworkingError.unauthorized(response: URLResponse())).eraseToAnyPublisher()
         }
     }
 }

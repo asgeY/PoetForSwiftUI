@@ -96,6 +96,8 @@
 		DC00E2362482188900A9F503 /* BusyPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E2352482188900A9F503 /* BusyPresenter.swift */; };
 		DC00E23A24822FA100A9F503 /* Login-Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23924822FA100A9F503 /* Login-Tests.swift */; };
 		DC00E23B24822FAC00A9F503 /* Login-MockPerformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23724822F7C00A9F503 /* Login-MockPerformer.swift */; };
+		DC00E23D2482A6BE00A9F503 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */; };
+		DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */; };
 		DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04F6F024661C1400F49E00 /* ImageExtensions.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
@@ -251,6 +253,8 @@
 		DC00E2352482188900A9F503 /* BusyPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusyPresenter.swift; sourceTree = "<group>"; };
 		DC00E23724822F7C00A9F503 /* Login-MockPerformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Login-MockPerformer.swift"; sourceTree = "<group>"; };
 		DC00E23924822FA100A9F503 /* Login-Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Login-Tests.swift"; sourceTree = "<group>"; };
+		DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
+		DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Networking.swift"; sourceTree = "<group>"; };
 		DC04F6F024661C1400F49E00 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
@@ -471,6 +475,8 @@
 			isa = PBXGroup;
 			children = (
 				3B1E8D392462A9CD005D033C /* AfterWait.swift */,
+				DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */,
+				DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */,
 				87AC827E2454CDE90090E443 /* Behavior.swift */,
 				3BF6691B2477CFAA00AE055C /* Device.swift */,
 				3BF6691D2477D1F700AE055C /* FontSystem.swift */,
@@ -846,6 +852,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */,
+				DC00E23D2482A6BE00A9F503 /* NetworkingError.swift in Sources */,
 				3B687620247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift in Sources */,
 				87D299D9245518C1003959C3 /* About-Screen.swift in Sources */,
 				DC4C6C692476CF640014A34C /* ChapterTitleView.swift in Sources */,
@@ -953,6 +960,7 @@
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
 				DC65656624705E7C0048A848 /* HelloSolarSystem-Store.swift in Sources */,
 				3B68762A247DE4CA005F2FBA /* Chapter_PassableStatePart2.swift in Sources */,
+				DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */,
 				3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */,
 				DC4C6C6B2476D02B0014A34C /* TableOfContentsView.swift in Sources */,
 				87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */,

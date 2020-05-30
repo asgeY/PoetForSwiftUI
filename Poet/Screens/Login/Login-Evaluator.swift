@@ -140,33 +140,30 @@ extension Login.Evaluator: TextFieldEvaluating {
     }
     
     func usernameValidation() -> TextValidation {
-        typealias Condition = TextValidation.Condition
         return TextValidation([
-            Condition(message: "Must be at least 5 characters long") {
-                return $0.count >= 5
-            },
-            
-            Condition(message: "No special characters: = , \" ' \\") {
-                let splitString = Array($0).map { String($0) }
-                let badCharacters = ["=", ",", "\"", "'", "\\"]
-                return splitString.contains(where: badCharacters.contains) == false
-            }
+            lengthCondition(5),
+            specialCharacterCondition(["=", ",", "\"", "'", "\\", "?", "!", "%"])
         ])
     }
     
     func passwordValidation() -> TextValidation {
-        typealias Condition = TextValidation.Condition
         return TextValidation([
-            Condition(message: "Must be at least 6 characters long") {
-                return $0.count >= 6
-            },
-            
-            Condition(message: "No special characters: = , . \" ' \\ @") {
-                let splitString = Array($0).map { String($0) }
-                let badCharacters = ["=", ",", ".", "\"", "'", "\\", "@"]
-                return splitString.contains(where: badCharacters.contains) == false
-            },
+            lengthCondition(6),
+            specialCharacterCondition(["=", ",", ".", "\"", "'", "\\", "@"])
         ])
+    }
+    
+    func lengthCondition(_ length: Int) -> TextValidation.Condition {
+        return TextValidation.Condition(message: "Must be at least \(length) characters long") {
+            return $0.count >= length
+        }
+    }
+    
+    func specialCharacterCondition(_ badCharacters: [String]) -> TextValidation.Condition {
+        return TextValidation.Condition(message: "No special characters: \(badCharacters.joined(separator: " "))") {
+            let splitString = Array($0).map { String($0) }
+            return splitString.contains(where: badCharacters.contains) == false
+        }
     }
 }
 
@@ -184,20 +181,21 @@ extension Login.Evaluator {
         )
     }
     
-    private func showLoginFailureAlert(with authenticationError: AuthenticationError) {
-        guard case let .login(configuration) = current.step else { return }
+    private func showLoginFailureAlert(with networkingError: NetworkingError) {
+        var message = networkingError.shortName
+        
+        switch networkingError {
+        case .unauthorized:
+            message.append("\n\nCheck that you've entered your username and password correctly.")
+        default:
+            break
+        }
         
         translator.alert.withConfiguration(
             title: "Login Failed",
-            message:
-            """
-            username: “\(configuration.enteredUsername)”
-            password: “\(configuration.enteredPassword)”
-                    
-            That wasn't correct!
-            """
+            message: message
         )
             
-        debugPrint("authenticationError: \(authenticationError)")
+        debugPrint("authenticationError: \(networkingError)")
     }
 }
