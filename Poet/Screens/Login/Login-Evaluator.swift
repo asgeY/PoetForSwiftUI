@@ -70,8 +70,10 @@ extension Login.Evaluator: ActionEvaluating {
         guard let action = action as? Action else { return }
         
         switch action {
+            
         case .signIn:
             signIn()
+            
         case .useDefaultCredentials:
             useDefaultCredentials()
         }
@@ -88,7 +90,7 @@ extension Login.Evaluator: ActionEvaluating {
             username: “\(configuration.enteredUsername)”
             password: “\(configuration.enteredPassword)”
                     
-            There's nothing to sign in to. This was just a demonstration of text fields!
+            We won't actually sign in to anything. This was just a demonstration of text fields!
             """
         )
     }
