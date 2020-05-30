@@ -19,16 +19,15 @@ extension Login {
         var title = ObservableString()
         
         // Text Field values
-        var usernameText = ObservableString()
         var usernameValidation = ObservableValidation()
-        
-        var passwordText = ObservableString()
         var passwordValidation = ObservableValidation()
         
         // Bottom button value
         var bottomButtonAction = ObservableNamedEnabledEvaluatorAction()
         
         var alert = PassableAlert()
+        var passableUsername = PassableString()
+        var passablePassword = PassableString()
         
         // Passthrough Behavior
         private var behavior: Behavior?
@@ -46,7 +45,7 @@ extension Login.Translator {
         switch step {
             
         case .initial:
-            break // no initial setup needed
+            break
             
         case .login(let configuration):
             translateLoginStep(configuration)
@@ -57,18 +56,16 @@ extension Login.Translator {
         // Set observable display state
         title.string = "Sign In"
         
-        usernameText.string = configuration.enteredUsername
         usernameValidation.isValid.bool = configuration.usernameValidation.isValid
         usernameValidation.message.string = configuration.usernameValidation.message
         
-        passwordText.string = configuration.enteredPassword
         passwordValidation.isValid.bool = configuration.passwordValidation.isValid
         passwordValidation.message.string = configuration.passwordValidation.message
         
         let enabled = configuration.usernameValidation.isValid && configuration.passwordValidation.isValid
         
         withAnimation(Animation.linear.delay(0.25)) {
-            bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Sign in", enabled: enabled, action: Action.login)
+            bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Sign in", enabled: enabled, action: Action.signIn)
         }
     }
 }

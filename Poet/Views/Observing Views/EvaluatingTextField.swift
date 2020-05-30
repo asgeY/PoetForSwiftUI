@@ -12,29 +12,8 @@ protocol TextFieldEvaluating: class {
     func textFieldDidChange(text: String, elementName: EvaluatorElement)
 }
 
-struct TextValidation {
-    var isValid = false
-    var message: String
-    var validationClosure: (String) -> Bool
-    
-    init(message: String, validationClosure: @escaping (String) -> Bool) {
-        self.message = message
-        self.validationClosure = validationClosure
-    }
-    
-    mutating func validate(text: String) {
-        self.isValid = validationClosure(text)
-    }
-}
-
-struct ObservableValidation {
-    var isValid = ObservableBool()
-    var message = ObservableString()
-}
-
-struct ObservingTextField: View {
+struct EvaluatingTextField: View {
     let placeholder: String
-    @ObservedObject var text: ObservableString
     @ObservedObject var isValid = ObservableBool()
     @ObservedObject var validationMessage = ObservableString()
     var shouldShowValidation: Bool = false
@@ -43,20 +22,23 @@ struct ObservingTextField: View {
     @State var fieldText = ObservableString()
     weak var evaluator: TextFieldEvaluating?
     
-    @State var behavior: Behavior?
+    @State var validationBehavior: Behavior?
+    
+    private var passableText: PassableString
+    @State var passableTextBehavior: Behavior?
     
     @State private var storedText: String = ""
-    @State private var validationImageName: String = ""
+    @State private var validationImageName: String = "checkmark.circle"
     @State private var validationImageColor: Color = Color.clear
     @State private var shouldShowValidationMessage = false
     @State private var shouldShowValidationMark = false
     
-    init(placeholder: String, text: ObservableString, elementName: EvaluatorElement, isSecure: Bool, evaluator: TextFieldEvaluating?, validation: ObservableValidation? = nil) {
+    init(placeholder: String, elementName: EvaluatorElement, isSecure: Bool, evaluator: TextFieldEvaluating?, validation: ObservableValidation? = nil, passableText: PassableString? = nil) {
         self.placeholder = placeholder
-        self.text = text
         self.elementName = elementName
         self.isSecure = isSecure
         self.evaluator = evaluator
+        self.passableText = passableText ?? PassableString()
         
         if let validation = validation {
             self.isValid = validation.isValid
@@ -75,15 +57,13 @@ struct ObservingTextField: View {
                             .fill(Color.primary.opacity(0.05))
                 )
                     .padding(EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 50))
-                    .onReceive(text.objectDidChange) {
-                        if self.text.string != self.fieldText.string {
-                            self.fieldText.string = self.text.string
-                        }
-                }
                 .onReceive(fieldText.objectDidChange) {
-                    if self.fieldText.string != self.text.string {
+                    debugPrint("fieldText.objectDidChange. self.fieldText.string: \(self.fieldText.string)")
+//                    debugPrint("fieldText.objectDidChange. self.text.string: \(self.text.string). self.fieldText.string: \(self.fieldText.string)")
+//                    if self.fieldText.string != self.text.string {
+                        debugPrint("f1")
                         self.evaluator?.textFieldDidChange(text: self.fieldText.string, elementName: self.elementName)
-                    }
+//                    }
                 }
                 
                 HStack {
@@ -112,7 +92,7 @@ struct ObservingTextField: View {
                     Text(validationMessage.string)
                         .font(Font.caption.bold())
                         .foregroundColor(Color(UIColor.systemRed))
-                        .frame(height: self.shouldShowValidationMessage ? nil : 0) // self.isValid.bool || self.text.string.isEmpty ? 0 : nil)
+                        .frame(height: self.shouldShowValidationMessage ? nil : 0)
                         .opacity(self.shouldShowValidationMessage ? 1 : 0)
                         .padding(.top, self.shouldShowValidationMessage ? 10 : 0)
                         .animation(.linear, value: self.isValid.bool == false)
@@ -121,12 +101,12 @@ struct ObservingTextField: View {
             }
         }
         .padding(.bottom, 14)
-        .onReceive(text.objectWillChange) {
-            if self.text.string == self.storedText { return }
-            self.storedText = self.text.string
+        .onReceive(fieldText.objectDidChange) {
+            if self.fieldText.string == self.storedText { return }
+            self.storedText = self.fieldText.string
             
-            self.behavior = self.isValid.$bool.debounce(for: 0.35, scheduler: DispatchQueue.main).sink { (value) in
-                if self.text.string.isEmpty {
+            self.validationBehavior = self.isValid.$bool.debounce(for: 0.35, scheduler: DispatchQueue.main).sink { (value) in
+                if self.fieldText.string.isEmpty {
                     self.shouldShowValidationMessage = false
                     self.shouldShowValidationMark = false
                     return
@@ -135,7 +115,12 @@ struct ObservingTextField: View {
                 self.validationImageColor = (value == true ? Color(UIColor.systemGreen) : Color(UIColor.systemRed))
                 self.shouldShowValidationMark = true
                 self.shouldShowValidationMessage = (value == false)
-                self.behavior?.cancel()
+                self.validationBehavior?.cancel()
+            }
+        }
+        .onReceive(self.passableText.subject) { (string) in
+            if let string = string {
+                self.fieldText.string = string
             }
         }
     }

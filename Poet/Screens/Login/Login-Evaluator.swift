@@ -24,7 +24,7 @@ extension Login {
     }
 }
 
-// Steps and Step Configurations
+// MARK: Steps and Step Configurations
 extension Login.Evaluator {
     enum Step: EvaluatorStep {
         case initial
@@ -39,14 +39,14 @@ extension Login.Evaluator {
     }
 }
 
-// View Cycle
+// MARK: View Cycle
 extension Login.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
         showLoginStep()
     }
 }
 
-// Advancing Between Steps
+// MARK: Advancing Between Steps
 extension Login.Evaluator {
     func showLoginStep() {
         let configuration = LoginStepConfiguration(
@@ -62,16 +62,43 @@ extension Login.Evaluator {
 // MARK: Actions
 extension Login.Evaluator: ActionEvaluating {
     enum Action: EvaluatorAction {
-        case login
+        case signIn
+        case useDefaultCredentials
     }
     
     func evaluate(_ action: EvaluatorAction?) {
         guard let action = action as? Action else { return }
         
         switch action {
-        case .login:
-            translator.alert.withConfiguration(title: "Login", message: "We won't actually log in now. This was just a demonstration of text fields!")
+        case .signIn:
+            signIn()
+        case .useDefaultCredentials:
+            useDefaultCredentials()
         }
+    }
+    
+    // MARK: Actions on Login Step
+    func signIn() {
+        guard case let .login(configuration) = current.step else { return }
+        
+        translator.alert.withConfiguration(
+            title: "Sign In",
+            message:
+            """
+            username: “\(configuration.enteredUsername)”
+            password: “\(configuration.enteredPassword)”
+                    
+            There's nothing to sign in to. This was just a demonstration of text fields!
+            """
+        )
+    }
+    
+    func useDefaultCredentials() {
+        let username = "admin"
+        let password = "123456789"
+        
+        translator.passableUsername.string = username
+        translator.passablePassword.string = password
     }
 }
 
@@ -95,17 +122,33 @@ extension Login.Evaluator: TextFieldEvaluating {
     }
     
     func usernameValidation() -> TextValidation {
-        return TextValidation(
-        message: "Must be at least 5 characters long") {
-            return $0.count >= 5
-        }
+        typealias Condition = TextValidation.Condition
+        return TextValidation([
+            Condition(message: "Must be at least 5 characters long") {
+                return $0.count >= 5
+            },
+            
+            Condition(message: "No special characters: = , \" ' \\") {
+                let splitString = Array($0).map { String($0) }
+                let badCharacters = ["=", ",", "\"", "'", "\\"]
+                return splitString.contains(where: badCharacters.contains) == false
+            }
+        ])
     }
     
     func passwordValidation() -> TextValidation {
-        return TextValidation(
-        message: "Must be at least 6 characters long") {
-            return $0.count >= 6
-        }
+        typealias Condition = TextValidation.Condition
+        return TextValidation([
+            Condition(message: "Must be at least 6 characters long") {
+                return $0.count >= 6
+            },
+            
+            Condition(message: "No special characters: = , . \" ' \\ @") {
+                let splitString = Array($0).map { String($0) }
+                let badCharacters = ["=", ",", ".", "\"", "'", "\\", "@"]
+                return splitString.contains(where: badCharacters.contains) == false
+            },
+        ])
     }
 }
 

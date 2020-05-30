@@ -13,6 +13,8 @@ struct Login {}
 extension Login {
     struct Screen: View {
         
+        typealias Action = Evaluator.Action
+        
         let _evaluator: Evaluator
         weak var evaluator: Evaluator?
         let translator: Translator
@@ -37,28 +39,38 @@ extension Login {
                     
                     VStack {
                         // Username Text Field
-                        ObservingTextField(
+                        EvaluatingTextField(
                             placeholder: "Username",
-                            text: self.translator.usernameText,
                             elementName: Evaluator.Element.usernameTextField,
                             isSecure: false,
                             evaluator: evaluator,
-                            validation: translator.usernameValidation
+                            validation: translator.usernameValidation,
+                            passableText: translator.passableUsername
                         )
                         
                         // Password Text Field
-                        ObservingTextField(
+                        EvaluatingTextField(
                             placeholder: "Password",
-                            text: self.translator.passwordText,
                             elementName: Evaluator.Element.passwordTextField,
                             isSecure: true,
                             evaluator: evaluator,
-                            validation: translator.passwordValidation
+                            validation: translator.passwordValidation,
+                            passableText: translator.passablePassword
                         )
+                        
+                        Spacer().frame(height: 20)
+                        
+                        Button(action: {
+                            self.evaluator?.evaluate(Action.useDefaultCredentials)
+                        }) {
+                            Text("Use default credentials")
+                                .font(Font.footnote)
+                        }
                     }.animation(.linear)
                     
                     Spacer()
                     
+                    // Bottom Button
                     ObservingBottomButton(observableNamedEnabledAction: self.translator.bottomButtonAction, evaluator: evaluator)
                 }
                 
