@@ -196,6 +196,7 @@ extension Tutorial.Evaluator: ActionEvaluating {
         case showHelloWorld
         case showHelloSolarSystem
         case showRetailDemo
+        case showLoginDemo
         
         var name: String {
             switch self {
@@ -217,6 +218,8 @@ extension Tutorial.Evaluator: ActionEvaluating {
                 return "Show Hello Solar System"
             case .showRetailDemo:
                 return "Show Retail Demo"
+            case .showLoginDemo:
+                return "Show Login Demo"
             default:
                 return ""
             }
@@ -262,6 +265,9 @@ extension Tutorial.Evaluator: ActionEvaluating {
             
         case .showRetailDemo:
             translator.showRetailDemo.please()
+            
+        case .showLoginDemo:
+            translator.showLoginDemo.please()
             
         case .showAlert:
             translator.showAlert(title: "Alert!", message: "You did it.")

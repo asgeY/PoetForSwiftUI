@@ -281,40 +281,46 @@ extension Tutorial {
                 .padding(.top, 14)
                 
                 Group {
-                    
-                    // MARK: Files
-                    PresenterWithPassedValue(self.translator.showChapterFileMenu) { textFiles in
-                        FileMenuView(title: "Files", textFiles: textFiles)
-                    }
-                    
-                    // MARK: File of Interest
-                    PresenterWithString(self.translator.showFile) { text in
-                        SupplementaryCodeView(code: text)
-                    }
-                    
-                    // MARK: Something Screen
-                    Presenter(self.translator.showSomething) {
-                        Text("Something")
-                    }
-                    
-                    // MARK: Template Screen
-                    Presenter(self.translator.showTemplate) {
-                        Template.Screen()
-                    }
-                    
-                    // MARK: Hello World Screen
-                    Presenter(self.translator.showHelloWorld) {
-                        HelloWorld.Screen()
-                    }
-                    
-                    // MARK: Hello Solar System Screen
-                    Presenter(self.translator.showHelloSolarSystem) {
-                        HelloSolarSystem.Screen()
-                    }
-                    
-                    // MARK: Retail Demo
-                    Presenter(self.translator.showRetailDemo) {
-                        Retail.Screen()
+                    Group {
+                        // MARK: Files
+                        PresenterWithPassedValue(self.translator.showChapterFileMenu) { textFiles in
+                            FileMenuView(title: "Files", textFiles: textFiles)
+                        }
+                        
+                        // MARK: File of Interest
+                        PresenterWithString(self.translator.showFile) { text in
+                            SupplementaryCodeView(code: text)
+                        }
+                        
+                        // MARK: Something Screen
+                        Presenter(self.translator.showSomething) {
+                            Text("Something")
+                        }
+                        
+                        // MARK: Template Screen
+                        Presenter(self.translator.showTemplate) {
+                            Template.Screen()
+                        }
+                        
+                        // MARK: Hello World Screen
+                        Presenter(self.translator.showHelloWorld) {
+                            HelloWorld.Screen()
+                        }
+                        
+                        // MARK: Hello Solar System Screen
+                        Presenter(self.translator.showHelloSolarSystem) {
+                            HelloSolarSystem.Screen()
+                        }
+                        
+                        // MARK: Retail Demo
+                        Presenter(self.translator.showRetailDemo) {
+                            Retail.Screen()
+                        }
+                        
+                        // MARK: Login Demo
+                        Presenter(self.translator.showLoginDemo) {
+                            Login.Screen()
+                        }
                     }
                     
                     // MARK: Alert

@@ -29,6 +29,7 @@ extension Tutorial {
             chapter_PassableStatePart2,
             chapter_ProtocolOrientedTranslating,
             chapter_RetailDemo,
+            chapter_LoginDemo,
             chapter_ANoteOnCombine
         ]
     }

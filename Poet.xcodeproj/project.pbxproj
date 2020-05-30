@@ -98,6 +98,7 @@
 		DC00E23B24822FAC00A9F503 /* Login-MockPerformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23724822F7C00A9F503 /* Login-MockPerformer.swift */; };
 		DC00E23D2482A6BE00A9F503 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */; };
 		DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */; };
+		DC00E2412482ACAB00A9F503 /* Chapter_LoginDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E2402482ACAB00A9F503 /* Chapter_LoginDemo.swift */; };
 		DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04F6F024661C1400F49E00 /* ImageExtensions.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
@@ -255,6 +256,7 @@
 		DC00E23924822FA100A9F503 /* Login-Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Login-Tests.swift"; sourceTree = "<group>"; };
 		DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Networking.swift"; sourceTree = "<group>"; };
+		DC00E2402482ACAB00A9F503 /* Chapter_LoginDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_LoginDemo.swift; sourceTree = "<group>"; };
 		DC04F6F024661C1400F49E00 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				3B687629247DE4CA005F2FBA /* Chapter_PassableStatePart2.swift */,
 				3B687631247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift */,
 				3B68762F247DE4EE005F2FBA /* Chapter_RetailDemo.swift */,
+				DC00E2402482ACAB00A9F503 /* Chapter_LoginDemo.swift */,
 				3B68762D247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift */,
 			);
 			path = Chapters;
@@ -853,6 +856,7 @@
 			files = (
 				DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */,
 				DC00E23D2482A6BE00A9F503 /* NetworkingError.swift in Sources */,
+				DC00E2412482ACAB00A9F503 /* Chapter_LoginDemo.swift in Sources */,
 				3B687620247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift in Sources */,
 				87D299D9245518C1003959C3 /* About-Screen.swift in Sources */,
 				DC4C6C692476CF640014A34C /* ChapterTitleView.swift in Sources */,
