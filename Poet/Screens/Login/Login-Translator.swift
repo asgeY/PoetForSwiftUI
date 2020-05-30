@@ -29,6 +29,8 @@ extension Login {
         var passableUsername = PassableString()
         var passablePassword = PassableString()
         
+        var busy = PassableBool()
+        
         // Passthrough Behavior
         private var behavior: Behavior?
         

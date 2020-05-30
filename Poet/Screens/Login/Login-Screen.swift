@@ -61,9 +61,9 @@ extension Login {
                         Spacer().frame(height: 20)
                         
                         Button(action: {
-                            self.evaluator?.evaluate(Action.useDefaultCredentials)
+                            self.evaluator?.evaluate(Action.useCorrectCredentials)
                         }) {
-                            Text("Use default credentials")
+                            Text("Use correct credentials")
                                 .font(Font.footnote)
                         }
                     }.animation(.linear)
@@ -80,6 +80,7 @@ extension Login {
                 }
                 
                 AlertPresenter(translator.alert)
+                BusyPresenter(translator.busy)
             }.onAppear {
                 self.evaluator?.viewDidAppear()
                 self.navBarHidden = true

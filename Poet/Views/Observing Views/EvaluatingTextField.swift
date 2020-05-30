@@ -89,13 +89,18 @@ struct EvaluatingTextField: View {
             HStack {
                 Spacer().frame(width: 50)
                 if shouldShowValidation {
-                    Text(validationMessage.string)
-                        .font(Font.caption.bold())
-                        .foregroundColor(Color(UIColor.systemRed))
-                        .frame(height: self.shouldShowValidationMessage ? nil : 0)
-                        .opacity(self.shouldShowValidationMessage ? 1 : 0)
-                        .padding(.top, self.shouldShowValidationMessage ? 10 : 0)
-                        .animation(.linear, value: self.isValid.bool == false)
+                    VStack {
+                        Text(validationMessage.string)
+                            .font(Font.caption.bold())
+                            .foregroundColor(Color(UIColor.systemRed))
+                            .fixedSize(horizontal: true, vertical: true)
+                            .padding(.top, 10)
+                            .animation(.none)
+                    }
+                    
+                    .opacity(self.shouldShowValidationMessage ? 1 : 0)
+                    .frame(width: nil, height: self.shouldShowValidationMessage ? nil : 0)
+                    .animation(.linear, value: self.isValid.bool)
                 }
                 Spacer()
             }

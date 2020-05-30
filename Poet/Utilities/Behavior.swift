@@ -10,3 +10,4 @@ import Combine
 import Foundation
 
 typealias Behavior = AnyCancellable
+typealias Sink = AnyCancellable

@@ -6,16 +6,20 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 extension Login {
     class Evaluator {
         
         // Translator
         lazy var translator: Translator = Translator(current)
+        var performer: LoginPerforming = Performer()
         
         // Current Step
         var current = PassableStep(Step.initial)
+        
+        // Sink
+        var loginSink: Behavior?
         
         enum Element: EvaluatorElement {
             case usernameTextField
@@ -48,6 +52,9 @@ extension Login.Evaluator: ViewCycleEvaluating {
 
 // MARK: Advancing Between Steps
 extension Login.Evaluator {
+    
+    // MARK: Login Step
+    
     func showLoginStep() {
         let configuration = LoginStepConfiguration(
             enteredUsername: "",
@@ -63,7 +70,7 @@ extension Login.Evaluator {
 extension Login.Evaluator: ActionEvaluating {
     enum Action: EvaluatorAction {
         case signIn
-        case useDefaultCredentials
+        case useCorrectCredentials
     }
     
     func evaluate(_ action: EvaluatorAction?) {
@@ -74,30 +81,39 @@ extension Login.Evaluator: ActionEvaluating {
         case .signIn:
             signIn()
             
-        case .useDefaultCredentials:
-            useDefaultCredentials()
+        case .useCorrectCredentials:
+            useCorrectCredentials()
         }
     }
     
-    // MARK: Actions on Login Step
-    func signIn() {
+    private func signIn() {
         guard case let .login(configuration) = current.step else { return }
         
-        translator.alert.withConfiguration(
-            title: "Sign In",
-            message:
-            """
-            username: “\(configuration.enteredUsername)”
-            password: “\(configuration.enteredPassword)”
-                    
-            We won't actually sign in to anything. This was just a demonstration of text fields!
-            """
-        )
+        UIApplication.shared.endEditing()
+        
+        self.translator.busy.isTrue()
+        
+        loginSink = performer.login(username: configuration.enteredUsername, password: configuration.enteredPassword)?.sink(receiveCompletion: { (completion) in
+            switch completion {
+                
+            case .failure(let error):
+                self.showLoginFailureAlert(with: error)
+                
+            case .finished:
+                break
+            }
+            
+            self.translator.busy.isFalse()
+            self.loginSink?.cancel()
+            
+        }, receiveValue: { (authenticationResult) in
+            self.showLoginSucceededAlert(with: authenticationResult)
+        })
     }
     
-    func useDefaultCredentials() {
-        let username = "admin"
-        let password = "123456789"
+    private func useCorrectCredentials() {
+        let username = "postman"
+        let password = "password"
         
         translator.passableUsername.string = username
         translator.passablePassword.string = password
@@ -154,3 +170,34 @@ extension Login.Evaluator: TextFieldEvaluating {
     }
 }
 
+// MARK: Handling Login Success and Failure
+
+extension Login.Evaluator {
+    
+    private func showLoginSucceededAlert(with authenticationResult: AuthenticationResult) {
+        translator.alert.withConfiguration(
+            title: "Login Succeeded!",
+            message:
+            """
+            Authenticated: \(authenticationResult.authenticated)
+            """
+        )
+    }
+    
+    private func showLoginFailureAlert(with authenticationError: AuthenticationError) {
+        guard case let .login(configuration) = current.step else { return }
+        
+        translator.alert.withConfiguration(
+            title: "Login Failed",
+            message:
+            """
+            username: “\(configuration.enteredUsername)”
+            password: “\(configuration.enteredPassword)”
+                    
+            That wasn't correct!
+            """
+        )
+            
+        debugPrint("authenticationError: \(authenticationError)")
+    }
+}
