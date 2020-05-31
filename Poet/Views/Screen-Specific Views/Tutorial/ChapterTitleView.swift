@@ -17,18 +17,19 @@ struct ChapterTitleView: View {
     let topSpace: CGFloat
     
     var body: some View {
-        return VStack {
+        return VStack(spacing: 0) {
             Spacer().frame(height: self.isFocused.bool ? self.height / 2.0 - 60 : topSpace)
-            HStack {
+            HStack(spacing: 0) {
                 Spacer()
-                VStack {
+                VStack(spacing: 0) {
                     Image.numberCircleFill(self.number.int)
                         .resizable()
                         .frame(width: 30, height: 30)
                         .opacity(self.shouldShowNumber.bool ? 1 : 0)
+                    Spacer().frame(height: 16)
                     ObservingTextView(self.text, alignment: .center, kerning: -0.05)
                         .font(FontSystem.largeTitle.monospacedDigit())
-                        .padding(.top, 5)
+                        .multilineTextAlignment(.center)
                 }
                 Spacer()
             }

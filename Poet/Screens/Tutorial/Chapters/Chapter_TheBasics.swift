@@ -9,9 +9,9 @@
 import Foundation
 
 extension Tutorial.PageStore {
-    var chapter_Template: Chapter {
+    var chapter_TheBasics: Chapter {
         return Chapter(
-            "Template",
+            "The Basics",
             files: [
                 "Template-Screen",
                 "Template-Evaluator",
@@ -25,7 +25,7 @@ extension Tutorial.PageStore {
             Page([
                 .demo(.showTemplate),
                 .text("If you tap the button that says “Show Template,” you'll see a screen that does very little: it just shows a title and a body of text."),
-                .text("We have could created such a simple screen without using any pattern at all, just a view. It doesn't really have business logic, after all, and its display state never changes. But we'll prepare ourselves to understand more complex screens by using all three of the main Poet layers: evaluator, translator, and screen."),
+                .text("We have could created such a simple screen without using any pattern at all, just a view. It doesn't invovle any business logic, really, and its display state never changes. But we'll prepare ourselves to understand more complex screens by using all three of the main Poet layers: evaluator, translator, and screen."),
                 
                 // MARK: File Structure
                 

@@ -12,8 +12,8 @@ extension Tutorial.PageStore {
     var chapter_Introduction: Chapter {
         return Chapter("Introduction", pages:
             Page([
-                .text("So you've decided to learn about the Poet pattern for SwiftUI."),
-                .text("In the course of reading through this tutorial, you'll be walked through examples of Poet, ranging from the very simple to the very complex. Here are some of the screens you'll encounter:"),
+                .text("Congratulations. Somehow you heard about the Poet pattern for SwiftUI and decided to learn about it. Things are looking up."),
+                .text("In the course of reading this tutorial, you'll be walked through several examples of Poet, ranging from the very simple to the very complex. Here are some of the screens you'll encounter:"),
                 
                 .title("Hello Solar System"),
                 .text("A Hello World-inspired example that demonstrates some simple changes to state."),
@@ -24,7 +24,7 @@ extension Tutorial.PageStore {
                 .demo(.showLoginDemo),
                 
                 .title("Retail"),
-                .text("A screen from a retail app, with silky smooth animation between sequential steps. Under the hood, it sports a fully decoupled approach to showing or hiding sections on screen, based on the current step."),
+                .text("A screen from a retail employee's app, with silky smooth animation between sequential steps. Under the hood, it sports a fully decoupled approach to showing or hiding sections on screen, based on the current step."),
                 .demo(.showRetailDemo),
                 
                 .divider,

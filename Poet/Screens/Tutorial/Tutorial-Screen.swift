@@ -94,7 +94,7 @@ extension Tutorial {
                             
                             Hideable(isShowing: self.translator.shouldShowBody, removesContent: false, transition: .opacity) {
                                 VStack(spacing: 0) {
-                                    Spacer().frame(height: 90 + self.topSpace)
+                                    Spacer().frame(height: 92 + self.topSpace)
                                     
                                     // Body
                                     HStack(spacing: 0) {

@@ -20,7 +20,7 @@ extension Tutorial {
         lazy var pageData: [Chapter] = [
             chapter_Introduction,
             chapter_WhyPoet,
-            chapter_Template,
+            chapter_TheBasics,
             chapter_InteractingWithAView,
             chapter_UpdatingBusinessState,
             chapter_UpdatingDisplayState,
