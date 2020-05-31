@@ -6,6 +6,7 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 extension HelloWorld {
@@ -21,11 +22,11 @@ extension HelloWorld {
         var shouldShowBubble = ObservableBool()
         
         // Passthrough Behavior
-        private var behavior: Behavior?
+        private var stepSink: AnyCancellable?
         
         init(_ step: PassableStep<Evaluator.Step>) {
-            behavior = step.subject.sink { value in
-                self.translate(step: value)
+            stepSink = step.subject.sink { [weak self] value in
+                self?.translate(step: value)
             }
         }
     }

@@ -15,15 +15,15 @@ struct FontSystem {
     static let body: Font = {
         switch Device.current {
         case .small:
-            return Font.system(size: 16, weight: .regular)
+            return Font.custom("Georgia", size: 17) // Font.system(size: 16, weight: .regular) //
         case .medium:
-            return Font.system(size: 17, weight: .regular)
+            return Font.custom("Georgia", size: 18) // Font.system(size: 17, weight: .regular) //
         case .big:
-            return Font.system(size: 18, weight: .regular)
+            return Font.custom("Georgia", size: 19) // Font.system(size: 18, weight: .regular) //
         }
     }()
     
-    static let title: Font = {
+    static let largeTitle: Font = {
         switch Device.current {
         case .small:
             return Font.system(size: 22, weight: .semibold)
@@ -31,6 +31,28 @@ struct FontSystem {
             return Font.system(size: 24, weight: .semibold)
         case .big:
             return Font.system(size: 26, weight: .semibold)
+        }
+    }()
+    
+    static let smallTitle: Font = {
+        switch Device.current {
+        case .small:
+            return Font.system(size: 16.5, weight: .semibold)
+        case .medium:
+            return Font.system(size: 18, weight: .semibold)
+        case .big:
+            return Font.system(size: 19, weight: .semibold)
+        }
+    }()
+    
+    static let detail: Font = {
+        switch Device.current {
+        case .small:
+            return Font.system(size: 13.5, weight: .semibold)
+        case .medium:
+            return Font.system(size: 14, weight: .semibold)
+        case .big:
+            return Font.system(size: 15, weight: .semibold)
         }
     }()
     
@@ -67,33 +89,44 @@ struct FontSystem {
         }
     }()
     
+    static let aside: Font = {
+        switch Device.current {
+        case .small:
+            return Font.system(size: 14, weight: .regular)
+        case .medium:
+            return Font.system(size: 15, weight: .regular)
+        case .big:
+            return Font.system(size: 16, weight: .regular)
+        }
+    }()
+    
     // MARK: Spacing
     
     struct Spacing {
         static let body: CGFloat = {
             switch Device.current {
             case .small, .medium:
-                return 5
+                return 7
             case .big:
-                return 6
+                return 8
             }
         }()
         
         static let code: CGFloat = {
             switch Device.current {
             case .small, .medium:
-                return 5
-            case .big:
                 return 6
+            case .big:
+                return 7
             }
         }()
         
         static let codeExtraSmall: CGFloat = {
             switch Device.current {
             case .small, .medium:
-                return 4
-            case .big:
                 return 5
+            case .big:
+                return 4
             }
         }()
     }

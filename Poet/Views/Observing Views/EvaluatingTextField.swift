@@ -6,6 +6,7 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 protocol TextFieldEvaluating: class {
@@ -20,12 +21,10 @@ struct EvaluatingTextField: View {
     let elementName: EvaluatorElement
     let isSecure: Bool
     @State var fieldText = ObservableString()
-    weak var evaluator: TextFieldEvaluating?
+    let evaluator: TextFieldEvaluating
     
-    @State var validationBehavior: Behavior?
-    
+    @State var validationSink: AnyCancellable?
     private var passableText: PassableString
-    @State var passableTextBehavior: Behavior?
     
     @State private var storedText: String = ""
     @State private var validationImageName: String = "checkmark.circle"
@@ -33,7 +32,7 @@ struct EvaluatingTextField: View {
     @State private var shouldShowValidationMessage = false
     @State private var shouldShowValidationMark = false
     
-    init(placeholder: String, elementName: EvaluatorElement, isSecure: Bool, evaluator: TextFieldEvaluating?, validation: ObservableValidation? = nil, passableText: PassableString? = nil) {
+    init(placeholder: String, elementName: EvaluatorElement, isSecure: Bool, evaluator: TextFieldEvaluating, validation: ObservableValidation? = nil, passableText: PassableString? = nil) {
         self.placeholder = placeholder
         self.elementName = elementName
         self.isSecure = isSecure
@@ -58,12 +57,7 @@ struct EvaluatingTextField: View {
                 )
                     .padding(EdgeInsets(top: 0, leading: 50, bottom: 0, trailing: 50))
                 .onReceive(fieldText.objectDidChange) {
-                    debugPrint("fieldText.objectDidChange. self.fieldText.string: \(self.fieldText.string)")
-//                    debugPrint("fieldText.objectDidChange. self.text.string: \(self.text.string). self.fieldText.string: \(self.fieldText.string)")
-//                    if self.fieldText.string != self.text.string {
-                        debugPrint("f1")
-                        self.evaluator?.textFieldDidChange(text: self.fieldText.string, elementName: self.elementName)
-//                    }
+                    self.evaluator.textFieldDidChange(text: self.fieldText.string, elementName: self.elementName)
                 }
                 
                 HStack {
@@ -110,7 +104,7 @@ struct EvaluatingTextField: View {
             if self.fieldText.string == self.storedText { return }
             self.storedText = self.fieldText.string
             
-            self.validationBehavior = self.isValid.$bool.debounce(for: 0.35, scheduler: DispatchQueue.main).sink { (value) in
+            self.validationSink = self.isValid.$bool.debounce(for: 0.35, scheduler: DispatchQueue.main).sink { (value) in
                 if self.fieldText.string.isEmpty {
                     self.shouldShowValidationMessage = false
                     self.shouldShowValidationMark = false
@@ -120,7 +114,7 @@ struct EvaluatingTextField: View {
                 self.validationImageColor = (value == true ? Color(UIColor.systemGreen) : Color(UIColor.systemRed))
                 self.shouldShowValidationMark = true
                 self.shouldShowValidationMessage = (value == false)
-                self.validationBehavior?.cancel()
+                self.validationSink?.cancel()
             }
         }
         .onReceive(self.passableText.subject) { (string) in

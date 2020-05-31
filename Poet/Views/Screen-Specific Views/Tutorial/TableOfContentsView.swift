@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TableOfContentsView: View {
     @ObservedObject var selectableChapterTitles: ObservableArray<NumberedNamedEvaluatorAction>
-    weak var evaluator: ActionEvaluating?
+    let evaluator: ActionEvaluating
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var isShowingAbout = false
@@ -44,11 +44,13 @@ struct TableOfContentsView: View {
                     
                     ForEach(self.selectableChapterTitles.array, id: \.id) { item in
                         Button(action: {
-                            self.evaluator?.evaluate(item.action)
-                            self.presentationMode.wrappedValue.dismiss()
+                            self.evaluator.evaluate(item.action)
+                            afterWait(100) {
+                                self.presentationMode.wrappedValue.dismiss()
+                            }
                         }) {
                             VStack(spacing: 0) {
-                                Spacer().frame(height: 16)
+                                Spacer().frame(height: 17)
                                 
                                 HStack {
                                     Text("\(item.number).   " + item.name)
@@ -58,7 +60,7 @@ struct TableOfContentsView: View {
                                 .font(Font.body.monospacedDigit())
                                 .multilineTextAlignment(.leading)
                                 
-                                Spacer().frame(height: 16)
+                                Spacer().frame(height: 17)
                                 
                                 Divider()
                                     .opacity(0.45)

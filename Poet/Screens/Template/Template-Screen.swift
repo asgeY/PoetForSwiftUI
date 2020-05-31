@@ -13,17 +13,13 @@ struct Template {}
 extension Template {
     struct Screen: View {
         
-        let _evaluator: Evaluator
-        weak var evaluator: Evaluator?
+        let evaluator: Evaluator
         let translator: Translator
         
         init() {
-            _evaluator = Evaluator()
-            evaluator = _evaluator
-            translator = _evaluator.translator
+            evaluator = Evaluator()
+            translator = evaluator.translator
         }
-        
-        @State var navBarHidden: Bool = true
         
         var body: some View {
             ZStack {
@@ -37,6 +33,7 @@ extension Template {
                         .font(Font.body)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(EdgeInsets(top: 30, leading: 50, bottom: 50, trailing: 50))
+                    
                     Spacer()
                 }
                 
@@ -45,16 +42,8 @@ extension Template {
                     Spacer()
                 }
             }.onAppear {
-                self.evaluator?.viewDidAppear()
-                self.navBarHidden = true
+                self.evaluator.viewDidAppear()
             }
-                
-            // MARK: Hide Navigation Bar
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-                self.navBarHidden = true
-            }
-            .navigationBarTitle("", displayMode: .inline)
-            .navigationBarHidden(self.navBarHidden)
         }
     }
 }

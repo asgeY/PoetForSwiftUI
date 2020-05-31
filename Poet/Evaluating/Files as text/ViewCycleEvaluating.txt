@@ -1,0 +1,10 @@
+//
+//  ViewCycleEvaluating.swift
+//  Poet
+//
+
+import Foundation
+
+protocol ViewCycleEvaluating {
+    func viewDidAppear()
+}

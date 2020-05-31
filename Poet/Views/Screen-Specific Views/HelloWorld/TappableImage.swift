@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct TappableImage: View {
-    weak var evaluator: ActionEvaluating?
+    let evaluator: ActionEvaluating
     @ObservedObject var tapAction: ObservableEvaluatorAction
     @ObservedObject var image: ObservableString
     @ObservedObject var foregroundColor: Observable<Color>
@@ -32,7 +32,7 @@ struct TappableImage: View {
         }
         .frame(width: 200, height: 200)
         .onTapGesture {
-            self.evaluator?.evaluate(self.tapAction.action)
+            self.evaluator.evaluate(self.tapAction.action)
         }
     }
 }

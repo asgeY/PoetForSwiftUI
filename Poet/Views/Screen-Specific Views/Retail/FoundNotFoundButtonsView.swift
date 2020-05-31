@@ -10,10 +10,9 @@ import SwiftUI
 
 struct FoundNotFoundButtonsView: View {
     let findableProduct: FindableProduct
-    weak var evaluator: FindingProductsEvaluator?
+    let evaluator: FindingProductsEvaluator
     
     var body: some View {
-        debugPrint("FoundNotFoundButtons. upc: \(findableProduct.product.upc)")
         let isFound = findableProduct.status == .found
         let isNotFound = findableProduct.status == .notFound
         
@@ -24,7 +23,7 @@ struct FoundNotFoundButtonsView: View {
                         title: "Found",
                         isSelected: isFound,
                         imageName: "checkmark",
-                        action: { self.evaluator?.toggleProductFound(self.findableProduct) }
+                        action: { self.evaluator.toggleProductFound(self.findableProduct) }
                     )
                     .layoutPriority(30)
                 }
@@ -36,7 +35,7 @@ struct FoundNotFoundButtonsView: View {
                         title: "Not Found",
                         isSelected: isNotFound,
                         imageName: "xmark",
-                        action: { self.evaluator?.toggleProductNotFound(self.findableProduct) }
+                        action: { self.evaluator.toggleProductNotFound(self.findableProduct) }
                     )
                     .layoutPriority(30)
                 }

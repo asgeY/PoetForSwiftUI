@@ -13,20 +13,26 @@ struct ChapterTitleView: View {
     @ObservedObject var number: ObservableInt
     @ObservedObject var shouldShowNumber: ObservableBool
     @ObservedObject var isFocused: ObservableBool
-    let boxSize: CGFloat
+    let height: CGFloat
+    let topSpace: CGFloat
     
     var body: some View {
-        GeometryReader() { geometry in
-            VStack {
-                Image.numberCircleFill(self.number.int)
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .opacity(self.shouldShowNumber.bool ? 1 : 0)
-                ObservingTextView(self.text, alignment: .center, kerning: -0.05)
-                    .font(FontSystem.title.monospacedDigit())
-                    .padding(.top, 5)
+        return VStack {
+            Spacer().frame(height: self.isFocused.bool ? self.height / 2.0 - 60 : topSpace)
+            HStack {
+                Spacer()
+                VStack {
+                    Image.numberCircleFill(self.number.int)
+                        .resizable()
+                        .frame(width: 30, height: 30)
+                        .opacity(self.shouldShowNumber.bool ? 1 : 0)
+                    ObservingTextView(self.text, alignment: .center, kerning: -0.05)
+                        .font(FontSystem.largeTitle.monospacedDigit())
+                        .padding(.top, 5)
+                }
+                Spacer()
             }
-            .offset(x: 0, y: self.isFocused.bool ? 0 : -((self.boxSize / 2.0) + (Device.current == .small ? 32 : 52)))
+            Spacer()
         }
     }
 }

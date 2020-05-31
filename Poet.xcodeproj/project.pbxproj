@@ -13,11 +13,10 @@
 		3B68761C247DE256005F2FBA /* Chapter_WhyPoet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */; };
 		3B68761E247DE310005F2FBA /* Chapter_Template.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68761D247DE310005F2FBA /* Chapter_Template.swift */; };
 		3B687620247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68761F247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift */; };
-		3B687622247DE488005F2FBA /* Chapter_UpdatingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687621247DE488005F2FBA /* Chapter_UpdatingState.swift */; };
-		3B687624247DE497005F2FBA /* Chapter_BusinessStatePart2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687623247DE497005F2FBA /* Chapter_BusinessStatePart2.swift */; };
+		3B687622247DE488005F2FBA /* Chapter_UpdatingBusinessState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687621247DE488005F2FBA /* Chapter_UpdatingBusinessState.swift */; };
+		3B687624247DE497005F2FBA /* Chapter_UpdatingDisplayState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687623247DE497005F2FBA /* Chapter_UpdatingDisplayState.swift */; };
 		3B687626247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687625247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift */; };
 		3B687628247DE4BB005F2FBA /* Chapter_PassableState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687627247DE4BB005F2FBA /* Chapter_PassableState.swift */; };
-		3B68762A247DE4CA005F2FBA /* Chapter_PassableStatePart2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687629247DE4CA005F2FBA /* Chapter_PassableStatePart2.swift */; };
 		3B68762E247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68762D247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift */; };
 		3B687630247DE4EE005F2FBA /* Chapter_RetailDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68762F247DE4EE005F2FBA /* Chapter_RetailDemo.swift */; };
 		3B687632247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687631247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift */; };
@@ -98,7 +97,7 @@
 		DC00E23B24822FAC00A9F503 /* Login-MockPerformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23724822F7C00A9F503 /* Login-MockPerformer.swift */; };
 		DC00E23D2482A6BE00A9F503 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */; };
 		DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */; };
-		DC00E2412482ACAB00A9F503 /* Chapter_LoginDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E2402482ACAB00A9F503 /* Chapter_LoginDemo.swift */; };
+		DC00E24424839CC800A9F503 /* ViewCycleEvaluating.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC00E24324839CC800A9F503 /* ViewCycleEvaluating.txt */; };
 		DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04F6F024661C1400F49E00 /* ImageExtensions.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
@@ -167,11 +166,10 @@
 		3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_WhyPoet.swift; sourceTree = "<group>"; };
 		3B68761D247DE310005F2FBA /* Chapter_Template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_Template.swift; sourceTree = "<group>"; };
 		3B68761F247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_InteractingWithAView.swift; sourceTree = "<group>"; };
-		3B687621247DE488005F2FBA /* Chapter_UpdatingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_UpdatingState.swift; sourceTree = "<group>"; };
-		3B687623247DE497005F2FBA /* Chapter_BusinessStatePart2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_BusinessStatePart2.swift; sourceTree = "<group>"; };
+		3B687621247DE488005F2FBA /* Chapter_UpdatingBusinessState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_UpdatingBusinessState.swift; sourceTree = "<group>"; };
+		3B687623247DE497005F2FBA /* Chapter_UpdatingDisplayState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_UpdatingDisplayState.swift; sourceTree = "<group>"; };
 		3B687625247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_AsynchronousWork.swift; sourceTree = "<group>"; };
 		3B687627247DE4BB005F2FBA /* Chapter_PassableState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_PassableState.swift; sourceTree = "<group>"; };
-		3B687629247DE4CA005F2FBA /* Chapter_PassableStatePart2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_PassableStatePart2.swift; sourceTree = "<group>"; };
 		3B68762D247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_ANoteOnCombine.swift; sourceTree = "<group>"; };
 		3B68762F247DE4EE005F2FBA /* Chapter_RetailDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_RetailDemo.swift; sourceTree = "<group>"; };
 		3B687631247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_ProtocolOrientedTranslating.swift; sourceTree = "<group>"; };
@@ -256,7 +254,7 @@
 		DC00E23924822FA100A9F503 /* Login-Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Login-Tests.swift"; sourceTree = "<group>"; };
 		DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Networking.swift"; sourceTree = "<group>"; };
-		DC00E2402482ACAB00A9F503 /* Chapter_LoginDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_LoginDemo.swift; sourceTree = "<group>"; };
+		DC00E24324839CC800A9F503 /* ViewCycleEvaluating.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ViewCycleEvaluating.txt; sourceTree = "<group>"; };
 		DC04F6F024661C1400F49E00 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
@@ -333,14 +331,12 @@
 				3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */,
 				3B68761D247DE310005F2FBA /* Chapter_Template.swift */,
 				3B68761F247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift */,
-				3B687621247DE488005F2FBA /* Chapter_UpdatingState.swift */,
-				3B687623247DE497005F2FBA /* Chapter_BusinessStatePart2.swift */,
-				3B687625247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift */,
+				3B687621247DE488005F2FBA /* Chapter_UpdatingBusinessState.swift */,
+				3B687623247DE497005F2FBA /* Chapter_UpdatingDisplayState.swift */,
 				3B687627247DE4BB005F2FBA /* Chapter_PassableState.swift */,
-				3B687629247DE4CA005F2FBA /* Chapter_PassableStatePart2.swift */,
+				3B687625247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift */,
 				3B687631247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift */,
 				3B68762F247DE4EE005F2FBA /* Chapter_RetailDemo.swift */,
-				DC00E2402482ACAB00A9F503 /* Chapter_LoginDemo.swift */,
 				3B68762D247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift */,
 			);
 			path = Chapters;
@@ -555,6 +551,16 @@
 			path = "Files as text";
 			sourceTree = "<group>";
 		};
+		DC00E2422483597A00A9F503 /* Files as text */ = {
+			isa = PBXGroup;
+			children = (
+				3BF669242478032F00AE055C /* Template-Screen.txt */,
+				3BF669202477FF5500AE055C /* Template-Evaluator.txt */,
+				3BF66935247820E000AE055C /* Template-Translator.txt */,
+			);
+			path = "Files as text";
+			sourceTree = "<group>";
+		};
 		DC31CC73247B363C00002075 /* Files as text */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +575,7 @@
 			children = (
 				DC31CC77247B393600002075 /* ActionEvaluating.txt */,
 				3B72548E247FF87300E27551 /* EvaluatorAction.txt */,
+				DC00E24324839CC800A9F503 /* ViewCycleEvaluating.txt */,
 			);
 			path = "Files as text";
 			sourceTree = "<group>";
@@ -602,9 +609,7 @@
 				DC4C1113245DEE21009BC14D /* Template-Screen.swift */,
 				DC4C1115245DEF55009BC14D /* Template-Evaluator.swift */,
 				DC4C1117245DEF9A009BC14D /* Template-Translator.swift */,
-				3BF669242478032F00AE055C /* Template-Screen.txt */,
-				3BF669202477FF5500AE055C /* Template-Evaluator.txt */,
-				3BF66935247820E000AE055C /* Template-Translator.txt */,
+				DC00E2422483597A00A9F503 /* Files as text */,
 			);
 			path = Template;
 			sourceTree = "<group>";
@@ -822,6 +827,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC00E24424839CC800A9F503 /* ViewCycleEvaluating.txt in Resources */,
 				3BF669232478014400AE055C /* Template-Evaluator.txt in Resources */,
 				3BF6693424781B3100AE055C /* PassableStep.txt in Resources */,
 				875562C0244C253500DB49C4 /* LaunchScreen.storyboard in Resources */,
@@ -856,7 +862,6 @@
 			files = (
 				DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */,
 				DC00E23D2482A6BE00A9F503 /* NetworkingError.swift in Sources */,
-				DC00E2412482ACAB00A9F503 /* Chapter_LoginDemo.swift in Sources */,
 				3B687620247DE3D5005F2FBA /* Chapter_InteractingWithAView.swift in Sources */,
 				87D299D9245518C1003959C3 /* About-Screen.swift in Sources */,
 				DC4C6C692476CF640014A34C /* ChapterTitleView.swift in Sources */,
@@ -886,7 +891,7 @@
 				DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */,
 				DC4C6C5D2476CC090014A34C /* CircularTabBar.swift in Sources */,
 				DC4C6C462471054E0014A34C /* ActionEvaluating.swift in Sources */,
-				3B687622247DE488005F2FBA /* Chapter_UpdatingState.swift in Sources */,
+				3B687622247DE488005F2FBA /* Chapter_UpdatingBusinessState.swift in Sources */,
 				DC00E234248217A200A9F503 /* PassableBool.swift in Sources */,
 				DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */,
 				3B687617247DCA31005F2FBA /* ObservableEvaluatorAction.swift in Sources */,
@@ -963,7 +968,6 @@
 				DC4C6C672476CF120014A34C /* Presenter.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
 				DC65656624705E7C0048A848 /* HelloSolarSystem-Store.swift in Sources */,
-				3B68762A247DE4CA005F2FBA /* Chapter_PassableStatePart2.swift in Sources */,
 				DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */,
 				3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */,
 				DC4C6C6B2476D02B0014A34C /* TableOfContentsView.swift in Sources */,
@@ -976,7 +980,7 @@
 				DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */,
 				878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */,
 				DC31CC7F247C384000002075 /* HelloWorld-Translator.swift in Sources */,
-				3B687624247DE497005F2FBA /* Chapter_BusinessStatePart2.swift in Sources */,
+				3B687624247DE497005F2FBA /* Chapter_UpdatingDisplayState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1132,7 +1136,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Poet/Preview Content\"";
-				DEVELOPMENT_TEAM = Y9G957Y75J;
+				DEVELOPMENT_TEAM = XBV79M6D9G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Poet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1152,7 +1156,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Poet/Preview Content\"";
-				DEVELOPMENT_TEAM = Y9G957Y75J;
+				DEVELOPMENT_TEAM = XBV79M6D9G;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Poet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -15,14 +15,12 @@ extension Login {
         
         typealias Action = Evaluator.Action
         
-        let _evaluator: Evaluator
-        weak var evaluator: Evaluator?
+        let evaluator: Evaluator
         let translator: Translator
         
         init() {
-            _evaluator = Evaluator()
-            evaluator = _evaluator
-            translator = _evaluator.translator
+            evaluator = Evaluator()
+            translator = evaluator.translator
         }
         
         @State var navBarHidden: Bool = true
@@ -61,7 +59,7 @@ extension Login {
                         Spacer().frame(height: 20)
                         
                         Button(action: {
-                            self.evaluator?.evaluate(Action.useCorrectCredentials)
+                            self.evaluator.evaluate(Action.useCorrectCredentials)
                         }) {
                             Text("Use correct credentials")
                                 .font(Font.footnote)
@@ -82,7 +80,7 @@ extension Login {
                 AlertPresenter(translator.alert)
                 BusyPresenter(translator.busy)
             }.onAppear {
-                self.evaluator?.viewDidAppear()
+                self.evaluator.viewDidAppear()
                 self.navBarHidden = true
             }
                 

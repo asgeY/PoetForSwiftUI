@@ -11,9 +11,12 @@ import Foundation
 extension Tutorial.PageStore {
     var chapter_AsynchronousWork: Chapter {
         return Chapter(
-            "Asynchronous Work (Coming soon)",
+            "Asynchronous Work",
             pages:
-            Page([.text("Coming soon...")])
+            Page([
+                .demo(.showLoginDemo),
+                .text("If you tap “Show Login Demo” you'll see a basic login user flow. Try it out.")
+            ])
         )
     }
 }

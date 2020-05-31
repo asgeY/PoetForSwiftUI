@@ -13,14 +13,12 @@ struct About {}
 
 extension About {
     struct Screen: View {
-        private let _evaluator: About.Evaluator
-        weak var evaluator: About.Evaluator?
+        let evaluator: About.Evaluator
         let translator: About.Translator
         
         init() {
-            _evaluator = Evaluator()
-            evaluator = _evaluator
-            translator = _evaluator.translator
+            evaluator = Evaluator()
+            translator = evaluator.translator
         }
         
         @State var navBarHidden: Bool = true
@@ -49,7 +47,7 @@ extension About {
                 // MARK: ViewCycle
                 .onAppear {
                     self.navBarHidden = true
-                    self.evaluator?.viewDidAppear()
+                    self.evaluator.viewDidAppear()
                     UITableView.appearance().separatorColor = .clear
                 }
                     

@@ -14,7 +14,6 @@ extension Retail {
     class Translator: AlertTranslating, BezelTranslating, DismissTranslating {
         
         typealias Evaluator = Retail.Evaluator
-        weak var evaluator: Evaluator?
         
         // ObservingPageViewSections
         enum Section: ObservingPageViewSection {
@@ -22,9 +21,9 @@ extension Retail {
             case completedTitle
             case completedSummary(completedSummary: ObservableString)
             case customerTitle(title: ObservableString)
-            case deliveryOptions(deliveryOptions: ObservableArray<String>, deliveryPreference: ObservableString, optionsEvaluator: OptionsEvaluator?)
+            case deliveryOptions(deliveryOptions: ObservableArray<String>, deliveryPreference: ObservableString)
             case feedback(feedback: ObservableString)
-            case displayableProducts(displayableProducts: ObservableArray<DisplayableProduct>, findingProductsEvaluator: FindingProductsEvaluator?)
+            case displayableProducts(displayableProducts: ObservableArray<DisplayableProduct>)
             case divider
             case instruction(instructionNumber: ObservableInt, instruction: ObservableString)
             case topSpace
@@ -66,8 +65,8 @@ extension Retail {
         var bezelTranslator = BezelTranslator()
         var dismissTranslator = DismissTranslator()
         
-        // Passthrough Behavior
-        var behavior: Behavior?
+        // Step Sink
+        var stepSink: Sink?
         
         // Formatter
         var dateFormatter: DateFormatter
@@ -80,8 +79,8 @@ extension Retail {
             var id: String { return product.upc }
         }
         
-        init(_ step: PassableStep<Evaluator.Step>, evaluator: Evaluator) {
-            self.evaluator = evaluator
+        init(_ step: PassableStep<Evaluator.Step>) {
+            debugPrint("init Retail Translator")
             dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .long
             dateFormatter.timeStyle = .long
@@ -89,9 +88,13 @@ extension Retail {
             numberFormatter.numberStyle = .decimal
             numberFormatter.maximumSignificantDigits = 2
             numberFormatter.minimumSignificantDigits = 0
-            behavior = step.subject.sink { value in
-                self.translate(step: value)
+            stepSink = step.subject.sink { [weak self] value in
+                self?.translate(step: value)
             }
+        }
+        
+        deinit {
+            debugPrint("deinit Retail Translator")
         }
     }
 }
@@ -354,7 +357,7 @@ extension Retail.Translator {
     }
     
     var deliveryOptions_: Section {
-        return .deliveryOptions(deliveryOptions: deliveryOptions, deliveryPreference: deliveryPreference, optionsEvaluator: evaluator)
+        return .deliveryOptions(deliveryOptions: deliveryOptions, deliveryPreference: deliveryPreference)
     }
     
     var feedback_: Section {
@@ -362,7 +365,7 @@ extension Retail.Translator {
     }
     
     var displayableProducts_: Section {
-        return .displayableProducts(displayableProducts: displayableProducts, findingProductsEvaluator: evaluator)
+        return .displayableProducts(displayableProducts: displayableProducts)
     }
     
     var divider_: Section {

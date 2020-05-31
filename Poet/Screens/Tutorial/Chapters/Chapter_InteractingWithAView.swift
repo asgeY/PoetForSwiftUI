@@ -22,14 +22,11 @@ extension Tutorial.PageStore {
                 .text("When you tap a button, for instance, the view might say to its evaluator:"),
                 .code(
                     """
-                    self.evaluator?.evaluate(Action.doSomething)
+                    self.evaluator.evaluate(Action.doSomething)
                     """
                 ),
-                .text("In that case, “doSomething” is the name of a specific action.")
-            ]),
-            
-            Page([
-                .text("To be more precise, .doSomething would be an enum case that lives on the evaluator, along with all the other user-initiated actions relevant to its screen:"),
+                .text("In that case, “doSomething” is the name of a specific action."),
+                .text("To be more precise, doSomething would be an enum case that lives on the evaluator, along with all the other user-initiated actions relevant to its screen:"),
                 .code(
                     """
                     enum Action: EvaluatorAction {
@@ -37,16 +34,10 @@ extension Tutorial.PageStore {
                         // etc.
                     }
                     """
-                )
-            ]),
-            
-            Page([
+                ),
                 .text("An evaluator's Action type should conform to an empty protocol named EvaluatorAction:"),
                 .code("protocol EvaluatorAction {}"),
-                .text("The empty protocol allows us to use actions throughout a screen's views without tying them to a specific evaluator (and therefore a specific business purpose).")
-            ]),
-            
-            Page([
+                .text("The empty protocol allows us to use actions throughout a screen's views without tying them to a specific evaluator (and therefore a specific business purpose)."),
                 .text("Any button that wants to evaluate a user tap can do so without knowing who its real evaluator is, only that it will conform to the protocol ActionEvaluating:"),
                 .smallCode(
                     """
@@ -54,17 +45,11 @@ extension Tutorial.PageStore {
                         func evaluate(_ action: EvaluatorAction?)
                     }
                     """
-                )
-            ],
-                 file: "ActionEvaluating"
-            ),
-            
-            Page([
+                ),
+                .file("ActionEvaluating"),
+                .space(),
                 .text("In this way, our view layer can be fully decoupled from particular business purposes."),
-                .text("A button can be decoupled even further — not just from the evaluator that handles its action, but from the choice of which action it carries. Because ActionEvaluating only knows actions as a general type, EvaluatorAction, we can inject a button with whatever action we like.")
-            ]),
-            
-            Page([
+                .text("A button can be decoupled even further — not just from the evaluator that handles its action, but from the choice of which action it carries. Because ActionEvaluating only knows actions as a general type, EvaluatorAction, we can inject a button with whatever action we like."),
                 .text("To do that, we could use an ObservingButton, for instance, which observes an EvaluatorAction:"),
                 .code(
                     """
@@ -72,11 +57,8 @@ extension Tutorial.PageStore {
                       ObservableEvaluatorAction
                     """
                 ),
-            ],
-                 file: "ObservingButton"
-            ),
-            
-            Page([
+                .file("ObservingButton"),
+                .space(),
                 .text("An ObservingButton takes any label we give it, thanks to an initializer that accepts a ViewBuilder closure:"),
                 .code(
                     """
@@ -84,15 +66,10 @@ extension Tutorial.PageStore {
                     """
                 ),
                 .text("If we wanted, we could make that button's label observe a value, too, using an ObservingTextView (which we've already seen)."),
-                
-            ],
-                 file: "ObservingButton"
-            ),
-            
-            Page([.text("With all of these choices available to us, a button can be decoupled in every meaningful way from the dynamic choices we might make when setting business and display state."),
-                .text("Upon receiving an action in the evaluator, we would embark on the regular flow of the pattern: the evaluator reasons about business state, the translator creates display state, and the view layer responds.")]),
-            
-            Page([.text("Let's see what that looks like with a real example.")])
+                .text("With all of these choices available to us, a button can be decoupled in every meaningful way from the dynamic choices we might make when setting business and display state."),
+                .text("Upon receiving an action in the evaluator, we would embark on the regular flow of the pattern: the evaluator reasons about business state, the translator creates display state, and the view layer responds."),
+                .text("Let's see what that looks like with a real example.")
+            ])
         )
     }
 }

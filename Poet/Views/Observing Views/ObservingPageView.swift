@@ -23,7 +23,6 @@ struct ObservingPageView: View {
     var margin: CGFloat = 0
     
     var body: some View {
-        debugPrint("make Retail Tutorial Page View")
         if self.sections.array.isEmpty {
             return AnyView(EmptyView())
         } else {

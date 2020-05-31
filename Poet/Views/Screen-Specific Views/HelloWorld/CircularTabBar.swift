@@ -11,7 +11,7 @@ import SwiftUI
 struct CircularTabBar: View {
     typealias TabButtonAction = EvaluatorActionWithIconAndID
     
-    weak var evaluator: ActionEvaluating?
+    let evaluator: ActionEvaluating
     @ObservedObject var tabs: ObservableArray<TabButtonAction>
     @ObservedObject var currentTab: Observable<TabButtonAction?>
     let spacing: CGFloat = 30
@@ -49,10 +49,10 @@ struct CircularTabBar: View {
     }
     
     struct CircularTabButton: View {
-        weak var evaluator: ActionEvaluating?
+        let evaluator: ActionEvaluating
         let tab: TabButtonAction
         var body: some View {
-            Button(action: { self.evaluator?.evaluate(self.tab) }) {
+            Button(action: { self.evaluator.evaluate(self.tab) }) {
                 Image(self.tab.icon)
                 .resizable()
                 .frame(width: 30, height: 30)

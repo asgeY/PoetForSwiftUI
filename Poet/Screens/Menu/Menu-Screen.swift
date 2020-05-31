@@ -14,14 +14,12 @@ extension Menu {
 
     struct Screen: View {
         
-        private let _evaluator: Evaluator
-        weak var evaluator: Evaluator?
+        let evaluator: Evaluator
         let translator: Translator
         
         init() {
-            _evaluator = Evaluator()
-            evaluator = _evaluator
-            translator = _evaluator.translator
+            evaluator = Evaluator()
+            translator = evaluator.translator
         }
         
         /*
@@ -64,7 +62,7 @@ extension Menu {
                     debugPrint("menu did appear")
                     UITableView.appearance().tableFooterView = UIView() // <-- this hides extra separators
                     UITableView.appearance().separatorColor = .clear
-                    self.evaluator?.viewDidAppear()
+                    self.evaluator.viewDidAppear()
                     self.isNavigationBarHidden = true
                 }
                 .navigationBarTitle("", displayMode: .inline)

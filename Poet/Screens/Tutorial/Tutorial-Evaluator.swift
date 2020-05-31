@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension Tutorial {
     class Evaluator {
@@ -45,20 +46,44 @@ extension Tutorial {
             
             enum Body {
                 case text(String)
+                case title(String)
                 case code(String)
                 case smallCode(String)
                 case extraSmallCode(String)
+                case bullet(String)
+                case divider
+                case button(Action)
+                case demo(Action)
+                case file(String)
+                case space(CGFloat = 12)
+                case aside(String)
                 
                 var id: String {
                     switch self {
                     case .text(let text):
                         return "text_\(text)"
+                    case .title(let text):
+                        return "title_\(text)"
                     case .code(let text):
                         return "code_\(text)"
                     case .smallCode(let text):
                         return "smallCode_\(text)"
                     case .extraSmallCode(let text):
                         return "extraSmallCode_\(text)"
+                    case .bullet(let text):
+                        return "bullet_\(text)"
+                    case .divider:
+                        return "divider"
+                    case .button(let action):
+                        return "button_\(action.name)"
+                    case .demo(let action):
+                        return "demo_\(action.name)"
+                    case .file(let fileName):
+                        return "file_\(fileName)"
+                    case .space(let space):
+                        return "space_\(String(Double(space)))"
+                    case .aside(let text):
+                        return "aside_\(text)"
                     }
                 }
             }
@@ -82,7 +107,7 @@ extension Tutorial.Evaluator {
     
     enum Step: EvaluatorStep {
         case initial
-        case interlude
+        case interlude(InterludeStepConfiguration)
         case mainTitle(MainTitleStepConfiguration)
         case chapterTitle(ChapterTitleStepConfiguration)
         case page(PageStepConfiguration)
@@ -90,12 +115,16 @@ extension Tutorial.Evaluator {
     
     // MARK: Configurations
     
+    struct InterludeStepConfiguration {
+        var animated: Bool
+    }
+    
     struct MainTitleStepConfiguration {
         var title: String
     }
     
     struct ChapterTitleStepConfiguration {
-        var title: String
+        var chapterTitle: String
         var chapterIndex: Int
         var chapterNumber: Int { return chapterIndex + 1 }
     }
@@ -106,7 +135,7 @@ extension Tutorial.Evaluator {
         var pageData: [Chapter]
         
         // Computed
-        var title: String { return pageData[chapterIndex].title }
+        var chapterTitle: String { return pageData[chapterIndex].title }
         var body: [Page.Body] { return pageData[chapterIndex].pages[pageIndex].body }
         var chapterNumber: Int { return chapterIndex + 1 }
         var pageNumber: Int { return pageIndex + 1 }
@@ -114,6 +143,13 @@ extension Tutorial.Evaluator {
         var chapterCount: Int { return pageData.count }
         var buttonAction: Action? { return pageData[chapterIndex].pages[pageIndex].action }
         var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
+        
+        var nextChapterTitle: String? {
+            if chapterIndex < chapterCount - 1 {
+                return pageData[chapterIndex + 1].title
+            }
+            return nil
+        }
         
         // Files
         var chapterTextFiles: [TextFile] {
@@ -154,11 +190,11 @@ extension Tutorial.Evaluator: ViewCycleEvaluating {
         let pageData = pageStore.pageData
         
         // Opening animation
-        showInterludeStep()
+        showInterludeStep(animated: false)
         afterWait(500) {
             self.showMainTitleStep("Poet")
             afterWait(1000) {
-                self.showInterludeStep()
+                self.showInterludeStep(animated: true)
                 afterWait(1000) {
                     self.showChapterTitleStep(
                         forChapterIndex: 0,
@@ -183,6 +219,7 @@ extension Tutorial.Evaluator: ActionEvaluating {
     enum Action: EvaluatorAction {
         case pageForward
         case pageBackward
+        case nextChapter
         case showChapter(chapterIndex: Int, pageData: [Chapter])
         case showChapterFiles
         case showFileOfInterest
@@ -236,11 +273,11 @@ extension Tutorial.Evaluator: ActionEvaluating {
         case .pageBackward:
             pageBackward()
             
+        case .nextChapter:
+            proceedToNextChapter()
+            
         case .showChapter(let chapterIndex, let pageData):
-            self.showPageStep(
-                forChapterIndex: chapterIndex,
-                pageIndex: 0,
-                pageData: pageData)
+            showChapter(chapterIndex: chapterIndex, pageData: pageData)
             
         case .showChapterFiles:
             showChapterFiles()
@@ -301,8 +338,11 @@ extension Tutorial.Evaluator: ActionEvaluating {
 
 extension Tutorial.Evaluator {
     
-    func showInterludeStep() {
-        current.step = .interlude
+    func showInterludeStep(animated: Bool) {
+        let configuration = InterludeStepConfiguration(
+            animated: animated
+        )
+        current.step = .interlude(configuration)
     }
     
     // MARK: Main Title
@@ -318,7 +358,7 @@ extension Tutorial.Evaluator {
     
     func showChapterTitleStep(forChapterIndex chapterIndex: Int, pageData: [Chapter]) {
         let configuration = ChapterTitleStepConfiguration(
-            title: pageData[chapterIndex].title,
+            chapterTitle: pageData[chapterIndex].title,
             chapterIndex: chapterIndex)
         current.step = .chapterTitle(configuration)
     }
@@ -332,6 +372,29 @@ extension Tutorial.Evaluator {
             pageData: pageData
         )
         current.step = .page(configuration)
+    }
+    
+    func showChapter(chapterIndex: Int, pageData: [Chapter]) {
+        showInterludeStep(animated: false)
+        afterWait(500) {
+            self.showChapterTitleStep(
+                forChapterIndex: chapterIndex,
+                pageData: pageData)
+            afterWait(1000) {
+                self.showPageStep(
+                    forChapterIndex: chapterIndex,
+                    pageIndex: 0,
+                    pageData: pageData)
+            }
+        }
+    }
+    
+    func proceedToNextChapter() {
+        guard case let .page(configuration) = current.step else { return }
+        
+        if configuration.chapterIndex < configuration.chapterCount - 1 {
+            showChapter(chapterIndex: configuration.chapterIndex + 1, pageData: configuration.pageData)
+        }
     }
     
     func pageForward() {
@@ -354,7 +417,7 @@ extension Tutorial.Evaluator {
         }()
         
         if isNewChapter {
-            showInterludeStep()
+            showInterludeStep(animated: true)
             afterWait(500) {
                 self.showChapterTitleStep(
                     forChapterIndex: nextChapter,

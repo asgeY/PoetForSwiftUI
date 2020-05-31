@@ -14,7 +14,7 @@ extension Retail {
         
         // Translator
         
-        lazy var translator: Translator = Translator(current, evaluator: self)
+        lazy var translator: Translator = Translator(current)
         
         // Step
         
@@ -59,6 +59,14 @@ extension Retail {
                 location: "Bin 2C"),
             ]
         )
+        
+        init() {
+            debugPrint("init Retail Evaluator")
+        }
+        
+        deinit {
+            debugPrint("deinit Retail Evaluator")
+        }
     }
 }
 

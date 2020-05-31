@@ -6,6 +6,7 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
+import Combine
 import Foundation
 
 extension Menu {
@@ -17,10 +18,10 @@ extension Menu {
         var items = ObservableArray<MenuListItem>([])
         
         // Behavior
-        var behavior: Behavior?
+        var stepSink: AnyCancellable?
         
         init(_ items: PassableArray<MenuListItem>) {
-            self.behavior = items.subject.sink(receiveValue: { (value) in
+            self.stepSink = items.subject.sink(receiveValue: { (value) in
                 if let value = value {
                     self.items.array = value
                 }

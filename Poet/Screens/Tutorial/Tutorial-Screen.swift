@@ -15,8 +15,7 @@ extension Tutorial {
         
         typealias Action = Evaluator.Action
         
-        let _evaluator: Evaluator
-        weak var evaluator: Evaluator?
+        let evaluator: Evaluator
         let translator: Translator
         
         enum Layout {
@@ -33,9 +32,8 @@ extension Tutorial {
         }
         
         init() {
-            _evaluator = Evaluator()
-            evaluator = _evaluator
-            translator = _evaluator.translator
+            evaluator = Evaluator()
+            translator = evaluator.translator
         }
         
         @State var touchingDownOnBox = false
@@ -45,190 +43,132 @@ extension Tutorial {
         @State var showingSupplement = false
         @State var showingHelloWorld = false
         
+        @State var height: CGFloat = 0
+        @State var width: CGFloat = 0
+        let topSpace: CGFloat = 90
         
         var body: some View {
             return ZStack {
-                  
-                VStack {
-                    Spacer()
-                    ZStack(alignment: .center) {
-                        VStack {
-                                
+                
+                GeometryReader() { geometry in
+                    return Rectangle()
+                        .fill(Color.clear)
+                        .frame(height: geometry.size.height - 52)
+                        .onAppear() {
+                            self.height = geometry.size.height - 52
+                            self.width = geometry.size.width
+                    }
+                }.zIndex(0)
+                
+                VStack(spacing: 0) {
+                    Spacer().frame(height: 52)
+                    ScrollView {
+                        ZStack {
+                            
+                            Rectangle()
+                                .fill(Color.clear)
+                                .frame(height: self.height)
+                            
                             // MARK: Main Title
                             
                             Hideable(isShowing: self.translator.shouldShowMainTitle, transition: .opacity) // <-- observed
                             {
-                                HStack {
-                                    Spacer()
-                                    MainTitleView(text: self.translator.mainTitle)
-                                    Spacer()
-                                }
-                                Spacer()
+                                MainTitleView(
+                                    text: self.translator.mainTitle,
+                                    height: self.height - 30)
                             }
-                        }
-                        
-                        VStack {
-                                
+                            
                             // MARK: Chapter Title
                             
-                            Hideable(isShowing: self.translator.shouldShowChapterTitle, transition: .opacity) // <-- observed
-                            {
-                                HStack {
-                                    Spacer()
-                                    ChapterTitleView(text: self.translator.chapterTitle, number: self.translator.chapterNumber, shouldShowNumber: self.translator.shouldShowChapterNumber, isFocused: self.translator.shouldFocusOnChapterTitle, boxSize: Layout.boxSize)
-                                    Spacer()
-                                }
-                                Spacer()
+                            Hideable(isShowing: self.translator.shouldShowChapterTitle, transition: .opacity) {
+                                ChapterTitleView(
+                                    text: self.translator.chapterTitle,
+                                    number: self.translator.chapterNumber,
+                                    shouldShowNumber: self.translator.shouldShowChapterNumber,
+                                    isFocused: self.translator.shouldFocusOnChapterTitle,
+                                    height: self.height - 30,
+                                    topSpace: self.topSpace)
                             }
-                        }
-                        
-                        // MARK: Page Body
-                                
-                        Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) // <-- observed
-                        {
-                            ZStack(alignment: .topLeading) {
-                                VStack {
+                            
+                            // MARK: Page Body
+                            
+                            Hideable(isShowing: self.translator.shouldShowBody, removesContent: false, transition: .opacity) {
+                                VStack(spacing: 0) {
+                                    Spacer().frame(height: 90 + self.topSpace)
                                     
-                                    TutorialBodyView(bodyElements: self.translator.body, isTouching: self.$touchingDownOnBox)
+                                    // Body
+                                    HStack(spacing: 0) {
+                                        Spacer().frame(width:42)
+                                        TutorialBodyView(
+                                            bodyElements: self.translator.body,
+                                            evaluator: self.evaluator)
+                                        Spacer().frame(width:42)
+                                    }
+                                    
+                                    Spacer().frame(height: 50)
+                                    
+                                    // Next Chapter
+                                    
+                                    Hideable(isShowing: self.translator.shouldShowNextChapterButton) {
+                                        Button(action: {
+                                            self.evaluator.evaluate(Action.nextChapter)
+                                        }) {
+                                            HStack(spacing: 0) {
+                                                Spacer().frame(width:42)
+                                                VStack(spacing: 0) {
+                                                    Spacer().frame(height: 26)
+                                                    
+                                                    HStack {
+                                                        Spacer().frame(width:26)
+                                                        VStack(alignment: .leading) {
+                                                            Text("Next Chapter:")
+                                                                .font(Font.subheadline.smallCaps())
+                                                                .multilineTextAlignment(.leading)
+                                                                .foregroundColor(Color.primary.opacity(0.85))
+                                                            Spacer().frame(height:8)
+                                                            ObservingTextView(self.translator.nextChapterTitle)
+                                                                .font(FontSystem.largeTitle)
+                                                                .multilineTextAlignment(.leading)
+                                                                .foregroundColor(Color.primary.opacity(0.95))
+                                                        }
+                                                        Spacer().frame(width:20)
+                                                        Spacer()
+                                                        Image(systemName: "chevron.right")
+                                                            .foregroundColor(Color.primary.opacity(0.3))
+                                                        Spacer().frame(width:26)
+                                                    }
+                                                    
+                                                    Spacer().frame(height: 32)
+                                                }
+                                                .background(
+                                                    RoundedRectangle(cornerRadius: 12)
+                                                        .fill(Color.primary.opacity(0.03))
+                                                )
+                                                Spacer().frame(width:42)
+                                            }
+                                        }
+                                    }
+                                    
+                                    Spacer().frame(height: 20)
                                     Spacer()
                                 }
+                                .frame(width: self.width)
                             }
-                            .background(
-                                RoundedRectangle(cornerRadius: 12)
-                                .fill(
-                                    self.touchingDownOnBox ?
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.005), Color.primary.opacity(0.01)]), startPoint: .top, endPoint: .bottom) :
-                                        LinearGradient(gradient: Gradient(colors: [Color.primary.opacity(0.0025), Color.primary.opacity(0.004)]), startPoint: .top, endPoint: .bottom)
-                                )
-                            )
-                                .shadow(color: Color.black.opacity(0.03), radius: 40, x: 0, y: 2)
-                            .frame(
-                                width: Layout.boxSize,
-                                height: Layout.boxSize)
-                                
-                                .fixedSize(horizontal: true, vertical: true)
-                                .onTouchDownGesture {
-                                    debugPrint("touch")
-                                    withAnimation(.linear(duration: 0.15)) {
-                                        self.touchingDownOnBox = true
-                                    }
-                            }
-                            .onTouchUpGesture(width: Layout.boxSize, height: Layout.boxSize, cancelCallback: {
-                                withAnimation(.linear(duration: 0.15)) {
-                                    self.touchingDownOnBox = false
-                                }
-                            }) {
-                                debugPrint("touch up")
-                                withAnimation(.linear(duration: 0.15)) {
-                                    self.touchingDownOnBox = false
-                                }
-                                self.evaluator?.evaluate(Action.pageForward)
-                            }
+                            
                         }
-                        
-                        ///////
-                        
+                        Spacer()
                     }
-                    .frame(height: Layout.boxSize)
-                    
-                    Spacer()
+                    .frame(height: self.height)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .zIndex(0)
                 }
-                
-                // MARK: Tap me
-                
-                HStack {
-                    Spacer()
-                    Hideable(isShowing: self.translator.shouldShowTapMe, transition: .asymmetric(insertion: AnyTransition.move(edge: .bottom).combined(with: .opacity), removal: .opacity))
-                    {
-                        VStack {
-                            Image(systemName: "arrow.up")
-                            Text("Tap me")
-                        }
-                        .font(Font.system(size: 16, weight: .regular).monospacedDigit())
-                        .opacity(0.9)
-                        .padding(.top, 10)
-                    }
-                    Spacer()
-                }
-                .offset(x: 0, y: Layout.boxSize / 2.0 + 48)
-                
-                // MARK: Button
-                
-                VStack {
-                    Spacer()
-                    Hideable(isShowing: self.translator.shouldShowButton, transition: AnyTransition.asymmetric(insertion: AnyTransition.move(edge: .bottom).combined(with: .opacity), removal: AnyTransition.opacity))
-                    {
-                        ObservingButton(
-                            action: self.translator.buttonAction,
-                            evaluator: self.evaluator,
-                            label: {
-                                ObservingTextView(self.translator.buttonName)
-                                    .font(Font.headline)
-                                    .foregroundColor(Color.primary)
-                                    .padding(EdgeInsets(top: 12, leading: 22, bottom: 12, trailing: 22))
-                                    .background(Capsule().fill(Color.primary.opacity(0.045)))
-                        })
-                    }.offset(x: 0, y: Layout.boxSize / 2.0 + 48)
-                    Spacer()
-                }
-                
-                // MARK: Page Count and Arrows
-                
-                VStack {
-                    Spacer()
-                    Hideable(isShowing: self.translator.shouldShowPageCount, transition: .opacity) {
-                        
-                        ZStack(alignment: .topLeading) {
-                            HStack {
-                                Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                    Button(action: { self.evaluator?.evaluate(Action.pageBackward) }) {
-                                        Image(systemName: "chevron.compact.left")
-                                            .resizable()
-                                            .frame(width: 7, height: 16, alignment: .center)
-                                            .padding(EdgeInsets(top: 32, leading: 18, bottom: 32, trailing: 0))
-                                            .font(Font.system(size: 16, weight: .thin))
-                                            .opacity(0.22)
-                                    }
-                                    .layoutPriority(0)
-                                    .zIndex(4)
-                                }
-                                .layoutPriority(0)
-                                Spacer().frame(width: 24)
-                                    .layoutPriority(0)
-                                ObservingTextView(self.translator.pageXofX) // <-- observed
-                                    .font(Font.system(size: 16, weight: .regular).monospacedDigit())
-                                    .fixedSize(horizontal: true, vertical: false)
-                                    .layoutPriority(2)
-                                Spacer().frame(width: 24)
-                                    .layoutPriority(0)
-                                Hideable(isShowing: self.translator.shouldShowLeftAndRightButtons, transition: .opacity) {
-                                    Button(action: { self.evaluator?.evaluate(Action.pageForward) }) {
-                                        Image(systemName: "chevron.compact.right")
-                                            .resizable()
-                                            .frame(width: 7, height: 16, alignment: .center)
-                                            .padding(EdgeInsets(top: 32, leading: 0, bottom: 32, trailing: 18))
-                                            .font(Font.system(size: 16, weight: .thin))
-                                            .opacity(0.22)
-                                    }
-                                    .layoutPriority(0)
-                                    .zIndex(4)
-                                }
-                                .layoutPriority(0)
-                            }
-                        }
-                        .fixedSize(horizontal: true, vertical: true)
-                        .frame(width: 100, height: 60)
-                        .foregroundColor(Color.primary)
-                    }.zIndex(4)
-                    .padding(.bottom, 6)
-                }
+                .frame(height: self.height)
                 
                 // MARK: Table of Contents Button
                 
                 VStack {
-                    
                     HStack {
-                        Hideable(isShowing: self.translator.shouldShowTableOfContentsButton, transition: .opacity) {
+                        Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) {
                             
                             Button(action: {
                                 self.showingTableOfContents.toggle()
@@ -238,7 +178,7 @@ extension Tutorial {
                                 TableOfContentsView(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
                             }
                             .zIndex(5)
-                            .foregroundColor(.primary)
+                            .foregroundColor(Color.primary)
                             .font(Font.system(size: 20, weight: .semibold))
                             
                         }
@@ -249,36 +189,41 @@ extension Tutorial {
                         .layoutPriority(2)
                     }
                     Spacer()
-                }.padding(EdgeInsets(top: 14, leading: (Device.current == .small ? 16 : 20), bottom: 16, trailing: 24))
+                }.padding(EdgeInsets(top: 6, leading: 30, bottom: 16, trailing: 32))
+                
+                // MARK: Title
+                
+                VStack(alignment: .trailing) {
+                    Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) {
+                        HStack {
+                            Spacer()
+                            ObservingTextView(self.translator.chapterTitle)
+                                .font(Font.subheadline.smallCaps())
+                                .foregroundColor(Color.primary)
+                            Spacer()
+                        }
+                        .frame(height: 40)
+                    }
+                    Spacer()
+                }
+                .padding(.top, 6)
                 
                 // MARK: File Buttons
                 
                 VStack(alignment: .trailing) {
                     HStack {
                         Spacer()
-                        FileOfInterestButton(
-                            title: self.translator.fileOfInterestName,
-                            isShowing: self.translator.shouldShowFileOfInterestButton,
-                            transition: AnyTransition.opacity.combined(with: AnyTransition.offset(x: 20, y: 0)),
-                            evaluator: evaluator,
-                            action: Action.showFileOfInterest)
-                        
-                        Hideable(isShowing: self.translator.shouldShowFileOfInterestButton, transition: .opacity) {
-                            Divider()
-                                .padding(.leading, 4)
-                                .padding(.trailing, 4)
-                        }
-                        
                         FileTrayButton(
                             isShowing: self.translator.shouldShowFilesButton,
                             transition: .opacity,
                             evaluator: evaluator,
                             action: Action.showChapterFiles)
+                        .foregroundColor(Color.primary.opacity(0.22))
                     }
                     .frame(height: 40)
                     Spacer()
                 }
-                .padding(.top, 14)
+                .padding(.top, 6)
                 
                 Group {
                     Group {
@@ -340,7 +285,7 @@ extension Tutorial {
             .zIndex(0)
                 
             .onAppear {
-                self.evaluator?.viewDidAppear()
+                self.evaluator.viewDidAppear()
                 self.navBarHidden = true
                 UITableView.appearance().separatorColor = .clear
             }

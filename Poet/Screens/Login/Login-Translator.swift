@@ -6,6 +6,7 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 extension Login {
@@ -32,11 +33,11 @@ extension Login {
         var busy = PassableBool()
         
         // Passthrough Behavior
-        private var behavior: Behavior?
+        private var stepSink: AnyCancellable?
         
         init(_ step: PassableStep<Evaluator.Step>) {
-            behavior = step.subject.sink { value in
-                self.translate(step: value)
+            stepSink = step.subject.sink { [weak self] value in
+                self?.translate(step: value)
             }
         }
     }

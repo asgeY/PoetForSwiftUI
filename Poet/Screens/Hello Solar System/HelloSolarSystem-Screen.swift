@@ -14,14 +14,12 @@ struct HelloSolarSystem {}
 extension HelloSolarSystem {
     struct Screen: View {
         
-        private let _evaluator: Evaluator
-        weak var evaluator: Evaluator?
+        let evaluator: Evaluator
         let translator: Translator
         
         init() {
-            _evaluator = Evaluator()
-            evaluator = _evaluator
-            translator = _evaluator.translator
+            evaluator = Evaluator()
+            translator = evaluator.translator
         }
         
         @State var navBarHidden: Bool = true
@@ -88,7 +86,7 @@ extension HelloSolarSystem {
                 // MARK: ViewCycle
                 .onAppear {
                     self.navBarHidden = true
-                    self.evaluator?.viewDidAppear()
+                    self.evaluator.viewDidAppear()
                     UITableView.appearance().separatorColor = .clear
                 }
                     

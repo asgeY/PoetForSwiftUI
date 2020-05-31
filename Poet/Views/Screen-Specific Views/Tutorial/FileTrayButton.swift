@@ -11,13 +11,13 @@ import SwiftUI
 struct FileTrayButton: View {
     @ObservedObject var isShowing: ObservableBool
     let transition: AnyTransition
-    weak var evaluator: ActionEvaluating?
+    let evaluator: ActionEvaluating
     let action: EvaluatorAction?
     
     var body: some View {
         Hideable(isShowing: isShowing, transition: transition) {
             Button(action: {
-                self.evaluator?.evaluate(self.action)
+                self.evaluator.evaluate(self.action)
             }) {
                 HStack {
                     Image(systemName: "tray.full")

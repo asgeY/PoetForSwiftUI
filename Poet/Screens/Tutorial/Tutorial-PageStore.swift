@@ -22,14 +22,11 @@ extension Tutorial {
             chapter_WhyPoet,
             chapter_Template,
             chapter_InteractingWithAView,
-            chapter_UpdatingState,
-            chapter_BusinessStatePart2,
-            chapter_AsynchronousWork,
+            chapter_UpdatingBusinessState,
+            chapter_UpdatingDisplayState,
             chapter_PassableState,
-            chapter_PassableStatePart2,
-            chapter_ProtocolOrientedTranslating,
+            chapter_AsynchronousWork,
             chapter_RetailDemo,
-            chapter_LoginDemo,
             chapter_ANoteOnCombine
         ]
     }

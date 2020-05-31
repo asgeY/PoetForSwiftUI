@@ -1,5 +1,5 @@
 //
-//  Chapter_BusinessState.swift
+//  Chapter_chapter_UpdatingBusinessState.swift
 //  Poet
 //
 //  Created by Steve Cotner on 5/26/20.
@@ -9,34 +9,37 @@
 import Foundation
 
 extension Tutorial.PageStore {
-    var chapter_UpdatingState: Chapter {
+    var chapter_UpdatingBusinessState: Chapter {
         return Chapter(
-            "Updating State",
+            "Updating Business State",
             files: [
                 "HelloWorld-Screen",
                 "HelloWorld-Evaluator",
                 "HelloWorld-Translator"
             ],
             pages:
-            Page([.text("A clean separation of business state, display state, and view logic don't mean much to us unless we can perform updates easily."),
-                .text("If you tap the button that says “Show Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to state.")],
-                 action: .showHelloWorld
-            ),
-            
-            Page([.text("In its structure, Hello World isn't too different from the Template we've already seen. That previous screen's evaluator only included one meaningful step, named “text.” Similarly, Hello World's evaluator includes a step it calls “sayStuff.”"),
-                  .text("But this evaluator also knows about two Actions, named “sayHello” and “sayNothing.”")],
-                 action: .showHelloWorld,
-                 file: "HelloWorld-Evaluator"
-            ),
-            
-            Page([.text("To do its job, Hello World's evaluator needs to configure its sayStuff step, and it also needs to respond to — or evaluate — the actions sayHello and sayNothing whenever the view layer asks."),
-                .text("It turns out all of this work — both setting the initial step and performing updates — are a matter of setting state.")],
-                 action: .showHelloWorld,
-                 file: "HelloWorld-Evaluator"
-            ),
-            
-            Page([.text("After the view appears, the evaluator calls its showSayStuffStep method, which configures the sayStuff step for the first time:"),
-                  .code(
+            Page([
+                .demo(.showHelloWorld),
+                .text("A clean separation of business state, display state, and view logic don't mean much to us unless we can perform updates easily."),
+                .text("If you tap the button that says “Show Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to state."),
+                
+                // MARK: The Objective
+                
+                .title("The Objective"),
+                .text("The Hello World screen shows a speech bubble whenever we tap a button that says “Say Hello,” and it hides the bubble whenever we tap another button that says “Say Nothing.”"),
+                .text("It also keeps track of how many times we have tapped “Say Hello” and displays that count as text on screen."),
+                
+                // MARK: How It's Made
+                
+                .title("How It's Made"),
+                .text("In its structure, Hello World isn't too different from the Template example we've already seen. That previous screen's evaluator only included one meaningful step, named text. Similarly, Hello World's evaluator includes one meaningful step it calls sayStuff."),
+                .text("But this evaluator also knows about two Actions, named sayHello and sayNothing."),
+                .text("To do its job, Hello World's evaluator needs to configure its sayStuff step, and it also needs to respond to — or evaluate — the actions sayHello and sayNothing whenever the view layer asks."),
+                .text("It turns out all of this work — both setting the initial step and performing updates — are a matter of setting state."),
+                .title("Initial State"),
+                .text("Like all evaluators, Hello World's begins in an empty state represented by the initial step."),
+                .text("After the view appears, the evaluator calls its showSayStuffStep method, which configures the sayStuff step for the first time:"),
+                .code(
                     """
                     let configuration = SayStuffStepConfiguration(
                         helloCount: 0,
@@ -45,40 +48,18 @@ extension Tutorial.PageStore {
                     )
                     current.step = .sayStuff(configuration)
                     """
-                )
-                ],
-                 action: .showHelloWorld,
-                 file: "HelloWorld-Evaluator"
-            ),
-            
-            Page([.text("We can see in the configuration that we keep track of how many times we've said “hello,” using an integer value. And we answer two other questions:"),
-                  .text(
-                  """
-                  * Does our bubble say anything?
-                  * What action will our button have?
-                  """),
-                  .text("The bubble text can be nil, whereas an action will always be present for this particular step.")
-                ],
-                 action: .showHelloWorld
-            ),
-            
-            Page([.text("It's fundamental to Poet that the sayStuff step contains all information needed to perform any sort of logic, both behind the scenes and on screen."),
-                  .text("We don't store helloCount as a property of our evaluator, for instance. If we did that, more complex screens with multiple steps would become difficult to manage, as we would have a long list of properties which don't properly belong alongside each other.")
-                ],
-                 action: .showHelloWorld
-            ),
-            
-            Page([.text("Why do we store an action in the configuration?"),
-                  .text("We wouldn't need to do that if the action didn't change over time. It would be fine to name a specific action in HelloWorld-Screen, for instance, where the screen knows its evaluator concretely.")
-                ],
-                 action: .showHelloWorld
-            ),
-            
-            Page([
+                ),
+                .file("HelloWorld-Evaluator"),
+                .text("We can see in the configuration that we keep track of how many times we've said “hello,” using an integer value. And we answer two other questions:"),
+                .bullet("Does our bubble say anything?"),
+                .bullet("What action will our button have?"),
+                .text("The bubble text can be nil, whereas an action will always be present for this particular step."),
+                .text("It's fundamental to Poet that the sayStuff step contains all information needed to perform any sort of logic, both behind the scenes and on screen."),
+                .text("We don't store helloCount as a property of our evaluator, for instance. If we did that, more complex screens with multiple steps would become difficult to manage, as we would have a long list of properties which don't properly belong alongside each other."),
+                .text("Why do we store an action in the configuration?"),
+                .text("We wouldn't need to do that if the action didn't change over time. It would be fine to name a specific action in HelloWorld-Screen, for instance, where the screen knows its evaluator concretely."),
                 .text("In our case, though, we choose a different action at different times: sometimes sayHello, and sometimes sayNothing. Our configuration lets us make that choice explicitly.")
-                ],
-                 action: .showHelloWorld
-            )
+            ])
             
             // ////////////////////////////////////
             

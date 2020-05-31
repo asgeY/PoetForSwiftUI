@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ObservingBottomButton: View {
     @ObservedObject var observableNamedEnabledAction: ObservableNamedEnabledEvaluatorAction
-    weak var evaluator: ActionEvaluating?
+    let evaluator: ActionEvaluating
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
@@ -19,7 +19,7 @@ struct ObservingBottomButton: View {
             VStack {
                 Spacer()
                 Button(action: {
-                    self.evaluator?.evaluate(self.observableNamedEnabledAction.namedEnabledAction?.action)
+                    self.evaluator.evaluate(self.observableNamedEnabledAction.namedEnabledAction?.action)
                 }) {
                         
                     Text(

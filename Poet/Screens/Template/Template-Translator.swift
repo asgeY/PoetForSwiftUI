@@ -6,6 +6,7 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
+import Combine
 import Foundation
 
 extension Template {
@@ -18,12 +19,12 @@ extension Template {
         var title = ObservableString()
         var body = ObservableString()
         
-        // Passthrough Behavior
-        private var behavior: Behavior?
+        // Step Sink
+        private var stepSink: AnyCancellable?
         
         init(_ step: PassableStep<Evaluator.Step>) {
-            behavior = step.subject.sink { value in
-                self.translate(step: value)
+            stepSink = step.subject.sink { [weak self] value in
+                self?.translate(step: value)
             }
         }
     }

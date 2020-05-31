@@ -13,14 +13,12 @@ struct Retail {}
 extension Retail {
     struct Screen: View {
         
-        let _evaluator: Retail.Evaluator
-        weak var evaluator: Retail.Evaluator?
+        let evaluator: Retail.Evaluator
         let translator: Retail.Translator
         
         init() {
-            _evaluator = Evaluator()
-            evaluator = _evaluator
-            translator = _evaluator.translator
+            evaluator = Evaluator()
+            translator = evaluator.translator
         }
         
         @State var navBarHidden: Bool = true
@@ -29,10 +27,12 @@ extension Retail {
             ZStack {
                 
                 // MARK: Page View
-                
                 ObservingPageView(
                     sections: self.translator.sections,
-                    viewMaker: Retail.ViewMaker()
+                    viewMaker: Retail.ViewMaker(
+                        findingProductsEvaluator: evaluator,
+                        optionsEvaluator: evaluator
+                    )
                 )
 
                 // MARK: Dismiss Button
@@ -53,7 +53,7 @@ extension Retail {
                 self.navBarHidden = false
                 self.navBarHidden = true
                 UITableView.appearance().separatorColor = .clear
-                self.evaluator?.viewDidAppear()
+                self.evaluator.viewDidAppear()
             }.onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                 self.navBarHidden = false
                 self.navBarHidden = true

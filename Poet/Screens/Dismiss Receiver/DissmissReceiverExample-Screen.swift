@@ -13,14 +13,12 @@ struct DismissReceiverExample {}
 extension DismissReceiverExample {
     
     struct Screen: View {
-        let _evaluator: Evaluator
-        weak var evaluator: Evaluator?
+        let evaluator: Evaluator
         let translator: Translator
         
         init() {
-            _evaluator = Evaluator()
-            evaluator = _evaluator
-            translator = _evaluator.translator
+            evaluator = Evaluator()
+            translator = evaluator.translator
         }
         
         var body: some View {
@@ -57,7 +55,7 @@ extension DismissReceiverExample {
             }
             .padding(EdgeInsets(top: 0, leading: 36, bottom: 0, trailing: 36))
             .onAppear() {
-                self.evaluator?.viewDidAppear()
+                self.evaluator.viewDidAppear()
             }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarHidden(true)

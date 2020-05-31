@@ -93,7 +93,11 @@ extension Login.Evaluator: ActionEvaluating {
         
         self.translator.busy.isTrue()
         
-        loginSink = performer.login(username: configuration.enteredUsername, password: configuration.enteredPassword)?.sink(receiveCompletion: { (completion) in
+        loginSink = performer.login(
+            username: configuration.enteredUsername,
+            password: configuration.enteredPassword
+            )?.sink(receiveCompletion: { (completion) in
+                
             switch completion {
                 
             case .failure(let error):
@@ -195,7 +199,5 @@ extension Login.Evaluator {
             title: "Login Failed",
             message: message
         )
-            
-        debugPrint("authenticationError: \(networkingError)")
     }
 }

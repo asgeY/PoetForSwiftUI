@@ -6,6 +6,7 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
+import Combine
 import Foundation
 import SwiftUI
 
@@ -21,35 +22,23 @@ extension Tutorial {
         var mainTitle = ObservableString()
         var chapterNumber = ObservableInt()
         var chapterTitle = ObservableString()
-        var pageXofX = ObservableString()
-        var imageName = ObservableString()
-        var buttonName = ObservableString()
-        var fileOfInterestName = ObservableString()
+        var nextChapterTitle = ObservableString()
         
         // Arrays
         var body = ObservableArray<Evaluator.Page.Body>([])
         var selectableChapterTitles = ObservableArray<NumberedNamedEvaluatorAction>([])
         
-        // Bools
+        // "Should Show" Bools
         var shouldShowMainTitle = ObservableBool()
         var shouldShowChapterTitle = ObservableBool()
         var shouldShowChapterNumber = ObservableBool()
         var shouldFocusOnChapterTitle = ObservableBool()
+        var shouldShowNextChapterButton = ObservableBool()
         var shouldShowBody = ObservableBool()
-        var shouldShowImage = ObservableBool()
-        var shouldShowTapMe = ObservableBool()
-        var shouldShowPageCount = ObservableBool()
-        var shouldShowButton = ObservableBool()
-        var shouldShowLeftAndRightButtons = ObservableBool()
-        var shouldEnableLeftButton = ObservableBool()
-        var shouldEnableRightButton = ObservableBool()
-        var shouldShowTableOfContentsButton = ObservableBool()
         var shouldShowTableOfContents = ObservableBool()
-        var shouldShowAboutButton = ObservableBool()
         var shouldShowFilesButton = ObservableBool()
-        var shouldShowFileOfInterestButton = ObservableBool()
         
-        // Passable
+        // "Show ..." Passables
         var showChapterFileMenu = Passable<[TextFile]>()
         var showFile = PassableString()
         var showSupplement = PassablePlease()
@@ -62,7 +51,6 @@ extension Tutorial {
         var showAlert = PassableAlert()
         
         // Actions
-        var buttonAction = ObservableEvaluatorAction()
         var tableOfContentsAction = ObservableEvaluatorAction()
         
         // Protocol-Oriented Translating
@@ -70,11 +58,11 @@ extension Tutorial {
         var bezelTranslator = BezelTranslator()
         
         // Passthrough Behavior
-        var behavior: Behavior?
+        var stepSink: AnyCancellable?
         
         init(_ step: PassableStep<Evaluator.Step>) {
-            behavior = step.subject.sink { value in
-                self.translate(step: value)
+            stepSink = step.subject.sink { [weak self] value in
+                self?.translate(step: value)
             }
         }
     }
@@ -96,8 +84,8 @@ extension Tutorial.Translator {
         case .page(let configuration):
             translatePageStep(configuration)
             
-        case .interlude:
-            translateInterlude()
+        case .interlude(let configuration):
+            translateInterlude(configuration)
         }
     }
     
@@ -109,124 +97,70 @@ extension Tutorial.Translator {
         shouldShowChapterTitle.bool = false
         shouldShowChapterNumber.bool = false
         shouldShowBody.bool = false
-        shouldShowImage.bool = false
-        shouldShowTapMe.bool = false
-        shouldShowButton.bool = false
-        shouldShowLeftAndRightButtons.bool = false
-        shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
-        shouldShowAboutButton.bool = false
         shouldShowFilesButton.bool = false
-        shouldShowFileOfInterestButton.bool = false
-        shouldShowPageCount.bool = false
     }
     
     func translateChapterTitleStep(_ configuration: Evaluator.ChapterTitleStepConfiguration) {
+        body.array = []
+        
         withAnimation(.linear(duration: 0.1)) {
             shouldShowChapterTitle.bool = true
         }
         
         shouldFocusOnChapterTitle.bool = true
         shouldShowChapterNumber.bool = true
-        
         shouldShowMainTitle.bool = false
         shouldShowBody.bool = false
-        shouldShowImage.bool = false
-        shouldShowTapMe.bool = false
-        shouldShowButton.bool = false
-        shouldShowLeftAndRightButtons.bool = false
-        shouldShowTableOfContentsButton.bool = false
         shouldShowTableOfContents.bool = false
-        shouldShowAboutButton.bool = false
         shouldShowFilesButton.bool = false
-        shouldShowFileOfInterestButton.bool = false
-        shouldShowPageCount.bool = false
         
         chapterNumber.int = configuration.chapterNumber
-        chapterTitle.string = configuration.title
+        chapterTitle.string = configuration.chapterTitle        
     }
     
     func translatePageStep(_ configuration: Evaluator.PageStepConfiguration) {
-        let firstPage = configuration.chapterNumber == 1 && configuration.pageNumber == 1
-    
         // linear animation
         withAnimation(.linear(duration: 0.4)) {
             shouldShowChapterNumber.bool = true
             shouldShowChapterTitle.bool = true
             shouldFocusOnChapterTitle.bool = false
-            shouldShowImage.bool = false
             shouldShowTableOfContents.bool = false
-            shouldShowTableOfContentsButton.bool = true
-            shouldShowAboutButton.bool = !firstPage
-            shouldShowPageCount.bool = !firstPage
-        }
-        
-        // spring animation
-        withAnimation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0)) {
-            shouldShowButton.bool = configuration.buttonAction != nil
         }
         
         // delayed animation
-        withAnimation(Animation.linear(duration: 0.4).delay(0.35)) {
+        withAnimation(Animation.linear(duration: 0.45).delay(0.4)) {
             shouldShowBody.bool = true
-            shouldEnableRightButton.bool = true
-            shouldShowLeftAndRightButtons.bool = !firstPage
-            shouldEnableLeftButton.bool = !firstPage
-        }
-        
-        // "Tap Me" Chapter 1 Page 1
-        if firstPage {
-            withAnimation(Animation.spring(response: 0.5, dampingFraction: 0.6, blendDuration: 0).delay(0.8)) {
-                self.shouldShowTapMe.bool = true
-            }
-        } else {
-            withAnimation(Animation.linear(duration: 0.3)) {
-                self.shouldShowTapMe.bool = false
-            }
-        }
-        
-        // Files
-        if let fileOfInterest = configuration.fileOfInterest {
-            fileOfInterestName.string = fileOfInterest.title + ".swift"
-        }
-
-        withAnimation(.linear(duration: 0.2)) {
-            self.shouldShowFilesButton.bool = configuration.chapterTextFiles.notEmpty
-            self.shouldShowFileOfInterestButton.bool = configuration.fileOfInterest != nil
+            shouldShowFilesButton.bool = configuration.chapterTextFiles.notEmpty
+            shouldShowNextChapterButton.bool = configuration.nextChapterTitle?.isEmpty == false
         }
         
         // Other values
         chapterNumber.int = configuration.chapterNumber
-        chapterTitle.string = configuration.title
+        chapterTitle.string = configuration.chapterTitle
+        nextChapterTitle.string = configuration.nextChapterTitle ?? ""
         body.array = configuration.body
-        pageXofX.string = "\(configuration.pageNumber) / \(configuration.pageCountWithinChapter)"
-        buttonAction.action = configuration.buttonAction
         selectableChapterTitles.array = configuration.selectableChapterTitles
-        
-        if let actionName = configuration.buttonAction?.name {
-            buttonName.string = actionName
-        }
     }
     
-    func translateInterlude() {
-        withAnimation(.linear(duration: 0.2)) {
-            
+    func translateInterlude(_ configuration: Evaluator.InterludeStepConfiguration) {
+        let work = {
             // hide everything
-            shouldFocusOnChapterTitle.bool = false
-            shouldShowMainTitle.bool = false
-            shouldShowChapterNumber.bool = false
-            shouldShowChapterTitle.bool = false
-            shouldShowBody.bool = false
-            shouldShowImage.bool = false
-            shouldShowTapMe.bool = false
-            shouldShowButton.bool = false
-            shouldShowLeftAndRightButtons.bool = false
-            shouldShowTableOfContentsButton.bool = false
-            shouldShowTableOfContents.bool = false
-            shouldShowAboutButton.bool = false
-            shouldShowFilesButton.bool = false
-            shouldShowFileOfInterestButton.bool = false
-            shouldShowPageCount.bool = false
+            self.shouldFocusOnChapterTitle.bool = false
+            self.shouldShowMainTitle.bool = false
+            self.shouldShowChapterNumber.bool = false
+            self.shouldShowChapterTitle.bool = false
+            self.shouldShowBody.bool = false
+            self.shouldShowTableOfContents.bool = false
+            self.shouldShowFilesButton.bool = false
+        }
+        
+        if configuration.animated {
+            withAnimation(.linear(duration: 0.2)) {
+                work()
+            }
+        } else {
+            work()
         }
     }
 }

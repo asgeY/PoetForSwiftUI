@@ -16,12 +16,12 @@ extension DismissReceiverExample {
         
         // Display State
         var countdown = ObservableString()
-        var countdownBehavior: Behavior?
+        var countdownSink: AnyCancellable?
         
         init(count: PassableInt) {
-            self.countdownBehavior = count.subject.sink { newValue in
+            self.countdownSink = count.subject.sink { [weak self] newValue in
                 if let newValue = newValue {
-                    self.countdown.string = "In \(newValue) seconds, this screen will self-dismiss."
+                    self?.countdown.string = "In \(newValue) seconds, this screen will self-dismiss."
                 }
             }
         }

@@ -10,10 +10,9 @@ import SwiftUI
 
 struct DisplayableProductsView: View {
     @ObservedObject var displayableProducts: ObservableArray<Retail.Translator.DisplayableProduct>
-    weak var evaluator: FindingProductsEvaluator?
+    let evaluator: FindingProductsEvaluator
     
     var body: some View {
-        debugPrint("DisplayableProductsView")
         return VStack(alignment: .leading, spacing: 40) {
             ForEach(displayableProducts.array, id: \.id) { displayableProduct in
                 return HStack {

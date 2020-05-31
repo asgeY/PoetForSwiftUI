@@ -21,6 +21,9 @@ protocol OptionsEvaluator: class {
 extension Retail {
     struct ViewMaker: ObservingPageView_ViewMaker {
         
+        let findingProductsEvaluator: FindingProductsEvaluator
+        let optionsEvaluator: OptionsEvaluator
+        
         // Fade state
         let fadeDeliveryOptions = ObservableBool()
         let fadeCompletedSummary = ObservableBool()
@@ -101,16 +104,16 @@ extension Retail {
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
                 )
              
-            case .displayableProducts(let displayableProducts, let findingProductsEvaluator):
+            case .displayableProducts(let displayableProducts):
                 return AnyView(
-                    DisplayableProductsView(displayableProducts: displayableProducts, evaluator: findingProductsEvaluator)
+                    DisplayableProductsView(displayableProducts: displayableProducts, evaluator: self.findingProductsEvaluator)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 )
                 
-            case .deliveryOptions(let deliveryOptions, let deliveryPreference, let optionsEvaluator):
+            case .deliveryOptions(let deliveryOptions, let deliveryPreference):
                 return AnyView(
                     Fadeable {
-                        OptionsView(options: deliveryOptions, preference: deliveryPreference, evaluator: optionsEvaluator)
+                        OptionsView(options: deliveryOptions, preference: deliveryPreference, evaluator: self.optionsEvaluator)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 0))
                     }
                 )

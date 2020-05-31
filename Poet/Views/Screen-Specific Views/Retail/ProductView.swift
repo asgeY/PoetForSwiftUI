@@ -12,7 +12,6 @@ struct ProductView: View {
     let product: Product
     
     var body: some View {
-        debugPrint("ProductView. upc: \(product.upc)")
         return HStack {
             Image(product.image)
                 .resizable()
