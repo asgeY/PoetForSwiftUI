@@ -63,11 +63,6 @@ extension HelloWorld {
                                             .frame(width: 168, height: 168)
                                     ).frame(width: 168, height: 168)
                                     
-                                    Image(systemName: "bubble.right")
-                                        .resizable()
-                                        .font(Font.system(size: 12, weight: .light))
-                                        .frame(width: 170, height: 170)
-                                    
                                     ObservingTextView(self.translator.bubbleText, kerning: -0.5)
                                         .font(Font.system(size: 22, weight: .semibold))
                                         .offset(y: -12)
