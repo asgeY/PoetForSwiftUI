@@ -24,7 +24,7 @@ extension Tutorial.PageStore {
             pages:
             Page([
                 .demo(.showTemplate),
-                .text("If you tap the button that says “Show Template,” you'll see a screen that does very little: it just shows a title and a body of text."),
+                .text("If you tap the button that says “Template,” you'll see a screen that does very little: it just shows a title and a body of text."),
                 .text("We have could created such a simple screen without using any pattern at all, just a view. It doesn't involve any business logic, really, and its display state never needs to change. But we'll prepare ourselves to understand more complex screens by using all three of the main Poet layers: evaluator, translator, and screen."),
                 
                 // MARK: File Structure
@@ -37,7 +37,7 @@ extension Tutorial.PageStore {
                 Template-Evaluator.swift
                 Template-Translator.swift
                 """),
-                .text("You might have noticed the tray icon in the upper right of this screen. If you tap that, you'll see a list of all the files mentioned in this chapter, including the template files."),
+                .text("You might have noticed the paperclip icon in the upper right of this screen. If you tap that, you'll see a list of all the files mentioned in this chapter, including the template files."),
                 
                 // MARK: Naming
                 

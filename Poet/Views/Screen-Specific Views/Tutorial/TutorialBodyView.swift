@@ -82,7 +82,7 @@ struct TutorialBodyView: View {
                             .kerning(FontSystem.Kerning.code)
                             .lineSpacing(FontSystem.Spacing.code)
                             .fixedSize(horizontal: false, vertical: true)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -40))
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -48))
                         Spacer().frame(height: bottomPadding)
                         Spacer().frame(height: 10)
                     }
@@ -100,7 +100,7 @@ struct TutorialBodyView: View {
                             .kerning(FontSystem.Kerning.codeSmall)
                             .lineSpacing(FontSystem.Spacing.code)
                             .fixedSize(horizontal: false, vertical: true)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -40))
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -48))
                         Spacer().frame(height: bottomPadding)
                         Spacer().frame(height: 10)
                     }
@@ -118,12 +118,33 @@ struct TutorialBodyView: View {
                             .kerning(FontSystem.Kerning.codeSmall)
                             .lineSpacing(FontSystem.Spacing.codeExtraSmall)
                             .fixedSize(horizontal: false, vertical: true)
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -40))
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -48))
                         Spacer().frame(height: bottomPadding)
                         Spacer().frame(height: 10)
                     }
                     Spacer()
                 }
+            )
+            
+        case .codeScrolling(let code):
+            return AnyView(
+                ScrollView(.horizontal) {
+                    HStack(spacing: 0) {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Spacer().frame(height: 10)
+                            Text(code)
+                                .font(FontSystem.code)
+                                .kerning(FontSystem.Kerning.code)
+                                .lineSpacing(FontSystem.Spacing.code)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                            Spacer().frame(height: bottomPadding)
+                            Spacer().frame(height: 10)
+                        }
+                        Spacer()
+                    }
+                }
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: -42))
             )
         
         case .bullet(let text):

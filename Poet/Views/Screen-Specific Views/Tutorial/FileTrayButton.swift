@@ -20,8 +20,7 @@ struct FileTrayButton: View {
                 self.evaluator.evaluate(self.action)
             }) {
                 HStack {
-                    Image(systemName: "tray.full")
-//                        .font(Font.system(size: 20, weight: .medium))
+                    Image(systemName: "rectangle.and.paperclip")
                         .font(Font.system(size: 18, weight: .regular))
                         .zIndex(4)
                         .transition(.scale)

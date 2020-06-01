@@ -30,6 +30,12 @@ extension HelloWorld {
                 GeometryReader() { geometry in
                     ZStack {
                         
+                        // Sky
+                        Rectangle()
+                            .fill(Color(UIColor.systemTeal).opacity(0.9))
+                            .frame(width: geometry.size.width, height: geometry.size.height / 2.0)
+                            .offset(x: 0, y: -geometry.size.height / 4.0)
+                        
                         // Person
                         Image(systemName: "person.fill")
                             .resizable()
@@ -38,7 +44,8 @@ extension HelloWorld {
                         
                         // Grass
                         Rectangle()
-                            .fill(Color(UIColor(red: 106/255.0, green: 235/255.0, blue: 106/255.0, alpha: 1)))
+                            .fill(Color.white)
+//                            .fill(Color(UIColor(red: 96/255.0, green: 225/255.0, blue: 96/255.0, alpha: 1)))
                             .frame(width: geometry.size.width, height: geometry.size.height / 2.0)
                             .offset(x: 0, y: geometry.size.height / 4.0)
                         

@@ -1,0 +1,14 @@
+//
+//  ObservableEvaluatorAction.swift
+//  Poet
+//
+
+import Combine
+
+class ObservableEvaluatorAction: ObservableObject {
+    @Published var action: EvaluatorAction?
+    
+    init(_ action: EvaluatorAction? = nil) {
+        self.action = action
+    }
+}

@@ -50,6 +50,7 @@ extension Tutorial {
                 case code(String)
                 case smallCode(String)
                 case extraSmallCode(String)
+                case codeScrolling(String)
                 case bullet(String)
                 case divider
                 case button(Action)
@@ -70,6 +71,8 @@ extension Tutorial {
                         return "smallCode_\(text)"
                     case .extraSmallCode(let text):
                         return "extraSmallCode_\(text)"
+                    case .codeScrolling(let text):
+                        return "codeScrolling_\(text)"
                     case .bullet(let text):
                         return "bullet_\(text)"
                     case .divider:
@@ -186,6 +189,8 @@ extension Tutorial.Evaluator: ViewCycleEvaluating {
     
     func viewDidAppear() {
         
+        guard case .initial = current.step else { return }
+        
         // Get our pages
         let pageData = pageStore.pageData
         
@@ -248,15 +253,15 @@ extension Tutorial.Evaluator: ActionEvaluating {
             case .showBezel:
                 return "Show Bezel"
             case .showTemplate:
-                return "Show Template"
+                return "Template"
             case .showHelloWorld:
-                return "Show Hello World"
+                return "Hello World"
             case .showHelloSolarSystem:
-                return "Show Hello Solar System"
+                return "Hello Solar System"
             case .showRetailDemo:
-                return "Show Retail Demo"
+                return "Retail Demo"
             case .showLoginDemo:
-                return "Show Login Demo"
+                return "Login Demo"
             default:
                 return ""
             }

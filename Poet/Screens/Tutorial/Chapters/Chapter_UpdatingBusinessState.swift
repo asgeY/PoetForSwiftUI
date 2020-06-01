@@ -21,7 +21,7 @@ extension Tutorial.PageStore {
             Page([
                 .demo(.showHelloWorld),
                 .text("A clean separation of business state, display state, and view logic don't mean much to us unless we can perform updates easily."),
-                .text("If you tap the button that says “Show Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to state."),
+                .text("If you tap the button that says “Hello World,” you'll see a screen that includes some basic user interaction and some very minimal updates to state."),
                 
                 // MARK: The Objective
                 
@@ -33,6 +33,21 @@ extension Tutorial.PageStore {
                 
                 .title("How It's Made"),
                 .text("In its structure, Hello World isn't too different from the Template example we've already seen. That previous screen's evaluator only included one meaningful step, named text. Similarly, Hello World's evaluator includes one meaningful step it calls sayStuff."),
+                .code(
+                    """
+                    enum Step: EvaluatorStep {
+                        case initial
+                        case sayStuff(SayStuffStepConfiguration)
+                    }
+                    
+                    struct SayStuffStepConfiguration {
+                        var helloCount: Int
+                        var bubbleText: String?
+                        var buttonAction: Action
+                    }
+                    """
+                ),
+                .file("HelloWorld-Evaluator"),
                 .text("But this evaluator also knows about two Actions, named sayHello and sayNothing."),
                 .text("To do its job, Hello World's evaluator needs to configure its sayStuff step, and it also needs to respond to — or evaluate — the actions sayHello and sayNothing whenever the view layer asks."),
                 .text("It turns out all of this work — both setting the initial step and performing updates — are a matter of setting state."),
@@ -49,7 +64,6 @@ extension Tutorial.PageStore {
                     current.step = .sayStuff(configuration)
                     """
                 ),
-                .file("HelloWorld-Evaluator"),
                 .text("We can see in the configuration that we keep track of how many times we've said “hello,” using an integer value. And we answer two other questions:"),
                 .bullet("Does our bubble say anything?"),
                 .bullet("What action will our button have?"),

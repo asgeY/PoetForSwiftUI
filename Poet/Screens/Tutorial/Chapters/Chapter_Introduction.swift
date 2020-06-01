@@ -15,8 +15,9 @@ extension Tutorial.PageStore {
                 .text("Congratulations. Somehow you heard about the Poet pattern for SwiftUI and decided to learn about it. Things are looking up."),
                 .text("In the course of reading this tutorial, you'll be walked through several examples of Poet, ranging from the very simple to the very complex. Here are some of the screens you'll encounter:"),
                 
-                .title("Hello Solar System"),
-                .text("A Hello World-inspired example that demonstrates some simple changes to state."),
+                .title("Hello Worlds"),
+                .text("Two Hello World examples that demonstrate the basic pattern and some simple changes to state."),
+                .demo(.showHelloWorld),
                 .demo(.showHelloSolarSystem),
                 
                 .title("Login"),
@@ -24,7 +25,7 @@ extension Tutorial.PageStore {
                 .demo(.showLoginDemo),
                 
                 .title("Retail"),
-                .text("A screen from a retail employee's app, with silky smooth animation between sequential steps. Under the hood, it sports a fully decoupled approach to showing or hiding sections on screen, based on the current step."),
+                .text("A screen from a retail employee's app, with smooth animation between sequential steps. Under the hood, it sports a fully decoupled approach to showing or hiding sections on screen, based on the current step."),
                 .demo(.showRetailDemo),
                 
                 .divider,

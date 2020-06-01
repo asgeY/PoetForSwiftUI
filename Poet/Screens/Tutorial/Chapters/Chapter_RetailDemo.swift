@@ -15,7 +15,7 @@ extension Tutorial.PageStore {
             pages:
             Page([
                 .demo(.showRetailDemo),
-                .text("Imagine you work in retail and your job is to find and deliver products. If you tap “Show Retail Demo” you'll see a screen that offers such a user flow. Try it out."),
+                .text("Imagine you work in retail and your job is to find and deliver products. If you tap “Retail Demo” you'll see a screen that offers such a user flow. Try it out."),
                 .text("You'll notice the Retail demo is getting close to production-ready code. It shows how we can have a complex, step-based user interface that also seamlessly animates its state changes."),
                 .text("Most importantly it shows how we can dynamically create views that observe our translator's content, and show and hide those views depending on our data and the step we're in. "),
                 .text("This speeds development by decoupling our layers in all the right ways. We still have fine-grained control over animated transitions, but we don't have to waste effort thinking about all the possible permutations of views on screen."),

@@ -16,7 +16,7 @@ extension Tutorial.PageStore {
             Page([
                 .demo(.showHelloSolarSystem),
                 .text("In this chapter, we build on familiar concepts and run through a quick example of an evaluator/translator/screen working together in a new scenario."),
-                .text("Tap the button that says “Show Hello Solar System” to see a new screen. Play around for a bit and come back when you're done."),
+                .text("Tap the button that says “Hello Solar System” to see a new screen. Play around for a bit and come back when you're done."),
                 .text("The Hello Solar System example demonstrates how a good pattern actually simplifies our logic even as the problem grows more complex. Our Evaluator does most of its thinking using two types:"),
                 .code("CelestialBody\nCelestialBodyStepConfiguration"),
                 .text("In viewDidAppear(), we map instances of CelestialBody from JSON data. We then make a step configuration to store that data and select the first CelestialBody as our “currentCelestialBody.”"),

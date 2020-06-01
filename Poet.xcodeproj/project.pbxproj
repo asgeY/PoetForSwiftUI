@@ -98,6 +98,7 @@
 		DC00E23D2482A6BE00A9F503 /* NetworkingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */; };
 		DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */; };
 		DC00E24424839CC800A9F503 /* ViewCycleEvaluating.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC00E24324839CC800A9F503 /* ViewCycleEvaluating.txt */; };
+		DC00E2462484E0C300A9F503 /* ObservableEvaluatorAction.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC00E2452484E0C300A9F503 /* ObservableEvaluatorAction.txt */; };
 		DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04F6F024661C1400F49E00 /* ImageExtensions.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
@@ -255,6 +256,7 @@
 		DC00E23C2482A6BD00A9F503 /* NetworkingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingError.swift; sourceTree = "<group>"; };
 		DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Networking.swift"; sourceTree = "<group>"; };
 		DC00E24324839CC800A9F503 /* ViewCycleEvaluating.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ViewCycleEvaluating.txt; sourceTree = "<group>"; };
+		DC00E2452484E0C300A9F503 /* ObservableEvaluatorAction.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ObservableEvaluatorAction.txt; sourceTree = "<group>"; };
 		DC04F6F024661C1400F49E00 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 			isa = PBXGroup;
 			children = (
 				3BF6694824782B7600AE055C /* ObservableString.txt */,
+				DC00E2452484E0C300A9F503 /* ObservableEvaluatorAction.txt */,
 			);
 			path = "Files as text";
 			sourceTree = "<group>";
@@ -830,6 +833,7 @@
 				DC00E24424839CC800A9F503 /* ViewCycleEvaluating.txt in Resources */,
 				3BF669232478014400AE055C /* Template-Evaluator.txt in Resources */,
 				3BF6693424781B3100AE055C /* PassableStep.txt in Resources */,
+				DC00E2462484E0C300A9F503 /* ObservableEvaluatorAction.txt in Resources */,
 				875562C0244C253500DB49C4 /* LaunchScreen.storyboard in Resources */,
 				3BF6694B2478316600AE055C /* ObservingTextView.txt in Resources */,
 				3B725494248017B200E27551 /* HelloWorld-Evaluator.txt in Resources */,

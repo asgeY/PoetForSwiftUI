@@ -15,7 +15,7 @@ extension Tutorial.PageStore {
             pages:
             Page([
                 .demo(.showLoginDemo),
-                .text("If you tap “Show Login Demo” you'll see a basic login user flow. Try it out.")
+                .text("If you tap “Login Demo” you'll see a basic login user flow. Try it out.")
             ])
         )
     }

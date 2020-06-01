@@ -61,8 +61,14 @@ extension Login {
                         Button(action: {
                             self.evaluator.evaluate(Action.useCorrectCredentials)
                         }) {
-                            Text("Use correct credentials")
-                                .font(Font.footnote)
+                            Text("Use Correct Credentials")
+                                .font(Font.footnote.bold())
+                                .foregroundColor(Color(UIColor.systemBackground))
+                            .padding(EdgeInsets(top: 12, leading: 16, bottom: 12, trailing: 16))
+                            .background(
+                                Capsule()
+                                    .fill(Color(UIColor.systemGreen))
+                            )
                         }
                     }.animation(.linear)
                     
