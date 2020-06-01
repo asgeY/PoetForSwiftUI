@@ -174,6 +174,7 @@ extension Tutorial {
                                 self.showingTableOfContents.toggle()
                             }) {
                                 Image(systemName: "list.bullet")
+                                    .font(Font.system(size: 18, weight: .regular))
                             }.sheet(isPresented: self.$showingTableOfContents) {
                                 TableOfContentsView(selectableChapterTitles: self.translator.selectableChapterTitles, evaluator: self.evaluator)
                             }
@@ -189,7 +190,7 @@ extension Tutorial {
                         .layoutPriority(2)
                     }
                     Spacer()
-                }.padding(EdgeInsets(top: 6, leading: 30, bottom: 16, trailing: 32))
+                }.padding(EdgeInsets(top: 4, leading: 30, bottom: 16, trailing: 32))
                 
                 // MARK: Title
                 
@@ -223,7 +224,7 @@ extension Tutorial {
                     .frame(height: 40)
                     Spacer()
                 }
-                .padding(.top, 6)
+                .padding(.top, 4)
                 
                 Group {
                     Group {

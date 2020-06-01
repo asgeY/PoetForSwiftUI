@@ -21,7 +21,8 @@ struct FileTrayButton: View {
             }) {
                 HStack {
                     Image(systemName: "tray.full")
-                        .font(Font.system(size: 20, weight: .medium))
+//                        .font(Font.system(size: 20, weight: .medium))
+                        .font(Font.system(size: 18, weight: .regular))
                         .zIndex(4)
                         .transition(.scale)
                         .frame(width: 40, height: 40)
@@ -29,7 +30,7 @@ struct FileTrayButton: View {
             }.zIndex(4)
         }
         .frame(height: 40)
-        .padding(.trailing, Device.current == .small ? 16 : 22)
+        .padding(.trailing, Device.current == .small ? 24 : 28)
         .foregroundColor(.primary)
     }
 }
