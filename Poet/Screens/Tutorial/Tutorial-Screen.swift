@@ -258,6 +258,11 @@ extension Tutorial {
                             HelloSolarSystem.Screen()
                         }
                         
+                        // MARK: Hello Data
+                        Presenter(self.translator.showHelloData) {
+                            HelloData.Screen()
+                        }
+                        
                         // MARK: Retail Demo
                         Presenter(self.translator.showRetailDemo) {
                             Retail.Screen()

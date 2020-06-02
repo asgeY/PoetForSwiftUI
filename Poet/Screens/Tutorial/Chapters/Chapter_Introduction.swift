@@ -19,6 +19,7 @@ extension Tutorial.PageStore {
                 .text("Two Hello World examples that demonstrate the basic pattern and some simple changes to state."),
                 .demo(.showHelloWorld),
                 .demo(.showHelloSolarSystem),
+                .demo(.showHelloData),
                 
                 .title("Login"),
                 .text("A login flow with validated fields, networking, and a suite of tests."),

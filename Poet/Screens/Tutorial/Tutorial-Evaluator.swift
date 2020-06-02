@@ -237,6 +237,7 @@ extension Tutorial.Evaluator: ActionEvaluating {
         case showTemplate
         case showHelloWorld
         case showHelloSolarSystem
+        case showHelloData
         case showRetailDemo
         case showLoginDemo
         
@@ -258,6 +259,8 @@ extension Tutorial.Evaluator: ActionEvaluating {
                 return "Hello World"
             case .showHelloSolarSystem:
                 return "Hello Solar System"
+            case .showHelloData:
+                return "Hello Data"
             case .showRetailDemo:
                 return "Retail Demo"
             case .showLoginDemo:
@@ -304,6 +307,9 @@ extension Tutorial.Evaluator: ActionEvaluating {
             
         case .showHelloSolarSystem:
             translator.showHelloSolarSystem.please()
+            
+        case .showHelloData:
+            translator.showHelloData.please()
             
         case .showRetailDemo:
             translator.showRetailDemo.please()

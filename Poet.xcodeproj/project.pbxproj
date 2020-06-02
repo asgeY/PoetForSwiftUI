@@ -99,6 +99,10 @@
 		DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */; };
 		DC00E24424839CC800A9F503 /* ViewCycleEvaluating.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC00E24324839CC800A9F503 /* ViewCycleEvaluating.txt */; };
 		DC00E2462484E0C300A9F503 /* ObservableEvaluatorAction.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC00E2452484E0C300A9F503 /* ObservableEvaluatorAction.txt */; };
+		DC00E24C2486AF8100A9F503 /* HelloData-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E2482486AB7800A9F503 /* HelloData-Screen.swift */; };
+		DC00E24D2486AF8600A9F503 /* HelloData-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E2492486AB7800A9F503 /* HelloData-Evaluator.swift */; };
+		DC00E24E2486AF8600A9F503 /* HelloData-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E24A2486AB7A00A9F503 /* HelloData-Translator.swift */; };
+		DC00E24F2486AF8600A9F503 /* HelloData-Performer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E24B2486AB7A00A9F503 /* HelloData-Performer.swift */; };
 		DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04F6F024661C1400F49E00 /* ImageExtensions.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
@@ -257,6 +261,10 @@
 		DC00E23E2482A72600A9F503 /* Publisher+Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Networking.swift"; sourceTree = "<group>"; };
 		DC00E24324839CC800A9F503 /* ViewCycleEvaluating.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ViewCycleEvaluating.txt; sourceTree = "<group>"; };
 		DC00E2452484E0C300A9F503 /* ObservableEvaluatorAction.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ObservableEvaluatorAction.txt; sourceTree = "<group>"; };
+		DC00E2482486AB7800A9F503 /* HelloData-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloData-Screen.swift"; sourceTree = "<group>"; };
+		DC00E2492486AB7800A9F503 /* HelloData-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloData-Evaluator.swift"; sourceTree = "<group>"; };
+		DC00E24A2486AB7A00A9F503 /* HelloData-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloData-Translator.swift"; sourceTree = "<group>"; };
+		DC00E24B2486AB7A00A9F503 /* HelloData-Performer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloData-Performer.swift"; sourceTree = "<group>"; };
 		DC04F6F024661C1400F49E00 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
@@ -464,6 +472,7 @@
 				DC4C1111245DEDE5009BC14D /* Tutorial */,
 				DC4C1112245DEDF8009BC14D /* Template */,
 				DC31CC79247C37DC00002075 /* Hello World */,
+				DC00E2472486AB6C00A9F503 /* Hello Data */,
 				8794A5FE245CB88400D41E4F /* Dismiss Receiver */,
 				DC65655E246F05660048A848 /* Hello Solar System */,
 				87E7E43724595C6300047253 /* Retail Demo */,
@@ -562,6 +571,17 @@
 				3BF66935247820E000AE055C /* Template-Translator.txt */,
 			);
 			path = "Files as text";
+			sourceTree = "<group>";
+		};
+		DC00E2472486AB6C00A9F503 /* Hello Data */ = {
+			isa = PBXGroup;
+			children = (
+				DC00E2482486AB7800A9F503 /* HelloData-Screen.swift */,
+				DC00E2492486AB7800A9F503 /* HelloData-Evaluator.swift */,
+				DC00E24A2486AB7A00A9F503 /* HelloData-Translator.swift */,
+				DC00E24B2486AB7A00A9F503 /* HelloData-Performer.swift */,
+			);
+			path = "Hello Data";
 			sourceTree = "<group>";
 		};
 		DC31CC73247B363C00002075 /* Files as text */ = {
@@ -943,12 +963,15 @@
 				3BF6693B2478286800AE055C /* ObservableBool.swift in Sources */,
 				87E7E43D245961B400047253 /* Retail-Evaluator.swift in Sources */,
 				DC31CC722479CA2100002075 /* FileTrayButton.swift in Sources */,
+				DC00E24D2486AF8600A9F503 /* HelloData-Evaluator.swift in Sources */,
 				DC31CC6E2479C90400002075 /* PresenterWithPassedValue.swift in Sources */,
 				DC4C6C582476C8590014A34C /* DismissReceiver.swift in Sources */,
 				87D299E124561D4E003959C3 /* StaticPageViewMaker.swift in Sources */,
 				DC4C6C6F2476D14D0014A34C /* TutorialBodyView.swift in Sources */,
 				DC4C6C4C2476C5A40014A34C /* DisplayableProductsView.swift in Sources */,
+				DC00E24F2486AF8600A9F503 /* HelloData-Performer.swift in Sources */,
 				DC4C1120245DFF21009BC14D /* Tutorial-Translator.swift in Sources */,
+				DC00E24E2486AF8600A9F503 /* HelloData-Translator.swift in Sources */,
 				878B3A472453472300ACADE4 /* BezelView.swift in Sources */,
 				878B3A4C24535B1E00ACADE4 /* ObservingTextView.swift in Sources */,
 				3BF6693224781AD100AE055C /* PassableDouble.swift in Sources */,
@@ -980,6 +1003,7 @@
 				DC00E229247D984900A9F503 /* TextFile.swift in Sources */,
 				DC4C6C4A2476C59A0014A34C /* ProductView.swift in Sources */,
 				DC4C6C612476CD5B0014A34C /* ObservingButton.swift in Sources */,
+				DC00E24C2486AF8100A9F503 /* HelloData-Screen.swift in Sources */,
 				3B7254A124808AE300E27551 /* EvaluatorElement.swift in Sources */,
 				DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */,
 				878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */,

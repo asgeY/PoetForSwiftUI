@@ -24,7 +24,6 @@ protocol LoginPerforming {
 
 extension Login {
     class Performer: LoginPerforming {
-        var loginSink: Sink?
         
         func login(username: String, password: String) -> AnyPublisher<AuthenticationResult, NetworkingError>? {
             
