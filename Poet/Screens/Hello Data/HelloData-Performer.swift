@@ -23,6 +23,7 @@ struct MusicFeed: Decodable {
 
 enum MusicKind: String, Decodable {
     case album = "album"
+    case playlist = "playlist"
 }
 
 struct MusicGenre: Decodable {
@@ -32,15 +33,15 @@ struct MusicGenre: Decodable {
 }
 
 struct MusicResult: Decodable {
-    let artistName: String
+    let artistName: String?
     let id: String
-    let releaseDate: String
+    let releaseDate: String?
     let name: String
-    let kind: MusicKind
-    let copyright: String
-    let artistId: String
+    let kind: MusicKind?
+    let copyright: String?
+    let artistId: String?
     let contentAdvisoryRating: String?
-    let artistUrl: URL
+    let artistUrl: URL?
     let artworkUrl100: URL
     let genres: [MusicGenre]
     
@@ -72,32 +73,45 @@ struct MusicResult: Decodable {
 }
 
 protocol MusicPerforming {
-    func loadMusic() -> AnyPublisher<MusicFeedWrapper, NetworkingError>?
+    func loadMusic(_ musicType: HelloData.Evaluator.MusicType) -> AnyPublisher<MusicFeedWrapper, NetworkingError>?
 }
 
 extension HelloData {
     class Performer: MusicPerforming {
         var loginSink: Sink?
         
-        func loadMusic() -> AnyPublisher<MusicFeedWrapper, NetworkingError>? {
-            
-            if let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/10/explicit.json") {
+        func loadMusic(_ musicType: HelloData.Evaluator.MusicType) -> AnyPublisher<MusicFeedWrapper, NetworkingError>? {
+            switch musicType {
+            case .albums:
+                if let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/10/explicit.json") {
+                    return loadMusic(url: url)
+                }
+            case .hotTracks:
+                if let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/hot-tracks/all/10/explicit.json") {
+                    return loadMusic(url: url)
+                }
                 
-                var request = URLRequest(url: url)
-                request.httpMethod = "GET"
-                request.timeoutInterval = 20
-                
-                let publisher = URLSession.shared.dataTaskPublisher(for: request)
-                return publisher
-                    .delay(for: .seconds(1), scheduler: DispatchQueue.main)
-                    .receive(on: DispatchQueue.main)
-                    .retry(2)
-                    .eraseToAnyPublisher()
-                    .validateResponseAndDecode(type: MusicFeedWrapper.self)
+            case .newReleases:
+                if let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/new-releases/all/10/explicit.json") {
+                    return loadMusic(url: url)
+                }
             }
             
             return nil
         }
-
+        
+        private func loadMusic(url: URL) -> AnyPublisher<MusicFeedWrapper, NetworkingError>? {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.timeoutInterval = 20
+            
+            let publisher = URLSession.shared.dataTaskPublisher(for: request)
+            return publisher
+                .delay(for: .seconds(1), scheduler: DispatchQueue.main)
+                .receive(on: DispatchQueue.main)
+                .retry(2)
+                .eraseToAnyPublisher()
+                .validateResponseAndDecode(type: MusicFeedWrapper.self)
+        }
     }
 }

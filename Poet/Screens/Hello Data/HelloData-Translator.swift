@@ -19,6 +19,7 @@ extension HelloData {
         // Observable Display State
         var shouldShowLoadButton = ObservableBool()
         var shouldShowMusicResults = ObservableBool()
+        var musicType = ObservableString()
         var musicResults = ObservableArray<MusicResult>([])
         
         // Passable
@@ -59,7 +60,8 @@ extension HelloData.Translator {
     
     func translateListingMusicStep(_ configuration: Evaluator.ListingMusicStepConfiguration) {
         musicResults.array = configuration.musicResults
-        self.shouldShowLoadButton.bool = false
-        self.shouldShowMusicResults.bool = true
+        musicType.string = configuration.musicType.displayName
+        shouldShowLoadButton.bool = false
+        shouldShowMusicResults.bool = true
     }
 }

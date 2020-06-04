@@ -6,6 +6,7 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 extension HelloData {
@@ -19,7 +20,7 @@ extension HelloData {
         var current = PassableStep(Step.initial)
         
         // Sink
-        var loginSink: Behavior?
+        var musicSink: AnyCancellable?
         
         enum Element: EvaluatorElement {
             case usernameTextField
@@ -38,6 +39,7 @@ extension HelloData.Evaluator {
     
     struct ListingMusicStepConfiguration {
         var musicResults: [MusicResult]
+        var musicType: MusicType
     }
 }
 
@@ -57,9 +59,10 @@ extension HelloData.Evaluator {
     
     // MARK: Login Step
     
-    func showListingMusicStep(_ musicResults: [MusicResult]) {
+    func showListingMusicStep(_ musicResults: [MusicResult], musicType: MusicType) {
         let configuration = ListingMusicStepConfiguration(
-            musicResults: musicResults
+            musicResults: musicResults,
+            musicType: musicType
         )
         current.step = .listingMusic(configuration)
     }
@@ -67,8 +70,26 @@ extension HelloData.Evaluator {
 
 // MARK: Actions
 extension HelloData.Evaluator: ActionEvaluating {
+    
+    enum MusicType {
+        case albums
+        case hotTracks
+        case newReleases
+        
+        var displayName: String {
+            switch self {
+            case .albums:
+                return "Top Albums"
+            case .hotTracks:
+                return "Hot Playlists"
+            case .newReleases:
+                return "New Releases"
+            }
+        }
+    }
+    
     enum Action: EvaluatorAction {
-        case loadMusic
+        case loadMusic(MusicType)
     }
     
     func evaluate(_ action: EvaluatorAction?) {
@@ -76,18 +97,27 @@ extension HelloData.Evaluator: ActionEvaluating {
         
         switch action {
             
-        case .loadMusic:
-            loadMusic()
-
+        case .loadMusic(let musicType):
+            loadMusic(musicType: musicType)
         }
     }
     
-    private func loadMusic() {
-        guard case .preLoading = current.step else { return }
+    private func loadMusic(musicType: MusicType) {
         
         self.translator.busy.isTrue()
         
-        loginSink = performer.loadMusic()?.sink(receiveCompletion: { (completion) in
+        let publisher: AnyPublisher<MusicFeedWrapper, NetworkingError>? = {
+            switch musicType {
+            case .albums:
+                return performer.loadMusic(.albums)
+            case .hotTracks:
+                return performer.loadMusic(.hotTracks)
+            case .newReleases:
+                return performer.loadMusic(.newReleases)
+            }
+        }()
+        
+        musicSink = publisher?.sink(receiveCompletion: { (completion) in
                 
             switch completion {
                 
@@ -99,12 +129,12 @@ extension HelloData.Evaluator: ActionEvaluating {
             }
             
             self.translator.busy.isFalse()
-            self.loginSink?.cancel()
+            self.musicSink?.cancel()
             
         }, receiveValue: { (musicFeed) in
             debugPrint("musicFeed:")
             debugPrint(musicFeed)
-            self.showListingMusicStep(musicFeed.feed.results)
+            self.showListingMusicStep(musicFeed.feed.results, musicType: musicType)
         })
     }
 }

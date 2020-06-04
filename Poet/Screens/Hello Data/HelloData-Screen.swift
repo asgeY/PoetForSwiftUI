@@ -33,7 +33,7 @@ extension HelloData {
                         Spacer().frame(height: 50)
                         HStack {
                             Spacer()
-                            Text("Top Albums")
+                            ObservingTextView(self.translator.musicType)
                                 .font(FontSystem.largeTitle)
                             Spacer()
                         }
@@ -48,14 +48,52 @@ extension HelloData {
                     VStack(spacing: 0) {
                         Spacer()
                             Button(action: {
-                                self.evaluator.evaluate(Action.loadMusic)
+                                self.evaluator.evaluate(Action.loadMusic(.albums))
                             }) {
-                                Text("Load Music")
+                                Text("Load Albums")
                                     .foregroundColor(.primary)
                                     .font(Font.headline)
                                     .padding(EdgeInsets(top: 14, leading: 20, bottom: 14, trailing: 20))
                                     .background(Capsule().fill(Color.primary.opacity(0.04)))
                             }
+                        Spacer()
+                    }
+                }
+                
+                Hideable(isShowing: translator.shouldShowMusicResults) {
+                    VStack {
+                        HStack {
+                            VStack {
+                                Spacer().frame(height: 16)
+                                HStack(spacing: 20) {
+                                    Button(action: {
+                                        self.evaluator.evaluate(Action.loadMusic(.albums))
+                                    }) {
+                                        Image(systemName: "rectangle.stack")
+                                    }
+                                    
+                                    Button(action: {
+                                        self.evaluator.evaluate(Action.loadMusic(.hotTracks))
+                                    }) {
+                                        Image(systemName: "flame")
+                                    }
+                                    
+                                    Button(action: {
+                                        self.evaluator.evaluate(Action.loadMusic(.newReleases))
+                                    }) {
+                                        Image(systemName: "music.note")
+                                    }
+                                    
+                                    Spacer()
+                                }
+                                Spacer()
+                            }
+                            .foregroundColor(.primary)
+                            .padding(EdgeInsets(top: 12, leading: 30, bottom: 14, trailing: 0))
+                            Spacer()
+                        }
+                        .frame(height: 54)
+                        .background(Color(UIColor.systemBackground))
                         Spacer()
                     }
                 }
@@ -104,7 +142,7 @@ struct MusicResultsView: View {
                             }
                             
                             HStack {
-                                Text(result.artistName)
+                                Text(result.artistName ?? "")
                                     .font(Font.subheadline)
                                     .multilineTextAlignment(.leading)
                                 Spacer()
