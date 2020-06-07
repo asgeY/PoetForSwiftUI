@@ -18,6 +18,7 @@
 		3B67AA6A248C9F4000361DCA /* DemoControl_ObservableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA69248C9F4000361DCA /* DemoControl_ObservableString.swift */; };
 		3B67AA6C248C9F4C00361DCA /* DemoControl_TextAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA6B248C9F4C00361DCA /* DemoControl_TextAlignment.swift */; };
 		3B67AA6E248C9FA700361DCA /* DemoControl_ObservableControlledByTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA6D248C9FA700361DCA /* DemoControl_ObservableControlledByTextInput.swift */; };
+		3B67AA70248CBBB100361DCA /* Chapter_ViewDemoing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA6F248CBBB100361DCA /* Chapter_ViewDemoing.swift */; };
 		3B687617247DCA31005F2FBA /* ObservableEvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687616247DCA31005F2FBA /* ObservableEvaluatorAction.swift */; };
 		3B68761A247DE165005F2FBA /* Chapter_Introduction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687619247DE165005F2FBA /* Chapter_Introduction.swift */; };
 		3B68761C247DE256005F2FBA /* Chapter_WhyPoet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */; };
@@ -190,6 +191,7 @@
 		3B67AA69248C9F4000361DCA /* DemoControl_ObservableString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControl_ObservableString.swift; sourceTree = "<group>"; };
 		3B67AA6B248C9F4C00361DCA /* DemoControl_TextAlignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControl_TextAlignment.swift; sourceTree = "<group>"; };
 		3B67AA6D248C9FA700361DCA /* DemoControl_ObservableControlledByTextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControl_ObservableControlledByTextInput.swift; sourceTree = "<group>"; };
+		3B67AA6F248CBBB100361DCA /* Chapter_ViewDemoing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_ViewDemoing.swift; sourceTree = "<group>"; };
 		3B687616247DCA31005F2FBA /* ObservableEvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableEvaluatorAction.swift; sourceTree = "<group>"; };
 		3B687619247DE165005F2FBA /* Chapter_Introduction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_Introduction.swift; sourceTree = "<group>"; };
 		3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_WhyPoet.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				3B687631247E32A4005F2FBA /* Chapter_ProtocolOrientedTranslating.swift */,
 				3B68762F247DE4EE005F2FBA /* Chapter_RetailDemo.swift */,
 				3B68762D247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift */,
+				3B67AA6F248CBBB100361DCA /* Chapter_ViewDemoing.swift */,
 			);
 			path = Chapters;
 			sourceTree = "<group>";
@@ -1094,6 +1097,7 @@
 				DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */,
 				3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */,
 				DC4C6C6B2476D02B0014A34C /* TableOfContentsView.swift in Sources */,
+				3B67AA70248CBBB100361DCA /* Chapter_ViewDemoing.swift in Sources */,
 				87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */,
 				DC4C6C80247984120014A34C /* ArrayExtensions.swift in Sources */,
 				DC00E229247D984900A9F503 /* TextFile.swift in Sources */,

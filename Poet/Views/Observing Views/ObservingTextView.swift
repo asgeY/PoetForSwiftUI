@@ -29,7 +29,7 @@ struct ObservingTextView: View, ViewDemoing {
             
             Text(text.string)
                 .kerning(kerning)
-                .multilineTextAlignment(alignment ?? .center)
+                .multilineTextAlignment(alignment ?? .leading)
             
             if alignment == .leading || alignment == .center {
                 Spacer()

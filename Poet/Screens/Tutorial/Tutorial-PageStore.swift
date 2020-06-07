@@ -27,7 +27,8 @@ extension Tutorial {
             chapter_PassableState,
             chapter_AsynchronousWork,
             chapter_RetailDemo,
-            chapter_ANoteOnCombine
+            chapter_ANoteOnCombine,
+            chapter_ViewDemoing
         ]
     }
 }

@@ -240,6 +240,7 @@ extension Tutorial.Evaluator: ActionEvaluating {
         case showHelloData
         case showRetailDemo
         case showLoginDemo
+        case showViewDemoList
         
         var name: String {
             switch self {
@@ -265,6 +266,8 @@ extension Tutorial.Evaluator: ActionEvaluating {
                 return "Retail Demo"
             case .showLoginDemo:
                 return "Login Demo"
+            case .showViewDemoList:
+                return "View Demo List"
             default:
                 return ""
             }
@@ -341,6 +344,9 @@ extension Tutorial.Evaluator: ActionEvaluating {
         case .showBezel:
             let emojis = ["🐥", "🦈", "🐄", "🐟", "🐙", "🦕", "🦉", "🐯", "🐢", "🐘", "🦔", "🐆", "🐛", "🐌", "🐞", "🐴", "👨🏻‍💻"]
             translator.showBezel(text: emojis.randomElement() ?? "", textSize: .big)
+            
+        case .showViewDemoList:
+            translator.showViewDemoList.please()
         }
     }
 }

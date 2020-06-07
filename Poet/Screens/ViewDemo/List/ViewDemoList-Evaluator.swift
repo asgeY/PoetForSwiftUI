@@ -45,7 +45,8 @@ extension ViewDemoList.Evaluator {
             demoProviders: [
                 ObservingTextView.namedDemoProvider,
                 OptionsView.namedDemoProvider,
-                ProductView.namedDemoProvider
+                ProductView.namedDemoProvider,
+                DisplayableProductsView.namedDemoProvider
             ]
         )
         current.step = .list(configuration)

@@ -27,16 +27,16 @@ struct DemoContainerView<Content, Panel>: View where Content: View, Panel: View 
                             Spacer().frame(width: 20)
                             self.content()
                                 .background(Color.white)
-                                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
+                                .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
                             Spacer().frame(width: 20)
                         }
                         Spacer().frame(height: 20)
                     }.background(
                         ZStack {
-                            Color(UIColor(white: 0.92, alpha: 0.9))
-                            Image("diagonalpattern_half")
+                            Color(UIColor(white: 0.94, alpha: 0.9))
+                            Image("diagonalpattern_third")
                                 .resizable(resizingMode: .tile)
-                                .opacity(0.08)
+                                .opacity(0.1)
                         }
                     )
                     

@@ -62,7 +62,7 @@ struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
                             Product(
                                 title: title,
                                 upc: upc,
-                                image: "airJordan",
+                                image: "airJordan1Mid-red",
                                 location: location
                             )
                         )

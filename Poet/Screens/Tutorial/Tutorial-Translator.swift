@@ -49,6 +49,7 @@ extension Tutorial {
         var showHelloData = PassablePlease()
         var showRetailDemo = PassablePlease()
         var showLoginDemo = PassablePlease()
+        var showViewDemoList = PassablePlease()
         var showAlert = PassableAlert()
         
         // Actions

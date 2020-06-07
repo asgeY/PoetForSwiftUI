@@ -8,9 +8,11 @@
 
 import SwiftUI
 
-struct DisplayableProductsView: View {
+struct DisplayableProductsView: View, ViewDemoing {
     @ObservedObject var displayableProducts: ObservableArray<Retail.Translator.DisplayableProduct>
     let evaluator: FindingProductsEvaluating
+    
+    static var demoProvider: DemoProvider = DisplayableProductsView_DemoProvider()
     
     var body: some View {
         return VStack(alignment: .leading, spacing: 40) {
@@ -29,5 +31,64 @@ struct DisplayableProductsView: View {
             }
             Spacer()
         }
+    }
+}
+
+struct DisplayableProductsView_DemoProvider: DemoProvider, FindingProductsEvaluating {
+    typealias DisplayableProduct = Retail.Translator.DisplayableProduct
+    @ObservedObject var displayableProducts = ObservableArray<DisplayableProduct>([
+        DisplayableProduct(
+            product: Product(
+                title: "Air Jordan 1 Mid",
+                upc: "123678098543",
+                image: "airJordan1Mid-red",
+                location: "Bin 1"),
+            findableProduct: nil),
+        
+        DisplayableProduct(
+        product: Product(
+            title: "Air Jordan 1 Mid",
+            upc: "2468098753120",
+            image: "airJordan1Mid-green",
+            location: "Bin 2"),
+        findableProduct: nil),
+        
+        DisplayableProduct(
+        product: Product(
+            title: "Air Jordan 1 Mid",
+            upc: "642798530951",
+            image: "airJordan1Mid-blue",
+            location: "Bin 3"),
+        findableProduct: nil)
+    ])
+    
+    var contentView: AnyView {
+        return AnyView(
+            DisplayableProductsView(
+                displayableProducts: displayableProducts,
+                evaluator: self)
+        )
+    }
+    
+    var controls: [DemoControl] {
+        return [
+            /*
+            DemoControl(
+                title: "Number of products",
+                instructions: "Type a positive number.") {
+                    AnyView(
+                        //
+                    )
+            }
+             */
+        ]
+    }
+    
+    func toggleProductFound(_ product: FindableProduct) {
+        //
+    }
+    
+    func toggleProductNotFound(_ product: FindableProduct) {
+        //
     }
 }

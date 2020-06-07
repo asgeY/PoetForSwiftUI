@@ -61,6 +61,13 @@ struct PreviewListView: View {
                 .padding(.top, 22)
                 .padding(.bottom, 20)
             
+            Text("Choose a view to see its demo.")
+                .font(Font.body)
+                .foregroundColor(Color.primary.opacity(0.43))
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(EdgeInsets(top: 0, leading: 30, bottom: 22, trailing: 30))
+            
             VStack(alignment: .leading, spacing: 20) {
                 ForEach(self.demoProviders.array, id: \.id) { provider in
                     Button(action: {

@@ -267,6 +267,11 @@ extension Tutorial {
                         Presenter(self.translator.showLoginDemo) {
                             Login.Screen()
                         }
+                        
+                        // MARK: View Demoing
+                        Presenter(self.translator.showViewDemoList) {
+                            ViewDemoList.Screen()
+                        }
                     }
                     
                     // MARK: Alert
