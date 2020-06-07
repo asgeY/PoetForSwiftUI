@@ -55,19 +55,15 @@ struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
     
     var contentView: AnyView {
         return AnyView(
-            Observer(observable: self.title) { title in
-                Observer(observable: self.upc) { upc in
-                    Observer(observable: self.location) { location in
-                        ProductView(product:
-                            Product(
-                                title: title,
-                                upc: upc,
-                                image: "airJordan1Mid-red",
-                                location: location
-                            )
-                        )
-                    }
-                }
+            Observer3(observableA: self.title, observableB: self.upc, observableC: self.location) { title, upc, location in
+                ProductView(product:
+                    Product(
+                        title: title,
+                        upc: upc,
+                        image: "airJordan1Mid-red",
+                        location: location
+                    )
+                )
             }
         )
     }

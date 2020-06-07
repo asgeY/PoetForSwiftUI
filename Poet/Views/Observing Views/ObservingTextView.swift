@@ -68,14 +68,13 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
     
     var contentView: AnyView {
         AnyView(
-            Observer(observable: self.alignment) { observedAlignment in
-            Observer(observable: self.kerning) { observedKerning in
+            Observer2(observableA: self.alignment, observableB: self.kerning) { alignment, kerning in
                 ObservingTextView(
                     self.text,
-                    alignment: observedAlignment,
-                    kerning: observedKerning
+                    alignment: alignment,
+                    kerning: kerning
                 )
-            }}
+            }
         )
     }
     
