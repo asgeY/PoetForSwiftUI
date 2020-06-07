@@ -275,7 +275,7 @@ extension Retail.Evaluator: ActionEvaluating {
 
 // MARK: Finding Products Evaluator
 
-extension Retail.Evaluator: FindingProductsEvaluator {
+extension Retail.Evaluator: FindingProductsEvaluating {
     func toggleProductFound(_ product: FindableProduct) {
         guard case let Step.findProducts(configuration) = current.step else { return }
         
@@ -354,7 +354,7 @@ extension Retail.Evaluator: FindingProductsEvaluator {
 
 // MARK: Options Evaluator
 
-extension Retail.Evaluator: OptionsEvaluator {
+extension Retail.Evaluator: OptionsEvaluating {
     func toggleOption(_ option: String) {
         guard case var Step.chooseDeliveryLocation(configuration) = current.step else { return }
         

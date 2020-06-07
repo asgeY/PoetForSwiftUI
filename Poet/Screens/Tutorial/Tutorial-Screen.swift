@@ -126,9 +126,8 @@ extension Tutorial {
                                                                 .multilineTextAlignment(.leading)
                                                                 .foregroundColor(Color.primary.opacity(0.85))
                                                             Spacer().frame(height:8)
-                                                            ObservingTextView(self.translator.nextChapterTitle)
+                                                            ObservingTextView(self.translator.nextChapterTitle, alignment: .leading)
                                                                 .font(FontSystem.largeTitle)
-                                                                .multilineTextAlignment(.leading)
                                                                 .foregroundColor(Color.primary.opacity(0.95))
                                                         }
                                                         Spacer().frame(width:20)
@@ -196,14 +195,10 @@ extension Tutorial {
                 
                 VStack(alignment: .trailing) {
                     Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) {
-                        HStack {
-                            Spacer()
-                            ObservingTextView(self.translator.chapterTitle)
-                                .font(Font.subheadline.smallCaps())
-                                .foregroundColor(Color.primary)
-                            Spacer()
-                        }
-                        .frame(height: 40)
+                        ObservingTextView(self.translator.chapterTitle, alignment: .center)
+                            .font(Font.subheadline.smallCaps())
+                            .foregroundColor(Color.primary)
+                            .frame(height: 40)
                     }
                     Spacer()
                 }

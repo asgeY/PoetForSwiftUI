@@ -66,17 +66,24 @@ extension HelloData {
                             VStack {
                                 Spacer().frame(height: 16)
                                 HStack(spacing: 20) {
+                                    
+                                    // Albums button
+                                    
                                     Button(action: {
                                         self.evaluator.evaluate(Action.loadMusic(.albums))
                                     }) {
                                         Image(systemName: "rectangle.stack")
                                     }
                                     
+                                    // Hot Tracks button
+                                    
                                     Button(action: {
                                         self.evaluator.evaluate(Action.loadMusic(.hotTracks))
                                     }) {
                                         Image(systemName: "flame")
                                     }
+                                    
+                                    // New Releases button
                                     
                                     Button(action: {
                                         self.evaluator.evaluate(Action.loadMusic(.newReleases))

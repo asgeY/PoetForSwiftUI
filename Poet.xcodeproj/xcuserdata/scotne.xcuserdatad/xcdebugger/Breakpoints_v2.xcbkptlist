@@ -27,7 +27,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "314"
             endingLineNumber = "314"
-            landmarkName = "updateFindableProduct(_:on:)"
+            landmarkName = "toggleProductNotFound(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

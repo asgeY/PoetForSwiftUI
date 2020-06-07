@@ -14,7 +14,7 @@ extension HelloData {
         
         // Translator
         lazy var translator: Translator = Translator(current)
-        var performer: MusicPerforming = Performer()
+        var performer: MusicPerforming = HelloData.Performer()
         
         // Current Step
         var current = PassableStep(Step.initial)
@@ -104,7 +104,7 @@ extension HelloData.Evaluator: ActionEvaluating {
     
     private func loadMusic(musicType: MusicType) {
         
-        self.translator.busy.isTrue()
+        translator.busy.isTrue()
         
         let publisher: AnyPublisher<MusicFeedWrapper, NetworkingError>? = {
             switch musicType {

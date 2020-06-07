@@ -82,10 +82,12 @@ extension HelloData {
         
         func loadMusic(_ musicType: HelloData.Evaluator.MusicType) -> AnyPublisher<MusicFeedWrapper, NetworkingError>? {
             switch musicType {
+                
             case .albums:
                 if let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/top-albums/all/10/explicit.json") {
                     return loadMusic(url: url)
                 }
+                
             case .hotTracks:
                 if let url = URL(string: "https://rss.itunes.apple.com/api/v1/us/apple-music/hot-tracks/all/10/explicit.json") {
                     return loadMusic(url: url)
@@ -113,5 +115,25 @@ extension HelloData {
                 .eraseToAnyPublisher()
                 .validateResponseAndDecode(type: MusicFeedWrapper.self)
         }
+    }
+}
+
+protocol GeneralPerforming {
+    func load<T: Decodable>(url: URL, resultType: T.Type) -> AnyPublisher<T, NetworkingError>?
+}
+
+class GeneralPerformer: GeneralPerforming {
+    func load<T: Decodable>(url: URL, resultType: T.Type) -> AnyPublisher<T, NetworkingError>? {
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.timeoutInterval = 20
+        
+        let publisher = URLSession.shared.dataTaskPublisher(for: request)
+        return publisher
+            .delay(for: .seconds(1), scheduler: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
+            .retry(2)
+            .eraseToAnyPublisher()
+            .validateResponseAndDecode(type: resultType.self)
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct DisplayableProductsView: View {
     @ObservedObject var displayableProducts: ObservableArray<Retail.Translator.DisplayableProduct>
-    let evaluator: FindingProductsEvaluator
+    let evaluator: FindingProductsEvaluating
     
     var body: some View {
         return VStack(alignment: .leading, spacing: 40) {

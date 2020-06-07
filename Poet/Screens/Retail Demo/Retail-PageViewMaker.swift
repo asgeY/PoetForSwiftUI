@@ -9,20 +9,20 @@
 import Combine
 import SwiftUI
 
-protocol FindingProductsEvaluator: class {
+protocol FindingProductsEvaluating {
     func toggleProductFound(_ product: FindableProduct)
     func toggleProductNotFound(_ product: FindableProduct)
 }
 
-protocol OptionsEvaluator: class {
+protocol OptionsEvaluating {
     func toggleOption(_ option: String)
 }
 
 extension Retail {
     struct ViewMaker: ObservingPageView_ViewMaker {
         
-        let findingProductsEvaluator: FindingProductsEvaluator
-        let optionsEvaluator: OptionsEvaluator
+        let findingProductsEvaluator: FindingProductsEvaluating
+        let optionsEvaluator: OptionsEvaluating
         
         // Fade state
         let fadeDeliveryOptions = ObservableBool()

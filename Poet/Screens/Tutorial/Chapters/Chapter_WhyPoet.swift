@@ -1,5 +1,5 @@
 //
-//  Chapter02_WhyPoet.swift
+//  Chapter_WhyPoet.swift
 //  Poet
 //
 //  Created by Steve Cotner on 5/26/20.

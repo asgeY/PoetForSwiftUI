@@ -29,7 +29,7 @@ extension Template {
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.top, 22)
 
-                    ObservingTextView(translator.body)
+                    ObservingTextView(translator.body, alignment: .leading)
                         .font(Font.body)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(EdgeInsets(top: 30, leading: 50, bottom: 50, trailing: 50))

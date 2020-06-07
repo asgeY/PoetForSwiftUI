@@ -8,10 +8,11 @@
 
 import SwiftUI
 
-struct OptionsView: View {
+struct OptionsView: View, ViewDemoing {
     @ObservedObject var options: ObservableArray<String>
     @ObservedObject var preference: ObservableString
-    weak var evaluator: OptionsEvaluator?
+    let evaluator: OptionsEvaluating
+    static var demoProvider: DemoProvider { return OptionsView_DemoProvider() }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -28,7 +29,7 @@ struct OptionsView: View {
 struct OptionView: View {
     let option: String
     let preference: String
-    weak var evaluator: OptionsEvaluator?
+    let evaluator: OptionsEvaluating
     
     var body: some View {
         let isSelected = self.option == self.preference
@@ -43,10 +44,64 @@ struct OptionView: View {
             Text(self.option)
                 .font(Font.headline)
                 .layoutPriority(20)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(EdgeInsets(top: 0, leading: 76, bottom: 0, trailing: 76))
         }
         .onTapGesture {
-            self.evaluator?.toggleOption(self.option)
+            self.evaluator.toggleOption(self.option)
+        }
+    }
+}
+
+struct OptionsView_DemoProvider: DemoProvider, OptionsEvaluating, TextFieldEvaluating {
+    var text = ObservableString()
+    var options = ObservableArray<String>(["OptionA", "OptionB"])
+    var preference = ObservableString()
+    
+    enum Element: EvaluatorElement {
+        case optionsTextField
+    }
+    
+    var contentView: AnyView {
+        return AnyView(
+            OptionsView(
+                options: self.options,
+                preference: self.preference,
+                evaluator: self)
+        )
+    }
+    
+    var controls: [DemoControl] {
+        [
+            DemoControl(
+                title: "Options",
+                instructions: "Type words separated by semicolons to add options.",
+                viewMaker: {
+                    AnyView(
+                        DemoControl_ObservableString(
+                            observable: self.text,
+                            evaluator: self,
+                            elementName: Element.optionsTextField)
+                    )
+                })
+        ]
+    }
+    
+    func toggleOption(_ option: String) {
+        if preference.string == option {
+            preference.string = ""
+        } else {
+            preference.string = option
+        }
+    }
+    
+    func textFieldDidChange(text: String, elementName: EvaluatorElement) {
+        self.text.string = text
+        let splitText = text.split(separator: ";").map { String($0) }
+        if splitText.isEmpty {
+            self.options.array = [" "]
+        } else {
+            self.options.array = splitText
         }
     }
 }

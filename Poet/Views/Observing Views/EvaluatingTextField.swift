@@ -9,7 +9,7 @@
 import Combine
 import SwiftUI
 
-protocol TextFieldEvaluating: class {
+protocol TextFieldEvaluating {
     func textFieldDidChange(text: String, elementName: EvaluatorElement)
 }
 
@@ -20,11 +20,12 @@ struct EvaluatingTextField: View {
     var shouldShowValidation: Bool = false
     let elementName: EvaluatorElement
     let isSecure: Bool
+    let input: Input
     @State var fieldText = ObservableString()
     let evaluator: TextFieldEvaluating
     
     @State var validationSink: AnyCancellable?
-    private var passableText: PassableString
+    private var passableText: PassableString = PassableString()
     
     @State private var storedText: String = ""
     @State private var validationImageName: String = "checkmark.circle"
@@ -32,12 +33,20 @@ struct EvaluatingTextField: View {
     @State private var shouldShowValidationMessage = false
     @State private var shouldShowValidationMark = false
     
-    init(placeholder: String, elementName: EvaluatorElement, isSecure: Bool, evaluator: TextFieldEvaluating, validation: ObservableValidation? = nil, passableText: PassableString? = nil) {
+    enum Input {
+        case text
+        case number
+    }
+    
+    init(placeholder: String, elementName: EvaluatorElement, isSecure: Bool, input: Input = .text, evaluator: TextFieldEvaluating, validation: ObservableValidation? = nil, passableText: PassableString? = nil) {
         self.placeholder = placeholder
         self.elementName = elementName
         self.isSecure = isSecure
+        self.input = input
         self.evaluator = evaluator
-        self.passableText = passableText ?? PassableString()
+        if let passableText = passableText {
+            self.passableText = passableText
+        }
         
         if let validation = validation {
             self.isValid = validation.isValid
@@ -49,7 +58,10 @@ struct EvaluatingTextField: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
-                textField(isSecure: isSecure)
+                HStack(spacing: 10) {
+                    textField(isSecure: isSecure, input: input)
+                    TextFieldClearButton(text: self.fieldText, passableText: self.passableText)
+                }
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     .background(
                         RoundedRectangle(cornerRadius: 10)
@@ -103,14 +115,14 @@ struct EvaluatingTextField: View {
         .onReceive(fieldText.objectDidChange) {
             if self.fieldText.string == self.storedText { return }
             self.storedText = self.fieldText.string
-            
+
             self.validationSink = self.isValid.$bool.debounce(for: 0.35, scheduler: DispatchQueue.main).sink { (value) in
                 if self.fieldText.string.isEmpty {
                     self.shouldShowValidationMessage = false
                     self.shouldShowValidationMark = false
                     return
                 }
-                self.validationImageName = (value == true ? "checkmark.circle" : "xmark.circle")
+                self.validationImageName = (value == true ? "checkmark.circle" : "exclamationmark.circle")
                 self.validationImageColor = (value == true ? Color(UIColor.systemGreen) : Color(UIColor.systemRed))
                 self.shouldShowValidationMark = true
                 self.shouldShowValidationMessage = (value == false)
@@ -124,20 +136,57 @@ struct EvaluatingTextField: View {
         }
     }
     
-    func textField(isSecure: Bool) -> AnyView {
+    func textField(isSecure: Bool, input: Input) -> AnyView {
         switch isSecure {
         case true:
             return AnyView(
                 SecureField(placeholder, text: self.$fieldText.string)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
+                    .keyboardType(
+                        {
+                            switch input {
+                            case .number:
+                                return .decimalPad
+                            case .text:
+                                return .default
+                            }
+                        }()
+                )
             )
         case false:
             return AnyView(
                 TextField(placeholder, text: self.$fieldText.string)
                     .autocapitalization(.none)
                     .disableAutocorrection(true)
+                    .keyboardType(
+                        {
+                            switch input {
+                            case .number:
+                                return .asciiCapableNumberPad
+                            case .text:
+                                return .default
+                        }
+                    }()
+                )
             )
+        }
+    }
+}
+
+struct TextFieldClearButton: View {
+    @ObservedObject var text: ObservableString
+    var passableText: PassableString
+    
+    var body: some View {
+        Button(action: {
+            self.passableText.string = ""
+        }) {
+            Image(systemName: "multiply.circle.fill")
+                .resizable()
+                .frame(width: 14, height: 14)
+                .opacity((text.string.isEmpty) ? 0 : 0.3)
+                .foregroundColor(.primary)
         }
     }
 }

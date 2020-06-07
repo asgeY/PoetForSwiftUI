@@ -10,7 +10,7 @@ import SwiftUI
 
 struct FoundNotFoundButtonsView: View {
     let findableProduct: FindableProduct
-    let evaluator: FindingProductsEvaluator
+    let evaluator: FindingProductsEvaluating
     
     var body: some View {
         let isFound = findableProduct.status == .found

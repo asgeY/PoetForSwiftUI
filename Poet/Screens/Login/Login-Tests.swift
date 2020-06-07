@@ -16,15 +16,17 @@ class Login_Tests: XCTestCase {
     var screen: Login.Screen?
     var evaluator: Login.Evaluator?
     var translator: Login.Translator?
-
-    override func setUpWithError() throws {
+    
+    override func setUpWithError() throws { // <-- new xcode
+    // override func setUp() { // <-- old xcode
         // Put setup code here. This method is called before the invocation of each test method in the class.
         screen = Login.Screen()
         evaluator = screen?.evaluator
         translator = screen?.translator
     }
 
-    override func tearDownWithError() throws {
+    override func tearDownWithError() throws { // <-- new xcode
+    // override func tearDown() { // <-- old xcode
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 

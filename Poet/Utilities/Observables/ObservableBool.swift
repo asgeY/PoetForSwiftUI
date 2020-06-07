@@ -9,7 +9,13 @@
 import Combine
 
 class ObservableBool: ObservableObject, Equatable {
-    @Published var bool: Bool
+    let objectDidChange = ObservableObjectPublisher()
+    
+    @Published var bool: Bool {
+        didSet {
+            objectDidChange.send()
+        }
+    }
     
     static func == (lhs: ObservableBool, rhs: ObservableBool) -> Bool {
         return lhs.bool == rhs.bool

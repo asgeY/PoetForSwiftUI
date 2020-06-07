@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E8D392462A9CD005D033C /* AfterWait.swift */; };
+		3B67AA5B248C9C4B00361DCA /* ViewDemoing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA5A248C9C4B00361DCA /* ViewDemoing.swift */; };
+		3B67AA5D248C9C6F00361DCA /* DemoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA5C248C9C6F00361DCA /* DemoProvider.swift */; };
+		3B67AA5F248C9CE400361DCA /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA5E248C9CE400361DCA /* Observer.swift */; };
+		3B67AA61248C9E3000361DCA /* DemoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA60248C9E3000361DCA /* DemoContainerView.swift */; };
+		3B67AA63248C9EAC00361DCA /* DemoControlPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA62248C9EAC00361DCA /* DemoControlPanelView.swift */; };
+		3B67AA65248C9EE000361DCA /* KeyboardPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA64248C9EE000361DCA /* KeyboardPadding.swift */; };
+		3B67AA67248C9F0100361DCA /* DemoControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA66248C9F0100361DCA /* DemoControl.swift */; };
+		3B67AA6A248C9F4000361DCA /* DemoControl_ObservableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA69248C9F4000361DCA /* DemoControl_ObservableString.swift */; };
+		3B67AA6C248C9F4C00361DCA /* DemoControl_TextAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA6B248C9F4C00361DCA /* DemoControl_TextAlignment.swift */; };
+		3B67AA6E248C9FA700361DCA /* DemoControl_ObservableControlledByTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA6D248C9FA700361DCA /* DemoControl_ObservableControlledByTextInput.swift */; };
 		3B687617247DCA31005F2FBA /* ObservableEvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687616247DCA31005F2FBA /* ObservableEvaluatorAction.swift */; };
 		3B68761A247DE165005F2FBA /* Chapter_Introduction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B687619247DE165005F2FBA /* Chapter_Introduction.swift */; };
 		3B68761C247DE256005F2FBA /* Chapter_WhyPoet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */; };
@@ -32,6 +42,10 @@
 		3B72549F2480702100E27551 /* Login-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72549B24806FDB00E27551 /* Login-Translator.swift */; };
 		3B7254A124808AE300E27551 /* EvaluatorElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7254A024808AE300E27551 /* EvaluatorElement.swift */; };
 		3B7254A324808B0F00E27551 /* EvaluatingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7254A224808B0F00E27551 /* EvaluatingTextField.swift */; };
+		3BC27FF2248A94E6001DDBD4 /* ViewDemoList-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC27FF0248A94E1001DDBD4 /* ViewDemoList-Screen.swift */; };
+		3BC27FF3248A94E6001DDBD4 /* ViewDemoList-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC27FF1248A94E1001DDBD4 /* ViewDemoList-Evaluator.swift */; };
+		3BC27FF4248A94E6001DDBD4 /* ViewDemoList-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC27FEF248A94E1001DDBD4 /* ViewDemoList-Translator.swift */; };
+		3BC27FF5248A951A001DDBD4 /* ViewDemoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC27FEC248A94B6001DDBD4 /* ViewDemoDetailView.swift */; };
 		3BF6691C2477CFAA00AE055C /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691B2477CFAA00AE055C /* Device.swift */; };
 		3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691D2477D1F700AE055C /* FontSystem.swift */; };
 		3BF669232478014400AE055C /* Template-Evaluator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BF669202477FF5500AE055C /* Template-Evaluator.txt */; };
@@ -166,6 +180,16 @@
 
 /* Begin PBXFileReference section */
 		3B1E8D392462A9CD005D033C /* AfterWait.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterWait.swift; sourceTree = "<group>"; };
+		3B67AA5A248C9C4B00361DCA /* ViewDemoing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDemoing.swift; sourceTree = "<group>"; };
+		3B67AA5C248C9C6F00361DCA /* DemoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoProvider.swift; sourceTree = "<group>"; };
+		3B67AA5E248C9CE400361DCA /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
+		3B67AA60248C9E3000361DCA /* DemoContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoContainerView.swift; sourceTree = "<group>"; };
+		3B67AA62248C9EAC00361DCA /* DemoControlPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlPanelView.swift; sourceTree = "<group>"; };
+		3B67AA64248C9EE000361DCA /* KeyboardPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPadding.swift; sourceTree = "<group>"; };
+		3B67AA66248C9F0100361DCA /* DemoControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControl.swift; sourceTree = "<group>"; };
+		3B67AA69248C9F4000361DCA /* DemoControl_ObservableString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControl_ObservableString.swift; sourceTree = "<group>"; };
+		3B67AA6B248C9F4C00361DCA /* DemoControl_TextAlignment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControl_TextAlignment.swift; sourceTree = "<group>"; };
+		3B67AA6D248C9FA700361DCA /* DemoControl_ObservableControlledByTextInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControl_ObservableControlledByTextInput.swift; sourceTree = "<group>"; };
 		3B687616247DCA31005F2FBA /* ObservableEvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableEvaluatorAction.swift; sourceTree = "<group>"; };
 		3B687619247DE165005F2FBA /* Chapter_Introduction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_Introduction.swift; sourceTree = "<group>"; };
 		3B68761B247DE256005F2FBA /* Chapter_WhyPoet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_WhyPoet.swift; sourceTree = "<group>"; };
@@ -190,6 +214,10 @@
 		3B72549B24806FDB00E27551 /* Login-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Login-Translator.swift"; sourceTree = "<group>"; };
 		3B7254A024808AE300E27551 /* EvaluatorElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorElement.swift; sourceTree = "<group>"; };
 		3B7254A224808B0F00E27551 /* EvaluatingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatingTextField.swift; sourceTree = "<group>"; };
+		3BC27FEC248A94B6001DDBD4 /* ViewDemoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDemoDetailView.swift; sourceTree = "<group>"; };
+		3BC27FEF248A94E1001DDBD4 /* ViewDemoList-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewDemoList-Translator.swift"; sourceTree = "<group>"; };
+		3BC27FF0248A94E1001DDBD4 /* ViewDemoList-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewDemoList-Screen.swift"; sourceTree = "<group>"; };
+		3BC27FF1248A94E1001DDBD4 /* ViewDemoList-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewDemoList-Evaluator.swift"; sourceTree = "<group>"; };
 		3BF6691B2477CFAA00AE055C /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		3BF6691D2477D1F700AE055C /* FontSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSystem.swift; sourceTree = "<group>"; };
 		3BF669202477FF5500AE055C /* Template-Evaluator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Template-Evaluator.txt"; sourceTree = "<group>"; };
@@ -334,6 +362,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B67AA68248C9F2400361DCA /* Demo Controls */ = {
+			isa = PBXGroup;
+			children = (
+				3B67AA66248C9F0100361DCA /* DemoControl.swift */,
+				3B67AA69248C9F4000361DCA /* DemoControl_ObservableString.swift */,
+				3B67AA6B248C9F4C00361DCA /* DemoControl_TextAlignment.swift */,
+				3B67AA6D248C9FA700361DCA /* DemoControl_ObservableControlledByTextInput.swift */,
+			);
+			name = "Demo Controls";
+			sourceTree = "<group>";
+		};
 		3B687618247DE13B005F2FBA /* Chapters */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +412,46 @@
 				DC00E23724822F7C00A9F503 /* Login-MockPerformer.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		3BC27FE3248A93F2001DDBD4 /* ViewDemo */ = {
+			isa = PBXGroup;
+			children = (
+				3BC27FF8248A957F001DDBD4 /* ViewDemo Types */,
+				3BC27FEA248A947B001DDBD4 /* List */,
+				3BC27FEB248A948B001DDBD4 /* Detail */,
+			);
+			path = ViewDemo;
+			sourceTree = "<group>";
+		};
+		3BC27FEA248A947B001DDBD4 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				3BC27FF0248A94E1001DDBD4 /* ViewDemoList-Screen.swift */,
+				3BC27FF1248A94E1001DDBD4 /* ViewDemoList-Evaluator.swift */,
+				3BC27FEF248A94E1001DDBD4 /* ViewDemoList-Translator.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		3BC27FEB248A948B001DDBD4 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				3BC27FEC248A94B6001DDBD4 /* ViewDemoDetailView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		3BC27FF8248A957F001DDBD4 /* ViewDemo Types */ = {
+			isa = PBXGroup;
+			children = (
+				3B67AA5A248C9C4B00361DCA /* ViewDemoing.swift */,
+				3B67AA5C248C9C6F00361DCA /* DemoProvider.swift */,
+				3B67AA60248C9E3000361DCA /* DemoContainerView.swift */,
+				3B67AA62248C9EAC00361DCA /* DemoControlPanelView.swift */,
+				3B67AA68248C9F2400361DCA /* Demo Controls */,
+			);
+			path = "ViewDemo Types";
 			sourceTree = "<group>";
 		};
 		3BF6692624781A0100AE055C /* Passables */ = {
@@ -467,6 +546,7 @@
 		875562EA244D13F700DB49C4 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				3BC27FE3248A93F2001DDBD4 /* ViewDemo */,
 				87AC82752453B94C0090E443 /* Menu */,
 				87D299D32455162A003959C3 /* About */,
 				DC4C1111245DEDE5009BC14D /* Tutorial */,
@@ -657,6 +737,7 @@
 				DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */,
 				3B687633247ECCF0005F2FBA /* AlertPresenter.swift */,
 				DC00E2352482188900A9F503 /* BusyPresenter.swift */,
+				3B67AA5E248C9CE400361DCA /* Observer.swift */,
 			);
 			path = "Wrapper Views";
 			sourceTree = "<group>";
@@ -734,6 +815,7 @@
 				878B3A462453472300ACADE4 /* BezelView.swift */,
 				DC4C6C772476D3DA0014A34C /* DismissButton.swift */,
 				DC4C6C572476C8590014A34C /* DismissReceiver.swift */,
+				3B67AA64248C9EE000361DCA /* KeyboardPadding.swift */,
 			);
 			path = "Helper Views";
 			sourceTree = "<group>";
@@ -895,11 +977,13 @@
 				DC4C6C502476C6A80014A34C /* SelectableCapsuleButton.swift in Sources */,
 				DC4C6C632476CDC40014A34C /* Hideable.swift in Sources */,
 				3BF6692824781A0F00AE055C /* PassableStep.swift in Sources */,
+				3BC27FF3248A94E6001DDBD4 /* ViewDemoList-Evaluator.swift in Sources */,
 				87E7E43924595CBD00047253 /* Retail-Screen.swift in Sources */,
 				3BF6693F247828CA00AE055C /* ObservableInt.swift in Sources */,
 				DC4C6C5F2476CC420014A34C /* TappableImage.swift in Sources */,
 				DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */,
 				875562ED244D144600DB49C4 /* ObservableString.swift in Sources */,
+				3B67AA6A248C9F4000361DCA /* DemoControl_ObservableString.swift in Sources */,
 				3B68762E247DE4E0005F2FBA /* Chapter_ANoteOnCombine.swift in Sources */,
 				3B687628247DE4BB005F2FBA /* Chapter_PassableState.swift in Sources */,
 				3B72549E2480702100E27551 /* Login-Evaluator.swift in Sources */,
@@ -912,14 +996,18 @@
 				3B687626247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift in Sources */,
 				87E7E43F2459637900047253 /* Retail-Translator.swift in Sources */,
 				87AC827A2453BB3C0090E443 /* Menu-Evaluator.swift in Sources */,
+				3B67AA6E248C9FA700361DCA /* DemoControl_ObservableControlledByTextInput.swift in Sources */,
 				DC4C1118245DEF9A009BC14D /* Template-Translator.swift in Sources */,
 				DC4C6C5D2476CC090014A34C /* CircularTabBar.swift in Sources */,
 				DC4C6C462471054E0014A34C /* ActionEvaluating.swift in Sources */,
+				3B67AA63248C9EAC00361DCA /* DemoControlPanelView.swift in Sources */,
 				3B687622247DE488005F2FBA /* Chapter_UpdatingBusinessState.swift in Sources */,
 				DC00E234248217A200A9F503 /* PassableBool.swift in Sources */,
 				DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */,
 				3B687617247DCA31005F2FBA /* ObservableEvaluatorAction.swift in Sources */,
+				3B67AA5D248C9C6F00361DCA /* DemoProvider.swift in Sources */,
 				875562F5244D5FDB00DB49C4 /* PassableInt.swift in Sources */,
+				3BC27FF4248A94E6001DDBD4 /* ViewDemoList-Translator.swift in Sources */,
 				DC00E22D2481D29500A9F503 /* ObservableValidation.swift in Sources */,
 				DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */,
 				3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */,
@@ -931,6 +1019,7 @@
 				3BF6693D247828B500AE055C /* ObservableDouble.swift in Sources */,
 				DC00E2322481FCB300A9F503 /* Login-Performer.swift in Sources */,
 				8794A5FA245C343400D41E4F /* Retail-PageViewMaker.swift in Sources */,
+				3B67AA61248C9E3000361DCA /* DemoContainerView.swift in Sources */,
 				3BF6694724782B3700AE055C /* Observable.swift in Sources */,
 				3B687634247ECCF0005F2FBA /* AlertPresenter.swift in Sources */,
 				DC00E22B2480CD0F00A9F503 /* ObservableNamedEnabledEvaluatorAction.swift in Sources */,
@@ -938,12 +1027,14 @@
 				875562B4244C253200DB49C4 /* AppDelegate.swift in Sources */,
 				DC31CC702479C9EC00002075 /* FileOfInterestButton.swift in Sources */,
 				DC4C111F245DFF21009BC14D /* Tutorial-Evaluator.swift in Sources */,
+				3B67AA65248C9EE000361DCA /* KeyboardPadding.swift in Sources */,
 				3B7254A324808B0F00E27551 /* EvaluatingTextField.swift in Sources */,
 				878B3A51245378E300ACADE4 /* AlertView.swift in Sources */,
 				8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */,
 				3B68761E247DE310005F2FBA /* Chapter_TheBasics.swift in Sources */,
 				8794A5FC245C9FF200D41E4F /* Menu-Data.swift in Sources */,
 				DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */,
+				3B67AA67248C9F0100361DCA /* DemoControl.swift in Sources */,
 				875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */,
 				3B68761A247DE165005F2FBA /* Chapter_Introduction.swift in Sources */,
 				DC656562246F08C80048A848 /* HelloSolarSystem-Evaluator.swift in Sources */,
@@ -955,6 +1046,8 @@
 				DC31CC7D247C383E00002075 /* HelloWorld-Evaluator.swift in Sources */,
 				87AC827F2454CDE90090E443 /* Behavior.swift in Sources */,
 				DC4C6C482476C5660014A34C /* InstructionView.swift in Sources */,
+				3BC27FF5248A951A001DDBD4 /* ViewDemoDetailView.swift in Sources */,
+				3B67AA5B248C9C4B00361DCA /* ViewDemoing.swift in Sources */,
 				87D299DF24561B9B003959C3 /* About-Data.swift in Sources */,
 				DC4C6C4E2476C5FC0014A34C /* FoundNotFoundButtonsView.swift in Sources */,
 				87E9E9AB246748D600CF2E1E /* Tutorial-PageStore.swift in Sources */,
@@ -964,6 +1057,7 @@
 				87E7E43D245961B400047253 /* Retail-Evaluator.swift in Sources */,
 				DC31CC722479CA2100002075 /* FileTrayButton.swift in Sources */,
 				DC00E24D2486AF8600A9F503 /* HelloData-Evaluator.swift in Sources */,
+				3B67AA5F248C9CE400361DCA /* Observer.swift in Sources */,
 				DC31CC6E2479C90400002075 /* PresenterWithPassedValue.swift in Sources */,
 				DC4C6C582476C8590014A34C /* DismissReceiver.swift in Sources */,
 				87D299E124561D4E003959C3 /* StaticPageViewMaker.swift in Sources */,
@@ -979,6 +1073,7 @@
 				3BF6692C24781A7100AE055C /* PassablePlease.swift in Sources */,
 				8794A604245CB98600D41E4F /* DismissReceiverExample-Translator.swift in Sources */,
 				DC4C6C652476CE620014A34C /* MainTitleView.swift in Sources */,
+				3BC27FF2248A94E6001DDBD4 /* ViewDemoList-Screen.swift in Sources */,
 				3B72548D247FF7ED00E27551 /* NamedEvaluatorAction.swift in Sources */,
 				DC4C6C7B2476D4AE0014A34C /* DismissTranslating.swift in Sources */,
 				DC4C6C5B2476CBAA0014A34C /* ObservingBottomButton.swift in Sources */,
@@ -986,6 +1081,7 @@
 				3B68761C247DE256005F2FBA /* Chapter_WhyPoet.swift in Sources */,
 				DC656564246F08D60048A848 /* HelloSolarSystem-Translator.swift in Sources */,
 				DC31CC7B247C381400002075 /* HelloWorld-Screen.swift in Sources */,
+				3B67AA6C248C9F4C00361DCA /* DemoControl_TextAlignment.swift in Sources */,
 				87D299D7245518C1003959C3 /* About-Evaluator.swift in Sources */,
 				878B3A4F245378CF00ACADE4 /* AlertTranslating.swift in Sources */,
 				3BF6692E24781A9F00AE055C /* PassableArray.swift in Sources */,

@@ -8,8 +8,9 @@
 
 import SwiftUI
 
-struct ProductView: View {
+struct ProductView: View, ViewDemoing {
     let product: Product
+    static var demoProvider: DemoProvider { return ProductView_DemoProvider() }
     
     var body: some View {
         return HStack {
@@ -35,6 +36,85 @@ struct ProductView: View {
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 40))
             .layoutPriority(10)
             Spacer()
+        }
+    }
+}
+
+struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
+    
+    @ObservedObject var title = Observable<String>("Air Jordan")
+    @ObservedObject var upc = Observable<String>("198430268490")
+    @ObservedObject var location = Observable<String>("Bin 1")
+    
+    
+    enum Element: EvaluatorElement {
+        case title
+        case upc
+        case location
+    }
+    
+    var contentView: AnyView {
+        return AnyView(
+            Observer(observable: self.title) { title in
+                Observer(observable: self.upc) { upc in
+                    Observer(observable: self.location) { location in
+                        ProductView(product:
+                            Product(
+                                title: title,
+                                upc: upc,
+                                image: "airJordan",
+                                location: location
+                            )
+                        )
+                    }
+                }
+            }
+        )
+    }
+    
+    var controls: [DemoControl] {
+        [
+            DemoControl(
+                title: "Title",
+                viewMaker: {
+                    AnyView(
+                        DemoControl_ObservableControlledByTextInput(
+                            observable: self.title,
+                            evaluator: self,
+                            elementName: Element.title,
+                            input: .text))}),
+            
+            DemoControl(
+                title: "Location",
+                viewMaker: {
+                    AnyView(
+                        DemoControl_ObservableControlledByTextInput(
+                            observable: self.location,
+                            evaluator: self,
+                            elementName: Element.location,
+                            input: .text))}),
+            
+            DemoControl(
+                title: "UPC",
+                viewMaker: {
+                    AnyView(
+                        DemoControl_ObservableControlledByTextInput(
+                            observable: self.upc,
+                            evaluator: self,
+                            elementName: Element.upc,
+                            input: .number))})
+        ]
+    }
+    
+    func textFieldDidChange(text: String, elementName: EvaluatorElement) {
+        guard let elementName = elementName as? Element else { return }
+        switch elementName {
+        case .title:
+            self.title.value = text
+        case .upc:
+            self.upc.value = text
+        case .location:
+            self.location.value = text
         }
     }
 }

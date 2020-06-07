@@ -8,30 +8,43 @@
 
 import SwiftUI
 
+protocol PresenterEvaluating {
+    func presenterDidDismiss(elementName: EvaluatorElement?)
+}
+
 struct PresenterWithPassedValue<PassedType, Content>: View where Content : View {
     let passable: Passable<PassedType>
+    let elementName: EvaluatorElement?
+    let evaluator: PresenterEvaluating?
     var content: (PassedType) -> Content
     
     @State var passedValue: PassedType?
-    @State var isShowing: Bool = false
+    @ObservedObject var isShowing = ObservableBool(false)
     
-    init(_ passable: Passable<PassedType>, @ViewBuilder content: @escaping (PassedType) -> Content) {
+    init(_ passable: Passable<PassedType>, elementName: EvaluatorElement? = nil, evaluator: PresenterEvaluating? = nil, @ViewBuilder content: @escaping (PassedType) -> Content) {
         self.passable = passable
+        self.elementName = elementName
+        self.evaluator = evaluator
         self.content = content
     }
     
     var body: some View {
         Spacer()
-            .sheet(isPresented: self.$isShowing) {
+            .sheet(isPresented: self.$isShowing.bool) {
                 if self.passedValue != nil {
                     self.content(self.passedValue!)
                 } else {
                     EmptyView()
                 }
             }
-            .onReceive(passable.subject) { value in
-                self.passedValue = value
-                self.isShowing = true
+        .onReceive(passable.subject) { value in
+            self.passedValue = value
+            self.isShowing.bool = true
+        }
+        .onReceive(isShowing.objectDidChange) {
+            if self.isShowing.bool == false {
+                self.evaluator?.presenterDidDismiss(elementName: self.elementName)
             }
+        }
     }
 }

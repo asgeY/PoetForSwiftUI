@@ -131,9 +131,11 @@ extension Login.Evaluator: TextFieldEvaluating {
         
         if let elementName = elementName as? Element {
             switch elementName {
+                
             case .usernameTextField:
                 configuration.enteredUsername = text
                 configuration.usernameValidation.validate(text: text)
+                
             case .passwordTextField:
                 configuration.enteredPassword = text
                 configuration.passwordValidation.validate(text: text)
