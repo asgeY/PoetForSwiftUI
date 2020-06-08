@@ -1,0 +1,33 @@
+ViewDemo - How to Use
+
+ViewDemoing
+
+To make a view able to be demoed, make it conform to ViewDemoing.
+This will require you to add a static property named demoProvider.
+Let the demoProvider property return a struct that conforms to DemoProvider. e.g.:
+
+static var demoProvider: DemoProvider { return MyView_DemoProvider() }
+
+---
+
+DemoProvider
+
+To implement a DemoProvider, provide two things:
+* a "contentView" (an instance of the view to be demoed)
+* an array of controls, which can adjust observable properties your contentView cares about.
+
+Your concrete DemoProvider struct can contain whatever observable properties it wants.
+The controls can modify their values, and the contentView can observe them.
+
+---
+
+How to show a view demo.
+
+To show a view demo, you should push on screen an instance of the ViewDemoDetail view.
+The ViewDemoList already does this.
+A ViewDemoDetail view needs to be handed an instance of NamedDemoProvider.
+NamedDemoProvider is a computer property on any view which conforms to ViewDemoing.
+NamedDemoProvider includes the DemoProvider you have created, along with an id and a name.
+The name is computed from the view's name.
+
+

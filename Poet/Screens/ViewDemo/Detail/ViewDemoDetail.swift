@@ -1,5 +1,5 @@
 //
-//  ViewDemoDetailView.swift
+//  ViewDemoDetail.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 5/2/20.
@@ -8,10 +8,9 @@
 
 import SwiftUI
 
-struct ViewDemoDetailView: View {
+struct ViewDemoDetail: View {
 
     let namedDemoProvider: NamedDemoProvider
-    @State var bindableText: String = ""
     
     init(namedDemoProvider: NamedDemoProvider) {
         self.namedDemoProvider = namedDemoProvider

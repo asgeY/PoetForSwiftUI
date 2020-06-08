@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+/// DemoContainerView contains both the "Content" (the view being demoed) and the "Control Panel"
 struct DemoContainerView<Content, Panel>: View where Content: View, Panel: View {
     var content: () -> Content
     var panel: () -> Panel

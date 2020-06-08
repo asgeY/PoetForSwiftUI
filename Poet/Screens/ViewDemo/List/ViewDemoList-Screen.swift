@@ -16,8 +16,6 @@ extension ViewDemoList {
         let evaluator: Evaluator
         let translator: Translator
         
-        @State var bindableText: String = ""
-        
         init() {
             evaluator = Evaluator()
             translator = evaluator.translator
@@ -25,7 +23,7 @@ extension ViewDemoList {
         
         var body: some View {
             return ZStack {
-                PreviewListView(demoProviders: translator.demoProviders, evaluator: evaluator)
+                ViewDemoListView(demoProviders: translator.demoProviders, evaluator: evaluator)
                 
                 VStack {
                     DismissButton(orientation: .right)
@@ -34,7 +32,7 @@ extension ViewDemoList {
                 
                 AnyView(
                     PresenterWithPassedValue(translator.showPreview, evaluator: evaluator) { provider in
-                        return ViewDemoDetailView(namedDemoProvider: provider)
+                        return ViewDemoDetail(namedDemoProvider: provider)
                     }
                 )
             }
@@ -49,7 +47,7 @@ enum DemoListAction: EvaluatorAction {
     case demoProviderSelected(NamedDemoProvider)
 }
 
-struct PreviewListView: View {
+struct ViewDemoListView: View {
     @ObservedObject var demoProviders: ObservableArray<NamedDemoProvider>
     let evaluator: ActionEvaluating
     
@@ -61,17 +59,41 @@ struct PreviewListView: View {
                 .padding(.top, 22)
                 .padding(.bottom, 20)
             
-            Text("Choose a view to see its demo.")
+            Text("Build your own demo")
                 .font(Font.body)
                 .foregroundColor(Color.primary.opacity(0.43))
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
-                .padding(EdgeInsets(top: 0, leading: 30, bottom: 22, trailing: 30))
+                .padding(EdgeInsets(top: 0, leading: 30, bottom: 10, trailing: 30))
+            
+            Button(action: {
+                self.evaluator.evaluate(ViewDemoList.Evaluator.Action.showDemoBuilder)
+            }) {
+                HStack {
+                    Spacer().frame(width: 30)
+                    Text("Demo Builder (coming soon)")
+                        .fixedSize(horizontal: false, vertical: true)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .opacity(0.3)
+                    Spacer().frame(width: 20)
+                }
+            }
+            .foregroundColor(.primary)
+            
+            Spacer().frame(height: 40)
+            
+            Text("Or choose a view to see its demo")
+                .font(Font.body)
+                .foregroundColor(Color.primary.opacity(0.43))
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(EdgeInsets(top: 0, leading: 30, bottom: 10, trailing: 30))
             
             VStack(alignment: .leading, spacing: 20) {
                 ForEach(self.demoProviders.array, id: \.id) { provider in
                     Button(action: {
-                        self.evaluator.evaluate(DemoListAction.demoProviderSelected(provider))
+                        self.evaluator.evaluate(ViewDemoList.Evaluator.Action.showDemo(provider))
                     }) {
                         HStack {
                             Spacer().frame(width: 30)

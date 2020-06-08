@@ -8,11 +8,10 @@
 
 import SwiftUI
 
-struct OptionsView: View, ViewDemoing {
+struct OptionsView: View {
     @ObservedObject var options: ObservableArray<String>
     @ObservedObject var preference: ObservableString
     let evaluator: OptionsEvaluating
-    static var demoProvider: DemoProvider { return OptionsView_DemoProvider() }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -51,6 +50,12 @@ struct OptionView: View {
             self.evaluator.toggleOption(self.option)
         }
     }
+}
+
+// MARK: View Demoing
+
+extension OptionsView: ViewDemoing {
+    static var demoProvider: DemoProvider { return OptionsView_DemoProvider() }
 }
 
 struct OptionsView_DemoProvider: DemoProvider, OptionsEvaluating, TextFieldEvaluating {

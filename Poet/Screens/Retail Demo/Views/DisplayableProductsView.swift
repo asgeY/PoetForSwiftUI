@@ -8,11 +8,9 @@
 
 import SwiftUI
 
-struct DisplayableProductsView: View, ViewDemoing {
+struct DisplayableProductsView: View {
     @ObservedObject var displayableProducts: ObservableArray<Retail.Translator.DisplayableProduct>
     let evaluator: FindingProductsEvaluating
-    
-    static var demoProvider: DemoProvider = DisplayableProductsView_DemoProvider()
     
     var body: some View {
         return VStack(alignment: .leading, spacing: 40) {
@@ -32,6 +30,12 @@ struct DisplayableProductsView: View, ViewDemoing {
             Spacer()
         }
     }
+}
+
+// MARK: View Demoing
+
+extension DisplayableProductsView: ViewDemoing {
+    static var demoProvider: DemoProvider { return DisplayableProductsView_DemoProvider() }
 }
 
 struct DisplayableProductsView_DemoProvider: DemoProvider, FindingProductsEvaluating {

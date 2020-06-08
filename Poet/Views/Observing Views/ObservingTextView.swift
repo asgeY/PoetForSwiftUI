@@ -8,12 +8,12 @@
 
 import SwiftUI
 
-struct ObservingTextView: View, ViewDemoing {
+struct ObservingTextView: View {
     
     @ObservedObject var text: ObservableString
     var alignment: TextAlignment?
     var kerning: CGFloat
-    static var demoProvider: DemoProvider { return ObservingTextView_DemoProvider() }
+    
     
     init(_ text: ObservableString, alignment: TextAlignment? = nil, kerning: CGFloat = 0) {
         self.text = text
@@ -36,6 +36,12 @@ struct ObservingTextView: View, ViewDemoing {
             }
         }
     }
+}
+
+// MARK: View Demoing
+
+extension ObservingTextView: ViewDemoing {
+    static var demoProvider: DemoProvider { return ObservingTextView_DemoProvider() }
 }
 
 struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {

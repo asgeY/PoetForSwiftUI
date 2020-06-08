@@ -8,9 +8,8 @@
 
 import SwiftUI
 
-struct ProductView: View, ViewDemoing {
+struct ProductView: View {
     let product: Product
-    static var demoProvider: DemoProvider { return ProductView_DemoProvider() }
     
     var body: some View {
         return HStack {
@@ -38,6 +37,12 @@ struct ProductView: View, ViewDemoing {
             Spacer()
         }
     }
+}
+
+// MARK: View Demoing
+
+extension ProductView: ViewDemoing {
+    static var demoProvider: DemoProvider { return ProductView_DemoProvider() }
 }
 
 struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {

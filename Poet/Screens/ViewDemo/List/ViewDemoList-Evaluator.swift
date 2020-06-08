@@ -54,12 +54,22 @@ extension ViewDemoList.Evaluator {
 }
 
 extension ViewDemoList.Evaluator: ActionEvaluating {
+    
+    enum Action: EvaluatorAction {
+        case showDemo(NamedDemoProvider)
+        case showDemoBuilder
+    }
+    
     func evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? DemoListAction else { return }
+        guard let action = action as? Action else { return }
         
         switch action {
-        case .demoProviderSelected(let provider):
+        
+        case .showDemo(let provider):
             translator.showPreview.withValue(provider)
+        
+        case .showDemoBuilder:
+            break
         }
     }
 }
