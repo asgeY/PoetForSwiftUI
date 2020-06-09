@@ -45,6 +45,7 @@ extension ObservingTextView: ViewDemoing {
 }
 
 struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
+    typealias TextAlignmentNamedValue = NamedIdentifiedValue<TextAlignment>
     var text: ObservableString
     var alignment: Observable<TextAlignment>
     var kerning: Observable<CGFloat>
@@ -85,27 +86,51 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
     }
     
     var controls: [DemoControl] {
-        [
+        [   
             DemoControl(
                 title: "Text",
-                viewMaker: { AnyView(DemoControl_ObservableString(
+                type: .text(
                     observable: self.text,
                     evaluator: self,
-                    elementName: Element.textField))}),
-         
-             DemoControl(
+                    elementName: Element.textField,
+                    input: .text
+                )
+            ),
+            
+            DemoControl(
                 title: "Kerning",
-                instructions: "Type any number, positive or negative.",
-                viewMaker: { AnyView(DemoControl_ObservableControlledByTextInput(
+                instruction: "Type any number, positive or negative.",
+                type: .text(
                     observable: self.kerning,
                     evaluator: self,
                     elementName: Element.kerningField,
-                    input: .text))}),
-             
-             DemoControl(
+                    input: .text
+                )
+            ),
+            
+            DemoControl(
                 title: "Alignment",
-                viewMaker: { AnyView(DemoControl_TextAlignment(
-                    observable: self.alignment))})
+                type: .buttons(
+                    observable: self.alignment,
+                    choices:
+                    [
+                        TextAlignmentNamedValue(
+                            title: "Leading",
+                            value: TextAlignment.leading
+                        ),
+                        
+                        TextAlignmentNamedValue(
+                            title: "Center",
+                            value: TextAlignment.center
+                        ),
+                        
+                        TextAlignmentNamedValue(
+                            title: "Trailing",
+                            value: TextAlignment.trailing
+                        )
+                    ]
+                )
+            ),
         ]
     }
 }

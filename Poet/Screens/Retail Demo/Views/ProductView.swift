@@ -51,7 +51,6 @@ struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
     @ObservedObject var upc = Observable<String>("198430268490")
     @ObservedObject var location = Observable<String>("Bin 1")
     
-    
     enum Element: EvaluatorElement {
         case title
         case upc
@@ -77,33 +76,18 @@ struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
         [
             DemoControl(
                 title: "Title",
-                viewMaker: {
-                    AnyView(
-                        DemoControl_ObservableControlledByTextInput(
-                            observable: self.title,
-                            evaluator: self,
-                            elementName: Element.title,
-                            input: .text))}),
+                type: .text(observable: self.title, evaluator: self, elementName: Element.title, input: .text)
+            ),
             
             DemoControl(
                 title: "Location",
-                viewMaker: {
-                    AnyView(
-                        DemoControl_ObservableControlledByTextInput(
-                            observable: self.location,
-                            evaluator: self,
-                            elementName: Element.location,
-                            input: .text))}),
+                type: .text(observable: self.location, evaluator: self, elementName: Element.location, input: .text)
+            ),
             
             DemoControl(
                 title: "UPC",
-                viewMaker: {
-                    AnyView(
-                        DemoControl_ObservableControlledByTextInput(
-                            observable: self.upc,
-                            evaluator: self,
-                            elementName: Element.upc,
-                            input: .number))})
+                type: .text(observable: self.upc, evaluator: self, elementName: Element.upc, input: .text)
+            )
         ]
     }
     

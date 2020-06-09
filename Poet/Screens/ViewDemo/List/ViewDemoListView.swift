@@ -18,21 +18,25 @@ struct ViewDemoListView: View {
                 .font(Font.headline)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 22)
-                .padding(.bottom, 20)
             
-            Text("Build your own demo")
-                .font(Font.body)
-                .foregroundColor(Color.primary.opacity(0.43))
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(EdgeInsets(top: 0, leading: 30, bottom: 10, trailing: 30))
+            Spacer().frame(height: 40)
+            
+            HStack {
+                Text("Build your own demo:")
+                    .font(Font.subheadline.bold())
+                    .foregroundColor(Color.primary.opacity(0.4))
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 30, bottom: 10, trailing: 30))
+                Spacer()
+            }
             
             Button(action: {
                 self.evaluator.evaluate(ViewDemoList.Evaluator.Action.showDemoBuilder)
             }) {
                 HStack {
                     Spacer().frame(width: 30)
-                    Text("Demo Builder (coming soon)")
+                    Text("Demo Builder")
                         .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                     Image(systemName: "chevron.right")
@@ -44,12 +48,15 @@ struct ViewDemoListView: View {
             
             Spacer().frame(height: 40)
             
-            Text("Or choose a view to see its demo")
-                .font(Font.body)
-                .foregroundColor(Color.primary.opacity(0.43))
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(EdgeInsets(top: 0, leading: 30, bottom: 10, trailing: 30))
+            HStack {
+                Text("Or choose a view to see its demo:")
+                    .font(Font.subheadline.bold())
+                    .foregroundColor(Color.primary.opacity(0.4))
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 30, bottom: 10, trailing: 30))
+                Spacer()
+            }
             
             VStack(alignment: .leading, spacing: 20) {
                 ForEach(self.demoProviders.array, id: \.id) { provider in

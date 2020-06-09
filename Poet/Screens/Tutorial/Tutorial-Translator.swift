@@ -53,7 +53,7 @@ extension Tutorial {
         var showAlert = PassableAlert()
         
         // Actions
-        var tableOfContentsAction = ObservableEvaluatorAction()
+        var tableOfContentsAction = Observable<EvaluatorAction?>()
         
         // Protocol-Oriented Translating
         var alertTranslator = AlertTranslator()

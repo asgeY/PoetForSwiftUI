@@ -116,7 +116,7 @@ struct EvaluatingTextField: View {
             if self.fieldText.string == self.storedText { return }
             self.storedText = self.fieldText.string
 
-            self.validationSink = self.isValid.$bool.debounce(for: 0.35, scheduler: DispatchQueue.main).sink { (value) in
+            self.validationSink = self.isValid.$value.debounce(for: 0.35, scheduler: DispatchQueue.main).sink { (value) in
                 if self.fieldText.string.isEmpty {
                     self.shouldShowValidationMessage = false
                     self.shouldShowValidationMark = false

@@ -8,20 +8,19 @@
 
 import Combine
 
-class ObservableBool: ObservableObject, Equatable {
-    let objectDidChange = ObservableObjectPublisher()
-    
-    @Published var bool: Bool {
-        didSet {
-            objectDidChange.send()
+typealias ObservableBool = Observable<Bool>
+
+extension ObservableBool {
+    var bool: Bool {
+        get {
+            return self.value
+        }
+        set {
+            self.value = newValue
         }
     }
     
-    static func == (lhs: ObservableBool, rhs: ObservableBool) -> Bool {
-        return lhs.bool == rhs.bool
-    }
-    
-    init(_ bool: Bool = false) {
-        self.bool = bool
+    convenience init() {
+        self.init(false)
     }
 }

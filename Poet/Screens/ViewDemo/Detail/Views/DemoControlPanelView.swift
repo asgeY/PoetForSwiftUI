@@ -32,6 +32,7 @@ struct DemoControlPanelView: View {
             Spacer().frame(height: 7)
             
             ForEach(controls, id: \.id) { control in
+                
                 VStack {
                     VStack(spacing: 0) {
                         HStack {
@@ -41,12 +42,12 @@ struct DemoControlPanelView: View {
                                 .foregroundColor(Color.primary.opacity(0.9))
                             Spacer()
                         }
-                        
-                        if control.instructions != nil {
+
+                        if control.instruction != nil {
                             Spacer().frame(height: 6)
                             HStack {
                                 Spacer().frame(width: 50)
-                                Text(control.instructions!)
+                                Text(control.instruction!)
                                     .font(Font.caption)
                                     .foregroundColor(Color.primary.opacity(0.43))
                                 Spacer().frame(width: 50)
@@ -54,7 +55,7 @@ struct DemoControlPanelView: View {
                             }
                         }
                     }
-                    
+
                     Spacer().frame(height: 10)
                     control.viewMaker()
                     Spacer().frame(height: 16)

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
+import Combine
 import SwiftUI
 
 extension Login {
@@ -19,7 +20,7 @@ extension Login {
         var current = PassableStep(Step.initial)
         
         // Sink
-        var loginSink: Behavior?
+        var loginSink: Sink?
         
         enum Element: EvaluatorElement {
             case usernameTextField

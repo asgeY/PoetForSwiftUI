@@ -8,10 +8,15 @@
 
 import Foundation
 
-class ObservableNamedEnabledEvaluatorAction: ObservableObject {
-    @Published var namedEnabledAction: NamedEnabledEvaluatorAction?
-    
-    init(_ action: NamedEnabledEvaluatorAction? = nil) {
-        self.namedEnabledAction = action
+typealias ObservableNamedEnabledEvaluatorAction = Observable<NamedEnabledEvaluatorAction?>
+
+extension ObservableNamedEnabledEvaluatorAction {
+    var namedEnabledAction: NamedEnabledEvaluatorAction? {
+        get {
+            return self.value
+        }
+        set {
+            self.value = newValue
+        }
     }
 }

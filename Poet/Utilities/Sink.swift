@@ -1,5 +1,5 @@
 //
-//  Typealiases.swift
+//  Sink.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 4/25/20.
@@ -9,5 +9,4 @@
 import Combine
 import Foundation
 
-typealias Behavior = AnyCancellable
 typealias Sink = AnyCancellable

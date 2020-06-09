@@ -9,9 +9,27 @@
 import Combine
 
 class Observable<T>: ObservableObject {
-    @Published var value: T
+    let objectDidChange = ObservableObjectPublisher()
+    
+    @Published var value: T {
+        didSet {
+            objectDidChange.send()
+        }
+    }
     
     init(_ value: T) {
         self.value = value
+    }
+}
+
+extension Observable: Equatable where T: Equatable {
+    static func == (lhs: Observable<T>, rhs: Observable<T>) -> Bool {
+        return lhs.value == rhs.value
+    }
+}
+
+extension Observable where T: ExpressibleByNilLiteral {
+    convenience init() {
+        self.init(nil)
     }
 }

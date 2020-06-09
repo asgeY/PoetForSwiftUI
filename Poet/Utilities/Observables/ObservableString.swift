@@ -8,16 +8,19 @@
 
 import Combine
 
-class ObservableString: ObservableObject {
-    let objectDidChange = ObservableObjectPublisher()
-    
-    @Published var string: String {
-        didSet {
-            objectDidChange.send()
+typealias ObservableString = Observable<String>
+
+extension ObservableString {
+    var string: String {
+        get {
+            return self.value
+        }
+        set {
+            self.value = newValue
         }
     }
     
-    init(_ string: String = "") {
-        self.string = string
+    convenience init() {
+        self.init("")
     }
 }

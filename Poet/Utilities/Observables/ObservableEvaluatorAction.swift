@@ -8,10 +8,15 @@
 
 import Combine
 
-class ObservableEvaluatorAction: ObservableObject {
-    @Published var action: EvaluatorAction?
-    
-    init(_ action: EvaluatorAction? = nil) {
-        self.action = action
+typealias ObservableEvaluatorAction = Observable<EvaluatorAction?>
+
+extension ObservableEvaluatorAction {
+    var action: EvaluatorAction? {
+        get {
+            return self.value
+        }
+        set {
+            self.value = newValue
+        }
     }
 }

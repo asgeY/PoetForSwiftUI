@@ -8,10 +8,19 @@
 
 import Combine
 
-class ObservableInt: ObservableObject {
-    @Published var int: Int
+typealias ObservableInt = Observable<Int>
+
+extension ObservableInt {
+    var int: Int {
+        get {
+            return self.value
+        }
+        set {
+            self.value = newValue
+        }
+    }
     
-    init(_ int: Int = 0) {
-        self.int = int
+    convenience init() {
+        self.init(0)
     }
 }

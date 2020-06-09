@@ -80,15 +80,12 @@ struct OptionsView_DemoProvider: DemoProvider, OptionsEvaluating, TextFieldEvalu
         [
             DemoControl(
                 title: "Options",
-                instructions: "Type words separated by semicolons to add options.",
-                viewMaker: {
-                    AnyView(
-                        DemoControl_ObservableString(
-                            observable: self.text,
-                            evaluator: self,
-                            elementName: Element.optionsTextField)
-                    )
-                })
+                instruction: "Type words separated by semicolons to add options.",
+                type: .text(
+                    observable: self.text,
+                    evaluator: self,
+                    elementName: Element.optionsTextField,
+                    input: .text))
         ]
     }
     
