@@ -57,7 +57,7 @@ struct DemoControlPanelView: View {
                     }
 
                     Spacer().frame(height: 10)
-                    control.viewMaker()
+                    control.view
                     Spacer().frame(height: 16)
                 }
             }

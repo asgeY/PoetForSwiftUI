@@ -47,9 +47,9 @@ extension ProductView: ViewDemoing {
 
 struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
     
-    @ObservedObject var title = Observable<String>("Air Jordan")
-    @ObservedObject var upc = Observable<String>("198430268490")
-    @ObservedObject var location = Observable<String>("Bin 1")
+    @ObservedObject var title = ObservableString("Air Jordan")
+    @ObservedObject var upc = ObservableString("198430268490")
+    @ObservedObject var location = ObservableString("Bin 1")
     
     enum Element: EvaluatorElement {
         case title
@@ -76,17 +76,17 @@ struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
         [
             DemoControl(
                 title: "Title",
-                type: .text(observable: self.title, evaluator: self, elementName: Element.title, input: .text)
+                type: DemoControl.Text(observable: self.title, evaluator: self, elementName: Element.title, input: .text)
             ),
             
             DemoControl(
                 title: "Location",
-                type: .text(observable: self.location, evaluator: self, elementName: Element.location, input: .text)
+                type: DemoControl.Text(observable: self.location, evaluator: self, elementName: Element.location, input: .text)
             ),
             
             DemoControl(
                 title: "UPC",
-                type: .text(observable: self.upc, evaluator: self, elementName: Element.upc, input: .text)
+                type: DemoControl.Text(observable: self.upc, evaluator: self, elementName: Element.upc, input: .text)
             )
         ]
     }

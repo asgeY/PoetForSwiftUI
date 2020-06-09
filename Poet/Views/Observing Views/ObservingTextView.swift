@@ -46,31 +46,13 @@ extension ObservingTextView: ViewDemoing {
 
 struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
     typealias TextAlignmentNamedValue = NamedIdentifiedValue<TextAlignment>
-    var text: ObservableString
-    var alignment: Observable<TextAlignment>
-    var kerning: Observable<CGFloat>
+    var text = ObservableString("Hello")
+    var alignment = Observable<TextAlignment>(.leading)
+    var kerning = Observable<CGFloat>(0.0)
     
     enum Element: EvaluatorElement {
         case textField
         case kerningField
-    }
-    
-    func textFieldDidChange(text: String, elementName: EvaluatorElement) {
-        guard let elementName = elementName as? Element else {
-            return
-        }
-        switch elementName {
-        case .textField:
-            self.text.string = text
-        case .kerningField:
-            self.kerning.value = CGFloat(Double(text) ?? 0.0)
-        }
-    }
-    
-    init() {
-        self.text = ObservableString("Hello")
-        self.alignment = Observable<TextAlignment>(.leading)
-        self.kerning = Observable<CGFloat>(CGFloat(0.0))
     }
     
     var contentView: AnyView {
@@ -86,10 +68,10 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
     }
     
     var controls: [DemoControl] {
-        [   
+        [
             DemoControl(
                 title: "Text",
-                type: .text(
+                type: DemoControl.Text(
                     observable: self.text,
                     evaluator: self,
                     elementName: Element.textField,
@@ -100,7 +82,7 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
             DemoControl(
                 title: "Kerning",
                 instruction: "Type any number, positive or negative.",
-                type: .text(
+                type: DemoControl.Text(
                     observable: self.kerning,
                     evaluator: self,
                     elementName: Element.kerningField,
@@ -110,7 +92,7 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
             
             DemoControl(
                 title: "Alignment",
-                type: .buttons(
+                type: DemoControl.Buttons(
                     observable: self.alignment,
                     choices:
                     [
@@ -132,6 +114,18 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
                 )
             ),
         ]
+    }
+    
+    func textFieldDidChange(text: String, elementName: EvaluatorElement) {
+        guard let elementName = elementName as? Element else {
+            return
+        }
+        switch elementName {
+        case .textField:
+            self.text.string = text
+        case .kerningField:
+            self.kerning.value = CGFloat(Double(text) ?? 0.0)
+        }
     }
 }
 

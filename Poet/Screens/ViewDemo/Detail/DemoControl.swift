@@ -11,47 +11,50 @@ import SwiftUI
 struct DemoControl {
     let title: String
     var instruction: String?
-    let viewMaker: () -> AnyView
+    let view: AnyView
     let id: UUID
     
-    init<T>(title: String, instruction: String? = nil, type: DemoControlType<T>) where T: Equatable {
+    init(title: String, instruction: String? = nil, type: DemoControlType) {
         self.title = title
         self.instruction = instruction
         self.id = UUID()
-        self.viewMaker = type.viewMaker()
+        self.view = type.view()
+    }
+}
+
+protocol DemoControlType {
+    func view() -> AnyView
+}
+
+extension DemoControl {
+    struct Text<T>: DemoControlType {
+        let observable: Observable<T>
+        let evaluator: TextFieldEvaluating
+        let elementName: EvaluatorElement
+        let input: EvaluatingTextField.Input
+        
+        func view() -> AnyView {
+            return AnyView(
+                DemoControl_ObservableControlledByTextInput(
+                    observable: observable,
+                    evaluator: evaluator,
+                    elementName: elementName,
+                    input: input)
+            )
+        }
     }
     
-    /**
-         T must be equatable so button choices to be compared.
-         Unfortunately, this makes T equatable for other uses too.
-     */
-    enum DemoControlType<T> where T: Equatable {
-        case text(observable: Observable<T>, evaluator: TextFieldEvaluating, elementName: EvaluatorElement, input: EvaluatingTextField.Input)
-        case buttons(observable: Observable<T>, choices: [NamedIdentifiedValue<T>])
+    struct Buttons<T>: DemoControlType where T: Equatable {
+        let observable: Observable<T>
+        let choices: [NamedIdentifiedValue<T>]
         
-        func viewMaker() -> () -> AnyView {
-            let view: AnyView = {
-                switch self {
-                    
-                case .text(let observable, let evaluator, let elementName, let input):
-                    return AnyView(
-                        DemoControl_ObservableControlledByTextInput(
-                            observable: observable,
-                            evaluator: evaluator,
-                            elementName: elementName,
-                            input: input)
-                    )
-                    
-                case .buttons(let observable, let choices):
-                    return AnyView(
-                        DemoControl_ButtonChoices(
-                            buttons: choices, preference: observable
-                        )
-                    )
-                }
-            }()
-            
-            return { view }
+        func view() -> AnyView {
+            return AnyView(
+                DemoControl_ButtonChoices(
+                    buttons: choices,
+                    preference: observable
+                )
+            )
         }
     }
 }
