@@ -66,10 +66,10 @@ extension ViewDemoList.Evaluator: ActionEvaluating {
         switch action {
         
         case .showDemo(let provider):
-            translator.showPreview.withValue(provider)
+            translator.showDemo.withValue(provider)
         
         case .showDemoBuilder:
-            break
+            translator.showDemoBuilder.please()
         }
     }
 }

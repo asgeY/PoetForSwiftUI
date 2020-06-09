@@ -1,5 +1,5 @@
 //
-//  ViewDemoList-Translator.swift
+//  DemoBuilder-Translator.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 5/2/20.
@@ -9,18 +9,17 @@
 import Combine
 import Foundation
 
-extension ViewDemoList {
+extension DemoBuilder {
 
     class Translator {
         
-        typealias Evaluator = ViewDemoList.Evaluator
+        typealias Evaluator = DemoBuilder.Evaluator
         
         // Observable Display State
-        var demoProviders = ObservableArray<NamedDemoProvider>([])
+        
         
         // Passable
-        var showDemo = Passable<NamedDemoProvider>()
-        var showDemoBuilder = PassablePlease()
+        
         
         // Step Sink
         private var stepSink: AnyCancellable?
@@ -33,20 +32,20 @@ extension ViewDemoList {
     }
 }
 
-extension ViewDemoList.Translator {
+extension DemoBuilder.Translator {
     func translate(step: Evaluator.Step) {
         switch step {
             
         case .initial:
             break // no initial setup needed
             
-        case .list(let configuration):
-            translateListStep(configuration)
+        case .build(let configuration):
+            translateBuildStep(configuration)
         }
     }
     
-    func translateListStep(_ configuration: Evaluator.ListStepConfiguration) {
+    func translateBuildStep(_ configuration: Evaluator.BuildStepConfiguration) {
         // Set observable display state
-        demoProviders.array = configuration.demoProviders
+        
     }
 }

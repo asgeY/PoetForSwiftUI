@@ -1,5 +1,5 @@
 //
-//  ViewDemoList-Screen.swift
+//  DemoBuilder-Screen.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 5/2/20.
@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct ViewDemoList {}
+struct DemoBuilder {}
 
-extension ViewDemoList {
+extension DemoBuilder {
     
     struct Screen: View {
         let evaluator: Evaluator
@@ -23,19 +23,13 @@ extension ViewDemoList {
         
         var body: some View {
             return ZStack {
-                ViewDemoListView(demoProviders: translator.demoProviders, evaluator: evaluator)
-                
+                VStack {
+                    Spacer().frame(height:22)
+                    Text("Demo Builder")
+                }
                 VStack {
                     DismissButton(orientation: .right)
                     Spacer()
-                }
-                
-                PresenterWithPassedValue(translator.showDemo, evaluator: evaluator) { provider in
-                    return ViewDemoDetail(namedDemoProvider: provider)
-                }
-                
-                Presenter(translator.showDemoBuilder) {
-                    return DemoBuilder.Screen()
                 }
             }
             .onAppear {

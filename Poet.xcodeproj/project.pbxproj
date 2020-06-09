@@ -18,6 +18,10 @@
 		3B3E1535248E84700017AEF0 /* DemoControl_TextAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E1531248E84700017AEF0 /* DemoControl_TextAlignment.swift */; };
 		3B3E1537248E849F0017AEF0 /* ViewDemo-HowToUse in Resources */ = {isa = PBXBuildFile; fileRef = 3B3E1536248E849F0017AEF0 /* ViewDemo-HowToUse */; };
 		3B3E1539248E9A2A0017AEF0 /* ViewDemoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E1538248E9A2A0017AEF0 /* ViewDemoDetail.swift */; };
+		3B3E153F248ECA280017AEF0 /* ViewDemoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E153E248ECA280017AEF0 /* ViewDemoListView.swift */; };
+		3B3E1540248ECAF00017AEF0 /* DemoBuilder-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E153B248EA6920017AEF0 /* DemoBuilder-Screen.swift */; };
+		3B3E1541248ECAF00017AEF0 /* DemoBuilder-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E153D248EA6930017AEF0 /* DemoBuilder-Evaluator.swift */; };
+		3B3E1542248ECAF00017AEF0 /* DemoBuilder-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E153C248EA6920017AEF0 /* DemoBuilder-Translator.swift */; };
 		3B67AA5F248C9CE400361DCA /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA5E248C9CE400361DCA /* Observer.swift */; };
 		3B67AA65248C9EE000361DCA /* KeyboardPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA64248C9EE000361DCA /* KeyboardPadding.swift */; };
 		3B67AA70248CBBB100361DCA /* Chapter_ViewDemoing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B67AA6F248CBBB100361DCA /* Chapter_ViewDemoing.swift */; };
@@ -192,6 +196,10 @@
 		3B3E1531248E84700017AEF0 /* DemoControl_TextAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoControl_TextAlignment.swift; sourceTree = "<group>"; };
 		3B3E1536248E849F0017AEF0 /* ViewDemo-HowToUse */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ViewDemo-HowToUse"; sourceTree = "<group>"; };
 		3B3E1538248E9A2A0017AEF0 /* ViewDemoDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewDemoDetail.swift; sourceTree = "<group>"; };
+		3B3E153B248EA6920017AEF0 /* DemoBuilder-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoBuilder-Screen.swift"; sourceTree = "<group>"; };
+		3B3E153C248EA6920017AEF0 /* DemoBuilder-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoBuilder-Translator.swift"; sourceTree = "<group>"; };
+		3B3E153D248EA6930017AEF0 /* DemoBuilder-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoBuilder-Evaluator.swift"; sourceTree = "<group>"; };
+		3B3E153E248ECA280017AEF0 /* ViewDemoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDemoListView.swift; sourceTree = "<group>"; };
 		3B67AA5E248C9CE400361DCA /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		3B67AA64248C9EE000361DCA /* KeyboardPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPadding.swift; sourceTree = "<group>"; };
 		3B67AA6F248CBBB100361DCA /* Chapter_ViewDemoing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter_ViewDemoing.swift; sourceTree = "<group>"; };
@@ -386,6 +394,16 @@
 			path = "Demo Controls";
 			sourceTree = "<group>";
 		};
+		3B3E153A248EA67F0017AEF0 /* DemoBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				3B3E153B248EA6920017AEF0 /* DemoBuilder-Screen.swift */,
+				3B3E153D248EA6930017AEF0 /* DemoBuilder-Evaluator.swift */,
+				3B3E153C248EA6920017AEF0 /* DemoBuilder-Translator.swift */,
+			);
+			path = DemoBuilder;
+			sourceTree = "<group>";
+		};
 		3B67AA71248E7C8A00361DCA /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -443,6 +461,7 @@
 			children = (
 				3BC27FEA248A947B001DDBD4 /* List */,
 				3BC27FEB248A948B001DDBD4 /* Detail */,
+				3B3E153A248EA67F0017AEF0 /* DemoBuilder */,
 			);
 			path = ViewDemo;
 			sourceTree = "<group>";
@@ -453,6 +472,7 @@
 				3BC27FF0248A94E1001DDBD4 /* ViewDemoList-Screen.swift */,
 				3BC27FF1248A94E1001DDBD4 /* ViewDemoList-Evaluator.swift */,
 				3BC27FEF248A94E1001DDBD4 /* ViewDemoList-Translator.swift */,
+				3B3E153E248ECA280017AEF0 /* ViewDemoListView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -1077,6 +1097,8 @@
 				3BF6693224781AD100AE055C /* PassableDouble.swift in Sources */,
 				3B687636247ECDB9005F2FBA /* PassableAlert.swift in Sources */,
 				3BF6692C24781A7100AE055C /* PassablePlease.swift in Sources */,
+				3B3E153F248ECA280017AEF0 /* ViewDemoListView.swift in Sources */,
+				3B3E1540248ECAF00017AEF0 /* DemoBuilder-Screen.swift in Sources */,
 				8794A604245CB98600D41E4F /* DismissReceiverExample-Translator.swift in Sources */,
 				DC4C6C652476CE620014A34C /* MainTitleView.swift in Sources */,
 				3BC27FF2248A94E6001DDBD4 /* ViewDemoList-Screen.swift in Sources */,
@@ -1099,6 +1121,7 @@
 				DC65656624705E7C0048A848 /* HelloSolarSystem-Store.swift in Sources */,
 				DC00E23F2482A72600A9F503 /* Publisher+Networking.swift in Sources */,
 				3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */,
+				3B3E1541248ECAF00017AEF0 /* DemoBuilder-Evaluator.swift in Sources */,
 				DC4C6C6B2476D02B0014A34C /* TableOfContentsView.swift in Sources */,
 				3B67AA70248CBBB100361DCA /* Chapter_ViewDemoing.swift in Sources */,
 				87E7E43B24595FF100047253 /* ObservingPageView.swift in Sources */,
@@ -1109,6 +1132,7 @@
 				DC00E24C2486AF8100A9F503 /* HelloData-Screen.swift in Sources */,
 				3B3E1529248E823C0017AEF0 /* ViewDemoing.swift in Sources */,
 				3B7254A124808AE300E27551 /* EvaluatorElement.swift in Sources */,
+				3B3E1542248ECAF00017AEF0 /* DemoBuilder-Translator.swift in Sources */,
 				DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */,
 				878B3A4A2453588000ACADE4 /* ViewCycleEvaluating.swift in Sources */,
 				DC31CC7F247C384000002075 /* HelloWorld-Translator.swift in Sources */,
