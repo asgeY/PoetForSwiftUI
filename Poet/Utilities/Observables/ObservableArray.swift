@@ -8,10 +8,17 @@
 
 import Combine
 
-class ObservableArray<T>: ObservableObject {
-    @Published var array: [T]
-    
-    init(_ array: [T]) {
-        self.array = array
+typealias ObservableArray<A> = Observable<Array<A>>
+
+extension ObservableArray {
+    var array: T {
+        get {
+            return self.value
+        }
+        set {
+            self.value = newValue
+        }
     }
 }
+
+

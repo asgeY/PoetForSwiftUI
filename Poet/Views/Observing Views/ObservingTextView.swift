@@ -38,7 +38,7 @@ struct ObservingTextView: View {
     }
 }
 
-// MARK: View Demoing
+// MARK: Demo
 
 extension ObservingTextView: ViewDemoing {
     static var demoProvider: DemoProvider { return ObservingTextView_DemoProvider() }
@@ -121,6 +121,8 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
         }
     }
 }
+
+// MARK: Preview
 
 struct ObservingTextView_Previews: PreviewProvider {
     static var previews: some View {
