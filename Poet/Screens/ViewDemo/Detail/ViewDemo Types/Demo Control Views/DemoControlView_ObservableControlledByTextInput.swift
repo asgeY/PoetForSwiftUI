@@ -8,8 +8,7 @@
 
 import SwiftUI
 
-struct DemoControlView_ObservableControlledByTextInput<T>: View {
-    @ObservedObject var observable: Observable<T>
+struct DemoControlView_ObservableControlledByTextInput: View {
     let evaluator: TextFieldEvaluating
     let elementName: EvaluatorElement
     let input: EvaluatingTextField.Input

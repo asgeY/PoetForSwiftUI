@@ -27,8 +27,7 @@ protocol DemoControlType {
 }
 
 extension DemoControl {
-    struct Text<T>: DemoControlType {
-        let observable: Observable<T>
+    struct Text: DemoControlType {
         let evaluator: TextFieldEvaluating
         let elementName: EvaluatorElement
         let input: EvaluatingTextField.Input
@@ -36,7 +35,6 @@ extension DemoControl {
         func view() -> AnyView {
             return AnyView(
                 DemoControlView_ObservableControlledByTextInput(
-                    observable: observable,
                     evaluator: evaluator,
                     elementName: elementName,
                     input: input)

@@ -72,21 +72,14 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
             DemoControl(
                 title: "Text",
                 type: DemoControl.Text(
-                    observable: self.text,
-                    evaluator: self,
-                    elementName: Element.textField,
-                    input: .text
+                    evaluator: self, elementName: Element.textField, input: .text
                 )
             ),
             
             DemoControl(
                 title: "Kerning",
                 instruction: "Type any number, positive or negative.",
-                type: DemoControl.Text(
-                    observable: self.kerning,
-                    evaluator: self,
-                    elementName: Element.kerningField,
-                    input: .text
+                type: DemoControl.Text(evaluator: self, elementName: Element.kerningField, input: .text
                 )
             ),
             
