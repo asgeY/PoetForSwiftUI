@@ -35,7 +35,7 @@ extension DemoControl {
         
         func view() -> AnyView {
             return AnyView(
-                DemoControl_ObservableControlledByTextInput(
+                DemoControlView_ObservableControlledByTextInput(
                     observable: observable,
                     evaluator: evaluator,
                     elementName: elementName,
@@ -50,7 +50,7 @@ extension DemoControl {
         
         func view() -> AnyView {
             return AnyView(
-                DemoControl_ButtonChoices(
+                DemoControlView_ButtonChoices(
                     buttons: choices,
                     preference: observable
                 )

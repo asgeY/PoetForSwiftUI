@@ -1,5 +1,5 @@
 //
-//  DemoControl_ButtonChoices.swift
+//  DemoControlView_ButtonChoices.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 6/8/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DemoControl_ButtonChoices<T>: View where T: Equatable {
+struct DemoControlView_ButtonChoices<T>: View where T: Equatable {
     let buttons: [NamedIdentifiedValue<T>]
     @ObservedObject var preference: Observable<T>
     

@@ -13,7 +13,7 @@
 		3B3E1528248E823C0017AEF0 /* DemoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E1526248E823C0017AEF0 /* DemoProvider.swift */; };
 		3B3E1529248E823C0017AEF0 /* ViewDemoing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E1527248E823C0017AEF0 /* ViewDemoing.swift */; };
 		3B3E1532248E84700017AEF0 /* DemoControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E152E248E84700017AEF0 /* DemoControl.swift */; };
-		3B3E1533248E84700017AEF0 /* DemoControl_ObservableControlledByTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E152F248E84700017AEF0 /* DemoControl_ObservableControlledByTextInput.swift */; };
+		3B3E1533248E84700017AEF0 /* DemoControlView_ObservableControlledByTextInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E152F248E84700017AEF0 /* DemoControlView_ObservableControlledByTextInput.swift */; };
 		3B3E1537248E849F0017AEF0 /* ViewDemo-HowToUse in Resources */ = {isa = PBXBuildFile; fileRef = 3B3E1536248E849F0017AEF0 /* ViewDemo-HowToUse */; };
 		3B3E1539248E9A2A0017AEF0 /* ViewDemoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E1538248E9A2A0017AEF0 /* ViewDemoDetail.swift */; };
 		3B3E153F248ECA280017AEF0 /* ViewDemoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3E153E248ECA280017AEF0 /* ViewDemoListView.swift */; };
@@ -119,7 +119,7 @@
 		DC00E24E2486AF8600A9F503 /* HelloData-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E24A2486AB7A00A9F503 /* HelloData-Translator.swift */; };
 		DC00E24F2486AF8600A9F503 /* HelloData-Performer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC00E24B2486AB7A00A9F503 /* HelloData-Performer.swift */; };
 		DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04F6F024661C1400F49E00 /* ImageExtensions.swift */; };
-		DC2E4DB6248F4C9D00986A82 /* DemoControl_ButtonChoices.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB5248F4C9D00986A82 /* DemoControl_ButtonChoices.swift */; };
+		DC2E4DB6248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB5248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift */; };
 		DC2E4DB8248F831700986A82 /* NamedIdentifiedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB7248F831700986A82 /* NamedIdentifiedValue.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
@@ -188,7 +188,7 @@
 		3B3E1526248E823C0017AEF0 /* DemoProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoProvider.swift; sourceTree = "<group>"; };
 		3B3E1527248E823C0017AEF0 /* ViewDemoing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewDemoing.swift; sourceTree = "<group>"; };
 		3B3E152E248E84700017AEF0 /* DemoControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoControl.swift; sourceTree = "<group>"; };
-		3B3E152F248E84700017AEF0 /* DemoControl_ObservableControlledByTextInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoControl_ObservableControlledByTextInput.swift; sourceTree = "<group>"; };
+		3B3E152F248E84700017AEF0 /* DemoControlView_ObservableControlledByTextInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoControlView_ObservableControlledByTextInput.swift; sourceTree = "<group>"; };
 		3B3E1536248E849F0017AEF0 /* ViewDemo-HowToUse */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ViewDemo-HowToUse"; sourceTree = "<group>"; };
 		3B3E1538248E9A2A0017AEF0 /* ViewDemoDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewDemoDetail.swift; sourceTree = "<group>"; };
 		3B3E153B248EA6920017AEF0 /* DemoBuilder-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoBuilder-Screen.swift"; sourceTree = "<group>"; };
@@ -298,7 +298,7 @@
 		DC00E24A2486AB7A00A9F503 /* HelloData-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloData-Translator.swift"; sourceTree = "<group>"; };
 		DC00E24B2486AB7A00A9F503 /* HelloData-Performer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloData-Performer.swift"; sourceTree = "<group>"; };
 		DC04F6F024661C1400F49E00 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
-		DC2E4DB5248F4C9D00986A82 /* DemoControl_ButtonChoices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControl_ButtonChoices.swift; sourceTree = "<group>"; };
+		DC2E4DB5248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlView_ButtonChoices.swift; sourceTree = "<group>"; };
 		DC2E4DB7248F831700986A82 /* NamedIdentifiedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedIdentifiedValue.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
@@ -380,8 +380,8 @@
 		3B3E152D248E845C0017AEF0 /* Demo Control Views */ = {
 			isa = PBXGroup;
 			children = (
-				3B3E152F248E84700017AEF0 /* DemoControl_ObservableControlledByTextInput.swift */,
-				DC2E4DB5248F4C9D00986A82 /* DemoControl_ButtonChoices.swift */,
+				3B3E152F248E84700017AEF0 /* DemoControlView_ObservableControlledByTextInput.swift */,
+				DC2E4DB5248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift */,
 			);
 			path = "Demo Control Views";
 			sourceTree = "<group>";
@@ -1031,7 +1031,7 @@
 				DC2E4DB8248F831700986A82 /* NamedIdentifiedValue.swift in Sources */,
 				3BF6691C2477CFAA00AE055C /* Device.swift in Sources */,
 				DC4C6C782476D3DB0014A34C /* DismissButton.swift in Sources */,
-				3B3E1533248E84700017AEF0 /* DemoControl_ObservableControlledByTextInput.swift in Sources */,
+				3B3E1533248E84700017AEF0 /* DemoControlView_ObservableControlledByTextInput.swift in Sources */,
 				DC00E2362482188900A9F503 /* BusyPresenter.swift in Sources */,
 				DC4C6C562476C8060014A34C /* Fadeable.swift in Sources */,
 				DC00E2322481FCB300A9F503 /* Login-Performer.swift in Sources */,
@@ -1104,7 +1104,7 @@
 				DC4C6C762476D3B60014A34C /* BackButton.swift in Sources */,
 				3BF6692A24781A2900AE055C /* Passable.swift in Sources */,
 				87AC827B2453BB400090E443 /* Menu-Translator.swift in Sources */,
-				DC2E4DB6248F4C9D00986A82 /* DemoControl_ButtonChoices.swift in Sources */,
+				DC2E4DB6248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift in Sources */,
 				DC4C6C672476CF120014A34C /* Presenter.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,
 				DC65656624705E7C0048A848 /* HelloSolarSystem-Store.swift in Sources */,

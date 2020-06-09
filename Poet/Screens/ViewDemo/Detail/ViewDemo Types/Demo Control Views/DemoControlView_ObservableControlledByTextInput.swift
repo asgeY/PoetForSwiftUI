@@ -1,5 +1,5 @@
 //
-//  DemoControl_ObservableControlledByTextInput.swift
+//  DemoControlView_ObservableControlledByTextInput.swift
 //  Poet
 //
 //  Created by Steve Cotner on 6/6/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct DemoControl_ObservableControlledByTextInput<T>: View {
+struct DemoControlView_ObservableControlledByTextInput<T>: View {
     @ObservedObject var observable: Observable<T>
     let evaluator: TextFieldEvaluating
     let elementName: EvaluatorElement
