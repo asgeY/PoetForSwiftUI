@@ -67,6 +67,15 @@ struct OptionsView_DemoProvider: DemoProvider, OptionsEvaluating, TextFieldEvalu
         case optionsTextField
     }
     
+    func deepCopy() -> Self {
+        let provider = OptionsView_DemoProvider(
+            text: self.text.deepCopy(),
+            options: self.options.deepCopy(),
+            preference: self.preference.deepCopy()
+        )
+        return provider
+    }
+    
     var contentView: AnyView {
         return AnyView(
             OptionsView(

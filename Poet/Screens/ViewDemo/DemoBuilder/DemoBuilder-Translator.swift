@@ -16,10 +16,10 @@ extension DemoBuilder {
         typealias Evaluator = DemoBuilder.Evaluator
         
         // Observable Display State
-        
+        var arrangedDemoProviders = ObservableArray<NamedDemoProvider>([])
         
         // Passable
-        
+        var editDemoView = Passable<DemoViewEditingConfiguration>()
         
         // Step Sink
         private var stepSink: AnyCancellable?
@@ -46,6 +46,6 @@ extension DemoBuilder.Translator {
     
     func translateBuildStep(_ configuration: Evaluator.BuildStepConfiguration) {
         // Set observable display state
-        
+        self.arrangedDemoProviders.array = configuration.arrangedDemoProviders
     }
 }

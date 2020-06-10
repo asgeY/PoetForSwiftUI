@@ -50,6 +50,15 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
     var alignment = Observable<TextAlignment>(.leading)
     var kerning = Observable<CGFloat>(0.0)
     
+    func deepCopy() -> Self {
+        let provider = ObservingTextView_DemoProvider(
+            text: self.text.deepCopy(),
+            alignment: self.alignment.deepCopy(),
+            kerning: self.kerning.deepCopy()
+        )
+        return provider
+    }
+    
     enum Element: EvaluatorElement {
         case textField
         case kerningField
@@ -57,7 +66,7 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
     
     var contentView: AnyView {
         AnyView(
-            Observer2(observableA: self.alignment, observableB: self.kerning) { alignment, kerning in
+            Observer2(alignment, kerning) { alignment, kerning in
                 ObservingTextView(
                     self.text,
                     alignment: alignment,

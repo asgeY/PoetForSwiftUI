@@ -10,10 +10,22 @@ import SwiftUI
 
 struct ViewDemoDetail: View {
 
-    let namedDemoProvider: NamedDemoProvider
+    private let namedDemoProvider: NamedDemoProvider
+    private let evaluator: DemoViewEditingEvaluating?
+    private let canSave: Bool
+    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     init(namedDemoProvider: NamedDemoProvider) {
         self.namedDemoProvider = namedDemoProvider
+        self.evaluator = nil
+        self.canSave = false
+    }
+    
+    init(demoViewEditingConfiguration configuration: DemoViewEditingConfiguration) {
+        self.namedDemoProvider = configuration.namedDemoProvider
+        self.evaluator = configuration.evaluator
+        self.canSave = true
     }
     
     var body: some View {
@@ -33,7 +45,31 @@ struct ViewDemoDetail: View {
             }
             
             VStack {
-                DismissButton(orientation: .right)
+                HStack {
+                    Button(
+                        action: {
+                            self.presentationMode.wrappedValue.dismiss()
+                    })
+                    {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.primary)
+                            .padding(EdgeInsets(top: 26, leading: 14, bottom: 24, trailing: 26))
+                            .font(Font.system(size: 18, weight: .regular))
+                    }
+                    
+                    Spacer()
+                    Button(
+                        action: {
+                            self.evaluator?.saveChangesToProvider(self.namedDemoProvider)
+                            self.presentationMode.wrappedValue.dismiss()
+                    })
+                    {
+                        Text("Save")
+                            .font(Font.body)
+                            .foregroundColor(.primary)
+                            .padding(EdgeInsets(top: 12, leading: 12, bottom: 8, trailing: 26))
+                    }
+                }
                 Spacer()
             }
         }

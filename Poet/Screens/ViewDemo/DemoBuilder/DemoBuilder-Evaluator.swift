@@ -27,6 +27,7 @@ extension DemoBuilder.Evaluator {
     }
     
     struct BuildStepConfiguration {
+        var arrangedDemoProviders: [NamedDemoProvider]
     }
 }
 
@@ -41,15 +42,26 @@ extension DemoBuilder.Evaluator: ViewCycleEvaluating {
 extension DemoBuilder.Evaluator {
     func showBuildStep() {
         let configuration = BuildStepConfiguration(
+            arrangedDemoProviders: []
         )
         current.step = .build(configuration)
     }
 }
 
+struct DemoViewEditingConfiguration {
+    let namedDemoProvider: NamedDemoProvider
+    let evaluator: DemoViewEditingEvaluating
+}
+
+protocol DemoViewEditingEvaluating {
+    func saveChangesToProvider(_ namedDemoProvider: NamedDemoProvider)
+}
+
 extension DemoBuilder.Evaluator: ActionEvaluating {
     
     enum Action: EvaluatorAction {
-        case addDemoView(DemoProvider)
+        case addDemoView(NamedDemoProvider)
+        case editDemoView(NamedDemoProvider)
     }
     
     func evaluate(_ action: EvaluatorAction?) {
@@ -57,15 +69,46 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
         
         switch action {
             
-        case .addDemoView(let demoProvider):
-            break
+        case .addDemoView(let namedDemoProvider):
+            addDemoView(namedDemoProvider)
             
+        case .editDemoView(let namedDemoProvider):
+            editDemoView(namedDemoProvider)
         }
+    }
+    
+    func addDemoView(_ namedDemoProvider: NamedDemoProvider) {
+        guard case var .build(configuration) = current.step else { return }
+        configuration.arrangedDemoProviders.append(namedDemoProvider)
+        current.step = .build(configuration)
+    }
+    
+    func editDemoView(_ namedDemoProvider: NamedDemoProvider) {
+        let namedDemoProvider = namedDemoProvider.deepCopy()
+        translator.editDemoView.withValue(
+            DemoViewEditingConfiguration(
+                namedDemoProvider: namedDemoProvider,
+                evaluator: self
+        ))
+    }
+}
+
+extension DemoBuilder.Evaluator: DemoViewEditingEvaluating {
+    func saveChangesToProvider(_ namedDemoProvider: NamedDemoProvider) {
+        guard case var .build(configuration) = current.step else { return }
+        let namedDemoProvider = namedDemoProvider.deepCopy()
+        for (index, demoProvider) in configuration.arrangedDemoProviders.enumerated() {
+            if demoProvider.id == namedDemoProvider.id {
+                configuration.arrangedDemoProviders[index] = namedDemoProvider
+                break
+            }
+        }
+        current.step = .build(configuration)
     }
 }
 
 extension DemoBuilder.Evaluator: PresenterEvaluating {
     func presenterDidDismiss(elementName: EvaluatorElement?) {
-        
+        current.step = current.step
     }
 }

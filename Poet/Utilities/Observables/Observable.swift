@@ -7,6 +7,7 @@
 //
 
 import Combine
+import Foundation
 
 class Observable<T>: ObservableObject {
     let objectDidChange = ObservableObjectPublisher()
@@ -19,6 +20,12 @@ class Observable<T>: ObservableObject {
     
     init(_ value: T) {
         self.value = value
+    }
+}
+
+extension Observable: DeepCopying {
+    func deepCopy() -> Self {
+        return Observable(value) as! Self
     }
 }
 

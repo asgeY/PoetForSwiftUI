@@ -12,7 +12,7 @@ struct Observer<Content, A>: View where Content: View {
     @ObservedObject var observable: Observable<A>
     var content: (A) -> Content
     
-    init(observable: Observable<A>, @ViewBuilder content: @escaping (A) -> Content) {
+    init(_ observable: Observable<A>, @ViewBuilder content: @escaping (A) -> Content) {
         self.observable = observable
         self.content = content
     }
@@ -27,7 +27,7 @@ struct Observer2<Content, A, B>: View where Content: View {
     @ObservedObject var observableB: Observable<B>
     var content: (A, B) -> Content
     
-    init(observableA: Observable<A>, observableB: Observable<B>, @ViewBuilder content: @escaping (A, B) -> Content) {
+    init(_ observableA: Observable<A>, _ observableB: Observable<B>, @ViewBuilder content: @escaping (A, B) -> Content) {
         self.observableA = observableA
         self.observableB = observableB
         self.content = content
@@ -44,7 +44,7 @@ struct Observer3<Content, A, B, C>: View where Content: View {
     @ObservedObject var observableC: Observable<C>
     var content: (A, B, C) -> Content
     
-    init(observableA: Observable<A>, observableB: Observable<B>, observableC: Observable<C>, @ViewBuilder content: @escaping (A, B, C) -> Content) {
+    init(_ observableA: Observable<A>, _ observableB: Observable<B>, _ observableC: Observable<C>, @ViewBuilder content: @escaping (A, B, C) -> Content) {
         self.observableA = observableA
         self.observableB = observableB
         self.observableC = observableC

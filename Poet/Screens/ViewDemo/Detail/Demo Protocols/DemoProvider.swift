@@ -8,7 +8,11 @@
 
 import SwiftUI
 
-protocol DemoProvider {
+/**
+ You must implement the deepCopy() method on your DemoProvider by doing a deep copy of each observable.
+ If you do not, the process of saving changes to a demo provider will be broken in the Demo Builder.
+ */
+protocol DemoProvider: DeepCopying {
     // to be determined upon use
     var contentView: AnyView { get }
     var controls: [DemoControl] { get }
@@ -34,8 +38,17 @@ extension DemoProvider {
     }
 }
 
-struct NamedDemoProvider {
+struct NamedDemoProvider: DeepCopying {
     let title: String
-    var demoProvider: DemoProvider
-    let id: UUID = UUID()
+    let demoProvider: DemoProvider
+    var id: UUID = UUID()
+    
+    func deepCopy() -> Self {
+        let provider = NamedDemoProvider(
+            title: self.title,
+            demoProvider: self.demoProvider.deepCopy(),
+            id: self.id
+        )
+        return provider
+    }
 }

@@ -57,9 +57,18 @@ struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
         case location
     }
     
+    func deepCopy() -> Self {
+        let provider = ProductView_DemoProvider(
+            title: self.title.deepCopy(),
+            upc: self.upc.deepCopy(),
+            location: self.location.deepCopy()
+        )
+        return provider
+    }
+    
     var contentView: AnyView {
         return AnyView(
-            Observer3(observableA: self.title, observableB: self.upc, observableC: self.location) { title, upc, location in
+            Observer3(title, upc, location) { title, upc, location in
                 ProductView(product:
                     Product(
                         title: title,

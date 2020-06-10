@@ -121,6 +121,7 @@
 		DC04F6F124661C1400F49E00 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC04F6F024661C1400F49E00 /* ImageExtensions.swift */; };
 		DC2E4DB6248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB5248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift */; };
 		DC2E4DB8248F831700986A82 /* NamedIdentifiedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB7248F831700986A82 /* NamedIdentifiedValue.swift */; };
+		DC2E4DBA24918D1800986A82 /* DeepCopying.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB924918D1800986A82 /* DeepCopying.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
 		DC31CC6E2479C90400002075 /* PresenterWithPassedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */; };
@@ -300,6 +301,7 @@
 		DC04F6F024661C1400F49E00 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		DC2E4DB5248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlView_ButtonChoices.swift; sourceTree = "<group>"; };
 		DC2E4DB7248F831700986A82 /* NamedIdentifiedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedIdentifiedValue.swift; sourceTree = "<group>"; };
+		DC2E4DB924918D1800986A82 /* DeepCopying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepCopying.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
 		DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithPassedValue.swift; sourceTree = "<group>"; };
@@ -603,6 +605,7 @@
 				3BF6692624781A0100AE055C /* Passables */,
 				DC4C6C7F247984120014A34C /* ArrayExtensions.swift */,
 				DC04F6F024661C1400F49E00 /* ImageExtensions.swift */,
+				DC2E4DB924918D1800986A82 /* DeepCopying.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1072,6 +1075,7 @@
 				DC31CC722479CA2100002075 /* FileTrayButton.swift in Sources */,
 				DC00E24D2486AF8600A9F503 /* HelloData-Evaluator.swift in Sources */,
 				3B67AA5F248C9CE400361DCA /* Observer.swift in Sources */,
+				DC2E4DBA24918D1800986A82 /* DeepCopying.swift in Sources */,
 				DC31CC6E2479C90400002075 /* PresenterWithPassedValue.swift in Sources */,
 				DC4C6C582476C8590014A34C /* DismissReceiver.swift in Sources */,
 				87D299E124561D4E003959C3 /* StaticPageViewMaker.swift in Sources */,

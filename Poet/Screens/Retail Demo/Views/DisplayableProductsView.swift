@@ -66,6 +66,13 @@ struct DisplayableProductsView_DemoProvider: DemoProvider, FindingProductsEvalua
         findableProduct: nil)
     ])
     
+    func deepCopy() -> Self {
+        let provider = DisplayableProductsView_DemoProvider(
+            displayableProducts: self.displayableProducts.deepCopy()
+        )
+        return provider
+    }
+    
     var contentView: AnyView {
         return AnyView(
             DisplayableProductsView(
