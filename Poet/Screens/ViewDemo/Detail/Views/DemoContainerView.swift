@@ -25,19 +25,21 @@ struct DemoContainerView<Content, Panel>: View where Content: View, Panel: View 
                     VStack(spacing: 20) {
                         Spacer().frame(height: 20)
                         HStack(spacing: 0) {
-                            Spacer().frame(width: 20)
+                            Spacer().frame(width: 12)
                             self.content()
-                                .background(Color.white)
-                                .shadow(color: Color.black.opacity(0.06), radius: 15, x: 0, y: 4)
-                            Spacer().frame(width: 20)
+                                .background(Color(UIColor.systemBackground))
+                                .cornerRadius(6)
+                                .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 4)
+                            Spacer().frame(width: 12)
                         }
                         Spacer().frame(height: 20)
                     }.background(
                         ZStack {
-                            Color(UIColor(white: 0.94, alpha: 0.9))
+                            Color.primary.opacity(1)
+                            Color(UIColor.systemBackground).opacity(0.97)
                             Image("diagonalpattern_third")
                                 .resizable(resizingMode: .tile)
-                                .opacity(0.1)
+                                .opacity(0.08)
                         }
                     )
                     

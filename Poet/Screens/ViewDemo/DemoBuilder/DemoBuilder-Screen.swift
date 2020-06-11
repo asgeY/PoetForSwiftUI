@@ -142,11 +142,12 @@ extension DemoBuilder {
                                                 
                                                 // MARK: Content
                                                 
-                                                ZStack {
+                                                ZStack(alignment: .leading) {
                                                     AnyView(
                                                         namedDemoProvider.demoProvider.contentView
                                                             .opacity(0)
                                                     )
+                                                    .frame(maxWidth: .infinity)
                                                     .overlay(
                                                         Color(UIColor.systemBackground)
                                                         .cornerRadius(self.isEditing ? 12 : 0)
@@ -156,6 +157,7 @@ extension DemoBuilder {
                                                     AnyView(
                                                         namedDemoProvider.demoProvider.contentView
                                                     )
+                                                    .frame(maxWidth: .infinity)
                                                     .padding(.bottom, self.isEditing ? 16 : 0)
                                                     .onTapGesture(count: 2) {
                                                         self.evaluator.evaluate(Action.editDemoView(namedDemoProvider))
@@ -222,6 +224,7 @@ extension DemoBuilder {
                                     .frame(width: self.isFullWidth ? geometry.size.width : self.isEditing ? geometry.size.width : geometry.size.width - 20)
                                 }
                                 .cornerRadius(self.isFullWidth ? 0 : 12)
+                                .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 4)
                                 
                                 Spacer()
                             }
