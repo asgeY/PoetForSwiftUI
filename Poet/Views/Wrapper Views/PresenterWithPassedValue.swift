@@ -15,7 +15,7 @@ protocol PresenterEvaluating {
 struct PresenterWithPassedValue<PassedType, Content>: View where Content : View {
     let passable: Passable<PassedType>
     let elementName: EvaluatorElement?
-    let evaluator: PresenterEvaluating?
+    var evaluator: PresenterEvaluating?
     var content: (PassedType) -> Content
     
     @State var passedValue: PassedType?

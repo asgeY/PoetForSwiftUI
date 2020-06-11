@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 extension DemoBuilder {
     class Evaluator {
@@ -60,6 +61,8 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
         case addDemoView(NamedDemoProvider)
         case editDemoView(NamedDemoProvider)
         case deleteDemoView(NamedDemoProvider)
+        case moveDemoViewUp(NamedDemoProvider)
+        case moveDemoViewDown(NamedDemoProvider)
     }
     
     func evaluate(_ action: EvaluatorAction?) {
@@ -78,6 +81,12 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
             
         case .deleteDemoView(let namedDemoProvider):
             deleteDemoView(namedDemoProvider)
+            
+        case .moveDemoViewUp(let namedDemoProvider):
+            moveDemoViewUp(namedDemoProvider)
+            
+        case .moveDemoViewDown(let namedDemoProvider):
+            moveDemoViewDown(namedDemoProvider)
         }
     }
     
@@ -93,7 +102,13 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
     func addDemoView(_ namedDemoProvider: NamedDemoProvider) {
         guard case var .build(configuration) = current.step else { return }
         configuration.arrangedDemoProviders.append(namedDemoProvider)
-        current.step = .build(configuration)
+        
+        // wait for dismiss to finish, so view renders correctly on screen.
+        // otherwise, scroll view has buggy taps.
+        // hoping this is a short term SwiftUI issue.
+        afterWait(400) {
+            self.current.step = .build(configuration)
+        }
     }
     
     func editDemoView(_ namedDemoProvider: NamedDemoProvider) {
@@ -115,6 +130,32 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
         }
         current.step = .build(configuration)
     }
+    
+    func moveDemoViewUp(_ namedDemoProvider: NamedDemoProvider) {
+        guard case var .build(configuration) = current.step else { return }
+        for (index, demoProvider) in configuration.arrangedDemoProviders.enumerated() {
+            if demoProvider.id == namedDemoProvider.id {
+                guard index > 0 else { return }
+                configuration.arrangedDemoProviders.remove(at: index)
+                configuration.arrangedDemoProviders.insert(namedDemoProvider, at: index - 1)
+                break
+            }
+        }
+        current.step = .build(configuration)
+    }
+    
+    func moveDemoViewDown(_ namedDemoProvider: NamedDemoProvider) {
+        guard case var .build(configuration) = current.step else { return }
+        for (index, demoProvider) in configuration.arrangedDemoProviders.enumerated() {
+            if demoProvider.id == namedDemoProvider.id {
+                guard index < configuration.arrangedDemoProviders.count - 1 else { return }
+                configuration.arrangedDemoProviders.remove(at: index)
+                configuration.arrangedDemoProviders.insert(namedDemoProvider, at: index + 1)
+                break
+            }
+        }
+        current.step = .build(configuration)
+    }
 }
 
 // MARK: DemoViewEditingEvaluating
@@ -129,6 +170,7 @@ extension DemoBuilder.Evaluator: DemoViewEditingEvaluating {
                 break
             }
         }
+        
         current.step = .build(configuration)
     }
 }
@@ -143,6 +185,6 @@ extension DemoBuilder.Evaluator: ViewDemoPickerEvaluating {
 
 extension DemoBuilder.Evaluator: PresenterEvaluating {
     func presenterDidDismiss(elementName: EvaluatorElement?) {
-        //
+        debugPrint("did dismiss")
     }
 }

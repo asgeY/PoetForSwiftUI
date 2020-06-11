@@ -48,8 +48,8 @@ extension DemoBuilder.Translator {
     
     func translateBuildStep(_ configuration: Evaluator.BuildStepConfiguration) {
         // Set observable display state
-//        withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
             self.arrangedDemoProviders.array = configuration.arrangedDemoProviders
-//        }
+        }
     }
 }
