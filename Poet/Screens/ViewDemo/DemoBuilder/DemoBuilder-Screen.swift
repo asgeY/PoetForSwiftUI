@@ -35,6 +35,9 @@ extension DemoBuilder {
                         
                         Button(
                             action: {
+                                withAnimation(.linear) {
+                                    self.isEditing = false
+                                }
                                 self.evaluator.evaluate(Action.promptToAddDemoView)
                         })
                         {
@@ -119,6 +122,22 @@ extension DemoBuilder {
                                 
                                 VStack(spacing: 0) {
                                     Observer(self.translator.arrangedDemoProviders) { arrangedDemoProviders in
+                                        
+                                        if arrangedDemoProviders.count > 0 {
+                                            HStack(spacing: 0) {
+                                                Spacer()
+                                            }
+                                                .frame(height: 20)
+                                                .overlay(
+                                                    Color(UIColor.systemBackground)
+                                                    .cornerRadius(self.isEditing ? 10 : 0)
+                                                )
+                                                .padding(.bottom, self.isEditing ? 16 : 0)
+                                                .padding(.leading, self.isEditing ? 44 : 0)
+                                                .padding(.trailing, self.isEditing ? 108 : 0)
+                                                .opacity(self.isEditing ? 0.5 : 1)
+                                        }
+                                        
                                         ForEach(arrangedDemoProviders, id: \.id) { namedDemoProvider in
                                             HStack(spacing: 0) {
                                                 
@@ -131,10 +150,11 @@ extension DemoBuilder {
                                                 {
                                                     Image(systemName: "dial")
                                                         .foregroundColor(Color.primary)
-                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
+                                                        .frame(width: 20, height: 20)
+//                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
                                                         .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
                                                         .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: 0, y: self.isEditing ? -8 : 0)
+                                                        .offset(x: self.isEditing ? 0 : -2, y: self.isEditing ? -8 : 0)
                                                 }
                                                 .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
                                                 .disabled(self.isEditing == false)
@@ -150,7 +170,7 @@ extension DemoBuilder {
                                                     .frame(maxWidth: .infinity)
                                                     .overlay(
                                                         Color(UIColor.systemBackground)
-                                                        .cornerRadius(self.isEditing ? 12 : 0)
+                                                        .cornerRadius(self.isEditing ? 10 : 0)
                                                     )
                                                     .padding(.bottom, self.isEditing ? 16 : 0)
                                                     
@@ -173,10 +193,11 @@ extension DemoBuilder {
                                                 {
                                                     Image(systemName: "minus.circle.fill")
                                                         .foregroundColor(Color(UIColor.systemRed))
-                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
+                                                        .frame(width: 20, height: 20)
+//                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
                                                         .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 6))
                                                         .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: 0, y: self.isEditing ? -8 : 0)
+                                                        .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
                                                 }
                                                 .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
                                                 .disabled(self.isEditing == false)
@@ -191,10 +212,11 @@ extension DemoBuilder {
                                                 {
                                                     Image(systemName: "arrow.up")
                                                         .foregroundColor(.primary)
-                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
+                                                        .frame(width: 20, height: 20)
+//                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
                                                         .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
                                                         .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: 0, y: self.isEditing ? -8 : 0)
+                                                        .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
                                                 }
                                                 .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
                                                 .disabled(self.isEditing == false)
@@ -209,22 +231,38 @@ extension DemoBuilder {
                                                 {
                                                     Image(systemName: "arrow.down")
                                                         .foregroundColor(.primary)
-                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
+                                                        .frame(width: 20, height: 20)
+//                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
                                                         .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 12))
                                                         .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: 0, y: self.isEditing ? -8 : 0)
+                                                        .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
                                                 }
                                                 .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
                                                 .disabled(self.isEditing == false)
                                                 .opacity(self.isEditing ? 1 : 0)
                                             }
                                         }
+                                        
+                                        if arrangedDemoProviders.count > 0 {
+                                            HStack(spacing: 0) {
+                                                Spacer()
+                                            }
+                                                .frame(height: 20)
+                                                .overlay(
+                                                    Color(UIColor.systemBackground)
+                                                    .cornerRadius(self.isEditing ? 10 : 0)
+                                                )
+                                                .padding(.bottom, self.isEditing ? 16 : 0)
+                                                .padding(.leading, self.isEditing ? 44 : 0)
+                                                .padding(.trailing, self.isEditing ? 108 : 0)
+                                                .opacity(self.isEditing ? 0.5 : 1)
+                                        }
                                     }
                                     .padding(0)
-                                    .frame(width: self.isFullWidth ? geometry.size.width : self.isEditing ? geometry.size.width : geometry.size.width - 20)
+                                    .frame(width: self.isFullWidth ? geometry.size.width : self.isEditing ? geometry.size.width : geometry.size.width - 28)
                                 }
-                                .cornerRadius(self.isFullWidth ? 0 : 12)
-                                .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 4)
+                                .cornerRadius(self.isFullWidth ? 0 : 10)
+                                .shadow(color: Color.black.opacity(0.03), radius: 12, x: 0, y: 4)
                                 
                                 Spacer()
                             }

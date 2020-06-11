@@ -25,12 +25,12 @@ struct DemoContainerView<Content, Panel>: View where Content: View, Panel: View 
                     VStack(spacing: 20) {
                         Spacer().frame(height: 20)
                         HStack(spacing: 0) {
-                            Spacer().frame(width: 12)
+                            Spacer().frame(width: 16)
                             self.content()
                                 .background(Color(UIColor.systemBackground))
-                                .cornerRadius(6)
-                                .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 4)
-                            Spacer().frame(width: 12)
+                                .cornerRadius(10)
+                                .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 4)
+                            Spacer().frame(width: 16)
                         }
                         Spacer().frame(height: 20)
                     }.background(
