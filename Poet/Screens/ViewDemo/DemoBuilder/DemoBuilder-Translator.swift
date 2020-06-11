@@ -8,6 +8,7 @@
 
 import Combine
 import Foundation
+import SwiftUI
 
 extension DemoBuilder {
 
@@ -20,6 +21,7 @@ extension DemoBuilder {
         
         // Passable
         var editDemoView = Passable<DemoViewEditingConfiguration>()
+        var promptToAddDemoView = Passable<[NamedDemoProvider]>()
         
         // Step Sink
         private var stepSink: AnyCancellable?
@@ -46,6 +48,8 @@ extension DemoBuilder.Translator {
     
     func translateBuildStep(_ configuration: Evaluator.BuildStepConfiguration) {
         // Set observable display state
-        self.arrangedDemoProviders.array = configuration.arrangedDemoProviders
+//        withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
+            self.arrangedDemoProviders.array = configuration.arrangedDemoProviders
+//        }
     }
 }

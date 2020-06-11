@@ -21,13 +21,13 @@ struct EvaluatingTextField: View {
     let elementName: EvaluatorElement
     let isSecure: Bool
     let input: Input
-    @State var fieldText = ObservableString()
+    @ObservedObject var fieldText = ObservableString()
     let evaluator: TextFieldEvaluating
     
     @State var validationSink: AnyCancellable?
     private var passableText: PassableString = PassableString()
     
-    @State private var storedText: String = ""
+    @State private var lastValidatedText: String = ""
     @State private var validationImageName: String = "checkmark.circle"
     @State private var validationImageColor: Color = Color.clear
     @State private var shouldShowValidationMessage = false
@@ -113,8 +113,8 @@ struct EvaluatingTextField: View {
         }
         .padding(.bottom, 14)
         .onReceive(fieldText.objectDidChange) {
-            if self.fieldText.string == self.storedText { return }
-            self.storedText = self.fieldText.string
+            if self.fieldText.string == self.lastValidatedText { return }
+            self.lastValidatedText = self.fieldText.string
 
             self.validationSink = self.isValid.$value.debounce(for: 0.35, scheduler: DispatchQueue.main).sink { (value) in
                 if self.fieldText.string.isEmpty {

@@ -43,37 +43,31 @@ extension Retail {
                 )
                 
             case .canceledTitle:
-            return AnyView(
-                Fadeable {
-                    HStack {
-                        Text("Canceled")
-                            .font(Font.system(size: 32, weight: .bold))
-                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 40))
-                        Spacer()
-                    }.foregroundColor(Color(UIColor.systemRed))
-                }
-            )
+                return AnyView(
+                    Fadeable {
+                        TitleView(
+                            text: "Canceled",
+                            color: Color(UIColor.systemRed)
+                        )
+                    }
+                )
                 
             case .completedTitle:
                 return AnyView(
                     Fadeable {
-                        HStack {
-                            Text("Completed")
-                                .font(Font.system(size: 32, weight: .bold))
-                                .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 40))
-                            Spacer()
-                        }.foregroundColor(Color(UIColor.systemGreen))
+                        TitleView(
+                            text: "Canceled",
+                            color: Color(UIColor.systemGreen)
+                        )
                     }
                 )
                 
             case .customerTitle(let title):
                 return AnyView(
-                    HStack {
-                        ObservingTextView(title)
-                            .font(Font.system(size: 32, weight: .bold))
-                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 40))
-                        Spacer()
-                    }
+                    TitleView(
+                        observableText: title,
+                        color: Color(UIColor.black)
+                    )
                 )
                 
             case .divider:
@@ -82,7 +76,7 @@ extension Retail {
                         .background(Color.primary)
                         .frame(height: 2)
                         .opacity(0.25)
-                        .padding(EdgeInsets(top: 0, leading: 40, bottom: 20, trailing: 0))
+                        .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 0))
                 )
                 
             case .feedback(let feedback):
@@ -101,7 +95,7 @@ extension Retail {
             case .instruction(let instructionNumber, let instruction):
                 return AnyView(
                     InstructionView(instructionNumber: instructionNumber, instruction: instruction)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 18, trailing: 0))
                 )
              
             case .displayableProducts(let displayableProducts):
@@ -114,7 +108,7 @@ extension Retail {
                 return AnyView(
                     Fadeable {
                         OptionsView(options: deliveryOptions, preference: deliveryPreference, evaluator: self.optionsEvaluator)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 34, trailing: 0))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 18, trailing: 0))
                     }
                 )
                 
@@ -126,7 +120,7 @@ extension Retail {
                             .background(Color.primary)
                             .frame(height: 1.75)
                             .opacity(0.22)
-                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 20, trailing: 0))
+                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 0))
                             
                             HStack {
                                 ObservingTextView(completedSummary)
@@ -140,6 +134,84 @@ extension Retail {
                     }
                 )
             }
+        }
+    }
+}
+
+
+struct TitleView: View {
+    @ObservedObject var observableText = ObservableString()
+    let color: Color
+    
+    init(text: String, color: Color) {
+        self.observableText = ObservableString(text)
+        self.color = color
+    }
+    
+    init(observableText: ObservableString, color: Color) {
+        self.observableText = observableText
+        self.color = color
+    }
+    
+    var body: some View {
+        HStack {
+            Observer(observableText) { text in
+                Text(text)
+                    .font(Font.system(size: 32, weight: .bold))
+                    .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 40))
+                Spacer()
+            }
+        }
+        .foregroundColor(color)
+    }
+}
+
+extension TitleView: ViewDemoing {
+    static var demoProvider: DemoProvider {
+        return TitleView_DemoProvider()
+    }
+}
+
+struct TitleView_DemoProvider: DemoProvider, TextFieldEvaluating {
+    var text = ObservableString("Hello")
+    var color = Observable<Color>(.black)
+    
+    enum Element: EvaluatorElement {
+        case text
+    }
+    
+    var contentView: AnyView {
+        return AnyView(
+            Observer2(text, color) { text, color in
+                TitleView(
+                    text: text,
+                    color: color
+                )
+            }
+        )
+    }
+    
+    var controls: [DemoControl] {
+        return [
+            DemoControl(
+                title: "Text",
+                type: DemoControl.Text(evaluator: self, elementName: Element.text, input: .text))
+        ]
+    }
+    
+    func deepCopy() -> TitleView_DemoProvider {
+        let provider = TitleView_DemoProvider(
+            text: self.text.deepCopy(),
+            color: self.color.deepCopy()
+        )
+        return provider
+    }
+    
+    func textFieldDidChange(text: String, elementName: EvaluatorElement) {
+        guard let elementName = elementName as? Element else { return }
+        switch elementName {
+        case .text:
+            self.text.string = text
         }
     }
 }

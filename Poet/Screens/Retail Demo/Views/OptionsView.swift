@@ -14,11 +14,11 @@ struct OptionsView: View {
     let evaluator: OptionsEvaluating
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 0) {
             ForEach(options.array, id: \.self) { option in
-                HStack {
+                VStack(alignment: .leading, spacing: 0) {
                     OptionView(option: option, preference: self.preference.string, evaluator: self.evaluator)
-                    Spacer()
+                    Spacer().frame(height: 16)
                 }
             }
         }
@@ -32,23 +32,43 @@ struct OptionView: View {
     
     var body: some View {
         let isSelected = self.option == self.preference
-        return ZStack(alignment: .topLeading) {
-            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .foregroundColor(.primary)
-                .frame(width: isSelected ? 25.5 : 23, height: isSelected ? 25.5 : 23)
-                .animation(.spring(response: 0.25, dampingFraction: 0.25, blendDuration: 0), value: isSelected)
-                .padding(EdgeInsets(top: isSelected ? -2.25 : -1, leading: isSelected ? 38.75 : 40, bottom: 0, trailing: 0))
-            Text(self.option)
-                .font(Font.headline)
-                .layoutPriority(20)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(EdgeInsets(top: 0, leading: 76, bottom: 0, trailing: 76))
-        }
-        .onTapGesture {
+        return Button(action: {
             self.evaluator.toggleOption(self.option)
+        }) {
+            HStack(spacing: 0) {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: isSelected ? 25.5 : 23, height: isSelected ? 25.5 : 23)
+                    .animation(.spring(response: 0.25, dampingFraction: 0.25, blendDuration: 0), value: isSelected)
+                    .padding(EdgeInsets(top: isSelected ? 0 : 1.25, leading: isSelected ? 38.75 : 40, bottom: isSelected ? 0 : 1.25, trailing: 0)) // -2.25 : -1... 0 : 1.25
+                Text(self.option)
+                    .font(Font.headline)
+                    .layoutPriority(20)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 1.25, leading: isSelected ? 14.25 : 16, bottom: 0, trailing: 76))
+                Spacer()
+            }
+            
+            /*
+            ZStack(alignment: .topLeading) {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(.primary)
+                    .frame(width: isSelected ? 25.5 : 23, height: isSelected ? 25.5 : 23)
+                    .animation(.spring(response: 0.25, dampingFraction: 0.25, blendDuration: 0), value: isSelected)
+                    .padding(EdgeInsets(top: isSelected ? -2.25 : -1, leading: isSelected ? 38.75 : 40, bottom: 0, trailing: 0))
+                Text(self.option)
+                    .font(Font.headline)
+                    .layoutPriority(20)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(EdgeInsets(top: 0, leading: 76, bottom: 0, trailing: 76))
+            }
+             */
         }
+        .padding(0)
+        .foregroundColor(.primary)
     }
 }
 

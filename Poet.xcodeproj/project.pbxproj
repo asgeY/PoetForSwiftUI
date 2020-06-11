@@ -122,6 +122,9 @@
 		DC2E4DB6248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB5248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift */; };
 		DC2E4DB8248F831700986A82 /* NamedIdentifiedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB7248F831700986A82 /* NamedIdentifiedValue.swift */; };
 		DC2E4DBA24918D1800986A82 /* DeepCopying.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DB924918D1800986A82 /* DeepCopying.swift */; };
+		DC2E4DBC2491B67700986A82 /* DemoViewEditingEvaluating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DBB2491B67700986A82 /* DemoViewEditingEvaluating.swift */; };
+		DC2E4DBE2491B6C500986A82 /* NamedDemoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DBD2491B6C500986A82 /* NamedDemoProvider.swift */; };
+		DC2E4DC42491BD4B00986A82 /* DemoViewEditingConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC2E4DC32491BD4B00986A82 /* DemoViewEditingConfiguration.swift */; };
 		DC31CC6A2479BDF500002075 /* FileMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC692479BDF500002075 /* FileMenuView.swift */; };
 		DC31CC6C2479C8EE00002075 /* PresenterWithString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */; };
 		DC31CC6E2479C90400002075 /* PresenterWithPassedValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */; };
@@ -302,6 +305,9 @@
 		DC2E4DB5248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlView_ButtonChoices.swift; sourceTree = "<group>"; };
 		DC2E4DB7248F831700986A82 /* NamedIdentifiedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedIdentifiedValue.swift; sourceTree = "<group>"; };
 		DC2E4DB924918D1800986A82 /* DeepCopying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepCopying.swift; sourceTree = "<group>"; };
+		DC2E4DBB2491B67700986A82 /* DemoViewEditingEvaluating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewEditingEvaluating.swift; sourceTree = "<group>"; };
+		DC2E4DBD2491B6C500986A82 /* NamedDemoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedDemoProvider.swift; sourceTree = "<group>"; };
+		DC2E4DC32491BD4B00986A82 /* DemoViewEditingConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewEditingConfiguration.swift; sourceTree = "<group>"; };
 		DC31CC692479BDF500002075 /* FileMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenuView.swift; sourceTree = "<group>"; };
 		DC31CC6B2479C8EE00002075 /* PresenterWithString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithString.swift; sourceTree = "<group>"; };
 		DC31CC6D2479C90400002075 /* PresenterWithPassedValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterWithPassedValue.swift; sourceTree = "<group>"; };
@@ -370,13 +376,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3B3E1525248E81FC0017AEF0 /* Demo Protocols */ = {
+		3B3E1525248E81FC0017AEF0 /* Demo Protocols & Types */ = {
 			isa = PBXGroup;
 			children = (
 				3B3E1526248E823C0017AEF0 /* DemoProvider.swift */,
 				3B3E1527248E823C0017AEF0 /* ViewDemoing.swift */,
+				DC2E4DBD2491B6C500986A82 /* NamedDemoProvider.swift */,
+				DC2E4DBB2491B67700986A82 /* DemoViewEditingEvaluating.swift */,
+				DC2E4DC32491BD4B00986A82 /* DemoViewEditingConfiguration.swift */,
 			);
-			path = "Demo Protocols";
+			path = "Demo Protocols & Types";
 			sourceTree = "<group>";
 		};
 		3B3E152D248E845C0017AEF0 /* Demo Control Views */ = {
@@ -454,6 +463,7 @@
 		3BC27FE3248A93F2001DDBD4 /* ViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				3B3E1525248E81FC0017AEF0 /* Demo Protocols & Types */,
 				3BC27FEA248A947B001DDBD4 /* List */,
 				3BC27FEB248A948B001DDBD4 /* Detail */,
 				3B3E153A248EA67F0017AEF0 /* DemoBuilder */,
@@ -478,7 +488,6 @@
 				3B3E1536248E849F0017AEF0 /* ViewDemo-HowToUse */,
 				3B3E1538248E9A2A0017AEF0 /* ViewDemoDetail.swift */,
 				3B3E152E248E84700017AEF0 /* DemoControl.swift */,
-				3B3E1525248E81FC0017AEF0 /* Demo Protocols */,
 				3B67AA71248E7C8A00361DCA /* Views */,
 			);
 			path = Detail;
@@ -1011,9 +1020,11 @@
 				DC00E2302481D2E100A9F503 /* TextValidation.swift in Sources */,
 				87D299D8245518C1003959C3 /* About-Translator.swift in Sources */,
 				3B72549F2480702100E27551 /* Login-Translator.swift in Sources */,
+				DC2E4DBE2491B6C500986A82 /* NamedDemoProvider.swift in Sources */,
 				8794A606245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift in Sources */,
 				DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */,
 				DC4C6C6D2476D0DA0014A34C /* SupplementaryCodeView.swift in Sources */,
+				DC2E4DC42491BD4B00986A82 /* DemoViewEditingConfiguration.swift in Sources */,
 				3B687626247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift in Sources */,
 				87E7E43F2459637900047253 /* Retail-Translator.swift in Sources */,
 				87AC827A2453BB3C0090E443 /* Menu-Evaluator.swift in Sources */,
@@ -1108,6 +1119,7 @@
 				DC4C6C762476D3B60014A34C /* BackButton.swift in Sources */,
 				3BF6692A24781A2900AE055C /* Passable.swift in Sources */,
 				87AC827B2453BB400090E443 /* Menu-Translator.swift in Sources */,
+				DC2E4DBC2491B67700986A82 /* DemoViewEditingEvaluating.swift in Sources */,
 				DC2E4DB6248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift in Sources */,
 				DC4C6C672476CF120014A34C /* Presenter.swift in Sources */,
 				87AC827D2454C3EA0090E443 /* Numbers.swift in Sources */,

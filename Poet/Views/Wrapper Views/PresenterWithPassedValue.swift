@@ -19,7 +19,7 @@ struct PresenterWithPassedValue<PassedType, Content>: View where Content : View 
     var content: (PassedType) -> Content
     
     @State var passedValue: PassedType?
-    @ObservedObject var isShowing = ObservableBool(false)
+    @State var isShowing = false
     
     init(_ passable: Passable<PassedType>, elementName: EvaluatorElement? = nil, evaluator: PresenterEvaluating? = nil, @ViewBuilder content: @escaping (PassedType) -> Content) {
         self.passable = passable
@@ -30,21 +30,19 @@ struct PresenterWithPassedValue<PassedType, Content>: View where Content : View 
     
     var body: some View {
         Spacer()
-            .sheet(isPresented: self.$isShowing.bool) {
+            .sheet(isPresented: self.$isShowing, onDismiss: {
+                self.evaluator?.presenterDidDismiss(elementName: self.elementName)
+            }, content: {
                 if self.passedValue != nil {
                     self.content(self.passedValue!)
                 } else {
                     EmptyView()
                 }
-            }
+            })
+            
         .onReceive(passable.subject) { value in
             self.passedValue = value
-            self.isShowing.bool = true
-        }
-        .onReceive(isShowing.objectDidChange) {
-            if self.isShowing.bool == false {
-                self.evaluator?.presenterDidDismiss(elementName: self.elementName)
-            }
+            self.isShowing = true
         }
     }
 }

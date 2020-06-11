@@ -19,6 +19,10 @@ To implement a DemoProvider, provide two things:
 Your concrete DemoProvider struct can contain whatever observable properties it wants.
 The controls can modify their values, and the contentView can observe them.
 
+A DemoProvider must also implement:
+* deepCopy(), a method that belongs to the DeepCopying protocol
+The deepCopy method will allow a NamedDemoProvider struct to be copied with new instances of its Observables.
+
 ---
 
 How to show a view demo.

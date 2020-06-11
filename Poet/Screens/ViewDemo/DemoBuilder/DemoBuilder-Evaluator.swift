@@ -19,7 +19,8 @@ extension DemoBuilder {
     }
 }
 
-// Steps and Step Configurations
+// MARK: Steps and Step Configurations
+
 extension DemoBuilder.Evaluator {
     enum Step: EvaluatorStep {
         case initial
@@ -31,14 +32,16 @@ extension DemoBuilder.Evaluator {
     }
 }
 
-// View Cycle
+// MARK: View Cycle
+
 extension DemoBuilder.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
         showBuildStep()
     }
 }
 
-// Advancing Between Steps
+// MARK: Advancing Between Steps
+
 extension DemoBuilder.Evaluator {
     func showBuildStep() {
         let configuration = BuildStepConfiguration(
@@ -48,20 +51,15 @@ extension DemoBuilder.Evaluator {
     }
 }
 
-struct DemoViewEditingConfiguration {
-    let namedDemoProvider: NamedDemoProvider
-    let evaluator: DemoViewEditingEvaluating
-}
-
-protocol DemoViewEditingEvaluating {
-    func saveChangesToProvider(_ namedDemoProvider: NamedDemoProvider)
-}
+// MARK: Actions
 
 extension DemoBuilder.Evaluator: ActionEvaluating {
     
     enum Action: EvaluatorAction {
+        case promptToAddDemoView
         case addDemoView(NamedDemoProvider)
         case editDemoView(NamedDemoProvider)
+        case deleteDemoView(NamedDemoProvider)
     }
     
     func evaluate(_ action: EvaluatorAction?) {
@@ -69,12 +67,27 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
         
         switch action {
             
+        case .promptToAddDemoView:
+            promptToAddDemoView()
+            
         case .addDemoView(let namedDemoProvider):
             addDemoView(namedDemoProvider)
             
         case .editDemoView(let namedDemoProvider):
             editDemoView(namedDemoProvider)
+            
+        case .deleteDemoView(let namedDemoProvider):
+            deleteDemoView(namedDemoProvider)
         }
+    }
+    
+    func promptToAddDemoView() {
+        translator.promptToAddDemoView.withValue([
+            ObservingTextView.namedDemoProvider,
+            OptionsView.namedDemoProvider,
+            DisplayableProductsView.namedDemoProvider,
+            TitleView.namedDemoProvider
+        ])
     }
     
     func addDemoView(_ namedDemoProvider: NamedDemoProvider) {
@@ -91,7 +104,20 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
                 evaluator: self
         ))
     }
+    
+    func deleteDemoView(_ namedDemoProvider: NamedDemoProvider) {
+        guard case var .build(configuration) = current.step else { return }
+        for (index, demoProvider) in configuration.arrangedDemoProviders.enumerated() {
+            if demoProvider.id == namedDemoProvider.id {
+                configuration.arrangedDemoProviders.remove(at: index)
+                break
+            }
+        }
+        current.step = .build(configuration)
+    }
 }
+
+// MARK: DemoViewEditingEvaluating
 
 extension DemoBuilder.Evaluator: DemoViewEditingEvaluating {
     func saveChangesToProvider(_ namedDemoProvider: NamedDemoProvider) {
@@ -107,8 +133,16 @@ extension DemoBuilder.Evaluator: DemoViewEditingEvaluating {
     }
 }
 
+// MARK: DemoViewEditingEvaluating
+
+extension DemoBuilder.Evaluator: ViewDemoPickerEvaluating {
+    func pickViewDemo(_ provider: NamedDemoProvider) {
+        addDemoView(provider)
+    }
+}
+
 extension DemoBuilder.Evaluator: PresenterEvaluating {
     func presenterDidDismiss(elementName: EvaluatorElement?) {
-        current.step = current.step
+        //
     }
 }

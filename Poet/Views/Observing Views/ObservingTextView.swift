@@ -50,15 +50,6 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
     var alignment = Observable<TextAlignment>(.leading)
     var kerning = Observable<CGFloat>(0.0)
     
-    func deepCopy() -> Self {
-        let provider = ObservingTextView_DemoProvider(
-            text: self.text.deepCopy(),
-            alignment: self.alignment.deepCopy(),
-            kerning: self.kerning.deepCopy()
-        )
-        return provider
-    }
-    
     enum Element: EvaluatorElement {
         case textField
         case kerningField
@@ -116,6 +107,15 @@ struct ObservingTextView_DemoProvider: DemoProvider, TextFieldEvaluating {
                 )
             ),
         ]
+    }
+    
+    func deepCopy() -> Self {
+        let provider = ObservingTextView_DemoProvider(
+            text: self.text.deepCopy(),
+            alignment: self.alignment.deepCopy(),
+            kerning: self.kerning.deepCopy()
+        )
+        return provider
     }
     
     func textFieldDidChange(text: String, elementName: EvaluatorElement) {
