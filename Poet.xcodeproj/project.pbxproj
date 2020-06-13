@@ -173,6 +173,10 @@
 		DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656724709D570048A848 /* EvaluatorAction.swift */; };
 		DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6565692470AA530048A848 /* EvaluatorStep.swift */; };
 		DC65656D2470F4FB0048A848 /* CharacterBezelTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */; };
+		DCA05ACF24954B320038D433 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05ACE24954B320038D433 /* FeedbackView.swift */; };
+		DCA05AD1249551060038D433 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05AD0249551060038D433 /* DividerView.swift */; };
+		DCA05AD3249552F00038D433 /* SpaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05AD2249552EF0038D433 /* SpaceView.swift */; };
+		DCA05AD52495580E0038D433 /* DemoContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05AD42495580E0038D433 /* DemoContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -356,6 +360,10 @@
 		DC65656724709D570048A848 /* EvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorAction.swift; sourceTree = "<group>"; };
 		DC6565692470AA530048A848 /* EvaluatorStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorStep.swift; sourceTree = "<group>"; };
 		DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezelTranslating.swift; sourceTree = "<group>"; };
+		DCA05ACE24954B320038D433 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
+		DCA05AD0249551060038D433 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
+		DCA05AD2249552EF0038D433 /* SpaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView.swift; sourceTree = "<group>"; };
+		DCA05AD42495580E0038D433 /* DemoContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -488,6 +496,7 @@
 				3B3E1536248E849F0017AEF0 /* ViewDemo-HowToUse */,
 				3B3E1538248E9A2A0017AEF0 /* ViewDemoDetail.swift */,
 				3B3E152E248E84700017AEF0 /* DemoControl.swift */,
+				DCA05AD42495580E0038D433 /* DemoContentView.swift */,
 				3B67AA71248E7C8A00361DCA /* Views */,
 			);
 			path = Detail;
@@ -830,6 +839,9 @@
 				DC4C6C4B2476C5A40014A34C /* DisplayableProductsView.swift */,
 				DC4C6C4D2476C5FC0014A34C /* FoundNotFoundButtonsView.swift */,
 				DC4C6C472476C5660014A34C /* InstructionView.swift */,
+				DCA05ACE24954B320038D433 /* FeedbackView.swift */,
+				DCA05AD0249551060038D433 /* DividerView.swift */,
+				DCA05AD2249552EF0038D433 /* SpaceView.swift */,
 				DC4C6C512476C6E00014A34C /* OptionsView.swift */,
 				DC4C6C492476C59A0014A34C /* ProductView.swift */,
 				DC4C6C4F2476C6A80014A34C /* SelectableCapsuleButton.swift */,
@@ -1018,6 +1030,7 @@
 				3B687628247DE4BB005F2FBA /* Chapter_PassableState.swift in Sources */,
 				3B72549E2480702100E27551 /* Login-Evaluator.swift in Sources */,
 				DC00E2302481D2E100A9F503 /* TextValidation.swift in Sources */,
+				DCA05AD3249552F00038D433 /* SpaceView.swift in Sources */,
 				87D299D8245518C1003959C3 /* About-Translator.swift in Sources */,
 				3B72549F2480702100E27551 /* Login-Translator.swift in Sources */,
 				DC2E4DBE2491B6C500986A82 /* NamedDemoProvider.swift in Sources */,
@@ -1105,6 +1118,7 @@
 				8794A604245CB98600D41E4F /* DismissReceiverExample-Translator.swift in Sources */,
 				DC4C6C652476CE620014A34C /* MainTitleView.swift in Sources */,
 				3BC27FF2248A94E6001DDBD4 /* ViewDemoList-Screen.swift in Sources */,
+				DCA05AD52495580E0038D433 /* DemoContentView.swift in Sources */,
 				3B3E1539248E9A2A0017AEF0 /* ViewDemoDetail.swift in Sources */,
 				3B72548D247FF7ED00E27551 /* NamedEvaluatorAction.swift in Sources */,
 				DC4C6C7B2476D4AE0014A34C /* DismissTranslating.swift in Sources */,
@@ -1118,6 +1132,7 @@
 				3BF6692E24781A9F00AE055C /* PassableArray.swift in Sources */,
 				DC4C6C762476D3B60014A34C /* BackButton.swift in Sources */,
 				3BF6692A24781A2900AE055C /* Passable.swift in Sources */,
+				DCA05AD1249551060038D433 /* DividerView.swift in Sources */,
 				87AC827B2453BB400090E443 /* Menu-Translator.swift in Sources */,
 				DC2E4DBC2491B67700986A82 /* DemoViewEditingEvaluating.swift in Sources */,
 				DC2E4DB6248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift in Sources */,
@@ -1136,6 +1151,7 @@
 				DC4C6C612476CD5B0014A34C /* ObservingButton.swift in Sources */,
 				DC00E24C2486AF8100A9F503 /* HelloData-Screen.swift in Sources */,
 				3B3E1529248E823C0017AEF0 /* ViewDemoing.swift in Sources */,
+				DCA05ACF24954B320038D433 /* FeedbackView.swift in Sources */,
 				3B7254A124808AE300E27551 /* EvaluatorElement.swift in Sources */,
 				3B3E1542248ECAF00017AEF0 /* DemoBuilder-Translator.swift in Sources */,
 				DC4C111E245DFF21009BC14D /* Tutorial-Screen.swift in Sources */,

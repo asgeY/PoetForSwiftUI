@@ -8,6 +8,15 @@
 
 import SwiftUI
 
+/* * * * * * * * * * * * * * * *
+ 
+ TODO
+ 
+ Make InstructionsView, similar to OptionsView.
+ 
+* * * * * * * * * * * * * * * */
+
+
 struct InstructionView: View {
     @ObservedObject var instructionNumber: ObservableInt
     @ObservedObject var instruction: ObservableString
@@ -31,8 +40,7 @@ struct InstructionView: View {
                 }
                 Spacer()
             }
-            .padding(.bottom, 18)
-//            Spacer().frame(height: 18)
+            Spacer().frame(height: 18)
         }
     }
 }

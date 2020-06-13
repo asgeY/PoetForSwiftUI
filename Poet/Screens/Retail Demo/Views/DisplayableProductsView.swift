@@ -20,7 +20,7 @@ struct DisplayableProductsView: View {
                         ProductView(product: displayableProduct.product)
                         if displayableProduct.findableProduct != nil {
                             FoundNotFoundButtonsView(findableProduct: displayableProduct.findableProduct!, evaluator: self.evaluator)
-                                .padding(EdgeInsets(top: 5, leading: 20, bottom: 0, trailing: 20))
+                                .padding(EdgeInsets(top: 8, leading: 20, bottom: 0, trailing: 20))
                                 .transition(.opacity)
                         }
                     }

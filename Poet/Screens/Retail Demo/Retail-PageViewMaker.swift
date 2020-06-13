@@ -42,6 +42,11 @@ extension Retail {
                     Spacer().frame(height: 40)
                 )
                 
+            case .space:
+                return AnyView(
+                    SpaceView()
+                )
+                
             case .canceledTitle:
                 return AnyView(
                     Fadeable {
@@ -66,30 +71,18 @@ extension Retail {
                 return AnyView(
                     TitleView(
                         observableText: title,
-                        color: Color(UIColor.black)
+                        color: Color.primary
                     )
                 )
                 
             case .divider:
                 return AnyView(
-                    Divider()
-                        .background(Color.primary)
-                        .frame(height: 2)
-                        .opacity(0.25)
-                        .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 0))
+                    DividerView()
                 )
                 
             case .feedback(let feedback):
                 return AnyView(
-                    VStack {
-                        HStack {
-                            ObservingTextView(feedback)
-                                .font(Font.headline.monospacedDigit().bold())
-                                .opacity(0.4)
-                                .padding(EdgeInsets(top: 0, leading: 40, bottom: 26, trailing: 42))
-                            Spacer()
-                        }
-                    }
+                    FeedbackView(feedback: feedback)
                 )
                 
             case .instruction(let instructionNumber, let instruction):
@@ -112,7 +105,7 @@ extension Retail {
             case .completedSummary(let completedSummary):
                 return AnyView(
                     Fadeable {
-                        VStack {
+                        VStack(spacing: 0) {
                             Divider()
                             .background(Color.primary)
                             .frame(height: 1.75)
@@ -151,13 +144,16 @@ struct TitleView: View {
     }
     
     var body: some View {
-        HStack {
-            Observer(observableText) { text in
-                Text(text)
-                    .font(Font.system(size: 32, weight: .bold))
-                    .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 40))
-                Spacer()
+        VStack(spacing: 0) {
+            HStack {
+                Observer(observableText) { text in
+                    Text(text)
+                        .font(Font.system(size: 32, weight: .bold))
+                        .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+                    Spacer()
+                }
             }
+            Spacer().frame(height: 36)
         }
         .foregroundColor(color)
     }
@@ -171,7 +167,7 @@ extension TitleView: ViewDemoing {
 
 struct TitleView_DemoProvider: DemoProvider, TextFieldEvaluating {
     var text = ObservableString("Hello")
-    var color = Observable<Color>(.black)
+    var color = Observable<Color>(.primary)
     
     enum Element: EvaluatorElement {
         case text
@@ -200,7 +196,7 @@ struct TitleView_DemoProvider: DemoProvider, TextFieldEvaluating {
                 type: DemoControl.Buttons(
                     observable: color,
                     choices: [
-                        NamedIdentifiedValue(title: "Black", value: Color.black),
+                        NamedIdentifiedValue(title: "Primary", value: Color.primary),
                         NamedIdentifiedValue(title: "Green", value: Color(UIColor.systemGreen)),
                         NamedIdentifiedValue(title: "Red", value: Color(UIColor.systemRed)),
                     ]

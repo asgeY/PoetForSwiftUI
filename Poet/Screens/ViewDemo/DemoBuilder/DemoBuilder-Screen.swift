@@ -20,6 +20,11 @@ extension DemoBuilder {
         @State var isFullWidth = false
         @State var isEditing = false
         @State var isColoringViews = false
+        @State var isShowingNames = false
+        
+        func shouldRoundCorners() -> Bool {
+            return isEditing || (isShowingNames && !isFullWidth)
+        }
         
         @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
         
@@ -88,6 +93,27 @@ extension DemoBuilder {
                         }
                         
                         Spacer()
+                        
+                        // MARK: Naming Button
+                        
+                        Observer(translator.arrangedDemoProviders) { arrangedDemoProviders in
+                            Button(
+                                action: {
+                                    withAnimation(.linear) {
+                                        self.isShowingNames.toggle()
+                                    }
+                            })
+                            {
+                                Image(systemName: self.isShowingNames ? "a.square.fill" : "a.square")
+                                    .foregroundColor(Color.primary)
+                                    .frame(width: 20)
+                                    .padding(EdgeInsets(top: 26, leading: 10, bottom: 10, trailing: 10))
+                                    .font(Font.system(size: 18, weight: .regular))
+                                    .animation(.none)
+                            }
+                            .disabled(arrangedDemoProviders.isEmpty || self.isEditing)
+                            .opacity(arrangedDemoProviders.isEmpty || self.isEditing ? 0.25 : 1)
+                        }
                         
                         // MARK: Color Overlay Button
                         
@@ -166,131 +192,104 @@ extension DemoBuilder {
                                                 .frame(height: 20)
                                                 .overlay(
                                                     Color(UIColor.systemBackground)
-                                                    .cornerRadius(self.isEditing ? 10 : 0)
+                                                        .cornerRadius(self.shouldRoundCorners() ? 10 : 0)
                                                 )
-                                                .padding(.bottom, self.isEditing ? 16 : 0)
+                                                .padding(.bottom, self.isEditing || self.isShowingNames ? 16 : 0)
                                                 .padding(.leading, self.isEditing ? 44 : 0)
                                                 .padding(.trailing, self.isEditing ? 108 : 0)
-                                                .opacity(self.isEditing ? 0.5 : 1)
+                                                .opacity(self.isEditing || self.isShowingNames ? 0.45 : 1)
                                         }
                                         
                                         ForEach(arrangedDemoProviders, id: \.id) { namedDemoProvider in
-                                            HStack(spacing: 0) {
+                                            VStack(spacing: 0) {
                                                 
-                                                // MARK: Edit button
+                                                DemoContentNameView(
+                                                    namedDemoProvider: namedDemoProvider,
+                                                    isShowingNames: self.isShowingNames
+                                                )
                                                 
-                                                Button(
-                                                    action: {
-                                                        self.evaluator.evaluate(Action.editDemoView(namedDemoProvider))
-                                                })
-                                                {
-                                                    Image(systemName: "dial")
-                                                        .foregroundColor(Color.primary)
-                                                        .frame(width: 20, height: 20)
-//                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
-                                                        .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
-                                                        .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: self.isEditing ? 0 : -2, y: self.isEditing ? -8 : 0)
-                                                }
-                                                .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
-                                                .disabled(self.isEditing == false)
-                                                .opacity(self.isEditing ? 1 : 0)
-                                                
-                                                // MARK: Content
-                                                
-                                                ZStack(alignment: .leading) {
-                                                    AnyView(
-                                                        namedDemoProvider.demoProvider.contentView
-                                                            .opacity(0)
-                                                    )
-                                                    .frame(maxWidth: .infinity)
-                                                    .overlay(
-                                                        Color(UIColor.systemBackground)
-                                                        .cornerRadius(self.isEditing ? 10 : 0)
-                                                    )
-                                                    .padding(.bottom, self.isEditing ? 16 : 0)
+                                                HStack(spacing: 0) {
                                                     
-                                                    AnyView(
-                                                        namedDemoProvider.demoProvider.contentView
-                                                    )
-                                                    .frame(maxWidth: .infinity)
-                                                    .overlay(
-                                                        self.isColoringViews ?
-                                                            AnyView(
-                                                                Rectangle()
-                                                                    .fill(Color(UIColor.random).opacity(Double.random(in: 0.12..<0.35)))
-                                                                    .cornerRadius(self.isEditing ? 10 : 0)
-                                                                    .opacity(self.isEditing ? 0 : 1)
-                                                                
-                                                            )
-                                                                .allowsHitTesting(false)
-                                                            :
-                                                            AnyView(EmptyView())
-                                                                .allowsHitTesting(false)
-                                                    )
-                                                    .padding(.bottom, self.isEditing ? 16 : 0)
-                                                    .onTapGesture(count: 2) {
-                                                        self.evaluator.evaluate(Action.editDemoView(namedDemoProvider))
+                                                    // MARK: Edit button
+                                                    
+                                                    Button(
+                                                        action: {
+                                                            self.evaluator.evaluate(Action.editDemoView(namedDemoProvider))
+                                                    })
+                                                    {
+                                                        Image(systemName: "dial")
+                                                            .foregroundColor(Color.primary)
+                                                            .frame(width: 20, height: 20)
+                                                            .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                                                            .font(Font.system(size: 18, weight: .regular))
+                                                            .offset(x: self.isEditing ? 0 : -2, y: 0)
                                                     }
+                                                    .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
+                                                    .disabled(self.isEditing == false || namedDemoProvider.demoProvider.controls.isEmpty)
+                                                    .opacity(self.isEditing && !namedDemoProvider.demoProvider.controls.isEmpty ? 1 : 0)
                                                     
+                                                    // MARK: Content
+                                                    
+                                                    DemoContentView(namedDemoProvider: namedDemoProvider, isEditing: self.isEditing, isColoringViews: self.isColoringViews, shouldRoundCorners: self.shouldRoundCorners(), evaluator: self.evaluator, editAction: Action.editDemoView(namedDemoProvider))
+                                                    
+                                                    // MARK: Up button
+                                                    
+                                                    Button(
+                                                        action: {
+                                                            self.evaluator.evaluate(Action.moveDemoViewUp(namedDemoProvider))
+                                                    })
+                                                    {
+                                                        Image(systemName: "arrow.up")
+                                                            .foregroundColor(.primary)
+                                                            .frame(width: 20, height: 20)
+    //                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
+                                                            .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 5))
+                                                            .font(Font.system(size: 18, weight: .regular))
+                                                            .offset(x: self.isEditing ? 0 : 2, y: 0)
+                                                    }
+                                                    .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
+                                                    .disabled(self.isEditing == false || arrangedDemoProviders.count < 2)
+                                                    .opacity((self.isEditing && arrangedDemoProviders.count > 1) ? 1 : self.isEditing ? 0.33 : 0)
+                                                    
+                                                    // MARK: Down button
+                                                    
+                                                    Button(
+                                                        action: {
+                                                            self.evaluator.evaluate(Action.moveDemoViewDown(namedDemoProvider))
+                                                    })
+                                                    {
+                                                        Image(systemName: "arrow.down")
+                                                            .foregroundColor(.primary)
+                                                            .frame(width: 20, height: 20)
+    //                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
+                                                            .padding(EdgeInsets(top: 8, leading: 5, bottom: 8, trailing: 5))
+                                                            .font(Font.system(size: 18, weight: .regular))
+                                                            .offset(x: self.isEditing ? 0 : 2, y: 0)
+                                                    }
+                                                    .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
+                                                    .disabled(self.isEditing == false || arrangedDemoProviders.count < 2)
+                                                    .opacity((self.isEditing && arrangedDemoProviders.count > 1) ? 1 : self.isEditing ? 0.33 : 0)
+                                                    
+                                                    // MARK: Delete button
+                                                                                                    
+                                                    Button(
+                                                        action: {
+                                                            self.evaluator.evaluate(Action.deleteDemoView(namedDemoProvider))
+                                                    })
+                                                    {
+                                                        Image(systemName: "minus.circle.fill")
+                                                            .foregroundColor(Color(UIColor.systemRed))
+                                                            .frame(width: 20, height: 20)
+                                                            .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 12))
+                                                            .font(Font.system(size: 18, weight: .regular))
+                                                            .offset(x: self.isEditing ? 0 : 2, y: 0)
+                                                    }
+                                                    .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
+                                                    .disabled(self.isEditing == false)
+                                                    .opacity(self.isEditing ? 1 : 0)
                                                 }
                                                 
-                                                // MARK: Up button
-                                                
-                                                Button(
-                                                    action: {
-                                                        self.evaluator.evaluate(Action.moveDemoViewUp(namedDemoProvider))
-                                                })
-                                                {
-                                                    Image(systemName: "arrow.up")
-                                                        .foregroundColor(.primary)
-                                                        .frame(width: 20, height: 20)
-//                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
-                                                        .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 4))
-                                                        .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
-                                                }
-                                                .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
-                                                .disabled(self.isEditing == false || arrangedDemoProviders.count < 2)
-                                                .opacity((self.isEditing && arrangedDemoProviders.count > 1) ? 1 : self.isEditing ? 0.33 : 0)
-                                                
-                                                // MARK: Down button
-                                                
-                                                Button(
-                                                    action: {
-                                                        self.evaluator.evaluate(Action.moveDemoViewDown(namedDemoProvider))
-                                                })
-                                                {
-                                                    Image(systemName: "arrow.down")
-                                                        .foregroundColor(.primary)
-                                                        .frame(width: 20, height: 20)
-//                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
-                                                        .padding(EdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 6))
-                                                        .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
-                                                }
-                                                .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
-                                                .disabled(self.isEditing == false || arrangedDemoProviders.count < 2)
-                                                .opacity((self.isEditing && arrangedDemoProviders.count > 1) ? 1 : self.isEditing ? 0.33 : 0)
-                                                
-                                                // MARK: Delete button
-                                                                                                
-                                                Button(
-                                                    action: {
-                                                        self.evaluator.evaluate(Action.deleteDemoView(namedDemoProvider))
-                                                })
-                                                {
-                                                    Image(systemName: "minus.circle.fill")
-                                                        .foregroundColor(Color(UIColor.systemRed))
-                                                        .frame(width: 20, height: 20)
-                                                        .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
-                                                        .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
-                                                }
-                                                .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
-                                                .disabled(self.isEditing == false)
-                                                .opacity(self.isEditing ? 1 : 0)
-                                                
+                                                Spacer().frame(height: self.isEditing || self.isShowingNames ? 16 : 0)
                                             }
                                         }
                                         
@@ -301,12 +300,12 @@ extension DemoBuilder {
                                                 .frame(height: 20)
                                                 .overlay(
                                                     Color(UIColor.systemBackground)
-                                                    .cornerRadius(self.isEditing ? 10 : 0)
+                                                        .cornerRadius(self.shouldRoundCorners() ? 10 : 0)
                                                 )
-                                                .padding(.bottom, self.isEditing ? 16 : 0)
+                                                .padding(.bottom, self.isEditing || self.isShowingNames ? 16 : 0)
                                                 .padding(.leading, self.isEditing ? 44 : 0)
                                                 .padding(.trailing, self.isEditing ? 108 : 0)
-                                                .opacity(self.isEditing ? 0.5 : 1)
+                                                .opacity(self.isEditing || self.isShowingNames ? 0.45 : 1)
                                         }
                                     }
                                     .padding(0)
@@ -409,5 +408,23 @@ extension CGFloat {
 extension UIColor {
     static var random: UIColor {
         return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
+    }
+}
+
+struct DemoContentNameView: View {
+    let namedDemoProvider: NamedDemoProvider
+    let isShowingNames: Bool
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            Text(self.namedDemoProvider.title)
+                .font(Font.caption.bold())
+                .frame(height: self.isShowingNames ? nil : 0)
+                .padding(.leading, 6)
+                .padding(.top, self.isShowingNames ? 6 : 0)
+                .padding(.bottom, self.isShowingNames ? 12 : 0)
+                .opacity(self.isShowingNames ? 1 : 0)
+            Spacer()
+        }
     }
 }

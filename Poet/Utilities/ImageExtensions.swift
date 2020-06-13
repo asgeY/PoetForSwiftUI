@@ -10,12 +10,12 @@ import SwiftUI
 
 extension Image {
     static func numberCircleFill(_ int: Int) -> Image {
-        let systemName = (int <= 50) ? "\(int).circle.fill" : ".circle.fill"
+        let systemName = (int <= 50) ? "\(int).circle.fill" : "circle.fill"
         return Image(systemName: systemName)
     }
     
     static func numberCircle(_ int: Int) -> Image {
-        let systemName = (int <= 50) ? "\(int).circle" : ".circle"
+        let systemName = (int <= 50) ? "\(int).circle" : "circle"
         return Image(systemName: systemName)
     }
 }
