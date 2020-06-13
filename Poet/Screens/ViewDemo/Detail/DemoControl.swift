@@ -31,13 +31,15 @@ extension DemoControl {
         let evaluator: TextFieldEvaluating
         let elementName: EvaluatorElement
         let input: EvaluatingTextField.Input
+        let initialText: String
         
         func view() -> AnyView {
             return AnyView(
                 DemoControlView_ObservableControlledByTextInput(
                     evaluator: evaluator,
                     elementName: elementName,
-                    input: input)
+                    input: input,
+                    initialText: initialText)
             )
         }
     }

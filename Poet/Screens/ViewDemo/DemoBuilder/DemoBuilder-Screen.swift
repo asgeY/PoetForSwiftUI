@@ -19,6 +19,9 @@ extension DemoBuilder {
         
         @State var isFullWidth = false
         @State var isEditing = false
+        @State var isColoringViews = false
+        
+        @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
         
         init() {
             evaluator = Evaluator()
@@ -35,9 +38,6 @@ extension DemoBuilder {
                         
                         Button(
                             action: {
-                                withAnimation(.linear) {
-                                    self.isEditing = false
-                                }
                                 self.evaluator.evaluate(Action.promptToAddDemoView)
                         })
                         {
@@ -88,6 +88,41 @@ extension DemoBuilder {
                         }
                         
                         Spacer()
+                        
+                        // MARK: Color Overlay Button
+                        
+                        Observer(translator.arrangedDemoProviders) { arrangedDemoProviders in
+                            Button(
+                                action: {
+                                    withAnimation(.linear) {
+                                        self.isColoringViews.toggle()
+                                    }
+                            })
+                            {
+                                Image(systemName: self.isColoringViews ? "rectangle.grid.1x2.fill" : "rectangle.grid.1x2")
+                                    .foregroundColor(Color.primary)
+                                    .frame(width: 20)
+                                    .padding(EdgeInsets(top: 26, leading: 10, bottom: 10, trailing: 10))
+                                    .font(Font.system(size: 18, weight: .regular))
+                                    .animation(.none)
+                            }
+                            .disabled(arrangedDemoProviders.isEmpty || self.isEditing)
+                            .opacity(arrangedDemoProviders.isEmpty || self.isEditing ? 0.25 : 1)
+                        }
+                        
+                        // MARK: Dismiss Button
+                        
+                        Button(
+                            action: {
+                                self.presentationMode.wrappedValue.dismiss()
+                        })
+                        {
+                            Image(systemName: "xmark")
+                                .foregroundColor(Color.primary)
+                                .padding(EdgeInsets(top: 26, leading: 10, bottom: 10, trailing: 26))
+                                .font(Font.system(size: 18, weight: .regular))
+                        }
+                        
                     }
                     Spacer()
                 }.zIndex(10)
@@ -113,6 +148,7 @@ extension DemoBuilder {
                     VStack(spacing: 0) {
                         Spacer().frame(height:22)
                         Text("Demo Builder")
+                            .font(.headline)
                         
                         Spacer().frame(height: 10)
                         ScrollView {
@@ -178,30 +214,26 @@ extension DemoBuilder {
                                                         namedDemoProvider.demoProvider.contentView
                                                     )
                                                     .frame(maxWidth: .infinity)
+                                                    .overlay(
+                                                        self.isColoringViews ?
+                                                            AnyView(
+                                                                Rectangle()
+                                                                    .fill(Color(UIColor.random).opacity(Double.random(in: 0.12..<0.35)))
+                                                                    .cornerRadius(self.isEditing ? 10 : 0)
+                                                                    .opacity(self.isEditing ? 0 : 1)
+                                                                
+                                                            )
+                                                                .allowsHitTesting(false)
+                                                            :
+                                                            AnyView(EmptyView())
+                                                                .allowsHitTesting(false)
+                                                    )
                                                     .padding(.bottom, self.isEditing ? 16 : 0)
                                                     .onTapGesture(count: 2) {
                                                         self.evaluator.evaluate(Action.editDemoView(namedDemoProvider))
                                                     }
+                                                    
                                                 }
-                                                
-                                                // MARK: Delete button
-                                                
-                                                Button(
-                                                    action: {
-                                                        self.evaluator.evaluate(Action.deleteDemoView(namedDemoProvider))
-                                                })
-                                                {
-                                                    Image(systemName: "minus.circle.fill")
-                                                        .foregroundColor(Color(UIColor.systemRed))
-                                                        .frame(width: 20, height: 20)
-//                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
-                                                        .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 6))
-                                                        .font(Font.system(size: 18, weight: .regular))
-                                                        .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
-                                                }
-                                                .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
-                                                .disabled(self.isEditing == false)
-                                                .opacity(self.isEditing ? 1 : 0)
                                                 
                                                 // MARK: Up button
                                                 
@@ -214,13 +246,13 @@ extension DemoBuilder {
                                                         .foregroundColor(.primary)
                                                         .frame(width: 20, height: 20)
 //                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
-                                                        .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 6))
+                                                        .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 4))
                                                         .font(Font.system(size: 18, weight: .regular))
                                                         .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
                                                 }
                                                 .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
-                                                .disabled(self.isEditing == false)
-                                                .opacity(self.isEditing ? 1 : 0)
+                                                .disabled(self.isEditing == false || arrangedDemoProviders.count < 2)
+                                                .opacity((self.isEditing && arrangedDemoProviders.count > 1) ? 1 : self.isEditing ? 0.33 : 0)
                                                 
                                                 // MARK: Down button
                                                 
@@ -233,13 +265,32 @@ extension DemoBuilder {
                                                         .foregroundColor(.primary)
                                                         .frame(width: 20, height: 20)
 //                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
-                                                        .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 12))
+                                                        .padding(EdgeInsets(top: 8, leading: 4, bottom: 8, trailing: 6))
+                                                        .font(Font.system(size: 18, weight: .regular))
+                                                        .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
+                                                }
+                                                .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
+                                                .disabled(self.isEditing == false || arrangedDemoProviders.count < 2)
+                                                .opacity((self.isEditing && arrangedDemoProviders.count > 1) ? 1 : self.isEditing ? 0.33 : 0)
+                                                
+                                                // MARK: Delete button
+                                                                                                
+                                                Button(
+                                                    action: {
+                                                        self.evaluator.evaluate(Action.deleteDemoView(namedDemoProvider))
+                                                })
+                                                {
+                                                    Image(systemName: "minus.circle.fill")
+                                                        .foregroundColor(Color(UIColor.systemRed))
+                                                        .frame(width: 20, height: 20)
+                                                        .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
                                                         .font(Font.system(size: 18, weight: .regular))
                                                         .offset(x: self.isEditing ? 0 : 2, y: self.isEditing ? -8 : 0)
                                                 }
                                                 .frame(width: self.isEditing ? nil : 0, height: self.isEditing ? nil : 0)
                                                 .disabled(self.isEditing == false)
                                                 .opacity(self.isEditing ? 1 : 0)
+                                                
                                             }
                                         }
                                         
@@ -281,6 +332,11 @@ extension DemoBuilder {
                     }
                 }
                 
+                VStack {
+                    DismissButton(orientation: .right)
+                        .zIndex(2)
+                    Spacer()
+                }.zIndex(2)
             }
             
             .onAppear {
@@ -309,6 +365,7 @@ struct ViewDemoPicker: View {
             VStack {
                 Spacer().frame(height:22)
                 Text("Add a View")
+                    .font(.headline)
                 
                 ScrollView() {
                     VStack(alignment: .leading, spacing: 0) {
@@ -318,7 +375,7 @@ struct ViewDemoPicker: View {
                                 self.evaluator.pickViewDemo(namedDemoProvider)
                             }) {
                                 VStack(spacing: 0) {
-                                    Spacer().frame(height: 10)
+                                    Spacer().frame(height: 12)
                                     HStack(spacing: 0) {
                                         Spacer().frame(width: 30)
                                         Text(namedDemoProvider.title)
@@ -327,7 +384,7 @@ struct ViewDemoPicker: View {
                                             .opacity(0.3)
                                         Spacer().frame(width: 30)
                                     }
-                                    Spacer().frame(height: 10)
+                                    Spacer().frame(height: 12)
                                     Divider()
                                         .opacity(0.6)
                                         .padding(.leading, 30)
@@ -339,11 +396,18 @@ struct ViewDemoPicker: View {
                     
                 }
             }
-            
-            VStack {
-                DismissButton(orientation: .right)
-                Spacer()
-            }
         }
+    }
+}
+
+extension CGFloat {
+    static var random: CGFloat {
+        return CGFloat(arc4random()) / CGFloat(UInt32.max)
+    }
+}
+
+extension UIColor {
+    static var random: UIColor {
+        return UIColor(red: .random, green: .random, blue: .random, alpha: 1.0)
     }
 }

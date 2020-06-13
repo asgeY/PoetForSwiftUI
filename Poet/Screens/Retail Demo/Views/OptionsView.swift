@@ -21,6 +21,7 @@ struct OptionsView: View {
                     Spacer().frame(height: 16)
                 }
             }
+            Spacer().frame(height: 18)
         }
     }
 }
@@ -96,7 +97,8 @@ struct OptionsView_DemoProvider: DemoProvider, OptionsEvaluating, TextFieldEvalu
             DemoControl(
                 title: "Options",
                 instruction: "Type words separated by semicolons to add options.",
-                type: DemoControl.Text(evaluator: self, elementName: Element.optionsTextField, input: .text))
+                type: DemoControl.Text(evaluator: self, elementName: Element.optionsTextField, input: .text, initialText: options.array.joined(separator: ";"))
+            )
         ]
     }
     

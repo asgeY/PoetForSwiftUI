@@ -38,12 +38,15 @@ struct EvaluatingTextField: View {
         case number
     }
     
-    init(placeholder: String, elementName: EvaluatorElement, isSecure: Bool, input: Input = .text, evaluator: TextFieldEvaluating, validation: ObservableValidation? = nil, passableText: PassableString? = nil) {
+    init(placeholder: String, elementName: EvaluatorElement, isSecure: Bool, input: Input = .text, evaluator: TextFieldEvaluating, initialText: String? = nil, validation: ObservableValidation? = nil, passableText: PassableString? = nil) {
         self.placeholder = placeholder
         self.elementName = elementName
         self.isSecure = isSecure
         self.input = input
         self.evaluator = evaluator
+        if let initialText = initialText {
+            self.fieldText.string = initialText
+        }
         if let passableText = passableText {
             self.passableText = passableText
         }

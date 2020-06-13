@@ -95,20 +95,17 @@ extension Retail {
             case .instruction(let instructionNumber, let instruction):
                 return AnyView(
                     InstructionView(instructionNumber: instructionNumber, instruction: instruction)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 18, trailing: 0))
                 )
              
             case .displayableProducts(let displayableProducts):
                 return AnyView(
                     DisplayableProductsView(displayableProducts: displayableProducts, evaluator: self.findingProductsEvaluator)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 )
                 
             case .deliveryOptions(let deliveryOptions, let deliveryPreference):
                 return AnyView(
                     Fadeable {
                         OptionsView(options: deliveryOptions, preference: deliveryPreference, evaluator: self.optionsEvaluator)
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 18, trailing: 0))
                     }
                 )
                 
@@ -195,7 +192,20 @@ struct TitleView_DemoProvider: DemoProvider, TextFieldEvaluating {
         return [
             DemoControl(
                 title: "Text",
-                type: DemoControl.Text(evaluator: self, elementName: Element.text, input: .text))
+                type: DemoControl.Text(evaluator: self, elementName: Element.text, input: .text, initialText: text.string)
+            ),
+            
+            DemoControl(
+                title: "Color",
+                type: DemoControl.Buttons(
+                    observable: color,
+                    choices: [
+                        NamedIdentifiedValue(title: "Black", value: Color.black),
+                        NamedIdentifiedValue(title: "Green", value: Color(UIColor.systemGreen)),
+                        NamedIdentifiedValue(title: "Red", value: Color(UIColor.systemRed)),
+                    ]
+                )
+            )
         ]
     }
     

@@ -10,5 +10,5 @@ import Foundation
 
 struct DemoViewEditingConfiguration {
     let namedDemoProvider: NamedDemoProvider
-    let evaluator: DemoViewEditingEvaluating
+    weak var evaluator: DemoViewEditingEvaluating?
 }

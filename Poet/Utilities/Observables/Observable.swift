@@ -25,6 +25,9 @@ class Observable<T>: ObservableObject {
 
 extension Observable: DeepCopying {
     func deepCopy() -> Self {
+        if let value = value as? DeepCopying, let copiedValue = value.deepCopy() as? T {
+            return Observable(copiedValue) as! Self
+        }
         return Observable(value) as! Self
     }
 }

@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol DemoViewEditingEvaluating {
+protocol DemoViewEditingEvaluating: class {
     func saveChangesToProvider(_ namedDemoProvider: NamedDemoProvider)
 }

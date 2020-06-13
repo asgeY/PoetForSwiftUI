@@ -31,6 +31,10 @@ extension DemoBuilder {
                 self?.translate(step: value)
             }
         }
+        
+        deinit {
+            debugPrint("demobuilder deinit translator")
+        }
     }
 }
 

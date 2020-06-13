@@ -16,7 +16,22 @@ protocol ViewDemoing {
 extension ViewDemoing {
     static var namedDemoProvider: NamedDemoProvider {
         return NamedDemoProvider(
-            title: String(describing: Self.self),
+            title: String(describing: Self.self).splitAtCapitalLetters(),
             demoProvider: self.demoProvider)
     }
 }
+
+extension String {
+    func splitAtCapitalLetters() -> String {
+        var splitString = ""
+        for char in self {
+            if Character(extendedGraphemeClusterLiteral: char).isUppercase {
+                splitString.append(" \(char)")
+            } else {
+                splitString.append("\(char)")
+            }
+        }
+        return splitString
+    }
+}
+

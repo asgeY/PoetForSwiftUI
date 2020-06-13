@@ -85,17 +85,17 @@ struct ProductView_DemoProvider: DemoProvider, TextFieldEvaluating {
         [
             DemoControl(
                 title: "Title",
-                type: DemoControl.Text(evaluator: self, elementName: Element.title, input: .text)
+                type: DemoControl.Text(evaluator: self, elementName: Element.title, input: .text, initialText: title.string)
             ),
             
             DemoControl(
                 title: "Location",
-                type: DemoControl.Text(evaluator: self, elementName: Element.location, input: .text)
+                type: DemoControl.Text(evaluator: self, elementName: Element.location, input: .text, initialText: location.string)
             ),
             
             DemoControl(
                 title: "UPC",
-                type: DemoControl.Text(evaluator: self, elementName: Element.upc, input: .text)
+                type: DemoControl.Text(evaluator: self, elementName: Element.upc, input: .text, initialText: upc.string)
             )
         ]
     }

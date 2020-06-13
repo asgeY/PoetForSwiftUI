@@ -17,6 +17,10 @@ extension DemoBuilder {
         
         // Current Step
         var current = PassableStep(Step.initial)
+        
+        deinit {
+            debugPrint("demobuilder deinit evaluator")
+        }
     }
 }
 
@@ -92,9 +96,9 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
     
     func promptToAddDemoView() {
         translator.promptToAddDemoView.withValue([
-            ObservingTextView.namedDemoProvider,
-            OptionsView.namedDemoProvider,
+            InstructionView.namedDemoProvider,
             DisplayableProductsView.namedDemoProvider,
+            OptionsView.namedDemoProvider,
             TitleView.namedDemoProvider
         ])
     }
