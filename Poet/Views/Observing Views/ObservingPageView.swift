@@ -32,7 +32,6 @@ struct ObservingPageView: View {
                         ForEach(sections.array, id: \.id) { section in
                             VStack(spacing: 0) {
                                 self.viewMaker.view(for: section)
-                                    .overlay(Color.green.opacity(0.3))
                                 
                                 // Bottom Inset
                                 if (self.sections.array.firstIndex(where: {
@@ -42,9 +41,7 @@ struct ObservingPageView: View {
                                 }
                             }
                             .padding(EdgeInsets(top: 0, leading: self.margin, bottom: 0, trailing: self.margin))
-                            .background(Color.blue.opacity(0.3))
                         }
-                        .background(Color.yellow.opacity(0.3))
                         .padding(.zero)
                     }.padding(0)
                     Spacer()

@@ -62,7 +62,7 @@ extension DemoBuilder {
                                     }
                             })
                             {
-                                Image(systemName: self.isEditing ? "ellipsis.circle.fill" : "ellipsis.circle")
+                                Image(systemName: self.isEditing ? "dial.fill" : "dial")
                                     .foregroundColor(Color.primary)
                                     .padding(EdgeInsets(top: 26, leading: 10, bottom: 10, trailing: 10))
                                     .font(Font.system(size: 18, weight: .regular))
@@ -205,7 +205,8 @@ extension DemoBuilder {
                                                 
                                                 DemoContentNameView(
                                                     namedDemoProvider: namedDemoProvider,
-                                                    isShowingNames: self.isShowingNames
+                                                    isShowingNames: self.isShowingNames,
+                                                    isEditing: self.isEditing
                                                 )
                                                 
                                                 HStack(spacing: 0) {
@@ -414,13 +415,14 @@ extension UIColor {
 struct DemoContentNameView: View {
     let namedDemoProvider: NamedDemoProvider
     let isShowingNames: Bool
+    let isEditing: Bool
     
     var body: some View {
         HStack(spacing: 0) {
             Text(self.namedDemoProvider.title)
                 .font(Font.caption.bold())
                 .frame(height: self.isShowingNames ? nil : 0)
-                .padding(.leading, 6)
+                .padding(.leading, isEditing ? 48 : 6)
                 .padding(.top, self.isShowingNames ? 6 : 0)
                 .padding(.bottom, self.isShowingNames ? 12 : 0)
                 .opacity(self.isShowingNames ? 1 : 0)

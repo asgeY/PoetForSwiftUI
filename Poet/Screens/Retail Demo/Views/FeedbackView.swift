@@ -15,7 +15,7 @@ struct FeedbackView: View {
             HStack {
                 Text(feedback.string)
                     .font(Font.headline.monospacedDigit().bold())
-                    .opacity(0.4)
+                    .opacity(0.36)
                     .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                 Spacer()
             }

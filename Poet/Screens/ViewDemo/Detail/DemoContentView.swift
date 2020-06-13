@@ -19,37 +19,41 @@ struct DemoContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .leading) {
-                AnyView(
-                    namedDemoProvider.demoProvider.contentView
-                        .opacity(0)
-                )
-                .frame(maxWidth: .infinity)
+                HStack(spacing: 0) {
+                    AnyView(
+                        namedDemoProvider.demoProvider.contentView
+                            .opacity(0)
+                    )
+                    Spacer()
+                }
                 .overlay(
                     Color(UIColor.systemBackground)
                         .cornerRadius(self.shouldRoundCorners ? 10 : 0)
                 )
                 
-                AnyView(
-                    namedDemoProvider.demoProvider.contentView
-                )
-                .frame(maxWidth: .infinity)
-                .overlay(
-                    self.isColoringViews ?
-                        AnyView(
-                            Rectangle()
-                                .fill(Color(UIColor.random).opacity(Double.random(in: 0.12..<0.35)))
-                                .cornerRadius(self.shouldRoundCorners ? 10 : 0)
-                                .opacity(self.isEditing ? 0 : 1)
-                            
-                        )
-                            .allowsHitTesting(false)
-                        :
-                        AnyView(EmptyView())
-                            .allowsHitTesting(false)
-                )
-                .onTapGesture(count: 2) {
-                    self.evaluator.evaluate(self.editAction)
+                HStack(spacing: 0) {
+                    AnyView(
+                        namedDemoProvider.demoProvider.contentView
+                    )
+                    Spacer()
                 }
+                    .overlay(
+                        self.isColoringViews ?
+                            AnyView(
+                                Rectangle()
+                                    .fill(Color(UIColor.random).opacity(Double.random(in: 0.12..<0.35)))
+                                    .cornerRadius(self.shouldRoundCorners ? 10 : 0)
+                                    .opacity(self.isEditing ? 0 : 1)
+                                
+                            )
+                                .allowsHitTesting(false)
+                            :
+                            AnyView(EmptyView())
+                                .allowsHitTesting(false)
+                    )
+                        .onTapGesture(count: 2) {
+                            self.evaluator.evaluate(self.editAction)
+                    }
             }
         }
     }

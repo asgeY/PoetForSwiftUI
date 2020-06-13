@@ -31,17 +31,17 @@ extension Retail {
             
             var id: String {
                 switch self {
-                case .canceledTitle:                    return "canceledTitle"
-                case .completedTitle:                   return "completedTitle"
-                case .completedSummary(let a):          return "completedSummary_\(a.string)"
-                case .customerTitle(let a):             return "customerTitle_\(a.string)"
-                case .deliveryOptions(let a, let b):    return "deliveryOptions_\(a.array.first ?? "") _\(b.string)"
-                case .feedback(let a):                  return "feedback_\(a.string)"
-                case .displayableProducts(let a):       return "displayableProducts_\(a.array.first?.id ?? "")_\(a.array.last?.id ?? "")"
-                case .divider:                          return "divider"
-                case .instruction(let a, let b):        return "instruction_\(String(a.int))_\(b.string)"
-                case .topSpace:                         return "topSpace"
-                case .space:                            return "space"
+                case .canceledTitle:        return "canceledTitle"
+                case .completedTitle:       return "completedTitle"
+                case .completedSummary:     return "completedSummary"
+                case .customerTitle:        return "customerTitle"
+                case .deliveryOptions:      return "deliveryOptions"
+                case .feedback:             return "feedback"
+                case .displayableProducts:  return "displayableProducts"
+                case .divider:              return "divider"
+                case .instruction:          return "instruction"
+                case .topSpace:             return "topSpace"
+                case .space:                return "space"
                 }
             }
         }
@@ -151,12 +151,12 @@ extension Retail.Translator {
         sections.array = [
             topSpace_,
             customerTitle_,
+            __,
             instruction_,
-            space_,
+            __,
             divider_,
-            space_,
             feedback_,
-            space_,
+            __,
             displayableProducts_
         ]
         
@@ -188,12 +188,12 @@ extension Retail.Translator {
             sections.array = [
                 topSpace_,
                 customerTitle_,
+                __,
                 instruction_,
-                space_,
+                __,
                 divider_,
-                space_,
                 feedback_,
-                space_,
+                __,
                 displayableProducts_
             ]
         }
@@ -233,13 +233,13 @@ extension Retail.Translator {
             sections.array = [
                 topSpace_,
                 customerTitle_,
+                __,
                 instruction_,
+                __,
                 deliveryOptions_,
-                space_,
                 divider_,
-                space_,
                 feedback_,
-                space_,
+                __,
                 displayableProducts_
             ]
         }
@@ -286,13 +286,14 @@ extension Retail.Translator {
                 topSpace_,
                 completedTitle_,
                 customerTitle_,
+                __,
                 instruction_,
-                space_,
+                __,
                 divider_,
-                space_,
                 feedback_,
-                space_,
+                __,
                 displayableProducts_,
+                divider_,
                 completedSummary_
             ]
         }
@@ -326,12 +327,13 @@ extension Retail.Translator {
                 topSpace_,
                 canceledTitle_,
                 customerTitle_,
+                __,
                 instruction_,
-                space_,
+                __,
                 divider_,
-                space_,
                 feedback_,
-                space_,
+                __,
+                divider_,
                 completedSummary_
             ]
         }
@@ -397,7 +399,7 @@ extension Retail.Translator {
         return .topSpace
     }
     
-    var space_: Section {
+    var __: Section {
         return .space
     }
     

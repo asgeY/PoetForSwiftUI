@@ -106,16 +106,10 @@ extension Retail {
                 return AnyView(
                     Fadeable {
                         VStack(spacing: 0) {
-                            Divider()
-                            .background(Color.primary)
-                            .frame(height: 1.75)
-                            .opacity(0.22)
-                            .padding(EdgeInsets(top: 0, leading: 40, bottom: 18, trailing: 0))
-                            
                             HStack {
                                 ObservingTextView(completedSummary)
                                     .font(Font.system(.headline))
-                                    .opacity(0.33)
+                                    .opacity(0.36)
                                     .fixedSize(horizontal: false, vertical: true)
                                     .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                                 Spacer()
@@ -153,7 +147,7 @@ struct TitleView: View {
                     Spacer()
                 }
             }
-            Spacer().frame(height: 36)
+            Spacer().frame(height: 24)
         }
         .foregroundColor(color)
     }

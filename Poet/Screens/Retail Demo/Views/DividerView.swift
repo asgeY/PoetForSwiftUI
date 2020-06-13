@@ -17,7 +17,7 @@ struct DividerView: View {
                 .opacity(0.25)
                 .padding(.leading, 40)
             
-            Spacer().frame(height: 16)
+            Spacer().frame(height: 28)
         }
     }
 }
