@@ -57,7 +57,7 @@ extension DemoBuilder {
                         Observer(translator.arrangedDemoProviders) { arrangedDemoProviders in
                             Button(
                                 action: {
-                                    withAnimation(.linear) {
+                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
                                         self.isEditing.toggle()
                                     }
                             })
@@ -76,7 +76,7 @@ extension DemoBuilder {
                         Observer(translator.arrangedDemoProviders) { arrangedDemoProviders in
                             Button(
                                 action: {
-                                    withAnimation(.linear) {
+                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
                                         self.isFullWidth.toggle()
                                     }
                             })
@@ -99,7 +99,7 @@ extension DemoBuilder {
                         Observer(translator.arrangedDemoProviders) { arrangedDemoProviders in
                             Button(
                                 action: {
-                                    withAnimation(.linear) {
+                                    withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
                                         self.isShowingNames.toggle()
                                     }
                             })
@@ -195,8 +195,8 @@ extension DemoBuilder {
                                                         .cornerRadius(self.shouldRoundCorners() ? 10 : 0)
                                                 )
                                                 .padding(.bottom, self.isEditing || self.isShowingNames ? 16 : 0)
-                                                .padding(.leading, self.isEditing ? 44 : 0)
-                                                .padding(.trailing, self.isEditing ? 108 : 0)
+                                                .padding(.leading, self.isEditing ? 52 : 0)
+                                                .padding(.trailing, self.isEditing ? 116 : 0)
                                                 .opacity(self.isEditing || self.isShowingNames ? 0.45 : 1)
                                         }
                                         
@@ -221,7 +221,7 @@ extension DemoBuilder {
                                                         Image(systemName: "dial")
                                                             .foregroundColor(Color.primary)
                                                             .frame(width: 20, height: 20)
-                                                            .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                                                            .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                                                             .font(Font.system(size: 18, weight: .regular))
                                                             .offset(x: self.isEditing ? 0 : -2, y: 0)
                                                     }
@@ -244,7 +244,7 @@ extension DemoBuilder {
                                                             .foregroundColor(.primary)
                                                             .frame(width: 20, height: 20)
     //                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
-                                                            .padding(EdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 5))
+                                                            .padding(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 5))
                                                             .font(Font.system(size: 18, weight: .regular))
                                                             .offset(x: self.isEditing ? 0 : 2, y: 0)
                                                     }
@@ -263,7 +263,7 @@ extension DemoBuilder {
                                                             .foregroundColor(.primary)
                                                             .frame(width: 20, height: 20)
     //                                                        .frame(width: self.isEditing ? 20 : 0, height: self.isEditing ? 20 : 0)
-                                                            .padding(EdgeInsets(top: 8, leading: 5, bottom: 8, trailing: 5))
+                                                            .padding(EdgeInsets(top: 8, leading: 5, bottom: 8, trailing: 8))
                                                             .font(Font.system(size: 18, weight: .regular))
                                                             .offset(x: self.isEditing ? 0 : 2, y: 0)
                                                     }
@@ -281,7 +281,7 @@ extension DemoBuilder {
                                                         Image(systemName: "minus.circle.fill")
                                                             .foregroundColor(Color(UIColor.systemRed))
                                                             .frame(width: 20, height: 20)
-                                                            .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 12))
+                                                            .padding(EdgeInsets(top: 8, leading: 6, bottom: 8, trailing: 20))
                                                             .font(Font.system(size: 18, weight: .regular))
                                                             .offset(x: self.isEditing ? 0 : 2, y: 0)
                                                     }
@@ -304,8 +304,8 @@ extension DemoBuilder {
                                                         .cornerRadius(self.shouldRoundCorners() ? 10 : 0)
                                                 )
                                                 .padding(.bottom, self.isEditing || self.isShowingNames ? 16 : 0)
-                                                .padding(.leading, self.isEditing ? 44 : 0)
-                                                .padding(.trailing, self.isEditing ? 108 : 0)
+                                                .padding(.leading, self.isEditing ? 52 : 0)
+                                                .padding(.trailing, self.isEditing ? 116 : 0)
                                                 .opacity(self.isEditing || self.isShowingNames ? 0.45 : 1)
                                         }
                                     }
@@ -422,7 +422,7 @@ struct DemoContentNameView: View {
             Text(self.namedDemoProvider.title)
                 .font(Font.caption.bold())
                 .frame(height: self.isShowingNames ? nil : 0)
-                .padding(.leading, isEditing ? 48 : 6)
+                .padding(.leading, isEditing ? 48 : 0)
                 .padding(.top, self.isShowingNames ? 6 : 0)
                 .padding(.bottom, self.isShowingNames ? 12 : 0)
                 .opacity(self.isShowingNames ? 1 : 0)
