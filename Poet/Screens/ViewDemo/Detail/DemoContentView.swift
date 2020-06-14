@@ -19,17 +19,6 @@ struct DemoContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .leading) {
-                HStack(spacing: 0) {
-                    AnyView(
-                        namedDemoProvider.demoProvider.contentView
-                            .opacity(0)
-                    )
-                    Spacer()
-                }
-                .overlay(
-                    Color(UIColor.systemBackground)
-                        .cornerRadius(self.shouldRoundCorners ? 10 : 0)
-                )
                 
                 HStack(spacing: 0) {
                     AnyView(
@@ -37,8 +26,16 @@ struct DemoContentView: View {
                     )
                     Spacer()
                 }
+                .background(
+                    Spacer()
+                        .frame(maxWidth: .infinity)
+                        .frame(maxHeight: .infinity)
+                        .background(Color(UIColor.systemBackground))
+                        .cornerRadius(self.shouldRoundCorners ? 10 : 0)
+                    )
                     .overlay(
-                        self.isColoringViews ?
+                        GeometryReader() { geometry in
+                            self.isColoringViews ?
                             AnyView(
                                 Rectangle()
                                     .fill(Color(UIColor.random).opacity(Double.random(in: 0.12..<0.35)))
@@ -50,6 +47,8 @@ struct DemoContentView: View {
                             :
                             AnyView(EmptyView())
                                 .allowsHitTesting(false)
+                        }
+                        
                     )
                         .onTapGesture(count: 2) {
                             self.evaluator.evaluate(self.editAction)
