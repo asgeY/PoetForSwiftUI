@@ -47,7 +47,7 @@ extension Tutorial.PageStore {
                 .text("Any button that wants to evaluate a user's tap (or rather, wants to ask an evaluator to evaluate it) can do so without knowing who its real evaluator is, only that it's an object that conforms to the protocol ActionEvaluating:"),
                 .code(
                     """
-                    protocol ActionEvaluating: class {
+                    protocol ActionEvaluating {
                       func evaluate(_ action: EvaluatorAction?)
                     }
                     """

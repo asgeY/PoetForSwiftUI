@@ -118,7 +118,7 @@ extension HelloSolarSystem.Evaluator: ViewCycleEvaluating {
 
 // MARK: Action Evaluating
 extension HelloSolarSystem.Evaluator: ActionEvaluating {
-    func evaluate(_ action: EvaluatorAction?) {
+    func implementEvaluate(_ action: EvaluatorAction?) {
         guard let action = action as? Action else { return }
         
         switch action {

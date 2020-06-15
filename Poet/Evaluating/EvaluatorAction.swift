@@ -8,7 +8,15 @@
 
 import Foundation
 
-protocol EvaluatorAction {}
+protocol EvaluatorAction {
+    var breadcrumbDescription: String { get }
+}
+
+extension EvaluatorAction {
+    var breadcrumbDescription: String {
+        return String(describing: self)
+    }
+}
 
 protocol EvaluatorActionWithName: EvaluatorAction {
     var name: String { get }

@@ -174,7 +174,7 @@ extension Retail.Evaluator: ViewCycleEvaluating {
 
 extension Retail.Evaluator: ActionEvaluating {
     
-    func evaluate(_ action: EvaluatorAction?) {
+    func implementEvaluate(_ action: EvaluatorAction?) {
         guard let action = action as? Action else { return }
         
         switch action {
