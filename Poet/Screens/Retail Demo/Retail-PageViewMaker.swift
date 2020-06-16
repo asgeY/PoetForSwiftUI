@@ -104,7 +104,15 @@ extension Retail {
              
             case .displayableProducts(let displayableProducts):
                 return AnyView(
-                    DisplayableProductsView(displayableProducts: displayableProducts, evaluator: self.findingProductsEvaluator)
+                    VStack(spacing: 0) {
+                        DisplayableProductsView(displayableProducts: displayableProducts, evaluator: self.findingProductsEvaluator)
+                        
+                        // This Spacer forces the products to stay at the top of their section when animating.
+                        // The -10 bottom padding counteract's the spacer's minimum height.
+                        Spacer()
+                            .padding(.bottom, -10)
+                        
+                    }
                 )
                 
             case .deliveryOptions(let deliveryOptions, let deliveryPreference):

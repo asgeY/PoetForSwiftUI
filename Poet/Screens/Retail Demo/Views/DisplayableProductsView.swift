@@ -24,10 +24,10 @@ struct DisplayableProductsView: View {
                                 .transition(.opacity)
                         }
                     }
-                    Spacer()
                 }
             }
-            Spacer()//.frame(height: 26)
+            
+            Spacer().frame(height: .leastNonzeroMagnitude)
         }
     }
 }
