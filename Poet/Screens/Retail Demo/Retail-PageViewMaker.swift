@@ -16,6 +16,18 @@ protocol FindingProductsEvaluating {
 
 protocol OptionsEvaluating {
     func toggleOption(_ option: String)
+    func _toggleOption(_ option: String)
+}
+
+extension OptionsEvaluating {
+    func toggleOption(_ option: String) {
+        breadcrumb(option)
+        _toggleOption(option)
+    }
+    
+    func breadcrumb(_ option: String) {
+        debugPrint("breadcrumb. evaluator: \(self) toggled option: \(option)")
+    }
 }
 
 extension Retail {
@@ -87,7 +99,7 @@ extension Retail {
                 
             case .instruction(let instructionNumber, let instruction):
                 return AnyView(
-                    InstructionView(instructionNumber: instructionNumber, instruction: instruction)
+                    InstructionView(instructionNumber: instructionNumber, instructionText: instruction)
                 )
              
             case .displayableProducts(let displayableProducts):

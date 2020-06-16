@@ -143,7 +143,7 @@
 		DC4C111F245DFF21009BC14D /* Tutorial-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111B245DF9AA009BC14D /* Tutorial-Evaluator.swift */; };
 		DC4C1120245DFF21009BC14D /* Tutorial-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C111C245DF9AA009BC14D /* Tutorial-Translator.swift */; };
 		DC4C6C462471054E0014A34C /* ActionEvaluating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C452471054E0014A34C /* ActionEvaluating.swift */; };
-		DC4C6C482476C5660014A34C /* InstructionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C472476C5660014A34C /* InstructionView.swift */; };
+		DC4C6C482476C5660014A34C /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C472476C5660014A34C /* InstructionsView.swift */; };
 		DC4C6C4A2476C59A0014A34C /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C492476C59A0014A34C /* ProductView.swift */; };
 		DC4C6C4C2476C5A40014A34C /* DisplayableProductsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C4B2476C5A40014A34C /* DisplayableProductsView.swift */; };
 		DC4C6C4E2476C5FC0014A34C /* FoundNotFoundButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4C6C4D2476C5FC0014A34C /* FoundNotFoundButtonsView.swift */; };
@@ -173,6 +173,7 @@
 		DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656724709D570048A848 /* EvaluatorAction.swift */; };
 		DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6565692470AA530048A848 /* EvaluatorStep.swift */; };
 		DC65656D2470F4FB0048A848 /* CharacterBezelTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */; };
+		DC8083EC24988A3E002D9E0F /* DemoControlView_Toggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8083EB24988A3E002D9E0F /* DemoControlView_Toggle.swift */; };
 		DCA05ACF24954B320038D433 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05ACE24954B320038D433 /* FeedbackView.swift */; };
 		DCA05AD1249551060038D433 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05AD0249551060038D433 /* DividerView.swift */; };
 		DCA05AD3249552F00038D433 /* SpaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05AD2249552EF0038D433 /* SpaceView.swift */; };
@@ -330,7 +331,7 @@
 		DC4C111C245DF9AA009BC14D /* Tutorial-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-Translator.swift"; sourceTree = "<group>"; };
 		DC4C111D245DF9AA009BC14D /* Tutorial-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tutorial-Screen.swift"; sourceTree = "<group>"; };
 		DC4C6C452471054E0014A34C /* ActionEvaluating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionEvaluating.swift; sourceTree = "<group>"; };
-		DC4C6C472476C5660014A34C /* InstructionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionView.swift; sourceTree = "<group>"; };
+		DC4C6C472476C5660014A34C /* InstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		DC4C6C492476C59A0014A34C /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
 		DC4C6C4B2476C5A40014A34C /* DisplayableProductsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableProductsView.swift; sourceTree = "<group>"; };
 		DC4C6C4D2476C5FC0014A34C /* FoundNotFoundButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundNotFoundButtonsView.swift; sourceTree = "<group>"; };
@@ -360,6 +361,7 @@
 		DC65656724709D570048A848 /* EvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorAction.swift; sourceTree = "<group>"; };
 		DC6565692470AA530048A848 /* EvaluatorStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorStep.swift; sourceTree = "<group>"; };
 		DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezelTranslating.swift; sourceTree = "<group>"; };
+		DC8083EB24988A3E002D9E0F /* DemoControlView_Toggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlView_Toggle.swift; sourceTree = "<group>"; };
 		DCA05ACE24954B320038D433 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		DCA05AD0249551060038D433 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		DCA05AD2249552EF0038D433 /* SpaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView.swift; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 			children = (
 				3B3E152F248E84700017AEF0 /* DemoControlView_ObservableControlledByTextInput.swift */,
 				DC2E4DB5248F4C9D00986A82 /* DemoControlView_ButtonChoices.swift */,
+				DC8083EB24988A3E002D9E0F /* DemoControlView_Toggle.swift */,
 			);
 			path = "Demo Control Views";
 			sourceTree = "<group>";
@@ -838,7 +841,7 @@
 			children = (
 				DC4C6C4B2476C5A40014A34C /* DisplayableProductsView.swift */,
 				DC4C6C4D2476C5FC0014A34C /* FoundNotFoundButtonsView.swift */,
-				DC4C6C472476C5660014A34C /* InstructionView.swift */,
+				DC4C6C472476C5660014A34C /* InstructionsView.swift */,
 				DCA05ACE24954B320038D433 /* FeedbackView.swift */,
 				DCA05AD0249551060038D433 /* DividerView.swift */,
 				DCA05AD2249552EF0038D433 /* SpaceView.swift */,
@@ -1054,6 +1057,7 @@
 				DC4C1116245DEF55009BC14D /* Template-Evaluator.swift in Sources */,
 				3B1E8D3A2462A9CD005D033C /* AfterWait.swift in Sources */,
 				DC656560246F07230048A848 /* HelloSolarSystem-Screen.swift in Sources */,
+				DC8083EC24988A3E002D9E0F /* DemoControlView_Toggle.swift in Sources */,
 				3B3E1514248E7D860017AEF0 /* DemoContainerView.swift in Sources */,
 				DC2E4DB8248F831700986A82 /* NamedIdentifiedValue.swift in Sources */,
 				3BF6691C2477CFAA00AE055C /* Device.swift in Sources */,
@@ -1087,7 +1091,7 @@
 				3B72549D2480702100E27551 /* Login-Screen.swift in Sources */,
 				DC31CC7D247C383E00002075 /* HelloWorld-Evaluator.swift in Sources */,
 				87AC827F2454CDE90090E443 /* Sink.swift in Sources */,
-				DC4C6C482476C5660014A34C /* InstructionView.swift in Sources */,
+				DC4C6C482476C5660014A34C /* InstructionsView.swift in Sources */,
 				87D299DF24561B9B003959C3 /* About-Data.swift in Sources */,
 				DC4C6C4E2476C5FC0014A34C /* FoundNotFoundButtonsView.swift in Sources */,
 				87E9E9AB246748D600CF2E1E /* Tutorial-PageStore.swift in Sources */,

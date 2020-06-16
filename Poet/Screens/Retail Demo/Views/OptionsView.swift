@@ -102,7 +102,7 @@ struct OptionsView_DemoProvider: DemoProvider, OptionsEvaluating, TextFieldEvalu
         ]
     }
     
-    func toggleOption(_ option: String) {
+    func _toggleOption(_ option: String) {
         if preference.string == option {
             preference.string = ""
         } else {

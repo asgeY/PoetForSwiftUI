@@ -17,8 +17,8 @@ struct FoundNotFoundButtonsView: View {
         let isNotFound = findableProduct.status == .notFound
         
         return GeometryReader() { geometry in
-            ZStack {
-                HStack {
+            ZStack(alignment: .topLeading) {
+                HStack(alignment: .top, spacing: 0) {
                     SelectableCapsuleButton(
                         title: "Found",
                         isSelected: isFound,
@@ -30,7 +30,7 @@ struct FoundNotFoundButtonsView: View {
                 .frame(width: geometry.size.width / 2.0)
                 .offset(x: 0, y: 0)
                 
-                HStack {
+                HStack(alignment: .top, spacing: 0) {
                     SelectableCapsuleButton(
                         title: "Not Found",
                         isSelected: isNotFound,

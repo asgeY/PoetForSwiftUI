@@ -174,7 +174,7 @@ extension Retail.Evaluator: ViewCycleEvaluating {
 
 extension Retail.Evaluator: ActionEvaluating {
     
-    func implementEvaluate(_ action: EvaluatorAction?) {
+    func _evaluate(_ action: EvaluatorAction?) {
         guard let action = action as? Action else { return }
         
         switch action {
@@ -355,7 +355,7 @@ extension Retail.Evaluator: FindingProductsEvaluating {
 // MARK: Options Evaluator
 
 extension Retail.Evaluator: OptionsEvaluating {
-    func toggleOption(_ option: String) {
+    func _toggleOption(_ option: String) {
         guard case var Step.chooseDeliveryLocation(configuration) = current.step else { return }
         
         if option == configuration.deliveryLocationPreference {

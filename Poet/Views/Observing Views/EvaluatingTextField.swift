@@ -21,7 +21,7 @@ struct EvaluatingTextField: View {
     let elementName: EvaluatorElement
     let isSecure: Bool
     let input: Input
-    @ObservedObject var fieldText = ObservableString()
+    @ObservedObject private var fieldText = ObservableString()
     let evaluator: TextFieldEvaluating
     
     @State var validationSink: AnyCancellable?

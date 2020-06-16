@@ -69,7 +69,7 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
         case moveDemoViewDown(NamedDemoProvider)
     }
     
-    func implementEvaluate(_ action: EvaluatorAction?) {
+    func _evaluate(_ action: EvaluatorAction?) {
         guard let action = action as? Action else { return }
         
         switch action {
@@ -97,6 +97,7 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
     func promptToAddDemoView() {
         translator.promptToAddDemoView.withValue([
             InstructionView.namedDemoProvider,
+            InstructionsView.namedDemoProvider,
             DisplayableProductsView.namedDemoProvider,
             OptionsView.namedDemoProvider,
             TitleView.namedDemoProvider

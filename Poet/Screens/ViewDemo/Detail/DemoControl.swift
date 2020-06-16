@@ -57,4 +57,28 @@ extension DemoControl {
             )
         }
     }
+    
+    struct Toggle: DemoControlType {
+        let evaluator: ToggleEvaluating
+        let elementName: EvaluatorElement
+        var title = ObservableString()
+        let initialValue: Bool
+        
+        init(evaluator: ToggleEvaluating, elementName: EvaluatorElement, title: String, initialValue: Bool) {
+            self.evaluator = evaluator
+            self.elementName = elementName
+            self.title.string = title
+            self.initialValue = initialValue
+        }
+        
+        func view() -> AnyView {
+            return AnyView(
+                DemoControlView_Toggle(
+                    title: title,
+                    elementName: elementName,
+                    initialValue: initialValue,
+                    evaluator: evaluator)
+            )
+        }
+    }
 }

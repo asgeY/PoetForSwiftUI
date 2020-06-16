@@ -13,7 +13,7 @@ struct DisplayableProductsView: View {
     let evaluator: FindingProductsEvaluating
     
     var body: some View {
-        return VStack(alignment: .leading, spacing: 40) {
+        return VStack(alignment: .leading, spacing: 0) {
             ForEach(displayableProducts.array, id: \.id) { displayableProduct in
                 return HStack {
                     VStack(alignment: .leading, spacing: 10) {
@@ -23,11 +23,11 @@ struct DisplayableProductsView: View {
                                 .padding(EdgeInsets(top: 8, leading: 20, bottom: 0, trailing: 20))
                                 .transition(.opacity)
                         }
+                        Spacer().frame(height: 40)
                     }
                     Spacer()
                 }
             }
-            Spacer()
         }
     }
 }

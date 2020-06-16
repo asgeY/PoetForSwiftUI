@@ -10,13 +10,13 @@ import Foundation
 
 protocol ActionEvaluating {
     func evaluate(_ action: EvaluatorAction?)
-    func implementEvaluate(_ action: EvaluatorAction?)
+    func _evaluate(_ action: EvaluatorAction?)
 }
 
 extension ActionEvaluating {
     func evaluate(_ action: EvaluatorAction?) {
         breadcrumb(action)
-        implementEvaluate(action)
+        _evaluate(action)
     }
     
     func breadcrumb(_ action: EvaluatorAction?) {

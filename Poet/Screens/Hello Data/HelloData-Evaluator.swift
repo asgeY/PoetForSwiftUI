@@ -92,7 +92,7 @@ extension HelloData.Evaluator: ActionEvaluating {
         case loadMusic(MusicType)
     }
     
-    func implementEvaluate(_ action: EvaluatorAction?) {
+    func _evaluate(_ action: EvaluatorAction?) {
         guard let action = action as? Action else { return }
         
         switch action {

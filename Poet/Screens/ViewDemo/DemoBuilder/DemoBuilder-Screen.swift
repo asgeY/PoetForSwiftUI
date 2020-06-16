@@ -17,7 +17,7 @@ extension DemoBuilder {
         let evaluator: Evaluator
         let translator: Translator
         
-        @State var isFullWidth = false
+        @State var isFullWidth = true
         @State var isEditing = false
         @State var isColoringViews = false
         @State var isShowingNames = false
@@ -64,13 +64,14 @@ extension DemoBuilder {
                             {
                                 Image(systemName: self.isEditing ? "dial.fill" : "dial")
                                     .foregroundColor(Color.primary)
-                                    .padding(EdgeInsets(top: 26, leading: 10, bottom: 10, trailing: 10))
+                                    .padding(EdgeInsets(top: 24, leading: 10, bottom: 10, trailing: 10))
                                     .font(Font.system(size: 18, weight: .regular))
                             }
                             .disabled(arrangedDemoProviders.isEmpty)
                             .opacity(arrangedDemoProviders.isEmpty ? 0.25 : 1)
                         }
                         
+                        /*
                         // MARK: Full Width Button
                         
                         Observer(translator.arrangedDemoProviders) { arrangedDemoProviders in
@@ -91,8 +92,7 @@ extension DemoBuilder {
                             .disabled(arrangedDemoProviders.isEmpty || self.isEditing)
                             .opacity(arrangedDemoProviders.isEmpty || self.isEditing ? 0.25 : 1)
                         }
-                        
-                        Spacer()
+                        */
                         
                         // MARK: Naming Button
                         
@@ -115,6 +115,8 @@ extension DemoBuilder {
                             .opacity(arrangedDemoProviders.isEmpty || self.isEditing ? 0.25 : 1)
                         }
                         
+                        Spacer()
+                        
                         // MARK: Color Overlay Button
                         
                         Observer(translator.arrangedDemoProviders) { arrangedDemoProviders in
@@ -129,6 +131,25 @@ extension DemoBuilder {
                                     .foregroundColor(Color.primary)
                                     .frame(width: 20)
                                     .padding(EdgeInsets(top: 26, leading: 10, bottom: 10, trailing: 10))
+                                    .font(Font.system(size: 18, weight: .regular))
+                                    .animation(.none)
+                            }
+                            .disabled(arrangedDemoProviders.isEmpty || self.isEditing)
+                            .opacity(arrangedDemoProviders.isEmpty || self.isEditing ? 0.25 : 1)
+                        }
+                        
+                        // MARK: Export Button
+                        
+                        Observer(translator.arrangedDemoProviders) { arrangedDemoProviders in
+                            Button(
+                                action: {
+                                    debugPrint("Export")
+                            })
+                            {
+                                Image(systemName: "square.and.arrow.up")
+                                    .foregroundColor(Color.primary)
+                                    .frame(width: 20)
+                                    .padding(EdgeInsets(top: 22, leading: 10, bottom: 10, trailing: 10))
                                     .font(Font.system(size: 18, weight: .regular))
                                     .animation(.none)
                             }

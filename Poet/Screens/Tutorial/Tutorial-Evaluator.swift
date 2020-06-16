@@ -272,9 +272,18 @@ extension Tutorial.Evaluator: ActionEvaluating {
                 return ""
             }
         }
+        
+        var breadcrumbDescription: String {
+            switch self {
+            case .showChapter(let chapterIndex, _):
+                return "showChapter: \(chapterIndex)"
+            default:
+                return String(describing: self)
+            }
+        }
     }
     
-    func implementEvaluate(_ action: EvaluatorAction?) {
+    func _evaluate(_ action: EvaluatorAction?) {
         guard let action = action as? Action else { return }
         switch action {
             

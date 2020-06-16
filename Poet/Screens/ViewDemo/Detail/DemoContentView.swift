@@ -27,11 +27,18 @@ struct DemoContentView: View {
                     Spacer()
                 }
                 .background(
-                    Spacer()
+                    Rectangle()
+                        .fill(Color(UIColor.systemBackground))
                         .frame(maxWidth: .infinity)
                         .frame(maxHeight: .infinity)
-                        .background(Color(UIColor.systemBackground))
                         .cornerRadius(self.shouldRoundCorners ? 10 : 0)
+                        .background(
+                            Rectangle()
+                            .fill(Color(UIColor.systemBackground))
+                            .frame(maxWidth: .infinity)
+                            .frame(maxHeight: .infinity)
+                            .cornerRadius(self.shouldRoundCorners ? 10 : 0)
+                    )
                     )
                     .overlay(
                         GeometryReader() { geometry in
