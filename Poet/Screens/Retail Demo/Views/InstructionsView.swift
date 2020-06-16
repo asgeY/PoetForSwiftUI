@@ -88,6 +88,7 @@ struct InstructionView: View {
                         .padding(EdgeInsets(top: 0, leading: 76, bottom: 0, trailing: 10))
                         .offset(x: 0, y: 2)
                 }
+                Spacer()
             }
             Spacer().frame(height: 18)
         }
