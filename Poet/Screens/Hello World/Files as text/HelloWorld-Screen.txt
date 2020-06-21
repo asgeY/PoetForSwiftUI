@@ -23,9 +23,15 @@ extension HelloWorld {
         var body: some View {
             ZStack {
                 
-                // Bubble and person
+                // Background, Person, and Bubble
                 GeometryReader() { geometry in
                     ZStack {
+                        
+                        // Sky
+                        Rectangle()
+                            .fill(Color(UIColor.systemTeal).opacity(0.9))
+                            .frame(width: geometry.size.width, height: geometry.size.height / 2.0)
+                            .offset(x: 0, y: -geometry.size.height / 4.0)
                         
                         // Person
                         Image(systemName: "person.fill")
@@ -35,7 +41,7 @@ extension HelloWorld {
                         
                         // Grass
                         Rectangle()
-                            .fill(Color(UIColor(red: 106/255.0, green: 235/255.0, blue: 106/255.0, alpha: 1)))
+                            .fill(Color.white)
                             .frame(width: geometry.size.width, height: geometry.size.height / 2.0)
                             .offset(x: 0, y: geometry.size.height / 4.0)
                         
@@ -53,11 +59,6 @@ extension HelloWorld {
                                             .frame(width: 168, height: 168)
                                     ).frame(width: 168, height: 168)
                                     
-                                    Image(systemName: "bubble.right")
-                                        .resizable()
-                                        .font(Font.system(size: 12, weight: .light))
-                                        .frame(width: 170, height: 170)
-                                    
                                     ObservingTextView(self.translator.bubbleText, kerning: -0.5)
                                         .font(Font.system(size: 22, weight: .semibold))
                                         .offset(y: -12)
@@ -67,7 +68,7 @@ extension HelloWorld {
                     }
                 }.edgesIgnoringSafeArea([.bottom, .top])
                 
-                // Count
+                // Hello Count
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer().frame(height: 23)
                     
@@ -79,7 +80,7 @@ extension HelloWorld {
                 }
                 
                 // Bottom Button
-                ObservingBottomButton(observableNamedAction: translator.buttonAction, evaluator: evaluator)
+                ObservingBottomButton(observableNamedEnabledAction: translator.buttonAction, evaluator: evaluator)
                 
                 // Dismiss Button
                 VStack {

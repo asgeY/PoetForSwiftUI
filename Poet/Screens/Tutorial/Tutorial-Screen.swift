@@ -195,7 +195,7 @@ extension Tutorial {
                 
                 VStack(alignment: .trailing) {
                     Hideable(isShowing: self.translator.shouldShowBody, transition: .opacity) {
-                        ObservingTextView(self.translator.chapterTitle, alignment: .center)
+                        ObservingTextView(self.translator.chapterTitle)
                             .font(Font.subheadline.smallCaps())
                             .foregroundColor(Color.primary)
                             .frame(height: 40)

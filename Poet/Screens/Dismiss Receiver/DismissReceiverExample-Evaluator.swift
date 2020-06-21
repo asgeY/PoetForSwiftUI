@@ -38,7 +38,7 @@ extension DismissReceiverExample.Evaluator: ViewCycleEvaluating {
                 
             } else {
                 afterWait(100) {
-                    self.translator.dismiss()
+                    self.translator.dismiss.please()
                 }
             }
         }

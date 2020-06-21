@@ -18,7 +18,7 @@ extension Tutorial.PageStore {
                 "Template-Translator",
                 "ObservableString",
                 "ObservingTextView",
-                "PassableStep",
+                "PassableState",
                 "ViewCycleEvaluating"
             ],
             pages:
@@ -85,28 +85,28 @@ extension Tutorial.PageStore {
                 .text("Take a moment to glance at the evaluator file before we explain it:"),
                 .file("Template-Evaluator"),
                 
-                // MARK: Steps
+                // MARK: States
                 
-                .title("Steps"),
-                .text("The state of an evaluator always resides within a type called a Step. All the possible state for the template evaluator is contained within two steps:"),
+                .title("States"),
+                .text("The state of an evaluator always resides within a type called a State. All the possible state for the template evaluator is contained within two States:"),
                 .code(
                 """
-                enum Step: EvaluatorStep {
+                enum State: EvaluatorState {
                   case initial
-                  case text(TextStepConfiguration)
+                  case placeholder(PlaceholderState)
                 }
                 """),
-                .text("You'll notice that the initial step has no associated values, whereas the text step knows about a configuration particular to it."),
-                .text("The initial step only exists to ensure that we are always in a step. If steps were optional, lots of work would be slightly harder to do."),
-                .text("The TextStepConfiguration exists to contain the values we care about, our title and body. And that's all it contains:"),
+                .text("You'll notice that the initial state has no associated values, whereas the placeholder state knows about a configuration particular to it."),
+                .text("The initial state only exists to ensure that we are always in a state. If states were optional, lots of work would be slightly harder to do."),
+                .text("The PlaceholderState exists to contain the values we care about, our title and body. And that's all it contains:"),
                 .code(
                 """
-                struct TextStepConfiguration {
+                struct PlaceholderState {
                   var title: String
                   var body: String
                 }
                 """),
-                .text("As long as our current step is initial, we don't care about these values. It's only when we create our text step that we set the values for its configuration. We'll do that when our view appears."),
+                .text("As long as our current state is initial, we don't care about these values. It's only when we create our placeholder state that we set the values for its configuration. We'll do that when our view appears."),
                 
                 // MARK: Responding to the view
                 .title("Responding to the view"),
@@ -119,23 +119,23 @@ extension Tutorial.PageStore {
                 """),
                 .file("ViewCycleEvaluating"),
                 .divider,
-                .text("When the view layer calls the viewDidAppear method, the evaluator will ask itself to show the text step:"),
+                .text("When the view layer calls the viewDidAppear method, the evaluator will ask itself to show the placeholder state:"),
                 .code(
                 """
                 func viewDidAppear() {
-                    showTextStep()
+                    showPlaceholderState()
                 }
                 """
                 ),
-                .text("The implementation of showTextStep is as straightforward as you might hope. We create a text step configuration and bundle it into a text step, which we assign as our current step:"),
+                .text("The implementation of showPlaceholderState is as straightforward as you might hope. We create a placeholder state configuration and bundle it into a placeholder state, which we assign as our current state:"),
                 .smallCode(
                   """
-                  func showTextStep() {
-                    let configuration = TextStepConfiguration(
+                  func showPlaceholderState() {
+                    let state = PlaceholderState(
                       title: "Template",
                       body: "You're looking at a screen…"
                     )
-                    current.step = .text(configuration)
+                    current.state = .placeholder(state)
                   }
                   """),
                 .text("There's more to say about that assignment at the end."),
@@ -150,36 +150,36 @@ extension Tutorial.PageStore {
                 .space(),
                 .text("Whenever the view layer needs to delegate to our business decision-maker, it will look similar to this. The screen itself isn't opinionated about what happens when it appears. Instead, it calls a protocol method the evaluator has promised to answer, which ultimately leads to a change in state."),
                 
-                // MARK: Passable Steps
+                // MARK: Passable States
                 
-                .title("Passable Steps"),
+                .title("Passable States"),
                 .text("Now let's get back to what might have been some unexpected syntax:"),
-                .code("current.step = .text(configuration)"),
-                .text("We assign to current.step because the evaluator wraps its step inside a special type, PassableStep:"),
-                .code("var current = PassableStep(Step.initial)"),
-                .text("The Combine framework makes it fairly easy to publish and listen to values, but PassableStep offers a helpful wrapper around that functionality."),
-                .text("Whenever it's time to assign a new current step, we don't replace the entire PassableStep object, which we've named “current.” Instead, we assign to the value it contains:"),
-                .code("current.step = ..."),
+                .code("current.state = .placeholder(configuration)"),
+                .text("We assign to current.state because the evaluator wraps its state inside a special type, PassableState:"),
+                .code("var current = PassableState(State.initial)"),
+                .text("The Combine framework makes it fairly easy to publish and listen to values, but PassableState offers a helpful wrapper around that functionality."),
+                .text("Whenever it's time to assign a new current state, we don't replace the entire PassableState object, which we've named “current.” Instead, we assign to the value it contains:"),
+                .code("current.state = ..."),
                 .text("That way, our wrapper persists and publishes its new value."),
-                .text("Under the hood, the publishing happens because of a property observer inside PassableStep:"),
+                .text("Under the hood, the publishing happens because of a property observer inside PassableState:"),
                 .code(
                  """
-                 var step: S {
+                 var state: S {
                      willSet {
                          subject.send(newValue)
                      }
                  }
                  """),
-                .file("PassableStep"),
+                .file("PassableState"),
                 .space(),
-                .text("Why are we publishing the step? The evaluator isn't the only thing interested in its own state. Another layer, the translator, will respond every time a new step is assigned."),
+                .text("Why are we publishing the state? The evaluator isn't the only thing interested in its own state. Another layer, the translator, will respond every time a new state is assigned."),
                 .text("Its role will be to interpret the business state and turn it into display state."),
-                .text("The translator can pay attention to the step because, upon its initialization, it created a “sink” (another Combine concept) that receives new values and acts on them:"),
+                .text("The translator can pay attention to the state because, upon its initialization, it created a “sink” (another Combine concept) that receives new values and acts on them:"),
                 .code(
                   """
-                  init(_ step: PassableStep<Evaluator.Step>) {
-                    stepSink = step.subject.sink { [weak self] value in
-                      self?.translate(step: value)
+                  init(_ state: PassableState<Evaluator.State>) {
+                    stateSink = state.subject.sink { [weak self] value in
+                      self?.translate(state: value)
                     }
                   }
                   """),
@@ -191,20 +191,20 @@ extension Tutorial.PageStore {
                   """
                   lazy var translator: Translator = Translator(current)
                   """),
-                .text("In later examples, you'll see the evaluator talk to the translator using that property. We do that sometimes to imperatively trigger certain modal behavior, such as showing an alert or a sheet. But here we don't need to tell the translator to do anything. Our use of a passable step, which both the evaluator and translator know about, is all that's needed."),
+                .text("In later examples, you'll see the evaluator talk to the translator using that property. We do that sometimes to imperatively trigger certain modal behavior, such as showing an alert or a sheet. But here we don't need to tell the translator to do anything. Our use of a passable state, which both the evaluator and translator know about, is all that's needed."),
                 
                 // MARK: Translating
                 
                 .title("Translating"),
-                .text("Once the translator receives a new step, it unwraps the step configuration and redirects into another method to translate it. Notice we don't need to translate the empty initial step:"),
+                .text("Once the translator receives a new state, it unwraps the state configuration and redirects into another method to translate it. Notice we don't need to translate the empty initial state:"),
                 .code(
                   """
-                  func translate(step: Evaluator.Step) {
-                      switch step {
+                  func translate(state: Evaluator.State) {
+                      switch state {
                       case .initial:
                           break
-                      case .text(let configuration):
-                          translateTextStep(configuration)
+                      case .placeholder(let state):
+                          translatePlaceholderState(state)
                       }
                   }
                   """),
@@ -216,7 +216,7 @@ extension Tutorial.PageStore {
                     var body = ObservableString()
                     """
                 ),
-                .text("Unlike on our evaluator's step, the translator's title and body aren't simple strings. They are a special wrapping type called ObservableString, and the observable aspect of that type is what makes our display state able to affect the view layer."),
+                .text("Unlike on our evaluator's state, the translator's title and body aren't simple strings. They are a special wrapping type called ObservableString, and the observable aspect of that type is what makes our display state able to affect the view layer."),
                 
                 // MARK: Observables
                 
@@ -230,17 +230,17 @@ extension Tutorial.PageStore {
                 .file("ObservableString"),
                 .space(),
                 .text("Because our translator holds onto ObservableStrings, our view layer will be able to respond whenever their wrapped values change."),
-                .text("We translate our step by assigning to those two observable strings:"),
+                .text("We translate our state by assigning to those two observable strings:"),
                 .code(
                     """
-                    func translateTextStep(_ configuration:
-                      Evaluator.TextStepConfiguration) {
-                        title.string = configuration.title
-                        body.string = configuration.body
+                    func translatePlaceholderState(_ state:
+                      Evaluator.PlaceholderState) {
+                        title.string = state.title
+                        body.string = state.body
                     }
                     """
                 ),
-                .text("We're just mapping our step's configuration values to observable values."),
+                .text("We're just mapping our state's configuration values to observable values."),
                 .text("Because of that very slight translation effort, the view layer can now observe the title and body."),
                 
                 // MARK: Observing
@@ -287,11 +287,11 @@ extension Tutorial.PageStore {
                     }
                     """
                 ),
-                .text("The evaluator creates the translator so it can pass its PassableStep to its initializer."),
+                .text("The evaluator creates the translator so it can pass its PassableState to its initializer."),
                 .text("Within a screen, most subsequent views — the ones the screen creates — don't know a translator at all, and they are always decoupled from the concrete evaluator, knowing it only by a protocol such as ActionEvaluating (more on that in the next chapter). But they are free to hold onto it strongly."),
                 .text("In fact, a screen and any of its nested views can hold onto both the evaluator and translator strongly without worrying about a retain cycle. The evaluator and translator will be deinitialized properly when the screen disappears."),
                 .text("Because the evaluator and translator are both classes, though, a programmer could create a retain cycle by making the translator hold onto the evaluator. This includes in sinks that listen to publishers, where it is important to use a weak self."),
-                .text("If a programmer follows these rules, they will avoid a problem:"),
+                .text("If a programmer abides by the following rules, they will avoid a problem:"),
                 .bullet("A screen (and any view) can hold onto both a translator and an evaluator strongly. The screen must hold onto the evaluator strongly to keep it in memory. It holds onto the translator so it can observe its display state."),
                 .bullet("An evaluator creates its translator and holds onto it strongly, which it must do to keep it in memory. When a screen assigns its own translator, it grabs it off of the evaluator."),
                 .bullet("A translator never holds onto an evaluator or a screen."),
@@ -300,7 +300,7 @@ extension Tutorial.PageStore {
                 // MARK: Summary
                 
                 .title("Summary"),
-                .text("On a screen that only shows text, the three layers must seem excessive. Our translator merely extracted the step's values without applying any new logic. Display state exactly mirrored business state."),
+                .text("On a screen that only shows text, the three layers must seem excessive. Our translator merely extracted the state's values without applying any new logic. Display state exactly mirrored business state."),
                 .text("But the moment we make our display state more dynamic, or use one property of business state to modify several properties of display state (or the converse: considering several aspects of business state to inform a single aspect of display state), the evaluator/translator split justifies itself."),
                 .text("If you have understood the flow here, you should be able to follow the flow of more complicated screens, too. Speaking of which, let's make things a tiny bit more complicated by thinking about user interaction.")
                 ]

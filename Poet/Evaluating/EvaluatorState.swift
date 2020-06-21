@@ -1,5 +1,5 @@
 //
-//  EvaluatorStep.swift
+//  EvaluatorState.swift
 //  Poet
 //
 //  Created by Stephen E. Cotner on 5/16/20.
@@ -8,4 +8,4 @@
 
 import Foundation
 
-protocol EvaluatorStep {}
+protocol EvaluatorState {}

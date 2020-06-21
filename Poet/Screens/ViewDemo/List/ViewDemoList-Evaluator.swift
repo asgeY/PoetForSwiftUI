@@ -14,34 +14,33 @@ extension ViewDemoList {
         // Translator
         lazy var translator: Translator = Translator(current)
         
-        // Current Step
-        var current = PassableStep(Step.initial)
+        // Current State
+        var current = PassableState(State.initial)
     }
 }
 
-// Steps and Step Configurations
+// MARK: State
+
 extension ViewDemoList.Evaluator {
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
-        case list(ListStepConfiguration)
+        case list(ListState)
     }
     
-    struct ListStepConfiguration {
+    struct ListState {
         var demoProviders: [NamedDemoProvider]
     }
 }
 
-// View Cycle
+// MARK: View Cycle
+
 extension ViewDemoList.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
-        showListStep()
+        showList()
     }
-}
-
-// Advancing Between Steps
-extension ViewDemoList.Evaluator {
-    func showListStep() {
-        let configuration = ListStepConfiguration(
+    
+    func showList() {
+        let state = ListState(
             demoProviders: [
                 ObservingTextView.namedDemoProvider,
                 OptionsView.namedDemoProvider,
@@ -49,9 +48,11 @@ extension ViewDemoList.Evaluator {
                 DisplayableProductsView.namedDemoProvider
             ]
         )
-        current.step = .list(configuration)
+        current.state = .list(state)
     }
 }
+
+// MARK: Actions
 
 extension ViewDemoList.Evaluator: ActionEvaluating {
     
@@ -60,9 +61,7 @@ extension ViewDemoList.Evaluator: ActionEvaluating {
         case showDemoBuilder
     }
     
-    func _evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
-        
+    func _evaluate(_ action: Action) {
         switch action {
         
         case .showDemo(let provider):
@@ -74,9 +73,11 @@ extension ViewDemoList.Evaluator: ActionEvaluating {
     }
 }
 
+// MARK: PresenterEvaluating
+
 extension ViewDemoList.Evaluator: PresenterEvaluating {
     func presenterDidDismiss(elementName: EvaluatorElement?) {
         // Reinitialize all the providers
-        showListStep()
+        showList()
     }
 }

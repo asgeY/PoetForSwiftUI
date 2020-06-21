@@ -12,9 +12,10 @@ extension About {
     
     class Translator {
         typealias Evaluator = About.Evaluator
+        typealias Section = StaticPageViewMaker.Section
         
         // Observable state
-        var sections = ObservableArray<ObservingPageViewSection>([])
+        var sections = ObservableArray<Section>([])
     }
 }
 

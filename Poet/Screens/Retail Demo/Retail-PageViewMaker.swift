@@ -11,7 +11,29 @@ import SwiftUI
 
 protocol FindingProductsEvaluating {
     func toggleProductFound(_ product: FindableProduct)
+    func _toggleProductFound(_ product: FindableProduct)
     func toggleProductNotFound(_ product: FindableProduct)
+    func _toggleProductNotFound(_ product: FindableProduct)
+}
+
+extension FindingProductsEvaluating {
+    func toggleProductFound(_ product: FindableProduct) {
+        breadcrumbToggleFound(product)
+        _toggleProductFound(product)
+    }
+    
+    func toggleProductNotFound(_ product: FindableProduct) {
+        breadcrumbToggleNotFound(product)
+        _toggleProductNotFound(product)
+    }
+    
+    func breadcrumbToggleFound(_ product: FindableProduct) {
+        debugPrint("breadcrumb. evaluator: \(self) toggled found: \(product)")
+    }
+    
+    func breadcrumbToggleNotFound(_ product: FindableProduct) {
+        debugPrint("breadcrumb. evaluator: \(self) toggled not found: \(product)")
+    }
 }
 
 protocol OptionsEvaluating {
@@ -33,20 +55,42 @@ extension OptionsEvaluating {
 extension Retail {
     struct ViewMaker: ObservingPageView_ViewMaker {
         
+        enum Section: ObservingPageViewSection {
+            case canceledTitle
+            case completedTitle
+            case completedSummary(completedSummary: ObservableString)
+            case customerTitle(title: ObservableString)
+            case options(options: ObservableArray<String>, preference: ObservableString)
+            case feedback(feedback: ObservableString)
+            case displayableProducts(displayableProducts: ObservableArray<DisplayableProduct>)
+            case divider
+            case instruction(instructionNumber: ObservableInt, instruction: ObservableString)
+            case instructions(instructions: ObservableArray<String>, focusableInstructionIndex: Observable<Int?>, allowsCollapsingAndExpanding: ObservableBool)
+            case topSpace
+            case space
+            
+            var id: String {
+                switch self {
+                case .canceledTitle:        return "canceledTitle"
+                case .completedTitle:       return "completedTitle"
+                case .completedSummary:     return "completedSummary"
+                case .customerTitle:        return "customerTitle"
+                case .options:              return "options"
+                case .feedback:             return "feedback"
+                case .displayableProducts:  return "displayableProducts"
+                case .divider:              return "divider"
+                case .instruction:          return "instruction"
+                case .instructions:         return "instructions"
+                case .topSpace:             return "topSpace"
+                case .space:                return "space"
+                }
+            }
+        }
+        
         let findingProductsEvaluator: FindingProductsEvaluating
         let optionsEvaluator: OptionsEvaluating
         
-        // Fade state
-        let fadeDeliveryOptions = ObservableBool()
-        let fadeCompletedSummary = ObservableBool()
-        let fadeCompletedTitle = ObservableBool()
-        let fadeCanceledTitle = ObservableBool()
-        
-        func view(for section: ObservingPageViewSection) -> AnyView {
-            guard let section = section as? Retail.Translator.Section else {
-                return AnyView(EmptyView())
-            }
-            
+        func view(for section: Section) -> AnyView {
             switch section {
             
             case .topSpace:
@@ -101,6 +145,15 @@ extension Retail {
                 return AnyView(
                     InstructionView(instructionNumber: instructionNumber, instructionText: instruction)
                 )
+                
+            case .instructions(let instructions, let focusableInstructionIndex, let allowsCollapsingAndExpanding):
+                return AnyView(
+                    InstructionsView(
+                        instructions: instructions,
+                        focusableInstructionIndex: focusableInstructionIndex,
+                        allowsCollapsingAndExpanding: allowsCollapsingAndExpanding
+                    )
+                )
              
             case .displayableProducts(let displayableProducts):
                 return AnyView(
@@ -108,17 +161,17 @@ extension Retail {
                         DisplayableProductsView(displayableProducts: displayableProducts, evaluator: self.findingProductsEvaluator)
                         
                         // This Spacer forces the products to stay at the top of their section when animating.
-                        // The -10 bottom padding counteract's the spacer's minimum height.
-                        Spacer()
-                            .padding(.bottom, -10)
+                        // The -10 bottom padding counteracts the spacer's minimum height.
+//                        Spacer()
+//                            .padding(.bottom, -10)
                         
                     }
                 )
                 
-            case .deliveryOptions(let deliveryOptions, let deliveryPreference):
+            case .options(let options, let preference):
                 return AnyView(
                     Fadeable {
-                        OptionsView(options: deliveryOptions, preference: deliveryPreference, evaluator: self.optionsEvaluator)
+                        OptionsView(options: options, preference: preference, evaluator: self.optionsEvaluator)
                     }
                 )
                 
@@ -164,6 +217,7 @@ struct TitleView: View {
                     Text(text)
                         .font(Font.system(size: 32, weight: .bold))
                         .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+                        .fixedSize(horizontal: false, vertical: true)
                     Spacer()
                 }
             }

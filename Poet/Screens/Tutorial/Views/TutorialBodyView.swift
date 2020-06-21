@@ -10,7 +10,7 @@ import SwiftUI
 
 struct TutorialBodyView: View {
     @ObservedObject var bodyElements: ObservableArray<Tutorial.Evaluator.Page.Body>
-    let evaluator: ActionEvaluating
+    let evaluator: Tutorial.Evaluator
     
     let bottomPadding: CGFloat = {
         switch Device.current {
@@ -151,18 +151,15 @@ struct TutorialBodyView: View {
             return AnyView(
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top, spacing: 0) {
-                        VStack(spacing: 0) {
-                            Spacer().frame(height: 7)
-                            Image(systemName: "circle.fill")
-                                .resizable()
-                                .frame(width: 8, height: 8)
-                            Spacer()
-                        }
+                        Image(systemName: "circle.fill")
+                            .resizable()
+                            .frame(width: 8, height: 8)
+                            .padding(.top, 7)
                         Spacer().frame(width: 20)
                         Text(text)
                             .font(FontSystem.body)
                             .lineSpacing(FontSystem.Spacing.body)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .fixedSize(horizontal: false, vertical: false)
                         Spacer()
                     }
                     Spacer().frame(height: bottomPadding)
@@ -287,7 +284,7 @@ struct FileNameView: View {
 
 struct DemoButtonView: View {
     let action: Tutorial.Evaluator.Action
-    let evaluator: ActionEvaluating
+    let evaluator: Tutorial.Evaluator
     
     var body: some View {
         ZStack {

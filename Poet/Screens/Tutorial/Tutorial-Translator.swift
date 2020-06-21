@@ -15,6 +15,7 @@ extension Tutorial {
     class Translator: AlertTranslating, BezelTranslating {
         
         typealias Evaluator = Tutorial.Evaluator
+        typealias Action = Tutorial.Evaluator.Action
         
         // Observable Display State
         
@@ -26,7 +27,7 @@ extension Tutorial {
         
         // Arrays
         var body = ObservableArray<Evaluator.Page.Body>([])
-        var selectableChapterTitles = ObservableArray<NumberedNamedEvaluatorAction>([])
+        var selectableChapterTitles = ObservableArray<NumberedNamedEvaluatorAction<Action>>([])
         
         // "Should Show" Bools
         var shouldShowMainTitle = ObservableBool()
@@ -60,40 +61,40 @@ extension Tutorial {
         var bezelTranslator = BezelTranslator()
         
         // Passthrough Behavior
-        var stepSink: AnyCancellable?
+        var stateSink: AnyCancellable?
         
-        init(_ step: PassableStep<Evaluator.Step>) {
-            stepSink = step.subject.sink { [weak self] value in
-                self?.translate(step: value)
+        init(_ state: PassableState<Evaluator.State>) {
+            stateSink = state.subject.sink { [weak self] value in
+                self?.translate(state: value)
             }
         }
     }
 }
 
 extension Tutorial.Translator {
-    func translate(step: Evaluator.Step) {
-        switch step {
+    func translate(state: Evaluator.State) {
+        switch state {
             
         case .initial:
             break // no initial setup needed
             
-        case .mainTitle(let configuration):
-            translateMainTitleStep(configuration)
+        case .mainTitle(let state):
+            translateMainTitleState(state)
             
-        case .chapterTitle(let configuration):
-            translateChapterTitleStep(configuration)
+        case .chapterTitle(let state):
+            translateChapterTitleState(state)
 
-        case .page(let configuration):
-            translatePageStep(configuration)
+        case .page(let state):
+            translatePageState(state)
             
-        case .interlude(let configuration):
-            translateInterlude(configuration)
+        case .interlude(let state):
+            translateInterlude(state)
         }
     }
     
-    func translateMainTitleStep(_ configuration: Evaluator.MainTitleStepConfiguration) {
+    func translateMainTitleState(_ state: Evaluator.MainTitleState) {
         shouldShowMainTitle.bool = true
-        mainTitle.string = configuration.title
+        mainTitle.string = state.title
         
         shouldFocusOnChapterTitle.bool = false
         shouldShowChapterTitle.bool = false
@@ -103,7 +104,7 @@ extension Tutorial.Translator {
         shouldShowFilesButton.bool = false
     }
     
-    func translateChapterTitleStep(_ configuration: Evaluator.ChapterTitleStepConfiguration) {
+    func translateChapterTitleState(_ state: Evaluator.ChapterTitleState) {
         body.array = []
         
         withAnimation(.linear(duration: 0.1)) {
@@ -117,11 +118,11 @@ extension Tutorial.Translator {
         shouldShowTableOfContents.bool = false
         shouldShowFilesButton.bool = false
         
-        chapterNumber.int = configuration.chapterNumber
-        chapterTitle.string = configuration.chapterTitle        
+        chapterNumber.int = state.chapterNumber
+        chapterTitle.string = state.chapterTitle
     }
     
-    func translatePageStep(_ configuration: Evaluator.PageStepConfiguration) {
+    func translatePageState(_ state: Evaluator.PageState) {
         // linear animation
         withAnimation(.linear(duration: 0.4)) {
             shouldShowChapterNumber.bool = true
@@ -133,19 +134,19 @@ extension Tutorial.Translator {
         // delayed animation
         withAnimation(Animation.linear(duration: 0.45).delay(0.4)) {
             shouldShowBody.bool = true
-            shouldShowFilesButton.bool = configuration.chapterTextFiles.notEmpty
-            shouldShowNextChapterButton.bool = configuration.nextChapterTitle?.isEmpty == false
+            shouldShowFilesButton.bool = state.chapterTextFiles.notEmpty
+            shouldShowNextChapterButton.bool = state.nextChapterTitle?.isEmpty == false
         }
         
         // Other values
-        chapterNumber.int = configuration.chapterNumber
-        chapterTitle.string = configuration.chapterTitle
-        nextChapterTitle.string = configuration.nextChapterTitle ?? ""
-        body.array = configuration.body
-        selectableChapterTitles.array = configuration.selectableChapterTitles
+        chapterNumber.int = state.chapterNumber
+        chapterTitle.string = state.chapterTitle
+        nextChapterTitle.string = state.nextChapterTitle ?? ""
+        body.array = state.body
+        selectableChapterTitles.array = state.selectableChapterTitles
     }
     
-    func translateInterlude(_ configuration: Evaluator.InterludeStepConfiguration) {
+    func translateInterlude(_ state: Evaluator.InterludeState) {
         let work = {
             // hide everything
             self.shouldFocusOnChapterTitle.bool = false
@@ -157,7 +158,7 @@ extension Tutorial.Translator {
             self.shouldShowFilesButton.bool = false
         }
         
-        if configuration.animated {
+        if state.animated {
             withAnimation(.linear(duration: 0.2)) {
                 work()
             }

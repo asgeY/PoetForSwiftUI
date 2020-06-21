@@ -26,7 +26,7 @@ extension HelloWorld {
         var body: some View {
             ZStack {
                 
-                // Bubble and person
+                // Background, Person, and Bubble
                 GeometryReader() { geometry in
                     ZStack {
                         
@@ -45,7 +45,6 @@ extension HelloWorld {
                         // Grass
                         Rectangle()
                             .fill(Color.white)
-//                            .fill(Color(UIColor(red: 96/255.0, green: 225/255.0, blue: 96/255.0, alpha: 1)))
                             .frame(width: geometry.size.width, height: geometry.size.height / 2.0)
                             .offset(x: 0, y: geometry.size.height / 4.0)
                         
@@ -72,7 +71,7 @@ extension HelloWorld {
                     }
                 }.edgesIgnoringSafeArea([.bottom, .top])
                 
-                // Count
+                // Hello Count
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer().frame(height: 23)
                     

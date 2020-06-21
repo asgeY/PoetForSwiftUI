@@ -23,12 +23,12 @@ extension DemoBuilder {
         var editDemoView = Passable<DemoViewEditingConfiguration>()
         var promptToAddDemoView = Passable<[NamedDemoProvider]>()
         
-        // Step Sink
-        private var stepSink: AnyCancellable?
+        // State Sink
+        private var stateSink: AnyCancellable?
         
-        init(_ step: PassableStep<Evaluator.Step>) {
-            stepSink = step.subject.sink { [weak self] value in
-                self?.translate(step: value)
+        init(_ state: PassableState<Evaluator.State>) {
+            stateSink = state.subject.sink { [weak self] value in
+                self?.translate(state: value)
             }
         }
         
@@ -39,21 +39,21 @@ extension DemoBuilder {
 }
 
 extension DemoBuilder.Translator {
-    func translate(step: Evaluator.Step) {
-        switch step {
+    func translate(state: Evaluator.State) {
+        switch state {
             
         case .initial:
             break // no initial setup needed
             
-        case .build(let configuration):
-            translateBuildStep(configuration)
+        case .build(let state):
+            translateBuildState(state)
         }
     }
     
-    func translateBuildStep(_ configuration: Evaluator.BuildStepConfiguration) {
+    func translateBuildState(_ state: Evaluator.BuildState) {
         // Set observable display state
         withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
-            self.arrangedDemoProviders.array = configuration.arrangedDemoProviders
+            self.arrangedDemoProviders.array = state.arrangedDemoProviders
         }
     }
 }

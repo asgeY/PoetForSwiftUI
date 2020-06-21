@@ -16,8 +16,8 @@ extension Login {
         lazy var translator: Translator = Translator(current)
         var performer: LoginPerforming = Performer()
         
-        // Current Step
-        var current = PassableStep(Step.initial)
+        // Current State
+        var current = PassableState(State.initial)
         
         // Sink
         var loginSink: Sink?
@@ -29,14 +29,15 @@ extension Login {
     }
 }
 
-// MARK: Steps and Step Configurations
+// MARK: State
+
 extension Login.Evaluator {
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
-        case login(LoginStepConfiguration)
+        case login(LoginState)
     }
     
-    struct LoginStepConfiguration {
+    struct LoginState {
         var enteredUsername: String
         var usernameValidation: TextValidation
         var enteredPassword: String
@@ -47,36 +48,29 @@ extension Login.Evaluator {
 // MARK: View Cycle
 extension Login.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
-        showLoginStep()
+        showLogin()
     }
-}
-
-// MARK: Advancing Between Steps
-extension Login.Evaluator {
     
-    // MARK: Login Step
-    
-    func showLoginStep() {
-        let configuration = LoginStepConfiguration(
+    func showLogin() {
+        let state = LoginState(
             enteredUsername: "",
             usernameValidation: usernameValidation(),
             enteredPassword: "",
             passwordValidation: passwordValidation()
         )
-        current.step = .login(configuration)
+        current.state = .login(state)
     }
 }
 
 // MARK: Actions
+
 extension Login.Evaluator: ActionEvaluating {
     enum Action: EvaluatorAction {
         case signIn
         case useCorrectCredentials
     }
     
-    func _evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
-        
+    func _evaluate(_ action: Action) {
         switch action {
             
         case .signIn:
@@ -88,15 +82,15 @@ extension Login.Evaluator: ActionEvaluating {
     }
     
     private func signIn() {
-        guard case let .login(configuration) = current.step else { return }
+        guard case let .login(currentState) = current.state else { return }
         
         UIApplication.shared.endEditing()
         
         self.translator.busy.isTrue()
         
         loginSink = performer.login(
-            username: configuration.enteredUsername,
-            password: configuration.enteredPassword
+            username: currentState.enteredUsername,
+            password: currentState.enteredPassword
             )?.sink(receiveCompletion: { (completion) in
                 
             switch completion {
@@ -126,23 +120,24 @@ extension Login.Evaluator: ActionEvaluating {
 }
 
 // MARK: Text Field Evaluating
+
 extension Login.Evaluator: TextFieldEvaluating {
     func textFieldDidChange(text: String, elementName: EvaluatorElement) {
-        guard case var .login(configuration) = current.step else { return }
+        guard case var .login(state) = current.state else { return }
         
         if let elementName = elementName as? Element {
             switch elementName {
                 
             case .usernameTextField:
-                configuration.enteredUsername = text
-                configuration.usernameValidation.validate(text: text)
+                state.enteredUsername = text
+                state.usernameValidation.validate(text: text)
                 
             case .passwordTextField:
-                configuration.enteredPassword = text
-                configuration.passwordValidation.validate(text: text)
+                state.enteredPassword = text
+                state.passwordValidation.validate(text: text)
             }
             
-            current.step = .login(configuration)
+            current.state = .login(state)
         }
     }
     

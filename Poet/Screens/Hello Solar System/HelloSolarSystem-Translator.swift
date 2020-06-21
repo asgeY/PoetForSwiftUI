@@ -21,47 +21,47 @@ extension HelloSolarSystem {
         var imageName = ObservableString()
         var foregroundColor = Observable<Color>(.clear)
         var backgroundColor = Observable<Color>(.clear)
-        var tapAction = ObservableEvaluatorAction()
+        var tapAction = Observable<Action?>()
         var shouldShowTapMe = ObservableBool()
-        var tabs = ObservableArray<EvaluatorActionWithIconAndID>([])
-        var currentTab = Observable<EvaluatorActionWithIconAndID?>(nil)
+        var tabs = ObservableArray<IconRepresentedAndIdentifiedEvaluatorAction<Action>>([])
+        var currentTab = Observable<IconRepresentedAndIdentifiedEvaluatorAction<Action>?>(nil)
         
         // Passthrough Behavior
-        private var stepSink: AnyCancellable?
+        private var stateSink: AnyCancellable?
         
-        init(_ step: PassableStep<Evaluator.Step>) {
-            stepSink = step.subject.sink { [weak self] value in
-                self?.translate(step: value)
+        init(_ state: PassableState<Evaluator.State>) {
+            stateSink = state.subject.sink { [weak self] value in
+                self?.translate(state: value)
             }
         }
     }
 }
 
 extension HelloSolarSystem.Translator {
-    func translate(step: Evaluator.Step) {
-        switch step {
+    func translate(state: Evaluator.State) {
+        switch state {
             
         case .initial:
             break // no initial setup needed
             
-        case .celestialBody(let configuration):
-            translateCelestialBodyStep(configuration)
+        case .celestialBody(let state):
+            translateCelestialBodyState(state)
         }
     }
     
-    func translateCelestialBodyStep(_ configuration: Evaluator.CelestialBodyStepConfiguration) {
+    func translateCelestialBodyState(_ state: Evaluator.CelestialBodyState) {
         // Set observable display state
-        title.string = "Hello \(configuration.currentCelestialBody.name)!"
-        imageName.string = configuration.currentCelestialBody.images[configuration.currentImageIndex]
-        foregroundColor.value = configuration.currentCelestialBody.foreground.color
-        backgroundColor.value = configuration.currentCelestialBody.background.color
-        tapAction.action = configuration.tapAction
-        tabs.array = configuration.celestialBodies.map { Action.showCelestialBody($0) }
+        title.string = "Hello \(state.currentCelestialBody.name)!"
+        imageName.string = state.currentCelestialBody.images[state.currentImageIndex]
+        foregroundColor.value = state.currentCelestialBody.foreground.color
+        backgroundColor.value = state.currentCelestialBody.background.color
+        tapAction.value = state.tapAction
+        tabs.array = state.celestialBodies.map { Action.showCelestialBody($0).actionWithIconAndID() }.compactMap { $0 }
         withAnimation(.linear) {
-            shouldShowTapMe.bool = configuration.tapAction != nil
+            shouldShowTapMe.bool = state.tapAction != nil
         }
         withAnimation(.spring(response: 0.45, dampingFraction: 0.65, blendDuration: 0)) {
-            currentTab.value = Action.showCelestialBody(configuration.currentCelestialBody)
+            currentTab.value = Action.showCelestialBody(state.currentCelestialBody).actionWithIconAndID()
         }
         
     }

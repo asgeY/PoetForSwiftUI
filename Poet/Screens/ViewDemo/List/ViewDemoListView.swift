@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ViewDemoListView: View {
     @ObservedObject var demoProviders: ObservableArray<NamedDemoProvider>
-    let evaluator: ActionEvaluating
+    let evaluator: ViewDemoList.Evaluator
     
     var body: some View {
         ScrollView {

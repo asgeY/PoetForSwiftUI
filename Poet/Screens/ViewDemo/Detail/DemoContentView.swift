@@ -8,13 +8,13 @@
 
 import SwiftUI
 
-struct DemoContentView: View {
+struct DemoContentView<E: ActionEvaluating>: View {
     let namedDemoProvider: NamedDemoProvider
     let isEditing: Bool
     let isColoringViews: Bool
     let shouldRoundCorners: Bool
-    let evaluator: ActionEvaluating
-    let editAction: EvaluatorAction
+    let evaluator: E
+    let editAction: E.Action
     
     var body: some View {
         VStack(spacing: 0) {

@@ -9,9 +9,9 @@
 import SwiftUI
 
 struct StaticPageViewMaker: ObservingPageView_ViewMaker {
+    typealias Section = StaticPage.Section
 
-    func view(for section: ObservingPageViewSection) -> AnyView {
-        guard let section = section as? StaticPage.Section else { return AnyView(EmptyView()) }
+    func view(for section: Section) -> AnyView {
         switch section {
             case .text(let string):
                 return AnyView(

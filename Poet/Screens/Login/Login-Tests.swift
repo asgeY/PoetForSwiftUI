@@ -32,21 +32,21 @@ class Login_Tests: XCTestCase {
 
     func testLoginSuccessShowsAlert() throws {
         evaluator?.performer = LoginMockPerformer(shouldSucceed: true)
-        evaluator?.showLoginStep()
+        evaluator?.showLogin()
         evaluator?.evaluate(Action.signIn)
         XCTAssert(translator?.alert.alertConfiguration?.title == "Login Succeeded!", "Alert title should say 'Login Succeeded!' Actual: \(String(describing: translator?.alert.alertConfiguration?.title))")
     }
     
     func testLoginFailureShowsAlert() throws {
         evaluator?.performer = LoginMockPerformer(shouldSucceed: false)
-        evaluator?.showLoginStep()
+        evaluator?.showLogin()
         evaluator?.evaluate(Action.signIn)
         XCTAssert(translator?.alert.alertConfiguration?.title == "Login Failed", "Alert title should say 'Login Failed' Actual: \(String(describing: translator?.alert.alertConfiguration?.title))")
     }
     
     func testUsernameCharacterCountValidation() throws {
         evaluator?.performer = LoginMockPerformer(shouldSucceed: true)
-        evaluator?.showLoginStep()
+        evaluator?.showLogin()
         
         // Invalid: hey
         evaluator?.textFieldDidChange(text: "hey", elementName: Element.usernameTextField)
@@ -59,7 +59,7 @@ class Login_Tests: XCTestCase {
 
     func testUsernameBadCharacterValidation() throws {
         evaluator?.performer = LoginMockPerformer(shouldSucceed: true)
-        evaluator?.showLoginStep()
+        evaluator?.showLogin()
         
         // Valid: hello
         evaluator?.textFieldDidChange(text: "hello", elementName: Element.usernameTextField)
@@ -72,7 +72,7 @@ class Login_Tests: XCTestCase {
     
     func testPasswordCharacterCountValidation() throws {
         evaluator?.performer = LoginMockPerformer(shouldSucceed: true)
-        evaluator?.showLoginStep()
+        evaluator?.showLogin()
         
         // Invalid: 123
         evaluator?.textFieldDidChange(text: "123", elementName: Element.passwordTextField)
@@ -85,7 +85,7 @@ class Login_Tests: XCTestCase {
 
     func testPasswordBadCharacterValidation() throws {
         evaluator?.performer = LoginMockPerformer(shouldSucceed: true)
-        evaluator?.showLoginStep()
+        evaluator?.showLogin()
         
         // Valid: 123456
         evaluator?.textFieldDidChange(text: "123456", elementName: Element.passwordTextField)

@@ -9,10 +9,10 @@
 import Combine
 
 extension DismissReceiverExample {
-    class Translator: DismissTranslating {
+    class Translator {
         
         // Composable Translating
-        var dismissTranslator = DismissTranslator()
+        var dismiss = PassablePlease()
         
         // Display State
         var countdown = ObservableString()

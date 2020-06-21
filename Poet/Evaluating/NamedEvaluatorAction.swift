@@ -14,16 +14,16 @@ struct NamedEvaluatorAction {
     var id: UUID = UUID()
 }
 
-struct NumberedNamedEvaluatorAction {
+struct NumberedNamedEvaluatorAction<A: EvaluatorAction> {
     let number: Int
     let name: String
-    let action: EvaluatorAction
+    let action: A
     var id: UUID = UUID()
 }
 
-struct NamedEnabledEvaluatorAction {
+struct NamedEnabledEvaluatorAction<A: EvaluatorAction> {
     let name: String
     let enabled: Bool
-    let action: EvaluatorAction
+    let action: A
     var id: UUID = UUID()
 }

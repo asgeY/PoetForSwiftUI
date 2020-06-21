@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct TappableImage: View {
-    let evaluator: ActionEvaluating
-    @ObservedObject var tapAction: ObservableEvaluatorAction
+struct TappableImage<E: ActionEvaluating>: View {
+    let evaluator: E
+    @ObservedObject var tapAction: Observable<E.Action?>
     @ObservedObject var image: ObservableString
     @ObservedObject var foregroundColor: Observable<Color>
     @ObservedObject var backgroundColor: Observable<Color>
@@ -32,7 +32,7 @@ struct TappableImage: View {
         }
         .frame(width: 200, height: 200)
         .onTapGesture {
-            self.evaluator.evaluate(self.tapAction.action)
+            self.evaluator.evaluate(self.tapAction.value)
         }
     }
 }

@@ -6,17 +6,17 @@
 //  Copyright © 2020 Steve Cotner. All rights reserved.
 //
 
-import Foundation
-
-typealias ObservableNamedEnabledEvaluatorAction = Observable<NamedEnabledEvaluatorAction?>
-
-extension ObservableNamedEnabledEvaluatorAction {
-    var namedEnabledAction: NamedEnabledEvaluatorAction? {
-        get {
-            return self.value
-        }
-        set {
-            self.value = newValue
-        }
-    }
-}
+//import Foundation
+//
+//typealias ObservableNamedEnabledEvaluatorAction = Observable<NamedEnabledEvaluatorAction?>
+//
+//extension ObservableNamedEnabledEvaluatorAction {
+//    var namedEnabledAction: NamedEnabledEvaluatorAction? {
+//        get {
+//            return self.value
+//        }
+//        set {
+//            self.value = newValue
+//        }
+//    }
+//}

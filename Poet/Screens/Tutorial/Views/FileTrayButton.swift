@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-struct FileTrayButton: View {
+struct FileTrayButton<E: ActionEvaluating>: View {
     @ObservedObject var isShowing: ObservableBool
     let transition: AnyTransition
-    let evaluator: ActionEvaluating
-    let action: EvaluatorAction?
+    let evaluator: E
+    let action: E.Action?
     
     var body: some View {
         Hideable(isShowing: isShowing, transition: transition) {

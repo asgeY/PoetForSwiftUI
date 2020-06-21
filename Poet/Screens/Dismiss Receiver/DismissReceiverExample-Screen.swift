@@ -1,5 +1,5 @@
 //
-//  DissmissReceiver-Screen.swift
+//  DismissReceiver-Screen.swift
 //  Poet
 //
 //  Created by Stephen E Cotner on 5/1/20.
@@ -49,7 +49,7 @@ extension DismissReceiverExample {
                 
                 // MARK: DISMISS RECEIVER
                 
-                DismissReceiver(translator: translator.dismissTranslator)
+                DismissReceiver(translator.dismiss)
                 
                 Spacer()
             }

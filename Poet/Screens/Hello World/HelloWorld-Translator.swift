@@ -14,53 +14,59 @@ extension HelloWorld {
     class Translator {
         
         typealias Evaluator = HelloWorld.Evaluator
+        typealias Action = Evaluator.Action
         
         // Observable Display State
         var helloCount = ObservableString()
-        var buttonAction = ObservableNamedEnabledEvaluatorAction()
+        var buttonAction = Observable<NamedEnabledEvaluatorAction<Action>?>(nil)
         var bubbleText = ObservableString()
         var shouldShowBubble = ObservableBool()
         
         // Passthrough Behavior
-        private var stepSink: AnyCancellable?
+        private var stateSink: AnyCancellable?
         
-        init(_ step: PassableStep<Evaluator.Step>) {
-            stepSink = step.subject.sink { [weak self] value in
-                self?.translate(step: value)
+        init(_ state: PassableState<Evaluator.State>) {
+            stateSink = state.subject.sink { [weak self] value in
+                self?.translate(state: value)
             }
         }
     }
 }
 
 extension HelloWorld.Translator {
-    func translate(step: Evaluator.Step) {
-        switch step {
+    func translate(state: Evaluator.State) {
+        switch state {
             
         case .initial:
             break
             
-        case .sayStuff(let configuration):
-            translateSayStuffStep(configuration)
+        case .sayStuff(let state):
+            translateSayStuff(state)
         }
     }
     
-    func translateSayStuffStep(_ configuration: Evaluator.SayStuffStepConfiguration) {
-        helloCount.string = "Hello count: \(configuration.helloCount)"
+    func translateSayStuff(_ state: Evaluator.SayStuffState) {
+        // update the hello count
+        helloCount.string = "Hello count: \(state.helloCount)"
         
-        buttonAction.namedEnabledAction = nil
+        // hide the button
+        buttonAction.value = nil
+        
+        // show the button after 0.8 seconds
         afterWait(800) {
-            self.buttonAction.namedEnabledAction = NamedEnabledEvaluatorAction(
-                name: configuration.buttonAction.name,
+            self.buttonAction.value = NamedEnabledEvaluatorAction(
+                name: state.buttonAction.name,
                 enabled: true,
-                action: configuration.buttonAction
+                action: state.buttonAction
             )
         }
         
-        if let bubbleText = configuration.bubbleText {
+        // show or hide the bubble
+        if let bubbleText = state.bubbleText {
             self.bubbleText.string = bubbleText
         }
         withAnimation(.spring(response: 0.55, dampingFraction: 0.65, blendDuration: 0)) {
-            shouldShowBubble.bool = configuration.bubbleText != nil
+            shouldShowBubble.bool = state.bubbleText != nil
         }
     }
 }

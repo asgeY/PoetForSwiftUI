@@ -9,19 +9,20 @@
 import Foundation
 
 protocol ActionEvaluating {
-    func evaluate(_ action: EvaluatorAction?)
-    func _evaluate(_ action: EvaluatorAction?)
+    associatedtype Action: EvaluatorAction
+    func evaluate(_ action: Action?)
+    func _evaluate(_ action: Action)
 }
 
 extension ActionEvaluating {
-    func evaluate(_ action: EvaluatorAction?) {
-        breadcrumb(action)
-        _evaluate(action)
+    func evaluate(_ action: Action?) {
+        if let action = action {
+            breadcrumb(action)
+            _evaluate(action)
+        }
     }
     
-    func breadcrumb(_ action: EvaluatorAction?) {
-        if let action = action {
-            debugPrint("breadcrumb. evaluator: \(self) action: \(action.breadcrumbDescription)")
-        }
+    func breadcrumb(_ action: Action) {
+        debugPrint("breadcrumb. evaluator: \(self) action: \(action.breadcrumbDescription)")
     }
 }

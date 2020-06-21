@@ -22,19 +22,9 @@ struct ObservingTextView: View {
     }
     
     var body: some View {
-        HStack {
-            if alignment == .trailing || alignment == .center {
-                Spacer()
-            }
-            
-            Text(text.string)
-                .kerning(kerning)
-                .multilineTextAlignment(alignment ?? .leading)
-            
-            if alignment == .leading || alignment == .center {
-                Spacer()
-            }
-        }
+        Text(text.string)
+            .kerning(kerning)
+            .multilineTextAlignment(alignment ?? .leading)
     }
 }
 

@@ -12,11 +12,13 @@ extension Tutorial.PageStore {
     var chapter_Introduction: Chapter {
         return Chapter("Introduction", pages:
             Page([
-                .text("Congratulations. Somehow you heard about the Poet pattern for SwiftUI and decided to learn about it. Things are looking up."),
-                .text("In the course of reading this tutorial, you'll be walked through several examples of Poet, ranging from the very simple to the very complex. Here are some of the screens you'll encounter:"),
+                .text("Hello! Somehow you found this tutorial about the Poet pattern for SwiftUI. Let's hope it's useful!"),
+                .text("People choose patterns for all sorts of reasons, and sometimes they're sound. The only wrong choice is to believe that patterns are inconsequential. The right pattern makes a difference: it biases a programmer toward prioritizing certain virtues over others. This tutorial tries to provide the reasoning behind the Poet approach. Maybe it's for you, maybe not."),
+                .text("What's the elevator pitch? Poet encourages a programmer to build up abstractions that let them compose a screen of reusable views which can be added and removed dynamically at runtime. Once these abstractions are built, most choices of display state and view logic become rote and automatic. A developer can then focus most of their thought on business logic, freeing them to construct complicated, multi-step interfaces with comprehensive branches of reasoning in a way that is still clear and easy to follow, test, and refactor."),
+                .text("In the course of reading this tutorial, you'll be walked through several examples of Poet, ranging from the pretty simple to the pretty complex. Here are some of the screens you'll encounter:"),
                 
                 .title("Hello Worlds"),
-                .text("Two Hello World examples that demonstrate the basic pattern and some simple changes to state."),
+                .text("Some Hello World examples that demonstrate the basic pattern and some simple state management."),
                 .demo(.showHelloWorld),
                 .demo(.showHelloSolarSystem),
                 .demo(.showHelloData),
@@ -26,16 +28,15 @@ extension Tutorial.PageStore {
                 .demo(.showLoginDemo),
                 
                 .title("Retail"),
-                .text("A screen from a retail employee's app, with smooth animation between sequential steps. Under the hood, it sports a fully decoupled approach to showing or hiding sections on screen, based on the current step."),
+                .text("A screen from a retail employee's app, with smooth animation between sequential steps. Under the hood, it sports a fully decoupled approach to showing or hiding sections on screen, based on the current step. This is the first substantial example that shows what powerful abstractions are possible with Poet."),
                 .demo(.showRetailDemo),
                 
                 .divider,
-                .text("Screens like these are, for a programmer with moderate experience and a good understanding of the pattern, relatively easy to make."),
-                .text("The goal of this tutorial is to help programmers understand the underlying principes of the pattern, in order to exercise them effectively. Once they do, the Poet approach allows them to write code that is clear, expressive, refactorable, reusable, and testable."),
-                .text("While Poet may seem complex at first, it follows the philosophy that a pattern “should be made as simple as possible, but no simpler.”"),
+                .text("Even the more complex screens, like the Retail example, are relatively quick and easy to make."),
+                .text("The goal of this tutorial is to help programmers understand the underlying principes of the pattern, in order to decide if it suits their needs."),
                 .text("There are a few different actors in Poet, and a few different techniques the pattern engenders, but they all are expressions of the pattern's underlying principle of effectively decoupling business state, display state, and view logic."),
                 .text("Poet formalizes the distinction between these three layers of reasoning, where most patterns only formalize a distinction between a business layer and a view layer — an incomplete distinction that eventually leads to tangled code which is difficult to refactor over time."),
-                .text("We'll learn about the pattern and its benefits by thinking about how these different screens were made. But first, why is it called Poet?")
+                .text("We'll learn about the pattern and its benefits by thinking about how many different screens were made. But first, why is it called Poet?")
             ])
         )
     }

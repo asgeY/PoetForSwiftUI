@@ -29,3 +29,10 @@ protocol EvaluatorActionWithIcon: EvaluatorAction {
 protocol EvaluatorActionWithIconAndID: EvaluatorActionWithIcon {
     var id: String { get }
 }
+
+
+struct IconRepresentedAndIdentifiedEvaluatorAction<A: EvaluatorAction> {
+    let icon: String
+    let id: String
+    let action: A
+}

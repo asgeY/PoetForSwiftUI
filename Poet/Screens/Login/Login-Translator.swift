@@ -24,7 +24,7 @@ extension Login {
         var passwordValidation = ObservableValidation()
         
         // Bottom button value
-        var bottomButtonAction = ObservableNamedEnabledEvaluatorAction()
+        var bottomButtonAction = Observable<NamedEnabledEvaluatorAction<Action>?>()
         
         var alert = PassableAlert()
         var passableUsername = PassableString()
@@ -33,42 +33,42 @@ extension Login {
         var busy = PassableBool()
         
         // Passthrough Behavior
-        private var stepSink: AnyCancellable?
+        private var stateSink: AnyCancellable?
         
-        init(_ step: PassableStep<Evaluator.Step>) {
-            stepSink = step.subject.sink { [weak self] value in
-                self?.translate(step: value)
+        init(_ state: PassableState<Evaluator.State>) {
+            stateSink = state.subject.sink { [weak self] value in
+                self?.translate(state: value)
             }
         }
     }
 }
 
 extension Login.Translator {
-    func translate(step: Evaluator.Step) {
-        switch step {
+    func translate(state: Evaluator.State) {
+        switch state {
             
         case .initial:
             break
             
-        case .login(let configuration):
-            translateLoginStep(configuration)
+        case .login(let state):
+            translateLogin(state)
         }
     }
     
-    func translateLoginStep(_ configuration: Evaluator.LoginStepConfiguration) {
+    func translateLogin(_ state: Evaluator.LoginState) {
         // Set observable display state
         title.string = "Sign In"
         
-        usernameValidation.isValid.bool = configuration.usernameValidation.isValid
-        usernameValidation.message.string = configuration.usernameValidation.message
+        usernameValidation.isValid.bool = state.usernameValidation.isValid
+        usernameValidation.message.string = state.usernameValidation.message
         
-        passwordValidation.isValid.bool = configuration.passwordValidation.isValid
-        passwordValidation.message.string = configuration.passwordValidation.message
+        passwordValidation.isValid.bool = state.passwordValidation.isValid
+        passwordValidation.message.string = state.passwordValidation.message
         
-        let enabled = configuration.usernameValidation.isValid && configuration.passwordValidation.isValid
+        let enabled = state.usernameValidation.isValid && state.passwordValidation.isValid
         
         withAnimation(Animation.linear.delay(0.25)) {
-            bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Sign in", enabled: enabled, action: Action.signIn)
+            bottomButtonAction.value = NamedEnabledEvaluatorAction(name: "Sign in", enabled: enabled, action: Action.signIn)
         }
     }
 }

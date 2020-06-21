@@ -46,7 +46,7 @@ struct InstructionsView: View {
                     .opacity(allowsCollapsingAndExpanding.bool ? 1 : 0)
                     .foregroundColor(.primary)
                     .frame(width: 24, height: 24)
-                    .padding(.trailing, 10)
+                    .padding(.trailing, 30)
                     
                     Spacer()
                 }

@@ -26,7 +26,7 @@ struct SupplementaryCodeView: View {
                     }) {
                         Image(systemName: "doc.on.clipboard.fill")
                             .font(Font.system(size: 18, weight: .regular))
-                            .padding(EdgeInsets(top: 14, leading: 20, bottom: 14, trailing: 10))
+                            .padding(EdgeInsets(top: 26, leading: 20, bottom: 14, trailing: 10))
                             .foregroundColor(textColor)
                         .zIndex(10)
                     }

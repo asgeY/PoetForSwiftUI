@@ -15,8 +15,8 @@ extension Tutorial {
         // Translator
         lazy var translator: Translator = Translator(current)
         
-        // Step       
-        var current = PassableStep(Step.initial)
+        // State
+        var current = PassableState(State.initial)
         
         struct Chapter {
             let title: String
@@ -102,37 +102,35 @@ extension Tutorial {
     }
 }
 
-// MARK: Steps
+// MARK: State
 
 extension Tutorial.Evaluator {
     
-    // MARK: Steps
+    // MARK: States
     
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
-        case interlude(InterludeStepConfiguration)
-        case mainTitle(MainTitleStepConfiguration)
-        case chapterTitle(ChapterTitleStepConfiguration)
-        case page(PageStepConfiguration)
+        case interlude(InterludeState)
+        case mainTitle(MainTitleState)
+        case chapterTitle(ChapterTitleState)
+        case page(PageState)
     }
     
-    // MARK: Configurations
-    
-    struct InterludeStepConfiguration {
+    struct InterludeState {
         var animated: Bool
     }
     
-    struct MainTitleStepConfiguration {
+    struct MainTitleState {
         var title: String
     }
     
-    struct ChapterTitleStepConfiguration {
+    struct ChapterTitleState {
         var chapterTitle: String
         var chapterIndex: Int
         var chapterNumber: Int { return chapterIndex + 1 }
     }
     
-    struct PageStepConfiguration {
+    struct PageState {
         var chapterIndex: Int
         var pageIndex: Int
         var pageData: [Chapter]
@@ -145,7 +143,7 @@ extension Tutorial.Evaluator {
         var pageCountWithinChapter: Int { return pageData[chapterIndex].pages.count }
         var chapterCount: Int { return pageData.count }
         var buttonAction: Action? { return pageData[chapterIndex].pages[pageIndex].action }
-        var selectableChapterTitles: [NumberedNamedEvaluatorAction] { return selectableChapterTitles(for: pageData)}
+        var selectableChapterTitles: [NumberedNamedEvaluatorAction<Action>] { return selectableChapterTitles(for: pageData)}
         
         var nextChapterTitle: String? {
             if chapterIndex < chapterCount - 1 {
@@ -166,8 +164,8 @@ extension Tutorial.Evaluator {
         }
         
         // Helper methods
-        func selectableChapterTitles(for pageData: [Chapter]) -> [NumberedNamedEvaluatorAction] {
-            var selectableChapterTitles = [NumberedNamedEvaluatorAction]()
+        func selectableChapterTitles(for pageData: [Chapter]) -> [NumberedNamedEvaluatorAction<Action>] {
+            var selectableChapterTitles = [NumberedNamedEvaluatorAction<Action>]()
             
             for (i, chapter) in pageData.enumerated() {
                 let selectableChapterTitle = NumberedNamedEvaluatorAction(
@@ -189,23 +187,23 @@ extension Tutorial.Evaluator: ViewCycleEvaluating {
     
     func viewDidAppear() {
         
-        guard case .initial = current.step else { return }
+        guard case .initial = current.state else { return }
         
         // Get our pages
         let pageData = pageStore.pageData
         
         // Opening animation
-        showInterludeStep(animated: false)
+        showInterludeState(animated: false)
         afterWait(500) {
-            self.showMainTitleStep("Poet")
+            self.showMainTitleState("Poet")
             afterWait(1000) {
-                self.showInterludeStep(animated: true)
+                self.showInterludeState(animated: true)
                 afterWait(1000) {
-                    self.showChapterTitleStep(
+                    self.showChapterTitleState(
                         forChapterIndex: 0,
                         pageData: pageData)
                     afterWait(1000) {
-                        self.showPageStep(
+                        self.showPageState(
                             forChapterIndex: 0,
                             pageIndex: 0,
                             pageData: pageData)
@@ -283,8 +281,7 @@ extension Tutorial.Evaluator: ActionEvaluating {
         }
     }
     
-    func _evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
+    func _evaluate(_ action: Action) {
         switch action {
             
         case .pageForward:
@@ -360,54 +357,54 @@ extension Tutorial.Evaluator: ActionEvaluating {
     }
 }
 
-// MARK: Configuring Steps
+// MARK: States
 
 extension Tutorial.Evaluator {
     
-    func showInterludeStep(animated: Bool) {
-        let configuration = InterludeStepConfiguration(
+    func showInterludeState(animated: Bool) {
+        let state = InterludeState(
             animated: animated
         )
-        current.step = .interlude(configuration)
+        current.state = .interlude(state)
     }
     
     // MARK: Main Title
     
-    func showMainTitleStep(_ text: String) {
-        let configuration = MainTitleStepConfiguration(
+    func showMainTitleState(_ text: String) {
+        let state = MainTitleState(
             title: text
         )
-        current.step = .mainTitle(configuration)
+        current.state = .mainTitle(state)
     }
     
     // MARK: Chapter Title
     
-    func showChapterTitleStep(forChapterIndex chapterIndex: Int, pageData: [Chapter]) {
-        let configuration = ChapterTitleStepConfiguration(
+    func showChapterTitleState(forChapterIndex chapterIndex: Int, pageData: [Chapter]) {
+        let state = ChapterTitleState(
             chapterTitle: pageData[chapterIndex].title,
             chapterIndex: chapterIndex)
-        current.step = .chapterTitle(configuration)
+        current.state = .chapterTitle(state)
     }
     
     // MARK: Page
     
-    func showPageStep(forChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
-        let configuration = PageStepConfiguration(
+    func showPageState(forChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
+        let state = PageState(
             chapterIndex: chapterIndex,
             pageIndex: pageIndex,
             pageData: pageData
         )
-        current.step = .page(configuration)
+        current.state = .page(state)
     }
     
     func showChapter(chapterIndex: Int, pageData: [Chapter]) {
-        showInterludeStep(animated: false)
+        showInterludeState(animated: false)
         afterWait(500) {
-            self.showChapterTitleStep(
+            self.showChapterTitleState(
                 forChapterIndex: chapterIndex,
                 pageData: pageData)
             afterWait(1000) {
-                self.showPageStep(
+                self.showPageState(
                     forChapterIndex: chapterIndex,
                     pageIndex: 0,
                     pageData: pageData)
@@ -416,26 +413,26 @@ extension Tutorial.Evaluator {
     }
     
     func proceedToNextChapter() {
-        guard case let .page(configuration) = current.step else { return }
+        guard case let .page(currentState) = current.state else { return }
         
-        if configuration.chapterIndex < configuration.chapterCount - 1 {
-            showChapter(chapterIndex: configuration.chapterIndex + 1, pageData: configuration.pageData)
+        if currentState.chapterIndex < currentState.chapterCount - 1 {
+            showChapter(chapterIndex: currentState.chapterIndex + 1, pageData: currentState.pageData)
         }
     }
     
     func pageForward() {
-        // Must be in Page step
-        guard case let .page(configuration) = current.step else { return }
+        // Must be in Page state
+        guard case let .page(currentState) = current.state else { return }
         
         var isNewChapter = false
         
         let (nextChapter, nextPage): (Int, Int) = {
-            if configuration.pageIndex < configuration.pageCountWithinChapter - 1 {
-                return (configuration.chapterIndex, configuration.pageIndex + 1)
+            if currentState.pageIndex < currentState.pageCountWithinChapter - 1 {
+                return (currentState.chapterIndex, currentState.pageIndex + 1)
             } else {
                 isNewChapter = true
-                if configuration.chapterIndex < configuration.chapterCount - 1 {
-                    return (configuration.chapterIndex + 1, 0)
+                if currentState.chapterIndex < currentState.chapterCount - 1 {
+                    return (currentState.chapterIndex + 1, 0)
                 } else {
                     return (0, 0)
                 }
@@ -443,37 +440,37 @@ extension Tutorial.Evaluator {
         }()
         
         if isNewChapter {
-            showInterludeStep(animated: true)
+            showInterludeState(animated: true)
             afterWait(500) {
-                self.showChapterTitleStep(
+                self.showChapterTitleState(
                     forChapterIndex: nextChapter,
-                    pageData: configuration.pageData)
+                    pageData: currentState.pageData)
                 afterWait(1000) {
-                    self.showPageStep(
+                    self.showPageState(
                         forChapterIndex: nextChapter,
                         pageIndex: nextPage,
-                        pageData: configuration.pageData)
+                        pageData: currentState.pageData)
                 }
             }
         } else {
-            showPageStep(
+            showPageState(
                 forChapterIndex: nextChapter,
                 pageIndex: nextPage,
-                pageData: configuration.pageData)
+                pageData: currentState.pageData)
         }
     }
     
     func pageBackward() {
-        // Must be in Page step
-        guard case let .page(configuration) = current.step else { return }
+        // Must be in Page state
+        guard case let .page(currentState) = current.state else { return }
         
         let (chapter, page): (Int, Int) = {
-            if configuration.pageIndex > 0 {
-                return (configuration.chapterIndex, configuration.pageIndex - 1)
+            if currentState.pageIndex > 0 {
+                return (currentState.chapterIndex, currentState.pageIndex - 1)
             } else {
-                if configuration.chapterIndex > 0 {
-                    let newChapter = configuration.chapterIndex - 1
-                    let newPage = configuration.pageData[newChapter].pages.count - 1
+                if currentState.chapterIndex > 0 {
+                    let newChapter = currentState.chapterIndex - 1
+                    let newPage = currentState.pageData[newChapter].pages.count - 1
                     return (newChapter, newPage)
                 } else {
                     return (0, 0)
@@ -481,19 +478,19 @@ extension Tutorial.Evaluator {
             }
         }()
         
-        showPageStep(forChapterIndex: chapter, pageIndex: page, pageData: configuration.pageData)
+        showPageState(forChapterIndex: chapter, pageIndex: page, pageData: currentState.pageData)
     }
     
     func showChapterFiles() {
-        guard case let .page(configuration) = current.step else { return }
+        guard case let .page(currentState) = current.state else { return }
         
-        translator.showChapterFileMenu.withValue(configuration.chapterTextFiles)
+        translator.showChapterFileMenu.withValue(currentState.chapterTextFiles)
     }
     
     func showFileOfInterest() {
-        guard case let .page(configuration) = current.step else { return }
+        guard case let .page(currentState) = current.state else { return }
         
-        if let fileOfInterest = configuration.fileOfInterest {
+        if let fileOfInterest = currentState.fileOfInterest {
             translator.showFile.withString(fileOfInterest.body)
         }
     }

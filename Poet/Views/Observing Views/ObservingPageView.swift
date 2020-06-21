@@ -14,12 +14,13 @@ protocol ObservingPageViewSection {
 }
 
 protocol ObservingPageView_ViewMaker {
-    func view(for: ObservingPageViewSection) -> AnyView
+    associatedtype Section: ObservingPageViewSection
+    func view(for: Section) -> AnyView
 }
 
-struct ObservingPageView: View {
-    @ObservedObject var sections: ObservableArray<ObservingPageViewSection>
-    var viewMaker: ObservingPageView_ViewMaker
+struct ObservingPageView<V: ObservingPageView_ViewMaker> : View {
+    @ObservedObject var sections: ObservableArray<V.Section>
+    var viewMaker: V
     var margin: CGFloat = 0
     
     var body: some View {

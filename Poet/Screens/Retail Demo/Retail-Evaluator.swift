@@ -16,17 +16,17 @@ extension Retail {
         
         lazy var translator: Translator = Translator(current)
         
-        // Step
+        // State
         
-        var current = PassableStep(Step.initial)
+        var current = PassableState(State.initial)
         
         // Actions
         
         enum Action: EvaluatorAction {
             case startOrder
-            case advanceToDeliveryStep
-            case advanceToCompletedStep
-            case advanceToCanceledStep
+            case advanceToDelivery
+            case advanceToCompleted
+            case advanceToCanceled
             case done
         }
         
@@ -97,34 +97,39 @@ struct FindableProduct {
 
 extension Retail.Evaluator {
     
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
-        case notStarted(NotStartedConfiguration)
-        case findProducts(FindProductsConfiguration)
-        case chooseDeliveryLocation(ChooseDeliveryLocationConfiguration)
-        case completed(CompletedConfiguration)
-        case canceled(CanceledConfiguration)
+        case notStarted(NotStartedState)
+        case findProducts(FindProductsState)
+        case chooseDeliveryLocation(ChooseDeliveryLocationState)
+        case completed(CompletedState)
+        case canceled(CanceledState)
     }
     
     // Configurations
     
-    struct NotStartedConfiguration {
+    struct NotStartedState {
         var customer: String
+        var instructions: [String]
         var orderID: String
         var products: [Product]
         var startAction: Action
     }
     
-    struct FindProductsConfiguration {
+    struct FindProductsState {
         var customer: String
+        var instructions: [String]
+        var focusedInstructionIndex: Int
         var orderID: String
         var findableProducts: [FindableProduct]
         var startTime: Date
         var nextAction: Action?
     }
     
-    struct ChooseDeliveryLocationConfiguration {
+    struct ChooseDeliveryLocationState {
         var customer: String
+        var instructions: [String]
+        var focusedInstructionIndex: Int
         var orderID: String
         var products: [Product]
         var numberOfProductsRequested: Int
@@ -134,8 +139,10 @@ extension Retail.Evaluator {
         var nextAction: Action?
     }
     
-    struct CompletedConfiguration {
+    struct CompletedState {
         var customer: String
+        var instructions: [String]
+        var focusedInstructionIndex: Int
         var orderID: String
         var deliveryLocation: String
         var products: [Product]
@@ -145,8 +152,10 @@ extension Retail.Evaluator {
         var doneAction: Action
     }
     
-    struct CanceledConfiguration {
+    struct CanceledState {
         var customer: String
+        var instructions: [String]
+        var focusedInstructionIndex: Int
         var orderID: String
         var timeCompleted: Date
         var elapsedTime: TimeInterval
@@ -158,10 +167,15 @@ extension Retail.Evaluator {
 
 extension Retail.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
-        if case .initial = current.step {
-            current.step = .notStarted(
-                NotStartedConfiguration(
+        if case .initial = current.state {
+            current.state = .notStarted(
+                NotStartedState(
                     customer: "Bob Dobalina",
+                    instructions: [
+                        "Tap start to claim this order",
+                        "Mark items found or not found",
+                        "Choose a Delivery Location"
+                    ],
                     orderID: order.id,
                     products: order.products,
                     startAction: Action.startOrder)
@@ -174,110 +188,120 @@ extension Retail.Evaluator: ViewCycleEvaluating {
 
 extension Retail.Evaluator: ActionEvaluating {
     
-    func _evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
-        
+    func _evaluate(_ action: Action) {
         switch action {
         case .startOrder:
             startOrder()
             
-        case .advanceToDeliveryStep:
-            advanceToDeliveryStep()
+        case .advanceToDelivery:
+            advanceToDelivery()
             
-        case .advanceToCompletedStep:
-            advanceToCompletedStep()
+        case .advanceToCompleted:
+            advanceToCompleted()
             
-        case .advanceToCanceledStep:
-            advanceToCanceledStep()
+        case .advanceToCanceled:
+            advanceToCanceled()
             
         case .done:
-            translator.dismissTranslator.dismiss.please()
+            translator.dismiss.please()
         }
     }
     
-    // MARK: Advancing Between Steps
+    // MARK: Advancing Between States
     
     func startOrder() {
-        if case let .notStarted(configuration) = current.step {
-            
-            // not implemented yet -- asynchronous network call
-            // performer.claim(configuration.orderID) // handle success and failure
-            
-            let newConfiguration = FindProductsConfiguration(
-                customer: configuration.customer,
-                orderID: configuration.orderID,
-                findableProducts: configuration.products.map {
-                    return FindableProduct(
-                        product: $0,
-                        status: .unknown)
-                },
-                startTime: Date(),
-                nextAction: nil
-            )
-            
-            current.step = .findProducts(newConfiguration)
-        }
+        guard case let .notStarted(currentState) = current.state else { return }
+        
+        // not implemented yet -- asynchronous network call
+        // performer.claim(configuration.orderID) // handle success and failure
+        
+        let state = FindProductsState(
+            customer: currentState.customer,
+            instructions: currentState.instructions,
+            focusedInstructionIndex: 1,
+            orderID: currentState.orderID,
+            findableProducts: currentState.products.map {
+                return FindableProduct(
+                    product: $0,
+                    status: .unknown)
+            },
+            startTime: Date(),
+            nextAction: nil
+        )
+        
+        current.state = .findProducts(state)
     }
     
-    func advanceToDeliveryStep() {
-        guard case let .findProducts(configuration) = current.step else { return }
+    func advanceToDelivery() {
+        guard case let .findProducts(currentState) = current.state else { return }
         
-        let newConfiguration = ChooseDeliveryLocationConfiguration(
-            customer: configuration.customer,
-            orderID: configuration.orderID,
-            products: configuration.findableProducts.compactMap {
+        let state = ChooseDeliveryLocationState(
+            customer: currentState.customer,
+            instructions: currentState.instructions,
+            focusedInstructionIndex: 2,
+            orderID: currentState.orderID,
+            products: currentState.findableProducts.compactMap {
                 if $0.status == .found {
                     return $0.product
                 } else {
                     return nil
                 }
             },
-            numberOfProductsRequested: configuration.findableProducts.count,
+            numberOfProductsRequested: currentState.findableProducts.count,
             deliveryLocationChoices: ["Cash Register", "Front Door"],
             deliveryLocationPreference: nil,
-            startTime: configuration.startTime,
+            startTime: currentState.startTime,
             nextAction: nil)
         
-        current.step = .chooseDeliveryLocation(newConfiguration)
+        current.state = .chooseDeliveryLocation(state)
     }
     
-    func advanceToCompletedStep() {
-        guard case let .chooseDeliveryLocation(configuration) = current.step else { return }
+    func advanceToCompleted() {
+        guard case let .chooseDeliveryLocation(currentState) = current.state else { return }
         
-        let newConfiguration = CompletedConfiguration(
-            customer: configuration.customer,
-            orderID: configuration.orderID,
-            deliveryLocation: configuration.deliveryLocationPreference ?? "Unknown Location",
-            products: configuration.products,
-            numberOfProductsRequested: configuration.numberOfProductsRequested,
+        let deliveryLocation = currentState.deliveryLocationPreference ?? "Unknown Location"
+        let instructions = currentState.instructions + ["Deliver to \(deliveryLocation)"]
+        
+        let state = CompletedState(
+            customer: currentState.customer,
+            instructions: instructions,
+            focusedInstructionIndex: 3,
+            orderID: currentState.orderID,
+            deliveryLocation: currentState.deliveryLocationPreference ?? "Unknown Location",
+            products: currentState.products,
+            numberOfProductsRequested: currentState.numberOfProductsRequested,
             timeCompleted: Date(),
-            elapsedTime: abs(configuration.startTime.timeIntervalSinceNow),
+            elapsedTime: abs(currentState.startTime.timeIntervalSinceNow),
             doneAction: .done
             )
         
-        current.step = .completed(newConfiguration)
+        current.state = .completed(state)
     }
     
-    func advanceToCanceledStep() {
-        guard case let .findProducts(configuration) = current.step else { return }
+    func advanceToCanceled() {
+        guard case let .findProducts(currentState) = current.state else { return }
         
-        let newConfiguration = CanceledConfiguration(
-            customer: configuration.customer,
-            orderID: configuration.orderID,
+        let instructions = currentState.instructions + ["You're all set!"]
+        
+        let state = CanceledState(
+            customer: currentState.customer,
+            instructions: instructions,
+            focusedInstructionIndex: 3,
+            orderID: currentState.orderID,
             timeCompleted: Date(),
-            elapsedTime: abs(configuration.startTime.timeIntervalSinceNow),
+            elapsedTime: abs(currentState.startTime.timeIntervalSinceNow),
             doneAction: .done
             )
         
-        current.step = .canceled(newConfiguration)
+        current.state = .canceled(state)
     }
 }
 
 // MARK: Finding Products Evaluator
 
 extension Retail.Evaluator: FindingProductsEvaluating {
-    func toggleProductFound(_ product: FindableProduct) {
-        guard case let Step.findProducts(configuration) = current.step else { return }
+    func _toggleProductFound(_ product: FindableProduct) {
+        guard case let .findProducts(currentState) = current.state else { return }
         
         // Toggle status
         
@@ -291,12 +315,12 @@ extension Retail.Evaluator: FindingProductsEvaluating {
             }
         }()
         
-        updateFindableProduct(modifiedProduct, on: configuration)
+        updateFindableProduct(modifiedProduct, on: currentState)
         updateNextActionForFindableProducts()
     }
     
-    func toggleProductNotFound(_ product: FindableProduct) {
-        guard case let Step.findProducts(configuration) = current.step else { return }
+    func _toggleProductNotFound(_ product: FindableProduct) {
+        guard case let .findProducts(currentState) = current.state else { return }
         
         // Toggle status
         
@@ -310,45 +334,45 @@ extension Retail.Evaluator: FindingProductsEvaluating {
             }
         }()
         
-        updateFindableProduct(modifiedProduct, on: configuration)
+        updateFindableProduct(modifiedProduct, on: currentState)
         updateNextActionForFindableProducts()
     }
     
-    private func updateFindableProduct(_ modifiedProduct: FindableProduct, on configuration: FindProductsConfiguration) {
-        var modifiedConfiguration = configuration
-        let findableProducts: [FindableProduct] = configuration.findableProducts.map {
+    private func updateFindableProduct(_ modifiedProduct: FindableProduct, on state: FindProductsState) {
+        var modifiableState = state
+        let findableProducts: [FindableProduct] = state.findableProducts.map {
             if $0.product.upc == modifiedProduct.product.upc {
                 return modifiedProduct
             }
             return $0
         }
         
-        modifiedConfiguration.findableProducts = findableProducts
+        modifiableState.findableProducts = findableProducts
         
-        current.step = .findProducts(modifiedConfiguration)
+        current.state = .findProducts(modifiableState)
     }
     
     private func updateNextActionForFindableProducts() {
-        guard case var Step.findProducts(configuration) = current.step else { return }
+        guard case var .findProducts(state) = current.state else { return }
         
-        let ready = configuration.findableProducts.allSatisfy { (findableProduct) -> Bool in
+        let ready = state.findableProducts.allSatisfy { (findableProduct) -> Bool in
             findableProduct.status != .unknown
         }
         
         if ready {
-            let noneFound = configuration.findableProducts.allSatisfy { (findableProduct) -> Bool in
+            let noneFound = state.findableProducts.allSatisfy { (findableProduct) -> Bool in
                 findableProduct.status == .notFound
             }
             if noneFound {
-                configuration.nextAction = .advanceToCanceledStep
+                state.nextAction = .advanceToCanceled
             } else {
-                configuration.nextAction = .advanceToDeliveryStep
+                state.nextAction = .advanceToDelivery
             }
         } else {
-            configuration.nextAction = nil
+            state.nextAction = nil
         }
         
-        current.step = .findProducts(configuration)
+        current.state = .findProducts(state)
     }
 }
 
@@ -356,16 +380,16 @@ extension Retail.Evaluator: FindingProductsEvaluating {
 
 extension Retail.Evaluator: OptionsEvaluating {
     func _toggleOption(_ option: String) {
-        guard case var Step.chooseDeliveryLocation(configuration) = current.step else { return }
+        guard case var .chooseDeliveryLocation(state) = current.state else { return }
         
-        if option == configuration.deliveryLocationPreference {
-            configuration.deliveryLocationPreference = nil
-            configuration.nextAction = nil
+        if option == state.deliveryLocationPreference {
+            state.deliveryLocationPreference = nil
+            state.nextAction = nil
         } else {
-            configuration.deliveryLocationPreference = option
-            configuration.nextAction = .advanceToCompletedStep
+            state.deliveryLocationPreference = option
+            state.nextAction = .advanceToCompleted
         }
         
-        current.step = .chooseDeliveryLocation(configuration)
+        current.state = .chooseDeliveryLocation(state)
     }
 }

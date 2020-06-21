@@ -27,40 +27,40 @@ extension HelloData {
         var busy = PassableBool()
         
         // Passthrough Behavior
-        private var stepSink: AnyCancellable?
+        private var stateSink: AnyCancellable?
         
-        init(_ step: PassableStep<Evaluator.Step>) {
-            stepSink = step.subject.sink { [weak self] value in
-                self?.translate(step: value)
+        init(_ state: PassableState<Evaluator.State>) {
+            stateSink = state.subject.sink { [weak self] value in
+                self?.translate(state: value)
             }
         }
     }
 }
 
 extension HelloData.Translator {
-    func translate(step: Evaluator.Step) {
-        switch step {
+    func translate(state: Evaluator.State) {
+        switch state {
             
         case .initial:
             break
             
         case .preLoading:
-            translatePreLoadingStep()
+            translatePreLoading()
             
-        case .listingMusic(let configuration):
-            translateListingMusicStep(configuration)
+        case .listingMusic(let state):
+            translateListingMusic(state)
         }
     }
     
-    func translatePreLoadingStep() {
+    func translatePreLoading() {
         self.shouldShowLoadButton.bool = true
         self.shouldShowMusicResults.bool = false
         
     }
     
-    func translateListingMusicStep(_ configuration: Evaluator.ListingMusicStepConfiguration) {
-        musicResults.array = configuration.musicResults
-        musicType.string = configuration.musicType.displayName
+    func translateListingMusic(_ state: Evaluator.ListingMusicState) {
+        musicResults.array = state.musicResults
+        musicType.string = state.musicType.displayName
         shouldShowLoadButton.bool = false
         shouldShowMusicResults.bool = true
     }

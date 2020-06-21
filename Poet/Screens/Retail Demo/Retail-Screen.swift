@@ -39,7 +39,7 @@ extension Retail {
                 
                 VStack {
                     DismissButton(orientation: .right)
-                    DismissReceiver(translator: translator.dismissTranslator)
+                    DismissReceiver(translator.dismiss)
                     Spacer()
                 }
                 

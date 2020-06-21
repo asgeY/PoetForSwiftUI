@@ -16,32 +16,35 @@ extension Template {
         var title = ObservableString()
         var body = ObservableString()
         
-        // Step Sink
-        private var stepSink: AnyCancellable?
+        // State Sink
+        private var stateSink: AnyCancellable?
         
-        init(_ step: PassableStep<Evaluator.Step>) {
-            stepSink = step.subject.sink { [weak self] value in
-                self?.translate(step: value)
+        init(_ state: PassableState<Evaluator.State>) {
+            stateSink = state.subject.sink { [weak self] value in
+                self?.translate(state: value)
             }
         }
     }
 }
 
 extension Template.Translator {
-    func translate(step: Evaluator.Step) {
-        switch step {
-            
+    func translate(state: Evaluator.State) {
+        switch state {
+        
         case .initial:
-            break // no initial setup needed
+            // no initial setup needed
+            break
             
-        case .text(let configuration):
-            translateTextStep(configuration)
+        case .text(let state):
+            translateTextState(state)
         }
     }
     
-    func translateTextStep(_ configuration: Evaluator.TextStepConfiguration) {
+    func translateTextState(_ state: Evaluator.TextState) {
+        
         // Set observable display state
-        title.string = configuration.title
-        body.string = configuration.body
+        
+        title.string = state.title
+        body.string = state.body
     }
 }

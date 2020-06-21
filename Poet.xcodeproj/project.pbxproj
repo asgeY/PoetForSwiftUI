@@ -54,13 +54,13 @@
 		3BF6691E2477D1F700AE055C /* FontSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6691D2477D1F700AE055C /* FontSystem.swift */; };
 		3BF669232478014400AE055C /* Template-Evaluator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BF669202477FF5500AE055C /* Template-Evaluator.txt */; };
 		3BF669252478032F00AE055C /* Template-Screen.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BF669242478032F00AE055C /* Template-Screen.txt */; };
-		3BF6692824781A0F00AE055C /* PassableStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6692724781A0E00AE055C /* PassableStep.swift */; };
+		3BF6692824781A0F00AE055C /* PassableState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6692724781A0E00AE055C /* PassableState.swift */; };
 		3BF6692A24781A2900AE055C /* Passable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6692924781A2900AE055C /* Passable.swift */; };
 		3BF6692C24781A7100AE055C /* PassablePlease.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6692B24781A7100AE055C /* PassablePlease.swift */; };
 		3BF6692E24781A9F00AE055C /* PassableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6692D24781A9F00AE055C /* PassableArray.swift */; };
 		3BF6693024781AB700AE055C /* PassableString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6692F24781AB700AE055C /* PassableString.swift */; };
 		3BF6693224781AD100AE055C /* PassableDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6693124781AD100AE055C /* PassableDouble.swift */; };
-		3BF6693424781B3100AE055C /* PassableStep.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BF6693324781B3100AE055C /* PassableStep.txt */; };
+		3BF6693424781B3100AE055C /* PassableState.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BF6693324781B3100AE055C /* PassableState.txt */; };
 		3BF66936247820E000AE055C /* Template-Translator.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3BF66935247820E000AE055C /* Template-Translator.txt */; };
 		3BF6693B2478286800AE055C /* ObservableBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6693A2478286800AE055C /* ObservableBool.swift */; };
 		3BF6693F247828CA00AE055C /* ObservableInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF6693E247828CA00AE055C /* ObservableInt.swift */; };
@@ -83,7 +83,7 @@
 		878B3A51245378E300ACADE4 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878B3A50245378E300ACADE4 /* AlertView.swift */; };
 		8794A5FA245C343400D41E4F /* Retail-PageViewMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A5F9245C343400D41E4F /* Retail-PageViewMaker.swift */; };
 		8794A5FC245C9FF200D41E4F /* Menu-Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A5FB245C9FF200D41E4F /* Menu-Data.swift */; };
-		8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A601245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift */; };
+		8794A602245CB8B200D41E4F /* DismissReceiverExample-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A601245CB8B200D41E4F /* DismissReceiverExample-Screen.swift */; };
 		8794A604245CB98600D41E4F /* DismissReceiverExample-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A603245CB98600D41E4F /* DismissReceiverExample-Translator.swift */; };
 		8794A606245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8794A605245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift */; };
 		87AC82792453BB3A0090E443 /* Menu-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AC82762453B9520090E443 /* Menu-Screen.swift */; };
@@ -171,9 +171,12 @@
 		DC656564246F08D60048A848 /* HelloSolarSystem-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC656563246F08D60048A848 /* HelloSolarSystem-Translator.swift */; };
 		DC65656624705E7C0048A848 /* HelloSolarSystem-Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656524705E7C0048A848 /* HelloSolarSystem-Store.swift */; };
 		DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656724709D570048A848 /* EvaluatorAction.swift */; };
-		DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6565692470AA530048A848 /* EvaluatorStep.swift */; };
+		DC65656A2470AA530048A848 /* EvaluatorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6565692470AA530048A848 /* EvaluatorState.swift */; };
 		DC65656D2470F4FB0048A848 /* CharacterBezelTranslating.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */; };
 		DC8083EC24988A3E002D9E0F /* DemoControlView_Toggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8083EB24988A3E002D9E0F /* DemoControlView_Toggle.swift */; };
+		DC8083F6249EF68A002D9E0F /* RetailTwo-Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8083F5249EF68A002D9E0F /* RetailTwo-Screen.swift */; };
+		DC8083F8249EFA07002D9E0F /* RetailTwo-Evaluator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8083F7249EFA07002D9E0F /* RetailTwo-Evaluator.swift */; };
+		DC8083FA249EFCE2002D9E0F /* RetailTwo-Translator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC8083F9249EFCE2002D9E0F /* RetailTwo-Translator.swift */; };
 		DCA05ACF24954B320038D433 /* FeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05ACE24954B320038D433 /* FeedbackView.swift */; };
 		DCA05AD1249551060038D433 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05AD0249551060038D433 /* DividerView.swift */; };
 		DCA05AD3249552F00038D433 /* SpaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA05AD2249552EF0038D433 /* SpaceView.swift */; };
@@ -238,13 +241,13 @@
 		3BF6691D2477D1F700AE055C /* FontSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSystem.swift; sourceTree = "<group>"; };
 		3BF669202477FF5500AE055C /* Template-Evaluator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Template-Evaluator.txt"; sourceTree = "<group>"; };
 		3BF669242478032F00AE055C /* Template-Screen.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Template-Screen.txt"; sourceTree = "<group>"; };
-		3BF6692724781A0E00AE055C /* PassableStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassableStep.swift; sourceTree = "<group>"; };
+		3BF6692724781A0E00AE055C /* PassableState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassableState.swift; sourceTree = "<group>"; };
 		3BF6692924781A2900AE055C /* Passable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passable.swift; sourceTree = "<group>"; };
 		3BF6692B24781A7100AE055C /* PassablePlease.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassablePlease.swift; sourceTree = "<group>"; };
 		3BF6692D24781A9F00AE055C /* PassableArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassableArray.swift; sourceTree = "<group>"; };
 		3BF6692F24781AB700AE055C /* PassableString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassableString.swift; sourceTree = "<group>"; };
 		3BF6693124781AD100AE055C /* PassableDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassableDouble.swift; sourceTree = "<group>"; };
-		3BF6693324781B3100AE055C /* PassableStep.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = PassableStep.txt; sourceTree = "<group>"; };
+		3BF6693324781B3100AE055C /* PassableState.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = PassableState.txt; sourceTree = "<group>"; };
 		3BF66935247820E000AE055C /* Template-Translator.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Template-Translator.txt"; sourceTree = "<group>"; };
 		3BF6693A2478286800AE055C /* ObservableBool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableBool.swift; sourceTree = "<group>"; };
 		3BF6693E247828CA00AE055C /* ObservableInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableInt.swift; sourceTree = "<group>"; };
@@ -271,7 +274,7 @@
 		878B3A50245378E300ACADE4 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
 		8794A5F9245C343400D41E4F /* Retail-PageViewMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Retail-PageViewMaker.swift"; sourceTree = "<group>"; };
 		8794A5FB245C9FF200D41E4F /* Menu-Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Menu-Data.swift"; sourceTree = "<group>"; };
-		8794A601245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DissmissReceiverExample-Screen.swift"; sourceTree = "<group>"; };
+		8794A601245CB8B200D41E4F /* DismissReceiverExample-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DismissReceiverExample-Screen.swift"; sourceTree = "<group>"; };
 		8794A603245CB98600D41E4F /* DismissReceiverExample-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DismissReceiverExample-Translator.swift"; sourceTree = "<group>"; };
 		8794A605245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DismissReceiverExample-Evaluator.swift"; sourceTree = "<group>"; };
 		87AC82762453B9520090E443 /* Menu-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Menu-Screen.swift"; sourceTree = "<group>"; };
@@ -359,9 +362,12 @@
 		DC656563246F08D60048A848 /* HelloSolarSystem-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloSolarSystem-Translator.swift"; sourceTree = "<group>"; };
 		DC65656524705E7C0048A848 /* HelloSolarSystem-Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HelloSolarSystem-Store.swift"; sourceTree = "<group>"; };
 		DC65656724709D570048A848 /* EvaluatorAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorAction.swift; sourceTree = "<group>"; };
-		DC6565692470AA530048A848 /* EvaluatorStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorStep.swift; sourceTree = "<group>"; };
+		DC6565692470AA530048A848 /* EvaluatorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorState.swift; sourceTree = "<group>"; };
 		DC65656C2470F4FA0048A848 /* CharacterBezelTranslating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterBezelTranslating.swift; sourceTree = "<group>"; };
 		DC8083EB24988A3E002D9E0F /* DemoControlView_Toggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoControlView_Toggle.swift; sourceTree = "<group>"; };
+		DC8083F5249EF68A002D9E0F /* RetailTwo-Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTwo-Screen.swift"; sourceTree = "<group>"; };
+		DC8083F7249EFA07002D9E0F /* RetailTwo-Evaluator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTwo-Evaluator.swift"; sourceTree = "<group>"; };
+		DC8083F9249EFCE2002D9E0F /* RetailTwo-Translator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RetailTwo-Translator.swift"; sourceTree = "<group>"; };
 		DCA05ACE24954B320038D433 /* FeedbackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackView.swift; sourceTree = "<group>"; };
 		DCA05AD0249551060038D433 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		DCA05AD2249552EF0038D433 /* SpaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceView.swift; sourceTree = "<group>"; };
@@ -513,11 +519,11 @@
 				3BF6693124781AD100AE055C /* PassableDouble.swift */,
 				875562F4244D5FDB00DB49C4 /* PassableInt.swift */,
 				3BF6692B24781A7100AE055C /* PassablePlease.swift */,
-				3BF6692724781A0E00AE055C /* PassableStep.swift */,
+				3BF6692724781A0E00AE055C /* PassableState.swift */,
 				3BF6692F24781AB700AE055C /* PassableString.swift */,
 				DC00E233248217A200A9F503 /* PassableBool.swift */,
 				3B687635247ECDB9005F2FBA /* PassableAlert.swift */,
-				3BF6693324781B3100AE055C /* PassableStep.txt */,
+				3BF6693324781B3100AE055C /* PassableState.txt */,
 			);
 			path = Passables;
 			sourceTree = "<group>";
@@ -603,6 +609,7 @@
 				8794A5FE245CB88400D41E4F /* Dismiss Receiver */,
 				DC65655E246F05660048A848 /* Hello Solar System */,
 				87E7E43724595C6300047253 /* Retail Demo */,
+				DC8083F4249EF66C002D9E0F /* Retail Demo #2 */,
 				3B72549824806FC300E27551 /* Login */,
 				3BC27FE3248A93F2001DDBD4 /* ViewDemo */,
 			);
@@ -644,7 +651,7 @@
 		8794A5FE245CB88400D41E4F /* Dismiss Receiver */ = {
 			isa = PBXGroup;
 			children = (
-				8794A601245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift */,
+				8794A601245CB8B200D41E4F /* DismissReceiverExample-Screen.swift */,
 				8794A603245CB98600D41E4F /* DismissReceiverExample-Translator.swift */,
 				8794A605245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift */,
 			);
@@ -788,7 +795,7 @@
 			isa = PBXGroup;
 			children = (
 				DC65656724709D570048A848 /* EvaluatorAction.swift */,
-				DC6565692470AA530048A848 /* EvaluatorStep.swift */,
+				DC6565692470AA530048A848 /* EvaluatorState.swift */,
 				3B7254A024808AE300E27551 /* EvaluatorElement.swift */,
 				878B3A492453588000ACADE4 /* ViewCycleEvaluating.swift */,
 				DC4C6C452471054E0014A34C /* ActionEvaluating.swift */,
@@ -896,6 +903,16 @@
 			path = "Hello Solar System";
 			sourceTree = "<group>";
 		};
+		DC8083F4249EF66C002D9E0F /* Retail Demo #2 */ = {
+			isa = PBXGroup;
+			children = (
+				DC8083F5249EF68A002D9E0F /* RetailTwo-Screen.swift */,
+				DC8083F7249EFA07002D9E0F /* RetailTwo-Evaluator.swift */,
+				DC8083F9249EFCE2002D9E0F /* RetailTwo-Translator.swift */,
+			);
+			path = "Retail Demo #2";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -980,7 +997,7 @@
 				3B3E1537248E849F0017AEF0 /* ViewDemo-HowToUse in Resources */,
 				DC00E24424839CC800A9F503 /* ViewCycleEvaluating.txt in Resources */,
 				3BF669232478014400AE055C /* Template-Evaluator.txt in Resources */,
-				3BF6693424781B3100AE055C /* PassableStep.txt in Resources */,
+				3BF6693424781B3100AE055C /* PassableState.txt in Resources */,
 				DC00E2462484E0C300A9F503 /* ObservableEvaluatorAction.txt in Resources */,
 				875562C0244C253500DB49C4 /* LaunchScreen.storyboard in Resources */,
 				3BF6694B2478316600AE055C /* ObservingTextView.txt in Resources */,
@@ -1022,7 +1039,7 @@
 				3B687630247DE4EE005F2FBA /* Chapter_RetailDemo.swift in Sources */,
 				DC4C6C502476C6A80014A34C /* SelectableCapsuleButton.swift in Sources */,
 				DC4C6C632476CDC40014A34C /* Hideable.swift in Sources */,
-				3BF6692824781A0F00AE055C /* PassableStep.swift in Sources */,
+				3BF6692824781A0F00AE055C /* PassableState.swift in Sources */,
 				3BC27FF3248A94E6001DDBD4 /* ViewDemoList-Evaluator.swift in Sources */,
 				87E7E43924595CBD00047253 /* Retail-Screen.swift in Sources */,
 				3BF6693F247828CA00AE055C /* ObservableInt.swift in Sources */,
@@ -1035,10 +1052,11 @@
 				DC00E2302481D2E100A9F503 /* TextValidation.swift in Sources */,
 				DCA05AD3249552F00038D433 /* SpaceView.swift in Sources */,
 				87D299D8245518C1003959C3 /* About-Translator.swift in Sources */,
+				DC8083F8249EFA07002D9E0F /* RetailTwo-Evaluator.swift in Sources */,
 				3B72549F2480702100E27551 /* Login-Translator.swift in Sources */,
 				DC2E4DBE2491B6C500986A82 /* NamedDemoProvider.swift in Sources */,
 				8794A606245CBA4D00D41E4F /* DismissReceiverExample-Evaluator.swift in Sources */,
-				DC65656A2470AA530048A848 /* EvaluatorStep.swift in Sources */,
+				DC65656A2470AA530048A848 /* EvaluatorState.swift in Sources */,
 				DC4C6C6D2476D0DA0014A34C /* SupplementaryCodeView.swift in Sources */,
 				DC2E4DC42491BD4B00986A82 /* DemoViewEditingConfiguration.swift in Sources */,
 				3B687626247DE4AD005F2FBA /* Chapter_AsynchronousWork.swift in Sources */,
@@ -1078,8 +1096,9 @@
 				3B67AA65248C9EE000361DCA /* KeyboardPadding.swift in Sources */,
 				3B7254A324808B0F00E27551 /* EvaluatingTextField.swift in Sources */,
 				878B3A51245378E300ACADE4 /* AlertView.swift in Sources */,
-				8794A602245CB8B200D41E4F /* DissmissReceiverExample-Screen.swift in Sources */,
+				8794A602245CB8B200D41E4F /* DismissReceiverExample-Screen.swift in Sources */,
 				3B68761E247DE310005F2FBA /* Chapter_TheBasics.swift in Sources */,
+				DC8083F6249EF68A002D9E0F /* RetailTwo-Screen.swift in Sources */,
 				8794A5FC245C9FF200D41E4F /* Menu-Data.swift in Sources */,
 				DC65656824709D570048A848 /* EvaluatorAction.swift in Sources */,
 				875562B6244C253200DB49C4 /* SceneDelegate.swift in Sources */,
@@ -1120,6 +1139,7 @@
 				3B3E153F248ECA280017AEF0 /* ViewDemoListView.swift in Sources */,
 				3B3E1540248ECAF00017AEF0 /* DemoBuilder-Screen.swift in Sources */,
 				8794A604245CB98600D41E4F /* DismissReceiverExample-Translator.swift in Sources */,
+				DC8083FA249EFCE2002D9E0F /* RetailTwo-Translator.swift in Sources */,
 				DC4C6C652476CE620014A34C /* MainTitleView.swift in Sources */,
 				3BC27FF2248A94E6001DDBD4 /* ViewDemoList-Screen.swift in Sources */,
 				DCA05AD52495580E0038D433 /* DemoContentView.swift in Sources */,

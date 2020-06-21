@@ -16,63 +16,52 @@ extension HelloSolarSystem {
         // Translator
         lazy var translator: Translator = Translator(current)
         
-        // Current Step
-        var current = PassableStep(Step.initial)
+        // Current State
+        var current = PassableState(State.initial)
     }
 }
 
 // MARK: Actions
 extension HelloSolarSystem.Evaluator {
-    enum Action: EvaluatorActionWithIconAndID {
+    enum Action: EvaluatorAction {
         case advanceImage
         case showCelestialBody(CelestialBody)
         
         /*
-         Our Actions conform to TabButtonConfiguration,
-         which requires an icon and a unique id,
-         so each Celestial Body button can be treated as a tab on screen.
-         We can just ignore these properties for any button actions that don't want to be a tab.
+         Each Celestial Body button can be treated as a tab on screen.
          */
         
-        var icon: String {
+        func actionWithIconAndID() -> IconRepresentedAndIdentifiedEvaluatorAction<Action>? {
             switch self {
                 
             case .showCelestialBody(let body):
-                return body.images.first ?? ""
+                return IconRepresentedAndIdentifiedEvaluatorAction(
+                    icon: body.images.first ?? "",
+                    id: String(body.id.uuidString),
+                    action: self)
                 
             default:
-                return ""
-            }
-        }
-        
-        var id: String {
-            switch self {
-                
-            case .showCelestialBody(let body):
-                return String(body.id.uuidString)
-                
-            default:
-                return ""
+                return nil
             }
         }
     }
 }
 
-// MARK: Steps and Step Configurations
+// MARK: States
 extension HelloSolarSystem.Evaluator {
     
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
-        case celestialBody(CelestialBodyStepConfiguration)
+        case celestialBody(CelestialBodyState)
     }
     
-    struct CelestialBodyStepConfiguration {
+    struct CelestialBodyState {
         let celestialBodies: [CelestialBody]
         let currentCelestialBody: CelestialBody
         let currentImageIndex: Int
         let tapAction: Action?
         
-        func configurationForNextImage() -> CelestialBodyStepConfiguration {
+        func stateForNextImage() -> CelestialBodyState {
             let newIndex: Int = {
                 if currentImageIndex < currentCelestialBody.images.count - 1 {
                     return currentImageIndex + 1
@@ -81,13 +70,13 @@ extension HelloSolarSystem.Evaluator {
                 }
             }()
             
-            let newConfiguration = CelestialBodyStepConfiguration(
+            let state = CelestialBodyState(
                 celestialBodies: celestialBodies,
                 currentCelestialBody: currentCelestialBody,
                 currentImageIndex: newIndex,
                 tapAction: tapAction)
             
-            return newConfiguration
+            return state
         }
     }
 }
@@ -96,7 +85,7 @@ extension HelloSolarSystem.Evaluator {
 extension HelloSolarSystem.Evaluator: ViewCycleEvaluating {
     
     /**
-     On viewDidAppear(), we fetch data from a Store. Then we make (and assign) a CelestialBodyStepConfiguration that contains our fetched data.
+     On viewDidAppear(), we fetch data from a Store. Then we make (and assign) a CelestialBodyState that contains our fetched data.
      */
     func viewDidAppear() {
         let data = HelloSolarSystem.Store.shared.data
@@ -105,22 +94,20 @@ extension HelloSolarSystem.Evaluator: ViewCycleEvaluating {
             
             // On viewDidAppear,
             
-            let configuration = CelestialBodyStepConfiguration(
+            let state = CelestialBodyState(
                 celestialBodies: data,
                 currentCelestialBody: first,
                 currentImageIndex: 0,
                 tapAction: first.images.count > 1 ? .advanceImage : nil)
             
-            current.step = .celestialBody(configuration)
+            current.state = .celestialBody(state)
         }
     }
 }
 
 // MARK: Action Evaluating
 extension HelloSolarSystem.Evaluator: ActionEvaluating {
-    func _evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
-        
+    func _evaluate(_ action: Action) {
         switch action {
             
         case .advanceImage:
@@ -132,26 +119,26 @@ extension HelloSolarSystem.Evaluator: ActionEvaluating {
     }
     
     /**
-    advanceImage(:) makes (and assigns) a new CelestialBodyStepConfiguration using the next image index.
+    advanceImage(:) makes (and assigns) a new CelestialBodyState using the next image index.
     */
     func advanceImage() {
-        guard case let .celestialBody(configuration) = current.step else { return }
-        current.step = .celestialBody(configuration.configurationForNextImage())
+        guard case let .celestialBody(currentState) = current.state else { return }
+        current.state = .celestialBody(currentState.stateForNextImage())
     }
     
     /**
-     showCelestialBody(:) makes (and assigns) a new CelestialBodyStepConfiguration using the chosen celestial body.
-     It carries over the `celestialBodies` data from the previous configuration.
+     showCelestialBody(:) makes (and assigns) a new CelestialBodyState using the chosen celestial body.
+     It carries over the `celestialBodies` data from the previous state.
      */
     func showCelestialBody(_ body: CelestialBody) {
-        guard case let .celestialBody(configuration) = current.step else { return }
+        guard case let .celestialBody(currentState) = current.state else { return }
         
-        let newConfiguration = CelestialBodyStepConfiguration(
-            celestialBodies: configuration.celestialBodies,
+        let state = CelestialBodyState(
+            celestialBodies: currentState.celestialBodies,
             currentCelestialBody: body,
             currentImageIndex: 0,
             tapAction: body.images.count > 1 ? .advanceImage : nil)
         
-        current.step = .celestialBody(newConfiguration)
+        current.state = .celestialBody(state)
     }
 }

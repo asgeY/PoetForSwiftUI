@@ -14,27 +14,45 @@ extension HelloWorld {
         // Translator
         lazy var translator: Translator = Translator(current)
         
-        // Current Step
-        var current = PassableStep(Step.initial)
+        // Current State
+        var current = PassableState(State.initial)
     }
 }
 
-// MARK: Steps
+// MARK: State
 
 extension HelloWorld.Evaluator {
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
-        case sayStuff(SayStuffStepConfiguration)
+        case sayStuff(SayStuffState)
     }
     
-    struct SayStuffStepConfiguration {
+    struct SayStuffState {
         var helloCount: Int
         var bubbleText: String?
         var buttonAction: Action
     }
 }
 
+// MARK: View Cycle
+
+extension HelloWorld.Evaluator: ViewCycleEvaluating {
+    func viewDidAppear() {
+        showSayStuffState()
+    }
+    
+    private func showSayStuffState() {
+        let state = SayStuffState(
+            helloCount: 0,
+            bubbleText: nil,
+            buttonAction: Action.sayHello
+        )
+        current.state = .sayStuff(state)
+    }
+}
+
 // MARK: Actions
+
 extension HelloWorld.Evaluator: ActionEvaluating {
     enum Action: EvaluatorAction {
         case sayHello
@@ -48,9 +66,7 @@ extension HelloWorld.Evaluator: ActionEvaluating {
         }
     }
     
-    func _evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
-        
+    func _evaluate(_ action: Action) {
         switch action {
             
         case .sayHello:
@@ -60,47 +76,23 @@ extension HelloWorld.Evaluator: ActionEvaluating {
             sayNothing()
         }
     }
-}
-
-// MARK: View Cycle
-extension HelloWorld.Evaluator: ViewCycleEvaluating {
-    func viewDidAppear() {
-        showSayStuffStep()
-    }
-}
-
-// MARK: Advancing Between Steps
-extension HelloWorld.Evaluator {
-    
-    // MARK: “Say Stuff” Step
-    
-    private func showSayStuffStep() {
-        let configuration = SayStuffStepConfiguration(
-            helloCount: 0,
-            bubbleText: nil,
-            buttonAction: Action.sayHello
-        )
-        current.step = .sayStuff(configuration)
-    }
-    
-    // MARK: “Say Stuff” Actions
     
     private func sayHello() {
-        guard case var .sayStuff(configuration) = current.step else { return }
+        guard case var .sayStuff(state) = current.state else { return }
         
-        configuration.bubbleText = "Hello World!"
-        configuration.buttonAction = .sayNothing
-        configuration.helloCount += 1
+        state.bubbleText = "Hello World!"
+        state.buttonAction = .sayNothing
+        state.helloCount += 1
         
-        current.step = .sayStuff(configuration)
+        current.state = .sayStuff(state)
     }
     
     private func sayNothing() {
-        guard case var .sayStuff(configuration) = current.step else { return }
+        guard case var .sayStuff(state) = current.state else { return }
         
-        configuration.bubbleText = nil
-        configuration.buttonAction = .sayHello
+        state.bubbleText = nil
+        state.buttonAction = .sayHello
         
-        current.step = .sayStuff(configuration)
+        current.state = .sayStuff(state)
     }
 }

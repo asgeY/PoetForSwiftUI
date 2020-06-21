@@ -8,9 +8,14 @@
 
 import SwiftUI
 
-struct ObservingBottomButton: View {
-    @ObservedObject var observableNamedEnabledAction: ObservableNamedEnabledEvaluatorAction
-    let evaluator: ActionEvaluating
+struct ObservingBottomButton<E: ActionEvaluating>: View {
+    @ObservedObject var observableNamedEnabledAction: Observable<NamedEnabledEvaluatorAction<E.Action>?>
+    let evaluator: E?
+    
+    init(observableNamedEnabledAction: Observable<NamedEnabledEvaluatorAction<E.Action>?>, evaluator: E) {
+        self.observableNamedEnabledAction = observableNamedEnabledAction
+        self.evaluator = evaluator
+    }
     
     @ObservedObject private var keyboard = KeyboardResponder()
     
@@ -19,11 +24,11 @@ struct ObservingBottomButton: View {
             VStack {
                 Spacer()
                 Button(action: {
-                    self.evaluator.evaluate(self.observableNamedEnabledAction.namedEnabledAction?.action)
+                    self.evaluator?.evaluate(self.observableNamedEnabledAction.value?.action)
                 }) {
                         
                     Text(
-                        self.observableNamedEnabledAction.namedEnabledAction?.name ?? "")
+                        self.observableNamedEnabledAction.value?.name ?? "")
                         .animation(.none)
                         .font(Font.headline)
                         .foregroundColor(Color(UIColor.systemBackground))
@@ -40,15 +45,15 @@ struct ObservingBottomButton: View {
                             )
                     )
                 }
-                .disabled(self.observableNamedEnabledAction.namedEnabledAction?.enabled == false)
+                .disabled(self.observableNamedEnabledAction.value?.enabled == false)
             }
             
             .opacity(
-                self.observableNamedEnabledAction.namedEnabledAction?.action == nil ? 0 : 1
+                self.observableNamedEnabledAction.value?.action == nil ? 0 : 1
             )
-            .offset(x: 0, y: self.observableNamedEnabledAction.namedEnabledAction?.action == nil ? 150 : 0)
+            .offset(x: 0, y: self.observableNamedEnabledAction.value?.action == nil ? 150 : 0)
                 .offset(x: 0, y: -self.keyboard.currentHeight)
-                .animation(.spring(response: 0.35, dampingFraction: 0.7, blendDuration: 0), value: self.observableNamedEnabledAction.namedEnabledAction?.action == nil)
+                .animation(.spring(response: 0.35, dampingFraction: 0.7, blendDuration: 0), value: self.observableNamedEnabledAction.value?.action == nil)
                 .animation(.spring(response: 0.4, dampingFraction: 0.8, blendDuration: 0), value: self.keyboard.currentHeight == 0)
         }
     }

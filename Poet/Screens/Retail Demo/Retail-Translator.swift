@@ -11,77 +11,40 @@ import SwiftUI
 
 extension Retail {
 
-    class Translator: AlertTranslating, BezelTranslating, DismissTranslating {
+    class Translator {
         
         typealias Evaluator = Retail.Evaluator
-        
-        // ObservingPageViewSections
-        enum Section: ObservingPageViewSection {
-            case canceledTitle
-            case completedTitle
-            case completedSummary(completedSummary: ObservableString)
-            case customerTitle(title: ObservableString)
-            case deliveryOptions(deliveryOptions: ObservableArray<String>, deliveryPreference: ObservableString)
-            case feedback(feedback: ObservableString)
-            case displayableProducts(displayableProducts: ObservableArray<DisplayableProduct>)
-            case divider
-            case instruction(instructionNumber: ObservableInt, instruction: ObservableString)
-            case topSpace
-            case space
-            
-            var id: String {
-                switch self {
-                case .canceledTitle:        return "canceledTitle"
-                case .completedTitle:       return "completedTitle"
-                case .completedSummary:     return "completedSummary"
-                case .customerTitle:        return "customerTitle"
-                case .deliveryOptions:      return "deliveryOptions"
-                case .feedback:             return "feedback"
-                case .displayableProducts:  return "displayableProducts"
-                case .divider:              return "divider"
-                case .instruction:          return "instruction"
-                case .topSpace:             return "topSpace"
-                case .space:                return "space"
-                }
-            }
-        }
+        typealias Action = Evaluator.Action
+        typealias Section = Retail.ViewMaker.Section
         
         // OBSERVABLE STATE
         
         // Observable Sections for PageViewMaker
-        var sections = ObservableArray<ObservingPageViewSection>([])
+        var sections = ObservableArray<Section>([])
         var customerTitle = ObservableString()
         var feedback = ObservableString()
-        var instruction = ObservableString()
-        var instructionNumber = ObservableInt()
+        var instructions = ObservableArray<String>([])
+        var focusedInstructionIndex = Observable<Int?>()
+        var allowsCollapsingAndExpanding = ObservableBool()
         var deliveryOptions = ObservableArray<String>([])
         var deliveryPreference = ObservableString()
         var displayableProducts: ObservableArray<DisplayableProduct> = ObservableArray<DisplayableProduct>([])
         var completedSummary = ObservableString()
         
         // Bottom Button
-        var bottomButtonAction: ObservableNamedEnabledEvaluatorAction = ObservableNamedEnabledEvaluatorAction()
+        var bottomButtonAction: Observable<NamedEnabledEvaluatorAction<Action>?> = Observable<NamedEnabledEvaluatorAction<Action>?>(nil)
         
-        // Composed Translating
-        var alertTranslator = AlertTranslator()
-        var bezelTranslator = BezelTranslator()
-        var dismissTranslator = DismissTranslator()
+        // Passable
+        var dismiss = PassablePlease()
         
-        // Step Sink
-        var stepSink: Sink?
+        // State Sink
+        var stateSink: Sink?
         
         // Formatter
         var dateFormatter: DateFormatter
         var numberFormatter: NumberFormatter
         
-        // Display Type
-        struct DisplayableProduct {
-            var product: Product
-            var findableProduct: FindableProduct?
-            var id: String { return product.upc }
-        }
-        
-        init(_ step: PassableStep<Evaluator.Step>) {
+        init(_ state: PassableState<Evaluator.State>) {
             debugPrint("init Retail Translator")
             dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .long
@@ -90,8 +53,8 @@ extension Retail {
             numberFormatter.numberStyle = .decimal
             numberFormatter.maximumSignificantDigits = 2
             numberFormatter.minimumSignificantDigits = 0
-            stepSink = step.subject.sink { [weak self] value in
-                self?.translate(step: value)
+            stateSink = state.subject.sink { [weak self] value in
+                self?.translate(state: value)
             }
         }
         
@@ -101,46 +64,54 @@ extension Retail {
     }
 }
 
-// MARK: Translating Steps
+// Display Type
+struct DisplayableProduct {
+    var product: Product
+    var findableProduct: FindableProduct?
+    var id: String { return product.upc }
+}
+
+// MARK: Translating States
 
 extension Retail.Translator {
-    func translate(step: Evaluator.Step) {
-        switch step {
+    func translate(state: Evaluator.State) {
+        switch state {
             
         case .initial:
             break
             
-        case .notStarted(let configuration):
-            translateNotStarted(configuration)
+        case .notStarted(let state):
+            translateNotStarted(state)
             
-        case .findProducts(let configuration):
-            translateFindingProducts(configuration)
+        case .findProducts(let state):
+            translateFindingProducts(state)
             
-        case .chooseDeliveryLocation(let configuration):
-            translateDeliveryOptions(configuration)
+        case .chooseDeliveryLocation(let state):
+            translateDeliveryOptions(state)
             
-        case .completed(let configuration):
-            translateCompleted(configuration)
+        case .completed(let state):
+            translateCompleted(state)
             
-        case .canceled(let configuration):
-            translateCanceled(configuration)
+        case .canceled(let state):
+            translateCanceled(state)
             
         }
     }
     
-    // MARK: Not Started Step
+    // MARK: Not Started
     
-    func translateNotStarted(_ configuration: Evaluator.NotStartedConfiguration) {
+    func translateNotStarted(_ state: Evaluator.NotStartedState) {
         
-        let productCount = configuration.products.count
+        let productCount = state.products.count
         
         // Assign values to our observable page data
-        customerTitle.string = "Order for \n\(configuration.customer)"
-        feedback.string = "\(configuration.products.count) \(pluralizedProduct(productCount)) requested"
-        instruction.string = "Tap start to claim this order"
-        instructionNumber.int = 1
+        customerTitle.string = "Order for \n\(state.customer)"
+        feedback.string = "\(state.products.count) \(pluralizedProduct(productCount)) requested"
+        instructions.array = state.instructions
+        focusedInstructionIndex.value = nil
+        allowsCollapsingAndExpanding.bool = false
         
-        displayableProducts.array = configuration.products.map({
+        displayableProducts.array = state.products.map({
             return DisplayableProduct(
                 product: $0,
                 findableProduct: nil
@@ -152,8 +123,7 @@ extension Retail.Translator {
             topSpace_,
             customerTitle_,
             __,
-            instruction_,
-            __,
+            instructions_,
             divider_,
             feedback_,
             __,
@@ -161,23 +131,25 @@ extension Retail.Translator {
         ]
         
         // Bottom button
-        bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Start", enabled: true, action: configuration.startAction)
+        bottomButtonAction.value = NamedEnabledEvaluatorAction(name: "Start", enabled: true, action: state.startAction)
     }
     
-    // MARK: Finding Products Step
+    // MARK: Finding Products
     
-    func translateFindingProducts(_ configuration: Evaluator.FindProductsConfiguration) {
+    func translateFindingProducts(_ state: Evaluator.FindProductsState) {
         
-        let foundCount = configuration.findableProducts.filter {$0.status == .found}.count
+        let foundCount = state.findableProducts.filter {$0.status == .found}.count
         
         // Assign values to our observable page data
-        customerTitle.string = "Order for \n\(configuration.customer)"
+        customerTitle.string = "Order for \n\(state.customer)"
         feedback.string = "\(foundCount) \(pluralizedProduct(foundCount)) marked found"
-        instruction.string = "Mark found or not found"
-        instructionNumber.int = 2
         
         withAnimation(Animation.linear(duration: 0.35)) {
-            displayableProducts.array = configuration.findableProducts.map({
+            instructions.array = state.instructions
+            focusedInstructionIndex.value = state.focusedInstructionIndex
+            allowsCollapsingAndExpanding.bool = true
+            
+            displayableProducts.array = state.findableProducts.map({
                 return DisplayableProduct(
                     product: $0.product,
                     findableProduct: $0
@@ -189,8 +161,7 @@ extension Retail.Translator {
                 topSpace_,
                 customerTitle_,
                 __,
-                instruction_,
-                __,
+                instructions_,
                 divider_,
                 feedback_,
                 __,
@@ -199,30 +170,32 @@ extension Retail.Translator {
         }
         
         // Bottom button
-        if let nextAction = configuration.nextAction {
+        if let nextAction = state.nextAction {
             let name = {
-                nextAction == .advanceToCanceledStep ? "Cancel Order" : "Next"
+                nextAction == .advanceToCanceled ? "Cancel Order" : "Next"
             }()
-            bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: name, enabled: true, action: nextAction)
+            bottomButtonAction.value = NamedEnabledEvaluatorAction(name: name, enabled: true, action: nextAction)
         } else {
-            bottomButtonAction.namedEnabledAction = nil
+            bottomButtonAction.value = nil
         }
     }
     
-    // MARK: Delivering Products Step
+    // MARK: Delivering Products
     
-    func translateDeliveryOptions(_ configuration: Evaluator.ChooseDeliveryLocationConfiguration) {
+    func translateDeliveryOptions(_ state: Evaluator.ChooseDeliveryLocationState) {
         
         // Assign values to our observable page data
-        customerTitle.string = "Order for \n\(configuration.customer)"
-        feedback.string = "\(configuration.products.count) of \(configuration.numberOfProductsRequested) \(pluralizedProduct(configuration.numberOfProductsRequested)) found"
-        instruction.string = "Choose a Delivery Location"
-        instructionNumber.int = 3
-        deliveryOptions.array = configuration.deliveryLocationChoices
-        deliveryPreference.string = configuration.deliveryLocationPreference ?? ""
+        customerTitle.string = "Order for \n\(state.customer)"
+        feedback.string = "\(state.products.count) of \(state.numberOfProductsRequested) \(pluralizedProduct(state.numberOfProductsRequested)) found"
+        deliveryOptions.array = state.deliveryLocationChoices
+        deliveryPreference.string = state.deliveryLocationPreference ?? ""
         
         withAnimation(.linear) {
-            displayableProducts.array = configuration.products.map({
+            instructions.array = state.instructions
+            focusedInstructionIndex.value = state.focusedInstructionIndex
+            allowsCollapsingAndExpanding.bool = true
+
+            displayableProducts.array = state.products.map({
                 return DisplayableProduct(
                     product: $0,
                     findableProduct: nil
@@ -234,8 +207,7 @@ extension Retail.Translator {
                 topSpace_,
                 customerTitle_,
                 __,
-                instruction_,
-                __,
+                instructions_,
                 deliveryOptions_,
                 divider_,
                 feedback_,
@@ -245,36 +217,38 @@ extension Retail.Translator {
         }
         
         // Bottom button
-        if let nextAction = configuration.nextAction {
-            bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Deliver and Notify Customer", enabled: true, action: nextAction)
+        if let nextAction = state.nextAction {
+            bottomButtonAction.value = NamedEnabledEvaluatorAction(name: "Deliver and Notify Customer", enabled: true, action: nextAction)
         } else {
-            bottomButtonAction.namedEnabledAction = nil
+            bottomButtonAction.value = nil
         }
     }
     
-    // MARK: Completed Step
+    // MARK: Completed
     
-    func translateCompleted(_ configuration: Evaluator.CompletedConfiguration) {
+    func translateCompleted(_ state: Evaluator.CompletedState) {
         
-        let productCount = configuration.products.count
+        let productCount = state.products.count
         
         // Assign values to our observable page data
-        customerTitle.string = title(for: configuration.customer)
-        instruction.string = "Deliver to \(configuration.deliveryLocation)"
-        instructionNumber.int = 4
+        customerTitle.string = title(for: state.customer)
         feedback.string = "\(productCount) \(pluralizedProduct(productCount)) fulfilled"
-        let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
+        let timeNumber = NSNumber(floatLiteral: state.elapsedTime)
         let timeString = numberFormatter.string(from: timeNumber)
         
         completedSummary.string =
         """
-        Order completed on \(dateFormatter.string(from: configuration.timeCompleted)).
-        \(productCount) of \(configuration.numberOfProductsRequested) \(pluralizedProduct(configuration.numberOfProductsRequested)) found.
-        Time to complete: \(timeString ?? String(configuration.elapsedTime)) seconds.
+        Order completed on \(dateFormatter.string(from: state.timeCompleted)).
+        \(productCount) of \(state.numberOfProductsRequested) \(pluralizedProduct(state.numberOfProductsRequested)) found.
+        Time to complete: \(timeString ?? String(state.elapsedTime)) seconds.
         """
         
         withAnimation(.linear) {
-            displayableProducts.array = configuration.products.map({
+            instructions.array = state.instructions
+            focusedInstructionIndex.value = state.focusedInstructionIndex
+            allowsCollapsingAndExpanding.bool = true
+            
+            displayableProducts.array = state.products.map({
                 return DisplayableProduct(
                     product: $0,
                     findableProduct: nil
@@ -287,8 +261,7 @@ extension Retail.Translator {
                 completedTitle_,
                 customerTitle_,
                 __,
-                instruction_,
-                __,
+                instructions_,
                 divider_,
                 feedback_,
                 __,
@@ -299,37 +272,38 @@ extension Retail.Translator {
         }
         
         // Bottom button
-        bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Done", enabled: true, action: configuration.doneAction)
+        bottomButtonAction.value = NamedEnabledEvaluatorAction(name: "Done", enabled: true, action: state.doneAction)
     }
     
-    // MARK: Canceled Step
+    // MARK: Canceled
     
-    func translateCanceled(_ configuration: Evaluator.CanceledConfiguration) {
+    func translateCanceled(_ state: Evaluator.CanceledState) {
         
         // Assign values to our observable page data
-        customerTitle.string = title(for: configuration.customer)
-        instruction.string = "You're all set!"
-        instructionNumber.int = 3
+        customerTitle.string = title(for: state.customer)
         feedback.string = "The customer has been notified that their order cannot be fulfilled."
-        let timeNumber = NSNumber(floatLiteral: configuration.elapsedTime)
+        let timeNumber = NSNumber(floatLiteral: state.elapsedTime)
         let timeString = numberFormatter.string(from: timeNumber)
         
         completedSummary.string =
         """
-        Order canceled on \(dateFormatter.string(from: configuration.timeCompleted)).
+        Order canceled on \(dateFormatter.string(from: state.timeCompleted)).
         0 products found.
-        Time to complete: \(timeString ?? String(configuration.elapsedTime)) seconds.
+        Time to complete: \(timeString ?? String(state.elapsedTime)) seconds.
         """
         
         // Say that only these things should appear in the body
         withAnimation(.linear) {
+            instructions.array = state.instructions
+            focusedInstructionIndex.value = state.focusedInstructionIndex
+            allowsCollapsingAndExpanding.bool = true
+            
             sections.array = [
                 topSpace_,
                 canceledTitle_,
                 customerTitle_,
                 __,
-                instruction_,
-                __,
+                instructions_,
                 divider_,
                 feedback_,
                 __,
@@ -339,7 +313,7 @@ extension Retail.Translator {
         }
         
         // Bottom button
-        bottomButtonAction.namedEnabledAction = NamedEnabledEvaluatorAction(name: "Done", enabled: true, action: configuration.doneAction)
+        bottomButtonAction.value = NamedEnabledEvaluatorAction(name: "Done", enabled: true, action: state.doneAction)
     }
 }
 
@@ -376,7 +350,7 @@ extension Retail.Translator {
     }
     
     var deliveryOptions_: Section {
-        return .deliveryOptions(deliveryOptions: deliveryOptions, deliveryPreference: deliveryPreference)
+        return .options(options: deliveryOptions, preference: deliveryPreference)
     }
     
     var feedback_: Section {
@@ -391,8 +365,8 @@ extension Retail.Translator {
         return .divider
     }
     
-    var instruction_: Section {
-        return .instruction(instructionNumber: instructionNumber, instruction: instruction)
+    var instructions_: Section {
+        return Section.instructions(instructions: instructions, focusableInstructionIndex: focusedInstructionIndex, allowsCollapsingAndExpanding: allowsCollapsingAndExpanding)
     }
     
     var topSpace_: Section {

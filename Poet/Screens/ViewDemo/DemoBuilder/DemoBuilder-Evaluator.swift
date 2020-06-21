@@ -15,8 +15,8 @@ extension DemoBuilder {
         // Translator
         lazy var translator: Translator = Translator(current)
         
-        // Current Step
-        var current = PassableStep(Step.initial)
+        // Current State
+        var current = PassableState(State.initial)
         
         deinit {
             debugPrint("demobuilder deinit evaluator")
@@ -24,15 +24,15 @@ extension DemoBuilder {
     }
 }
 
-// MARK: Steps and Step Configurations
+// MARK: State
 
 extension DemoBuilder.Evaluator {
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
-        case build(BuildStepConfiguration)
+        case build(BuildState)
     }
     
-    struct BuildStepConfiguration {
+    struct BuildState {
         var arrangedDemoProviders: [NamedDemoProvider]
     }
 }
@@ -41,18 +41,14 @@ extension DemoBuilder.Evaluator {
 
 extension DemoBuilder.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
-        showBuildStep()
+        showBuildState()
     }
-}
-
-// MARK: Advancing Between Steps
-
-extension DemoBuilder.Evaluator {
-    func showBuildStep() {
-        let configuration = BuildStepConfiguration(
+    
+    func showBuildState() {
+        let state = BuildState(
             arrangedDemoProviders: []
         )
-        current.step = .build(configuration)
+        current.state = .build(state)
     }
 }
 
@@ -69,9 +65,7 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
         case moveDemoViewDown(NamedDemoProvider)
     }
     
-    func _evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
-        
+    func _evaluate(_ action: Action) {
         switch action {
             
         case .promptToAddDemoView:
@@ -105,14 +99,14 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
     }
     
     func addDemoView(_ namedDemoProvider: NamedDemoProvider) {
-        guard case var .build(configuration) = current.step else { return }
-        configuration.arrangedDemoProviders.append(namedDemoProvider)
+        guard case var .build(state) = current.state else { return }
+        state.arrangedDemoProviders.append(namedDemoProvider)
         
         // wait for dismiss to finish, so view renders correctly on screen.
         // otherwise, scroll view has buggy taps.
         // hoping this is a short term SwiftUI issue.
         afterWait(400) {
-            self.current.step = .build(configuration)
+            self.current.state = .build(state)
         }
     }
     
@@ -126,40 +120,40 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
     }
     
     func deleteDemoView(_ namedDemoProvider: NamedDemoProvider) {
-        guard case var .build(configuration) = current.step else { return }
-        for (index, demoProvider) in configuration.arrangedDemoProviders.enumerated() {
+        guard case var .build(state) = current.state else { return }
+        for (index, demoProvider) in state.arrangedDemoProviders.enumerated() {
             if demoProvider.id == namedDemoProvider.id {
-                configuration.arrangedDemoProviders.remove(at: index)
+                state.arrangedDemoProviders.remove(at: index)
                 break
             }
         }
-        current.step = .build(configuration)
+        current.state = .build(state)
     }
     
     func moveDemoViewUp(_ namedDemoProvider: NamedDemoProvider) {
-        guard case var .build(configuration) = current.step else { return }
-        for (index, demoProvider) in configuration.arrangedDemoProviders.enumerated() {
+        guard case var .build(state) = current.state else { return }
+        for (index, demoProvider) in state.arrangedDemoProviders.enumerated() {
             if demoProvider.id == namedDemoProvider.id {
                 guard index > 0 else { return }
-                configuration.arrangedDemoProviders.remove(at: index)
-                configuration.arrangedDemoProviders.insert(namedDemoProvider, at: index - 1)
+                state.arrangedDemoProviders.remove(at: index)
+                state.arrangedDemoProviders.insert(namedDemoProvider, at: index - 1)
                 break
             }
         }
-        current.step = .build(configuration)
+        current.state = .build(state)
     }
     
     func moveDemoViewDown(_ namedDemoProvider: NamedDemoProvider) {
-        guard case var .build(configuration) = current.step else { return }
-        for (index, demoProvider) in configuration.arrangedDemoProviders.enumerated() {
+        guard case var .build(state) = current.state else { return }
+        for (index, demoProvider) in state.arrangedDemoProviders.enumerated() {
             if demoProvider.id == namedDemoProvider.id {
-                guard index < configuration.arrangedDemoProviders.count - 1 else { return }
-                configuration.arrangedDemoProviders.remove(at: index)
-                configuration.arrangedDemoProviders.insert(namedDemoProvider, at: index + 1)
+                guard index < state.arrangedDemoProviders.count - 1 else { return }
+                state.arrangedDemoProviders.remove(at: index)
+                state.arrangedDemoProviders.insert(namedDemoProvider, at: index + 1)
                 break
             }
         }
-        current.step = .build(configuration)
+        current.state = .build(state)
     }
 }
 
@@ -167,16 +161,16 @@ extension DemoBuilder.Evaluator: ActionEvaluating {
 
 extension DemoBuilder.Evaluator: DemoViewEditingEvaluating {
     func saveChangesToProvider(_ namedDemoProvider: NamedDemoProvider) {
-        guard case var .build(configuration) = current.step else { return }
+        guard case var .build(state) = current.state else { return }
         let namedDemoProvider = namedDemoProvider.deepCopy()
-        for (index, demoProvider) in configuration.arrangedDemoProviders.enumerated() {
+        for (index, demoProvider) in state.arrangedDemoProviders.enumerated() {
             if demoProvider.id == namedDemoProvider.id {
-                configuration.arrangedDemoProviders[index] = namedDemoProvider
+                state.arrangedDemoProviders[index] = namedDemoProvider
                 break
             }
         }
         
-        current.step = .build(configuration)
+        current.state = .build(state)
     }
 }
 

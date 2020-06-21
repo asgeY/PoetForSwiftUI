@@ -8,9 +8,9 @@
 
 import SwiftUI
 
-struct TableOfContentsView: View {
-    @ObservedObject var selectableChapterTitles: ObservableArray<NumberedNamedEvaluatorAction>
-    let evaluator: ActionEvaluating
+struct TableOfContentsView<E: ActionEvaluating>: View {
+    @ObservedObject var selectableChapterTitles: ObservableArray<NumberedNamedEvaluatorAction<E.Action>>
+    let evaluator: E
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var isShowingAbout = false

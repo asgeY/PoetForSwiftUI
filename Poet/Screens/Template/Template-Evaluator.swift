@@ -14,35 +14,34 @@ extension Template {
         // Translator
         lazy var translator: Translator = Translator(current)
         
-        // Current Step
-        var current = PassableStep(Step.initial)
+        // Current State
+        var current = PassableState(State.initial)
     }
 }
 
-// Steps and Step Configurations
+// State
+
 extension Template.Evaluator {
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
-        case text(TextStepConfiguration)
+        case text(TextState)
     }
     
-    struct TextStepConfiguration {
+    struct TextState {
         var title: String
         var body: String
     }
 }
 
 // View Cycle
+
 extension Template.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
-        showTextStep()
+        showText()
     }
-}
-
-// Advancing Between Steps
-extension Template.Evaluator {
-    func showTextStep() {
-        let configuration = TextStepConfiguration(
+    
+    func showText() {
+        let state = TextState(
             title: "Template",
             body:
             """
@@ -51,6 +50,6 @@ extension Template.Evaluator {
             Use this template as the basis for new screens, or read through its code to get a better sense of the Poet pattern.
             """
         )
-        current.step = .text(configuration)
+        current.state = .text(state)
     }
 }

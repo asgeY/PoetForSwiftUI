@@ -9,13 +9,18 @@
 import SwiftUI
 
 struct DismissReceiver: View {
-    var translator: DismissTranslator
+    var passablePlease: PassablePlease
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    
+    init(_ passablePlease: PassablePlease) {
+        self.passablePlease = passablePlease
+    }
+    
     var body: some View {
-        Spacer().frame(width: 0.5, height: 0.5)
-            .onReceive(translator.dismiss.subject) { _ in
+        Spacer().frame(width: .leastNonzeroMagnitude, height: .leastNonzeroMagnitude)
+            .onReceive(passablePlease.subject) { _ in
                 self.presentationMode.wrappedValue.dismiss()
-        }
+            }
     }
 }

@@ -8,12 +8,11 @@
 
 import SwiftUI
 
-struct CircularTabBar: View {
-    typealias TabButtonAction = EvaluatorActionWithIconAndID
+struct CircularTabBar<E: ActionEvaluating>: View {
     
-    let evaluator: ActionEvaluating
-    @ObservedObject var tabs: ObservableArray<TabButtonAction>
-    @ObservedObject var currentTab: Observable<TabButtonAction?>
+    let evaluator: E
+    @ObservedObject var tabs: ObservableArray<IconRepresentedAndIdentifiedEvaluatorAction<E.Action>>
+    @ObservedObject var currentTab: Observable<IconRepresentedAndIdentifiedEvaluatorAction<E.Action>?>
     let spacing: CGFloat = 30
     
     var body: some View {
@@ -48,11 +47,11 @@ struct CircularTabBar: View {
         return nil
     }
     
-    struct CircularTabButton: View {
-        let evaluator: ActionEvaluating
-        let tab: TabButtonAction
+    struct CircularTabButton<E: ActionEvaluating>: View {
+        let evaluator: E
+        let tab: IconRepresentedAndIdentifiedEvaluatorAction<E.Action>
         var body: some View {
-            Button(action: { self.evaluator.evaluate(self.tab) }) {
+            Button(action: { self.evaluator.evaluate(self.tab.action) }) {
                 Image(self.tab.icon)
                 .resizable()
                 .frame(width: 30, height: 30)

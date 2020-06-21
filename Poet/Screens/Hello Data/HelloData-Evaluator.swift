@@ -16,8 +16,8 @@ extension HelloData {
         lazy var translator: Translator = Translator(current)
         var performer: MusicPerforming = HelloData.Performer()
         
-        // Current Step
-        var current = PassableStep(Step.initial)
+        // Current State
+        var current = PassableState(State.initial)
         
         // Sink
         var musicSink: AnyCancellable?
@@ -26,75 +26,62 @@ extension HelloData {
             case usernameTextField
             case passwordTextField
         }
+        
+        enum MusicType {
+            case albums
+            case hotTracks
+            case newReleases
+            
+            var displayName: String {
+                switch self {
+                case .albums:
+                    return "Top Albums"
+                case .hotTracks:
+                    return "Hot Playlists"
+                case .newReleases:
+                    return "New Releases"
+                }
+            }
+        }
     }
 }
 
-// MARK: Steps and Step Configurations
+// MARK: States
+
 extension HelloData.Evaluator {
-    enum Step: EvaluatorStep {
+    enum State: EvaluatorState {
         case initial
         case preLoading
-        case listingMusic(ListingMusicStepConfiguration)
+        case listingMusic(ListingMusicState)
     }
     
-    struct ListingMusicStepConfiguration {
+    struct ListingMusicState {
         var musicResults: [MusicResult]
         var musicType: MusicType
     }
 }
 
 // MARK: View Cycle
+
 extension HelloData.Evaluator: ViewCycleEvaluating {
     func viewDidAppear() {
-        showPreLoadingStep()
-    }
-}
-
-// MARK: Advancing Between Steps
-extension HelloData.Evaluator {
-    
-    func showPreLoadingStep() {
-        current.step = .preLoading
+        showPreLoading()
     }
     
-    // MARK: Login Step
-    
-    func showListingMusicStep(_ musicResults: [MusicResult], musicType: MusicType) {
-        let configuration = ListingMusicStepConfiguration(
-            musicResults: musicResults,
-            musicType: musicType
-        )
-        current.step = .listingMusic(configuration)
-    }
+    func showPreLoading() {
+           current.state = .preLoading
+       }
 }
 
 // MARK: Actions
+
 extension HelloData.Evaluator: ActionEvaluating {
-    
-    enum MusicType {
-        case albums
-        case hotTracks
-        case newReleases
-        
-        var displayName: String {
-            switch self {
-            case .albums:
-                return "Top Albums"
-            case .hotTracks:
-                return "Hot Playlists"
-            case .newReleases:
-                return "New Releases"
-            }
-        }
-    }
     
     enum Action: EvaluatorAction {
         case loadMusic(MusicType)
     }
     
-    func _evaluate(_ action: EvaluatorAction?) {
-        guard let action = action as? Action else { return }
-        
+    func _evaluate(_ action: Action) {
         switch action {
             
         case .loadMusic(let musicType):
@@ -134,8 +121,16 @@ extension HelloData.Evaluator: ActionEvaluating {
         }, receiveValue: { (musicFeed) in
             debugPrint("musicFeed:")
             debugPrint(musicFeed)
-            self.showListingMusicStep(musicFeed.feed.results, musicType: musicType)
+            self.showListingMusic(musicFeed.feed.results, musicType: musicType)
         })
+    }
+    
+    private func showListingMusic(_ musicResults: [MusicResult], musicType: MusicType) {
+        let state = ListingMusicState(
+            musicResults: musicResults,
+            musicType: musicType
+        )
+        current.state = .listingMusic(state)
     }
 }
 

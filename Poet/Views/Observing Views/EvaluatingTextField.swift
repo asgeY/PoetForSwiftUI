@@ -21,17 +21,22 @@ struct EvaluatingTextField: View {
     let elementName: EvaluatorElement
     let isSecure: Bool
     let input: Input
-    @ObservedObject private var fieldText = ObservableString()
+    @ObservedObject var fieldText = ObservableString()
     let evaluator: TextFieldEvaluating
     
     @State var validationSink: AnyCancellable?
     private var passableText: PassableString = PassableString()
     
     @State private var lastValidatedText: String = ""
-    @State private var validationImageName: String = "checkmark.circle"
+    let validIconImageName: String = "checkmark.circle"
+    let invalidIconImageName: String = "exclamationmark.circle"
+    let validColor: Color = Color(UIColor.systemGreen)
+    let invalidColor: Color = Color(UIColor.systemRed)
     @State private var validationImageColor: Color = Color.clear
     @State private var shouldShowValidationMessage = false
     @State private var shouldShowValidationMark = false
+    @State private var shouldShowCheckmark = false
+    @State private var shouldShowExclamationMark = false
     
     enum Input {
         case text
@@ -77,19 +82,31 @@ struct EvaluatingTextField: View {
                 
                 HStack {
                     Spacer()
-                    Group {
-                        if shouldShowValidation {
-                            Image(systemName: validationImageName)
+                    ZStack {
+                        
+                        if shouldShowCheckmark {
+                            Image(systemName: validIconImageName)
                                 .resizable()
-                                .frame(width: self.shouldShowValidationMark ? 21 : 18, height: self.shouldShowValidationMark ? 21 : 18)
-                                .opacity(self.shouldShowValidationMark ? 1 : 0)
-                                .animation(.spring(response: 0.4, dampingFraction: 0.75, blendDuration: 0), value: self.shouldShowValidationMark)
-                                .foregroundColor(validationImageColor)
-                            
-                        } else {
-                            EmptyView()
+                                .opacity(shouldShowCheckmark ? 1 : 0)
+                                .frame(width: shouldShowCheckmark ? 21 : 15, height: shouldShowCheckmark ? 21 : 15)
+//                                .transition(AnyTransition.asymmetric(insertion: AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.9)), removal: AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.85))))
+                                .animation(.spring(response: 0.1, dampingFraction: 0.6, blendDuration: 0), value: shouldShowCheckmark)
+                                .foregroundColor(validColor)
                         }
+                        
+                        if shouldShowExclamationMark {
+                            Image(systemName: invalidIconImageName)
+                                .resizable()
+                                .opacity(shouldShowExclamationMark ? 1 : 0)
+                                .frame(width: shouldShowExclamationMark ? 21 : 15, height: shouldShowExclamationMark ? 21 : 15)
+//                                .transition(AnyTransition.asymmetric(insertion: AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.9)), removal: AnyTransition.opacity.combined(with: AnyTransition.scale(scale: 0.85))))
+                                .animation(.spring(response: 0.1, dampingFraction: 0.6, blendDuration: 0), value: shouldShowExclamationMark)
+                                .foregroundColor(invalidColor)
+                        }
+                            
+                        EmptyView()
                     }
+                    
                     .frame(width: 21, height: 21)
                     Spacer().frame(width:20)
                 }
@@ -97,24 +114,22 @@ struct EvaluatingTextField: View {
             
             HStack {
                 Spacer().frame(width: 50)
-                if shouldShowValidation {
-                    VStack {
+                Group {
+                    if shouldShowValidation && self.shouldShowValidationMessage {
                         Text(validationMessage.string)
-                            .font(Font.caption.bold())
-                            .foregroundColor(Color(UIColor.systemRed))
-                            .fixedSize(horizontal: true, vertical: true)
-                            .padding(.top, 10)
-                            .animation(.none)
+                                .font(Font.caption.bold())
+                                .foregroundColor(Color(UIColor.systemRed))
+                                .fixedSize(horizontal: true, vertical: true)
+                                .padding(.top, 10)
+                                .animation(.none)
+                                .transition(.opacity)
                     }
-                    
-                    .opacity(self.shouldShowValidationMessage ? 1 : 0)
-                    .frame(width: nil, height: self.shouldShowValidationMessage ? nil : 0)
-                    .animation(.linear, value: self.isValid.bool)
                 }
+                .animation(.linear)
                 Spacer()
             }
         }
-        .padding(.bottom, 14)
+        .padding(.bottom, 10)
         .onReceive(fieldText.objectDidChange) {
             if self.fieldText.string == self.lastValidatedText { return }
             self.lastValidatedText = self.fieldText.string
@@ -123,12 +138,14 @@ struct EvaluatingTextField: View {
                 if self.fieldText.string.isEmpty {
                     self.shouldShowValidationMessage = false
                     self.shouldShowValidationMark = false
+                    self.shouldShowCheckmark = false
+                    self.shouldShowExclamationMark = false
                     return
                 }
-                self.validationImageName = (value == true ? "checkmark.circle" : "exclamationmark.circle")
-                self.validationImageColor = (value == true ? Color(UIColor.systemGreen) : Color(UIColor.systemRed))
                 self.shouldShowValidationMark = true
                 self.shouldShowValidationMessage = (value == false)
+                self.shouldShowCheckmark = value
+                self.shouldShowExclamationMark = (value == false)
                 self.validationSink?.cancel()
             }
         }

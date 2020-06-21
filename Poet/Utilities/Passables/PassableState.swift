@@ -1,5 +1,5 @@
 //
-//  PassableStep.swift
+//  PassableState.swift
 //  Poet
 //
 //  Created by Steve Cotner on 5/22/20.
@@ -8,16 +8,16 @@
 
 import Combine
 
-class PassableStep<S: EvaluatorStep> {
+class PassableState<S: EvaluatorState> {
     var subject = PassthroughSubject<S, Never>()
     
-    var step: S {
+    var state: S {
         willSet {
             subject.send(newValue)
         }
     }
         
-    init(_ step: S) {
-        self.step = step
+    init(_ state: S) {
+        self.state = state
     }
 }

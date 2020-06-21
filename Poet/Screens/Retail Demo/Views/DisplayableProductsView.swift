@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DisplayableProductsView: View {
-    @ObservedObject var displayableProducts: ObservableArray<Retail.Translator.DisplayableProduct>
+    @ObservedObject var displayableProducts: ObservableArray<DisplayableProduct>
     let evaluator: FindingProductsEvaluating
     
     var body: some View {
@@ -41,7 +41,6 @@ extension DisplayableProductsView: ViewDemoing {
 }
 
 struct DisplayableProductsView_DemoProvider: DemoProvider, FindingProductsEvaluating {
-    typealias DisplayableProduct = Retail.Translator.DisplayableProduct
     @ObservedObject var displayableProducts = ObservableArray<DisplayableProduct>([
         DisplayableProduct(
             product: Product(
@@ -97,11 +96,11 @@ struct DisplayableProductsView_DemoProvider: DemoProvider, FindingProductsEvalua
         ]
     }
     
-    func toggleProductFound(_ product: FindableProduct) {
+    func _toggleProductFound(_ product: FindableProduct) {
         //
     }
     
-    func toggleProductNotFound(_ product: FindableProduct) {
+    func _toggleProductNotFound(_ product: FindableProduct) {
         //
     }
 }

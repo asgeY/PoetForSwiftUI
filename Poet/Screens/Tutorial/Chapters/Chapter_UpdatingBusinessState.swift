@@ -35,12 +35,12 @@ extension Tutorial.PageStore {
                 .text("In its structure, Hello World isn't too different from the Template example we've already seen. That previous screen's evaluator only included one meaningful step, named text. Similarly, Hello World's evaluator includes one meaningful step it calls sayStuff."),
                 .code(
                     """
-                    enum Step: EvaluatorStep {
+                    enum State: EvaluatorState {
                         case initial
-                        case sayStuff(SayStuffStepConfiguration)
+                        case sayStuff(SayStuffState)
                     }
                     
-                    struct SayStuffStepConfiguration {
+                    struct SayStuffState {
                         var helloCount: Int
                         var bubbleText: String?
                         var buttonAction: Action
@@ -56,7 +56,7 @@ extension Tutorial.PageStore {
                 .text("After the view appears, the evaluator calls its showSayStuffStep method, which configures the sayStuff step for the first time:"),
                 .code(
                     """
-                    let configuration = SayStuffStepConfiguration(
+                    let configuration = SayStuffState(
                         helloCount: 0,
                         bubbleText: nil,
                         buttonAction: Action.sayHello
@@ -160,7 +160,7 @@ extension Tutorial.PageStore {
              .text("Our evaluator has a few different steps it could be in, including a .page step:"),
              .code(
              """
-             case page(PageStepConfiguration)
+             case page(PageState)
              """)
              ], supplement: Supplement(shortTitle: "Step", fullTitle: "", body: [
              .code(
@@ -168,9 +168,9 @@ extension Tutorial.PageStore {
              enum Step: EvaluatorStep {
              case initial
              case interlude
-             case mainTitle(MainTitleStepConfiguration)
-             case chapterTitle(ChapterTitleStepConfiguration)
-             case page(PageStepConfiguration)
+             case mainTitle(MainTitleState)
+             case chapterTitle(ChapterTitleState)
+             case page(PageState)
              }
              """)
              ])),
@@ -186,19 +186,19 @@ extension Tutorial.PageStore {
              ]),
              
              Page([
-             .text("Now we know our current step's state, stored as a PageStepConfiguration. That configuration has lots of data stored on it:"),
+             .text("Now we know our current step's state, stored as a PageState. That configuration has lots of data stored on it:"),
              .code(
              """
-             struct PageStepConfiguration {
+             struct PageState {
              var chapterIndex: Int
              var pageIndex: Int
              var pageData: [Chapter]
              // etc.
              """)
-             ], supplement: Supplement(shortTitle: "PageStepConfiguration", fullTitle: "", body: [
+             ], supplement: Supplement(shortTitle: "PageState", fullTitle: "", body: [
              .code(
              """
-             struct PageStepConfiguration {
+             struct PageState {
              var chapterIndex: Int
              var pageIndex: Int
              var pageData: [Chapter]
@@ -310,7 +310,7 @@ extension Tutorial.PageStore {
              .text("What does it mean to “show” a step? We just make a new configuration and save it:"),
              .code(
              """
-             let configuration = PageStepConfiguration(
+             let configuration = PageState(
              chapterIndex: chapterIndex,
              pageIndex: pageIndex,
              pageData: pageData
@@ -323,7 +323,7 @@ extension Tutorial.PageStore {
              .code(
              """
              func showPageStep(forChapterIndex chapterIndex: Int, pageIndex: Int, pageData: [Chapter]) {
-             let configuration = PageStepConfiguration(
+             let configuration = PageState(
              chapterIndex: chapterIndex,
              pageIndex: pageIndex,
              pageData: pageData
@@ -359,9 +359,9 @@ extension Tutorial.PageStore {
              Page([.text("The translator listens to the passable step by making a sink for its published values:"),
              .code(
              """
-             init(_ step:
+             init(_ state:
              PassableStep<Evaluator.Step>) {
-             behavior = step.subject.sink
+             behavior = state.subject.sink
              { value in
              self.translate(step: value)
              }

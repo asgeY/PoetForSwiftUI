@@ -8,13 +8,13 @@
 
 import SwiftUI
 
-struct ObservingButton<Label>: View where Label : View {
-    @ObservedObject var action: ObservableEvaluatorAction
-    let evaluator: ActionEvaluating
+struct ObservingButton<Label, E: ActionEvaluating>: View where Label : View {
+    @ObservedObject var action: Observable<E.Action>
+    let evaluator: E
     var label: () -> Label
     
-    init(action: ObservableEvaluatorAction,
-         evaluator: ActionEvaluating,
+    init(action: Observable<E.Action>,
+         evaluator: E,
          @ViewBuilder label: @escaping () -> Label) {
         self.action = action
         self.evaluator = evaluator
@@ -23,7 +23,7 @@ struct ObservingButton<Label>: View where Label : View {
 
     var body: some View {
         return Button(
-            action: { self.evaluator.evaluate(self.action.action) },
+            action: { self.evaluator.evaluate(self.action.value) },
             label: label
         )
     }

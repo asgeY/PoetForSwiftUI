@@ -18,10 +18,10 @@ extension Menu {
         var items = ObservableArray<MenuListItem>([])
         
         // Behavior
-        var stepSink: AnyCancellable?
+        var stateSink: AnyCancellable?
         
         init(_ items: PassableArray<MenuListItem>) {
-            self.stepSink = items.subject.sink(receiveValue: { (value) in
+            self.stateSink = items.subject.sink(receiveValue: { (value) in
                 if let value = value {
                     self.items.array = value
                 }
