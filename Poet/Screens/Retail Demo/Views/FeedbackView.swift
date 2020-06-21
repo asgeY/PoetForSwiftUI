@@ -17,6 +17,7 @@ struct FeedbackView: View {
                     .font(Font.headline.monospacedDigit().bold())
                     .opacity(0.36)
                     .padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer()
             }
             Spacer().frame(height: 18)
