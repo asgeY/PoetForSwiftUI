@@ -117,7 +117,7 @@ extension Retail {
                 return AnyView(
                     Fadeable {
                         TitleView(
-                            text: "Canceled",
+                            text: "Completed",
                             color: Color(UIColor.systemGreen)
                         )
                     }
