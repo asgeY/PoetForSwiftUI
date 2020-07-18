@@ -8,6 +8,10 @@
 
 import SwiftUI
 
+protocol ToggleEvaluating {
+    func toggleDidChange(bool: Bool, elementName: EvaluatorElement)
+}
+
 struct EvaluatingToggle: View {
     @ObservedObject var title: ObservableString
     let elementName: EvaluatorElement
@@ -31,10 +35,6 @@ struct EvaluatingToggle: View {
                 self.evaluator.toggleDidChange(bool: self.isOn.bool, elementName: self.elementName)
         }
     }
-}
-
-protocol ToggleEvaluating {
-    func toggleDidChange(bool: Bool, elementName: EvaluatorElement)
 }
 
 struct DemoControlView_Toggle: View {
