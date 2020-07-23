@@ -18,7 +18,7 @@ struct PresenterWithPassedValue<PassedType, Content>: View where Content : View 
     var evaluator: PresenterEvaluating?
     var content: (PassedType) -> Content
     
-    @State var passedValue: PassedType?
+    @ObservedObject var passedValue = Observable<PassedType?>(nil)
     @State var isShowing = false
     
     init(_ passable: Passable<PassedType>, elementName: EvaluatorElement? = nil, evaluator: PresenterEvaluating? = nil, @ViewBuilder content: @escaping (PassedType) -> Content) {
@@ -33,16 +33,22 @@ struct PresenterWithPassedValue<PassedType, Content>: View where Content : View 
             .sheet(isPresented: self.$isShowing, onDismiss: {
                 self.evaluator?.presenterDidDismiss(elementName: self.elementName)
             }, content: {
-                if self.passedValue != nil {
-                    self.content(self.passedValue!)
-                } else {
-                    EmptyView()
+                Group {
+                    if let passedValue = self.passedValue.value {
+                        self.content(passedValue)
+                    }
+                }
+                .onDisappear {
+                    self.passable.value = nil
+                    self.passedValue.value = nil
                 }
             })
             
         .onReceive(passable.subject) { value in
-            self.passedValue = value
-            self.isShowing = true
+            if let value = value {
+                self.passedValue.value = value
+                self.isShowing = true
+            }
         }
     }
 }
